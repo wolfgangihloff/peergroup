@@ -3,6 +3,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sessions, :only => [:new, :create, :destroy]
   map.resources :microposts, :only => [:create, :destroy]
   map.resources  :relationships, :only => [:create, :destroy]
+  map.all_groups 'all_groups',:controller=>"groups",:action=>"all_groups"
+  map.resources :groups
+  map.group_edit '/edit', :controller => 'groups',:action => 'edit'
   map.signin  '/signin',  :controller => 'sessions', :action => 'new'
   map.signout '/signout', :controller => 'sessions', :action => 'destroy'
   map.contact '/contact', :controller => 'pages', :action => 'contact'
