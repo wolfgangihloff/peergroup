@@ -7,9 +7,9 @@
       <table>
           <tr>
             <th>Group Name</th>
-            <th>Delete</th>
-            <th>Edit</th>
-            <th>Invite</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
           <%if @groups%>
             <%for group in @groups%>
@@ -18,14 +18,14 @@
                   <%= link_to "#{group.name}",group %>
                 </td>
                 <td>
-                  <%= link_to "delete", group, :method => :delete, :confirm => "You sure?" %>
+                  <%#= link_to "delete", group, :method => :delete, :confirm => "You sure?" %>
                 </td>
                 <td>
-                  <%= link_to 'Edit', edit_group_path(@groups) %>
+                  <%#= link_to 'Edit', edit_group_path(@groups) %>
                 </td>
 
                 <td>
-                  <%= link_to "invite", :action =>"invite", :gid => group.id %>
+                  <%= link_to "Join", join_group_path(group) %>
                 </td>
 
               </tr>
