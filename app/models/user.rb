@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
                                    :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
   
+  has_many :groups_user
+  has_many :groups, :through => :groups_user
+  
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name, :email
