@@ -2,9 +2,9 @@ class GroupsController < ApplicationController
   before_filter :authenticate, :except => [:all_groups]
   
   def index
-    @group = Group.find(:all,:conditions => "user_id = #{current_user.id} ")
+   @group = Group.find(:all,:conditions => "user_id = #{current_user.id} ")
     if @group.blank?
-      flash[:notice] = "User has not Created any Group"
+      flash[:notice] = "No Groups have been created by you."
     end
   end
 

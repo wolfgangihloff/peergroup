@@ -19041,3 +19041,973 @@ ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #23
 Rendered rescues/_trace (99.9ms)
 Rendered rescues/_request_and_response (0.3ms)
 Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.5ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateRelationships (201007211142)
+Migrating to CreateUsers (20100707090206)
+Migrating to AddEmailUniquenessIndex (20100707114926)
+Migrating to AddPasswordToUsers (20100708091358)
+Migrating to AddSaltToUsers (20100708112352)
+Migrating to AddRememberTokenToUsers (20100712094859)
+Migrating to AddAdminToUsers (20100716125218)
+Migrating to CreateMicroposts (20100717111902)
+Migrating to CreateGroups (20100801173529)
+Migrating to GroupUser (20100806164150)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.4ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("groups")[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("groups_users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("microposts")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_microposts_on_user_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("relationships")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_relationships_on_follower_id')[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_relationships_on_followed_id')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("users")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_users_on_remember_token')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_users_on_email')[0m
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 16:24:10) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mMicropost Load (2.3ms)[0m   [0mSELECT * FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 1) OR user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 1) OR user_id = 1) [0m
+Rendering template within layouts/application
+Rendering pages/home
+Rendered pages/_micropost_form (2.9ms)
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered pages/_feed_item (8.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered pages/_feed_item (3.4ms)
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (2.0ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.5ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+Rendered pages/_feed (60.4ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+Rendered pages/_user_info (2.2ms)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 1)) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 1)) [0m
+Rendered pages/_stats (6.7ms)
+Rendered layouts/_stylesheets (1.0ms)
+Rendered layouts/_header (3.4ms)
+Rendered layouts/_footer (0.7ms)
+Completed in 259ms (View: 180, DB: 4) | 200 OK [http://localhost/]
+
+
+Processing UsersController#index (for 127.0.0.1 at 2010-08-09 16:24:13) [GET]
+  Parameters: {"action"=>"index", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" [0m
+Rendering template within layouts/application
+Rendering users/index
+Rendered users/_user (4.2ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (2.0ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered users/_user (1.9ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.3ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 92ms (View: 80, DB: 1) | 200 OK [http://localhost/users]
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:24:16) [GET]
+  Parameters: {"action"=>"show", "id"=>"1", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+  [4;36;1mMicropost Load (1.1ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mGroupsUser Load (0.2ms)[0m   [0mSELECT * FROM "groups_users" WHERE (user_id = 1) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;36;1mGroup Load (0.1ms)[0m   [0;1mSELECT * FROM "groups" WHERE (id = 1) LIMIT 1[0m
+
+ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #23 of app/views/users/show.html.erb:
+20: 	   
+21: 	  <tr>
+22: 	   <td>
+23: 	     <%= @groupfind.name %><% if @groupfind.user_id == current_user.id %><span style="color:red;font-size:28px;padding:10px 0 0;width:5px;">*</span><% end %>
+24: 	   </td>
+25: 	  </tr> 
+26: 	  
+
+    app/views/users/show.html.erb:23
+    app/views/users/show.html.erb:18:in `each'
+    app/views/users/show.html.erb:18
+
+Rendered rescues/_trace (34.7ms)
+Rendered rescues/_request_and_response (1.0ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:24:26) [GET]
+  Parameters: {"action"=>"show", "id"=>"1", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+  [4;36;1mMicropost Load (1.0ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mGroupsUser Load (0.2ms)[0m   [0mSELECT * FROM "groups_users" WHERE (user_id = 1) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;36;1mGroup Load (0.1ms)[0m   [0;1mSELECT * FROM "groups" WHERE (id = 1) LIMIT 1[0m
+
+ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #23 of app/views/users/show.html.erb:
+20: 	   
+21: 	  <tr>
+22: 	   <td>
+23: 	     <%= @groupfind.name %><% if @groupfind.user_id == current_user.id %><span style="color:red;font-size:28px;padding:10px 0 0;width:5px;">*</span><% end %>
+24: 	   </td>
+25: 	  </tr> 
+26: 	  
+
+    app/views/users/show.html.erb:23
+    app/views/users/show.html.erb:18:in `each'
+    app/views/users/show.html.erb:18
+
+Rendered rescues/_trace (35.2ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:24:30) [GET]
+  Parameters: {"action"=>"show", "id"=>"8", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 8) [0m
+  [4;36;1mMicropost Load (0.2ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 8) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;36;1mGroupsUser Load (0.2ms)[0m   [0;1mSELECT * FROM "groups_users" WHERE (user_id = 1) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;35;1mGroup Load (0.2ms)[0m   [0mSELECT * FROM "groups" WHERE (id = 1) LIMIT 1[0m
+
+ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #23 of app/views/users/show.html.erb:
+20: 	   
+21: 	  <tr>
+22: 	   <td>
+23: 	     <%= @groupfind.name %><% if @groupfind.user_id == current_user.id %><span style="color:red;font-size:28px;padding:10px 0 0;width:5px;">*</span><% end %>
+24: 	   </td>
+25: 	  </tr> 
+26: 	  
+
+    app/views/users/show.html.erb:23
+    app/views/users/show.html.erb:18:in `each'
+    app/views/users/show.html.erb:18
+
+Rendered rescues/_trace (34.5ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:24:58) [GET]
+  Parameters: {"action"=>"show", "id"=>"10", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 10) [0m
+  [4;35;1mMicropost Load (0.2ms)[0m   [0mSELECT * FROM "microposts" WHERE ("microposts".user_id = 10) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mGroupsUser Load (0.2ms)[0m   [0mSELECT * FROM "groups_users" WHERE (user_id = 1) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (id = 1) LIMIT 1[0m
+
+ActionView::TemplateError (undefined method `name' for nil:NilClass) on line #23 of app/views/users/show.html.erb:
+20: 	   
+21: 	  <tr>
+22: 	   <td>
+23: 	     <%= @groupfind.name %><% if @groupfind.user_id == current_user.id %><span style="color:red;font-size:28px;padding:10px 0 0;width:5px;">*</span><% end %>
+24: 	   </td>
+25: 	  </tr> 
+26: 	  
+
+    app/views/users/show.html.erb:23
+    app/views/users/show.html.erb:18:in `each'
+    app/views/users/show.html.erb:18
+
+Rendered rescues/_trace (35.0ms)
+Rendered rescues/_request_and_response (0.4ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing GroupsController#new (for 127.0.0.1 at 2010-08-09 16:25:01) [GET]
+  Parameters: {"action"=>"new", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+Rendering template within layouts/application
+Rendering groups/new
+Rendered layouts/_stylesheets (0.4ms)
+Rendered layouts/_header (2.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 27ms (View: 16, DB: 0) | 200 OK [http://localhost/groups/new]
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 16:45:09) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mMicropost Load (2.3ms)[0m   [0mSELECT * FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 1) OR user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 1) OR user_id = 1) [0m
+Rendering template within layouts/application
+Rendering pages/home
+Rendered pages/_micropost_form (2.4ms)
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered pages/_feed_item (5.5ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered pages/_feed_item (3.0ms)
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.5ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.5ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 5) [0m
+Rendered pages/_feed_item (1.5ms)
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.2ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.4ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 6) [0m
+Rendered pages/_feed_item (1.3ms)
+Rendered pages/_feed (52.4ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+Rendered pages/_user_info (1.4ms)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 1)) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 1)) [0m
+Rendered pages/_stats (5.4ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.3ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 87ms (View: 67, DB: 4) | 200 OK [http://localhost/]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:45:14) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'bfb87fc9cc926475375f4ae60ee8a19f14c704a56a82276aff18c28293dc146f') LIMIT 1[0m
+  [4;35;1mGroup Load (0.3ms)[0m   [0mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 100ms (View: 19, DB: 0) | 200 OK [http://localhost/groups]
+
+
+Processing SessionsController#destroy (for 127.0.0.1 at 2010-08-09 16:50:12) [DELETE]
+  Parameters: {"action"=>"destroy", "_method"=>"delete", "authenticity_token"=>"2Up/p7JTZV2qIgB0zDIJBMnYKtLBlrdBCGjB7H1mdyk=", "controller"=>"sessions"}
+Redirected to http://localhost:3000/
+Completed in 2ms (DB: 0) | 302 Found [http://localhost/signout]
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 16:50:12) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+Rendering template within layouts/application
+Rendering pages/home
+Rendered layouts/_stylesheets (0.4ms)
+Rendered layouts/_header (0.4ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 6ms (View: 4, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing UsersController#new (for 127.0.0.1 at 2010-08-09 16:50:13) [GET]
+  Parameters: {"action"=>"new", "controller"=>"users"}
+Rendering template within layouts/application
+Rendering users/new
+Rendered users/_fields (5.6ms)
+Rendered layouts/_stylesheets (0.4ms)
+Rendered layouts/_header (0.4ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 26ms (View: 18, DB: 0) | 200 OK [http://localhost/signup]
+
+
+Processing UsersController#create (for 127.0.0.1 at 2010-08-09 16:50:26) [POST]
+  Parameters: {"commit"=>"Sign up", "action"=>"create", "authenticity_token"=>"2Up/p7JTZV2qIgB0zDIJBMnYKtLBlrdBCGjB7H1mdyk=", "controller"=>"users", "user"=>{"name"=>"Mike", "password_confirmation"=>"[FILTERED]", "password"=>"[FILTERED]", "email"=>"Msdfsd@sdfsd.de"}}
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT "users".id FROM "users" WHERE (LOWER("users"."email") = 'msdfsd@sdfsd.de') LIMIT 1[0m
+  [4;35;1mUser Create (0.4ms)[0m   [0mINSERT INTO "users" ("name", "encrypted_password", "salt", "created_at", "updated_at", "admin", "remember_token", "email") VALUES('Mike', '9a1d7b7bc4da9ce4f95f7771aa8a51d51b0c21a0c66c78b8d5b9cbe4a14b3b7e', '53b2e50c9541c95a4a81cff1714aff36f7467197eb7f13c4e0d0b923a91557e1', '2010-08-09 14:50:26', '2010-08-09 14:50:26', 'f', NULL, 'Msdfsd@sdfsd.de')[0m
+  [4;36;1mUser Update (2.1ms)[0m   [0;1mUPDATE "users" SET "updated_at" = '2010-08-09 14:50:26', "remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc' WHERE "id" = 101[0m
+Redirected to http://localhost:3000/users/101
+Completed in 207ms (DB: 3) | 302 Found [http://localhost/users]
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:50:26) [GET]
+  Parameters: {"action"=>"show", "id"=>"101", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 101) [0m
+  [4;36;1mMicropost Load (0.2ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 101) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mUser Load (0.4ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroupsUser Load (0.2ms)[0m   [0;1mSELECT * FROM "groups_users" WHERE (user_id = 101) [0m
+Rendering template within layouts/application
+Rendering users/show
+Rendered users/_follow_form (0.9ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 101)) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 101)) [0m
+Rendered pages/_stats (8.1ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.5ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 46ms (View: 25, DB: 2) | 200 OK [http://localhost/users/101]
+
+
+Processing GroupsController#new (for 127.0.0.1 at 2010-08-09 16:50:30) [GET]
+  Parameters: {"action"=>"new", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendering template within layouts/application
+Rendering groups/new
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 28ms (View: 14, DB: 0) | 200 OK [http://localhost/groups/new]
+
+
+Processing GroupsController#create (for 127.0.0.1 at 2010-08-09 16:50:36) [POST]
+  Parameters: {"group"=>{"name"=>"neuer nueter zgrupp", "description"=>"grupee"}, "commit"=>"Submit", "action"=>"create", "authenticity_token"=>"2Up/p7JTZV2qIgB0zDIJBMnYKtLBlrdBCGjB7H1mdyk=", "controller"=>"groups"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;35;1mGroup Create (0.3ms)[0m   [0mINSERT INTO "groups" ("name", "created_at", "updated_at", "user_id", "description") VALUES('neuer nueter zgrupp', '2010-08-09 14:50:36', '2010-08-09 14:50:36', 101, 'grupee')[0m
+  [4;36;1mGroupsUser Create (0.3ms)[0m   [0;1mINSERT INTO "groups_users" ("created_at", "updated_at", "group_id", "user_id") VALUES('2010-08-09 14:50:36', '2010-08-09 14:50:36', 5, 101)[0m
+Redirected to http://localhost:3000/groups
+Completed in 24ms (DB: 1) | 302 Found [http://localhost/groups]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:50:36) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.3ms)[0m   [0;1mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.2ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 116ms (View: 103, DB: 0) | 200 OK [http://localhost/groups]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:50:41) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.3ms)[0m   [0;1mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.7ms)
+Rendered layouts/_footer (0.1ms)
+Completed in 30ms (View: 17, DB: 0) | 200 OK [http://localhost/groups]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:52:16) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.4ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.3ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.6ms)
+Rendered layouts/_header (2.8ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 31ms (View: 13, DB: 1) | 200 OK [http://localhost/groups]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:54:16) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.9ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 29ms (View: 15, DB: 0) | 200 OK [http://localhost/groups]
+
+
+Processing GroupsController#index to #<user:0x10332a740> (for 127.0.0.1 at 2010-08-09 16:54:19) [GET]
+  Parameters: {"format"=>"#<user:0x10332a740>", "action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+
+ActionView::MissingTemplate (Missing template groups/index.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing GroupsController#all_groups (for 127.0.0.1 at 2010-08-09 16:54:23) [GET]
+  Parameters: {"action"=>"all_groups", "controller"=>"groups"}
+  [4;35;1mGroup Load (0.5ms)[0m   [0mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/all_groups
+Rendered layouts/_stylesheets (0.4ms)
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendered layouts/_header (89.4ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 106ms (View: 100, DB: 1) | 200 OK [http://localhost/all_groups]
+
+
+Processing GroupsController#all_groups (for 127.0.0.1 at 2010-08-09 16:54:30) [GET]
+  Parameters: {"action"=>"all_groups", "controller"=>"groups"}
+  [4;35;1mGroup Load (0.5ms)[0m   [0mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/all_groups
+Rendered layouts/_stylesheets (0.5ms)
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendered layouts/_header (14.4ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 28ms (View: 22, DB: 1) | 200 OK [http://localhost/all_groups]
+
+
+Processing GroupsController#index to #<user:0x1031b3c90> (for 127.0.0.1 at 2010-08-09 16:54:34) [GET]
+  Parameters: {"format"=>"#<user:0x1031b3c90>", "action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+
+ActionView::MissingTemplate (Missing template groups/index.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing GroupsController#index to #<user:0x1031b3c90> (for 127.0.0.1 at 2010-08-09 16:54:48) [GET]
+  Parameters: {"format"=>"#<user:0x1031b3c90>", "action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (1.1ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+
+ActionView::MissingTemplate (Missing template groups/index.erb in view path app/views):
+  
+
+Rendering rescues/layout (internal_server_error)
+
+
+Processing GroupsController#all_groups (for 127.0.0.1 at 2010-08-09 16:54:51) [GET]
+  Parameters: {"action"=>"all_groups", "controller"=>"groups"}
+  [4;35;1mGroup Load (0.5ms)[0m   [0mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/all_groups
+Rendered layouts/_stylesheets (0.5ms)
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendered layouts/_header (96.3ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 118ms (View: 112, DB: 1) | 200 OK [http://localhost/all_groups]
+
+
+Processing GroupsController#all_groups (for 127.0.0.1 at 2010-08-09 16:54:53) [GET]
+  Parameters: {"action"=>"all_groups", "controller"=>"groups"}
+  [4;35;1mGroup Load (0.6ms)[0m   [0mSELECT * FROM "groups" [0m
+Rendering template within layouts/application
+Rendering groups/all_groups
+Rendered layouts/_stylesheets (0.5ms)
+  [4;36;1mUser Load (0.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendered layouts/_header (14.0ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 27ms (View: 21, DB: 1) | 200 OK [http://localhost/all_groups]
+
+
+Processing GroupsController#index (for 127.0.0.1 at 2010-08-09 16:54:55) [GET]
+  Parameters: {"action"=>"index", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (user_id = 101 ) [0m
+Rendering template within layouts/application
+Rendering groups/index
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 96ms (View: 11, DB: 0) | 200 OK [http://localhost/groups]
+
+
+Processing GroupsController#new (for 127.0.0.1 at 2010-08-09 16:55:01) [GET]
+  Parameters: {"action"=>"new", "controller"=>"groups"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+Rendering template within layouts/application
+Rendering groups/new
+Rendered layouts/_stylesheets (0.4ms)
+Rendered layouts/_header (2.8ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 24ms (View: 12, DB: 0) | 200 OK [http://localhost/groups/new]
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 16:56:00) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;35;1mMicropost Load (0.2ms)[0m   [0mSELECT * FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 101) OR user_id = 101) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+Rendering template within layouts/application
+Rendering pages/home
+Rendered pages/_micropost_form (2.4ms)
+Rendered pages/_feed (0.1ms)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+Rendered pages/_user_info (1.6ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 101)) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 101)) [0m
+Rendered pages/_stats (75.9ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 106ms (View: 91, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-08-09 16:56:04) [GET]
+
+ActionController::RoutingError (No route matches "/show" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 16:56:11) [GET]
+  Parameters: {"action"=>"show", "id"=>"1", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+  [4;36;1mMicropost Load (1.0ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;35;1mGroupsUser Load (0.1ms)[0m   [0mSELECT * FROM "groups_users" WHERE (user_id = 101) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;36;1mGroup Load (0.2ms)[0m   [0;1mSELECT * FROM "groups" WHERE (id = 5) LIMIT 1[0m
+  [4;35;1mRelationship Load (0.2ms)[0m   [0mSELECT * FROM "relationships" WHERE ("relationships"."followed_id" = 1) AND ("relationships".follower_id = 101) LIMIT 1[0m
+Rendered users/_follow (3.7ms)
+Rendered users/_follow_form (10.9ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (4.0ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.8ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (75.0ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.8ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 1)) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 1)) [0m
+Rendered pages/_stats (2.7ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 153ms (View: 133, DB: 3) | 200 OK [http://localhost/users/1]
+
+
+Processing UsersController#1 (for 127.0.0.1 at 2010-08-09 16:56:16) [GET]
+  Parameters: {"action"=>"1", "id"=>"show", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+
+ActionController::UnknownAction (No action responded to 1. Actions: authenticate, clear_return_to, create, current_user, current_user=, current_user?, deny_access, destroy, edit, followers, following, index, new, redirect_back_or, show, sign_in, sign_out, signed_in?, store_location, update, and user_from_remember_token):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 16:56:39) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mMicropost Load (0.2ms)[0m   [0;1mSELECT * FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 101) OR user_id = 101) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+Rendering template within layouts/application
+Rendering pages/home
+Rendered pages/_micropost_form (2.3ms)
+Rendered pages/_feed (0.2ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+Rendered pages/_user_info (1.5ms)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 101)) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 101)) [0m
+Rendered pages/_stats (5.0ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.7ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 30ms (View: 16, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing UsersController#index (for 127.0.0.1 at 2010-08-09 16:59:59) [GET]
+  Parameters: {"action"=>"index", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;35;1mUser Load (1.4ms)[0m   [0mSELECT * FROM "users" LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" [0m
+Rendering template within layouts/application
+Rendering users/index
+Rendered users/_user (2.2ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.5ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.5ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 48ms (View: 30, DB: 2) | 200 OK [http://localhost/users]
+
+
+Processing PagesController#home (for 127.0.0.1 at 2010-08-09 17:00:01) [GET]
+  Parameters: {"action"=>"home", "controller"=>"pages"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mMicropost Load (0.2ms)[0m   [0;1mSELECT * FROM "microposts" WHERE (user_id IN (SELECT followed_id FROM relationships
+ WHERE follower_id = 101) OR user_id = 101) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+Rendering template within layouts/application
+Rendering pages/home
+Rendered pages/_micropost_form (2.5ms)
+Rendered pages/_feed (0.1ms)
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+Rendered pages/_user_info (1.6ms)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 101)) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 101)) [0m
+Rendered pages/_stats (5.6ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.4ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 34ms (View: 18, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing UsersController#index (for 127.0.0.1 at 2010-08-09 17:00:15) [GET]
+  Parameters: {"action"=>"index", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;35;1mUser Load (1.2ms)[0m   [0mSELECT * FROM "users" LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" [0m
+Rendering template within layouts/application
+Rendering users/index
+Rendered users/_user (1.8ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.3ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.4ms)
+Rendered users/_user (0.3ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.5ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 37ms (View: 24, DB: 1) | 200 OK [http://localhost/users]
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 17:00:17) [GET]
+  Parameters: {"action"=>"show", "id"=>"101", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 101) [0m
+  [4;36;1mMicropost Load (0.2ms)[0m   [0;1mSELECT * FROM "microposts" WHERE ("microposts".user_id = 101) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroupsUser Load (0.1ms)[0m   [0;1mSELECT * FROM "groups_users" WHERE (user_id = 101) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;35;1mGroup Load (0.2ms)[0m   [0mSELECT * FROM "groups" WHERE (id = 5) LIMIT 1[0m
+Rendered users/_follow_form (0.1ms)
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 101) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 101)) [0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 101)) [0m
+Rendered pages/_stats (6.5ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (3.0ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 112ms (View: 94, DB: 2) | 200 OK [http://localhost/users/101]
+
+
+Processing UsersController#show (for 127.0.0.1 at 2010-08-09 17:02:36) [GET]
+  Parameters: {"action"=>"show", "id"=>"1", "controller"=>"users"}
+  [4;36;1mUser Load (0.2ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+  [4;35;1mMicropost Load (1.1ms)[0m   [0mSELECT * FROM "microposts" WHERE ("microposts".user_id = 1) ORDER BY created_at DESC LIMIT 30 OFFSET 0[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+  [4;36;1mGroupsUser Load (0.1ms)[0m   [0;1mSELECT * FROM "groups_users" WHERE (user_id = 101) [0m
+Rendering template within layouts/application
+Rendering users/show
+  [4;35;1mGroup Load (0.2ms)[0m   [0mSELECT * FROM "groups" WHERE (id = 5) LIMIT 1[0m
+  [4;36;1mRelationship Load (0.2ms)[0m   [0;1mSELECT * FROM "relationships" WHERE ("relationships"."followed_id" = 1) AND ("relationships".follower_id = 101) LIMIT 1[0m
+Rendered users/_follow (3.2ms)
+Rendered users/_follow_form (7.8ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (80.2ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.8ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.8ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.8ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.9ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.7ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) [0m
+Rendered microposts/_micropost (0.6ms)
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT count(*) AS count_all FROM "microposts" WHERE ("microposts".user_id = 1) [0m
+  [4;35;1mSQL (0.3ms)[0m   [0mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".followed_id WHERE (("relationships".follower_id = 1)) [0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT count(*) AS count_all FROM "users" INNER JOIN "relationships" ON "users".id = "relationships".follower_id WHERE (("relationships".followed_id = 1)) [0m
+Rendered pages/_stats (2.9ms)
+Rendered layouts/_stylesheets (0.5ms)
+Rendered layouts/_header (2.6ms)
+Rendered layouts/_footer (0.2ms)
+Completed in 153ms (View: 128, DB: 3) | 200 OK [http://localhost/users/1]
+
+
+Processing UsersController#1 (for 127.0.0.1 at 2010-08-09 17:02:48) [GET]
+  Parameters: {"action"=>"1", "id"=>"show", "controller"=>"users"}
+  [4;35;1mUser Load (0.2ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."remember_token" = 'ae8995d44a9d00115419956066f9e08e78cf1d71526d3778534f9f4afeaeefdc') LIMIT 1[0m
+
+ActionController::UnknownAction (No action responded to 1. Actions: authenticate, clear_return_to, create, current_user, current_user=, current_user?, deny_access, destroy, edit, followers, following, index, new, redirect_back_or, show, sign_in, sign_out, signed_in?, store_location, update, and user_from_remember_token):
+  
+
+Rendering rescues/layout (not_found)
