@@ -34,9 +34,11 @@ module SessionsHelper
     flash[:notice] = "Please sign in to access this page."
     redirect_to signin_path
   end
+
   def authenticate
     deny_access unless signed_in?
   end
+
   def store_location
     session[:return_to] = request.request_uri
   end

@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(:page => params[:page])
     @title = CGI.escapeHTML(@user.name)
-	@users_groups  = GroupsUser.find(:all,:conditions => "user_id = #{current_user.id}")
+    @users_groups  = GroupsUser.find(:all,:conditions => "user_id = #{current_user.id}")
   end
 
   def new
@@ -17,18 +17,18 @@ class UsersController < ApplicationController
   end
 
   def create
-      redirect_to(root_path) unless current_user?(@user)
-      @user = User.new(params[:user])
-      if @user.save
-        sign_in @user
-        flash[:success] = "Welcome to the Sample App!"
-        redirect_to @user
-      else
-        @title = "Sign up"
-        @user.password = ""
-        render 'new'
-      end
+    redirect_to(root_path) unless current_user?(@user)
+    @user = User.new(params[:user])
+    if @user.save
+      sign_in @user
+      flash[:success] = "Welcome to the Sample App!"
+      redirect_to @user
+    else
+      @title = "Sign up"
+      @user.password = ""
+      render 'new'
     end
+  end
 
   def edit
     @title = "Edit user"
@@ -40,13 +40,13 @@ class UsersController < ApplicationController
   end
   
   def update
-      if @user.update_attributes(params[:user])
-        flash[:success] = "Profile updated."
-        redirect_to @user
-      else
-        @title = "Edit user"
-        render 'edit'
-      end
+    if @user.update_attributes(params[:user])
+      flash[:success] = "Profile updated."
+      redirect_to @user
+    else
+      @title = "Edit user"
+      render 'edit'
+    end
   end
   
   def destroy
@@ -78,6 +78,7 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
     end
+
     def admin_user
       redirect_to(root_path) unless current_user.admin?
     end
