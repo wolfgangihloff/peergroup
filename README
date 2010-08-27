@@ -5,3 +5,14 @@ Peer Group Supervision enables professionals to help each other.
 == Updates
 
 This is the first version, heavy alpha.
+
+== Running tests
+
+Install required gems
+
+  bundle install
+
+Run tests:
+
+  rake spec
+  rake cucumber
