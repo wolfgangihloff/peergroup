@@ -9,6 +9,7 @@ class GroupsController < ApplicationController
   end
 
   def new
+    @title = "New Group"
     @group = Group.new
   end
 
