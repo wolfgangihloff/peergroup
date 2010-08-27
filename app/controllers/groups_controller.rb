@@ -56,7 +56,6 @@ class GroupsController < ApplicationController
     flash[:notice] = "Group Delete Successfully"
     redirect_to groups_path
   end
-
     
   def join_group
     @group = GroupsUser.find(:first,:conditions=>["user_id=? and group_id=?",current_user.id,params[:id].to_i])
