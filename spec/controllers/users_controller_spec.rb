@@ -22,7 +22,7 @@ describe UsersController do
 
         @users = [@user, second, third]
         30.times do
-          @users << Factory(:user, :email => Factory.next(:email))
+          @users << Factory(:user)
         end
         User.should_receive(:paginate).and_return(@users.paginate)
       end
@@ -37,9 +37,9 @@ describe UsersController do
         response.should have_tag("title", /all users/i)
       end
 
-      it "should have an element for each user" do
+      it "should have an element for each of first 30 users" do
         get :index
-        @users.each do |user|
+        @users.first(30).each do |user|
           response.should have_tag("li", user.name)
         end
       end
@@ -319,7 +319,7 @@ describe UsersController do
 
            before(:each) do
              @user = test_sign_in(Factory(:user))
-             @other_user = Factory(:user, :email => Factory.next(:email))
+             @other_user = Factory(:user)
              @user.follow!(@other_user)
            end
 
@@ -335,5 +335,5 @@ describe UsersController do
            end
          end
        end
-    
+
 end
