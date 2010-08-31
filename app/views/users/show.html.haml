@@ -1,0 +1,36 @@
+%table.profile
+  %tr
+    %td.main
+      %h2
+        = gravatar_for @user
+        = h @user.name
+      %table
+        %tr
+          %td
+            %h3= "#{@user.name}'s Group List"
+          %tr
+            %td Group Name
+            %tr
+              - for usersgroup in @users_groups
+                - @groupfind = Group.find(:first, :conditions => "id = #{usersgroup.group_id}")
+                %tr
+                  %td
+                    = @groupfind.name
+                    - if @groupfind.user_id == current_user.id
+                      %span{:style => "color:red;font-size:28px;padding:10px 0 0;width:5px;"} *
+              = render 'follow_form' if signed_in?
+              - unless @user.microposts.empty?
+                %table.microposts
+                  = render @microposts
+                = will_paginate @microposts
+    %td.sidebar.round
+      %strong Name
+      = h @user.name
+      %br/
+      %strong URL
+      = link_to user_path(@user), @user
+      ,
+      %br/
+      %strong Microposts
+      = @user.microposts.count
+      = render 'pages/stats'

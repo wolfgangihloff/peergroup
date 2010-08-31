@@ -1,0 +1,28 @@
+%table
+  %tr
+    %td{:style => "width:480px;"}
+      %h2 User Groups List
+    %td= link_to image_tag("group-new.png",:title=>"Create Group",:height=>"40",:width=>"40"),new_group_path
+%table
+  %tr
+    %td
+      %table
+        %tr
+          %th Group Name
+          %th Delete
+          %th Edit
+          %th Invite
+        - if @group
+          - for group in @group
+            %tr
+              %td
+                = link_to "#{group.name}"
+              %td
+                = link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
+              %td
+                = link_to 'Edit', edit_group_path(group.id)
+              %td
+                = link_to "invite", :action =>"invite", :gid => group.id
+        - else
+          %tr
+            %td

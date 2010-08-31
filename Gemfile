@@ -5,6 +5,7 @@ gem "sqlite3-ruby", :require => "sqlite3"
 gem "will_paginate"
 gem "mongo_mapper"
 gem "bson_ext"
+gem "haml"
 
 group :test do
   gem "rspec-rails"
@@ -24,5 +25,6 @@ group :cucumber do
   gem "database_cleaner"
   gem "capybara"
   gem "factory_girl"
+  gem "launchy"
 end
 
