@@ -3,6 +3,7 @@ class ChatUpdate
 
   key :user_id, Integer
   key :login, String
+  key :text, String
 
   timestamps!
 
