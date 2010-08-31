@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :chat_rooms
+  map.resources :chat_rooms do |chat_rooms|
+    chat_rooms.resources :chat_updates
+  end
 
   map.resources :users, :member => { :following => :get, :followers => :get }
   map.resources :sessions, :only => [:new, :create, :destroy]
