@@ -3,7 +3,7 @@ class ChatUpdate
 
   key :user_id, Integer
   key :login, String
-  key :text, String
+  key :message, String
 
   timestamps!
 
@@ -12,5 +12,10 @@ class ChatUpdate
 
   def user
     User.find(user_id)
+  end
+
+  def user=(user)
+    self.user_id = user.id
+    self.login = user.name
   end
 end

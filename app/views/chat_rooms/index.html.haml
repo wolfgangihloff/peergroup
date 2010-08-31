@@ -5,4 +5,12 @@
     %li.chat_update
       .time= l chat_update.created_at, :format => :short
       .login= chat_update.login
-      .text= chat_update.text
+      .message= chat_update.message
+
+- form_for [ChatRoom.new, ChatUpdate.new] do |f|
+  .field
+    = f.label :message
+    = f.text_field :message
+  .actions
+    = f.submit "Send"
+
