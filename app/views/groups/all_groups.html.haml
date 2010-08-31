@@ -1,0 +1,26 @@
+%table
+  %tr
+    %td{:style => "width:480px;"}
+      %h2 Groups List
+    %td= link_to image_tag("group-new.png",:height=>"40",:width=>"40"),new_group_path
+%table
+  %tr
+    %td
+      %table
+        %tr
+          %th Group Name
+          %th
+          %th
+          %th
+        - if @groups
+          - for group in @groups
+            %tr
+              %td
+                = link_to "#{group.name}",group
+              %td
+    %td
+    %td
+      = link_to "Join", join_group_path(group)
+  - else
+    %tr
+      %td
