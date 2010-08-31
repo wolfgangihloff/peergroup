@@ -7,6 +7,5 @@ Given /^the user "([^"]*)" is signed in/ do |name|
   When %Q{I fill in "Email" with "#{user.email}"}
   And %Q{I fill in "Password" with "foobar"}
   And %Q{I press "Sign in"}
-  Then %Q{show me the page}
   Then %Q{I should see "#{user.name}'s Group List"}
 end

@@ -1,0 +1,8 @@
+- @title = "Chat room"
+
+%ul#chat
+  - @chat_updates.each do |chat_update|
+    %li.chat_update
+      .time= l chat_update.created_at, :format => :short
+      .login= chat_update.login
+      .text= chat_update.text

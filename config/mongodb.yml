@@ -5,3 +5,7 @@ development:
 cucumber:
   host: localhost
   database: pgs_cucumber
+
+test:
+  host: localhost
+  database: pgs_test
