@@ -7,7 +7,7 @@ gem "mongo_mapper"
 gem "bson_ext"
 gem "haml"
 gem "thin"
-
+gem "bundler"
 
 group :test do
   gem "rspec-rails"
