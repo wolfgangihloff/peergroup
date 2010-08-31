@@ -8,6 +8,7 @@ gem "bson_ext"
 gem "haml"
 gem "thin"
 gem "bundler"
+gem "pg"
 
 group :test do
   gem "rspec-rails"
