@@ -1,0 +1,7 @@
+development:
+  host: localhost
+  database: pgs
+
+cucumber:
+  host: localhost
+  database: pgs_cucumber
