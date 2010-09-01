@@ -4,10 +4,7 @@
   .hidden.timestamp= Time.now.to_i
   %ul.chat_updates
     - @chat_updates.each do |chat_update|
-      %li[chat_update]
-        .time= l chat_update.created_at, :format => :short
-        .login= chat_update.login
-        .message= chat_update.message
+      = render "chat_updates/chat_update", :object => chat_update
     %a.chat_end{:name => 'chat_end'}
 
   - form_for [ChatRoom.new, ChatUpdate.new] do |f|
