@@ -23,9 +23,13 @@ jQuery(document).ready(function($) {
           setTimeout(updateChat, 1000);
 
         });
+
+        $.get('chat_rooms/1/chatting_users', function(data) {
+          $('.chatting_users', container).replaceWith(data);
+        });
       };
 
-      $('form.new_chat_update', this).ajaxForm(function() {
+      $('form.new_chat_update', container).ajaxForm(function() {
         $('#chat_update_message').val('');
       });
 

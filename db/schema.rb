@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20100901120451) do
     t.string   "salt"
     t.string   "remember_token"
     t.boolean  "admin",              :default => false
-    t.time     "seen_on_chat"
+    t.datetime "seen_on_chat"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

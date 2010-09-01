@@ -6,6 +6,10 @@ Factory.define :user do |user|
   user.password_confirmation "foobar"
 end
 
+Factory.define :chatting_user, :parent => :user do |chatting_user|
+  chatting_user.seen_on_chat { Time.now }
+end
+
 Factory.define :micropost do |micropost|
   micropost.content "Foo bar"
   micropost.association :user
