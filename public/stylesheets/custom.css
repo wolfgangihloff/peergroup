@@ -242,10 +242,19 @@ form.new_micropost textarea {
 
 /* CSS for chat */
 #chat ul.chat_updates {
+  height: 400px;
+  width: 630px;
   margin-top: 10px;
   border: 1px solid;
-  height: 400px;
   padding: 3px;
-  width: 630px;
   overflow: auto;
 }
+
+#chat li.chat_update div {
+  display: inline;
+}
+
+#chat li.chat_update div.login {
+  color: blue;
+}
+
