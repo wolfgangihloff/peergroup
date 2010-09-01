@@ -7,6 +7,7 @@ class ChatUpdatesController < ApplicationController
   end
 
   def index
+    current_user.seen_on_chat!
     @chat_updates = ChatUpdate.newer_than(Time.at(params[:last_update].to_i))
   end
 end

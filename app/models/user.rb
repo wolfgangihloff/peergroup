@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
   
   before_save :encrypt_password
 
+  named_scope :chatting, lambda { {:conditions => ["seen_on_chat > ?", 10.seconds.ago]} }
+
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
@@ -53,9 +55,9 @@ class User < ActiveRecord::Base
   end
   
   def self.authenticate(email, submitted_password)
-      user = find_by_email(email)
-      return nil  if user.nil?
-      return user if user.has_password?(submitted_password)
+    user = find_by_email(email)
+    return nil  if user.nil?
+    return user if user.has_password?(submitted_password)
   end
   
   def following?(followed)
@@ -72,6 +74,10 @@ class User < ActiveRecord::Base
     
   def feed
     Micropost.from_users_followed_by(self)
+  end
+
+  def seen_on_chat!
+    update_attribute(:seen_on_chat, Time.now)
   end
   
     private
