@@ -18,3 +18,10 @@ Feature: Chat
     Then I should see "Hi all" within ".chat_update .message"
     And I should see "Tom" within ".chat_update .login"
 
+  @javascript
+  Scenario: Receiving posted message
+    Then I should not see "How are you?"
+    When the chat_update exists with message: "How are you?"
+    And I wait 1 second
+    Then I should see "How are you?"
+    And I should see "Hello Chatter"

@@ -5,4 +5,8 @@ class ChatUpdatesController < ApplicationController
     @chat_update.save!
     redirect_to chat_rooms_path
   end
+
+  def index
+    @chat_updates = ChatUpdate.newer_than(Time.at(params[:last_update].to_i))
+  end
 end

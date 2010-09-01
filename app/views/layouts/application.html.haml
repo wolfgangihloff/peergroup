@@ -3,7 +3,9 @@
   %head
     %title= title
     = render 'layouts/stylesheets'
-    = javascript_include_tag :defaults
+    = #javascript_include_tag :defaults
+    = javascript_include_tag 'jquery-1.4.2.min'
+    = javascript_include_tag 'chat'
   %body
     .container
       = render 'layouts/header'
