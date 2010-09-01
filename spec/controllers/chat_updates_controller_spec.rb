@@ -5,6 +5,7 @@ describe ChatUpdatesController do
 
   describe "index" do
     before do
+      test_sign_in(Factory(:user))
       @outdated_update = Factory(:chat_update, :created_at => Time.now - 10.seconds)
       @current_time = Time.now
       @valid_update = Factory(:chat_update)
