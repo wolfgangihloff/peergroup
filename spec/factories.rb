@@ -14,5 +14,5 @@ end
 Factory.define :chat_update do |chat_update|
   chat_update.user_id { Factory(:user).id }
   chat_update.login {|cu| cu.user.name }
-  chat_update.message "Hi there!"
+  chat_update.sequence(:message) {|i| "Hi there! I said it #{i} times."}
 end
