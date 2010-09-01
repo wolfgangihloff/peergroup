@@ -2,6 +2,10 @@
   width: 710px;
 }
 
+.hidden {
+  display: none;
+}
+
 body {
   background: #cff;
 }
@@ -236,3 +240,12 @@ form.new_micropost textarea {
   margin-bottom: 0;
 }
 
+/* CSS for chat */
+#chat ul.chat_updates {
+  margin-top: 10px;
+  border: 1px solid;
+  height: 400px;
+  padding: 3px;
+  width: 630px;
+  overflow: auto;
+}

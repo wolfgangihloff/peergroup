@@ -8,6 +8,7 @@
         .time= l chat_update.created_at, :format => :short
         .login= chat_update.login
         .message= chat_update.message
+    %a.chat_end{:name => 'chat_end'}
 
   - form_for [ChatRoom.new, ChatUpdate.new] do |f|
     .field
