@@ -2,6 +2,7 @@
 
 #chat
   .hidden.timestamp= Time.now.to_i
+  = render "chatting_users/chatting_users", :object => User.chatting
   %ul.chat_updates
     - @chat_updates.each do |chat_update|
       = render "chat_updates/chat_update", :object => chat_update
