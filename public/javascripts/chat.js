@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
           $.each(data.feeds, function(i, feed) {
             if(document.getElementById(feed.id) == null) {
               $(".chat_updates", container).append(feed.update);
-              $('a.chat_end', this).remove();
+              $('a.chat_end', container).remove();
               $(".chat_updates", container).append("<a name='chat_end' class='chat_end'></a>");
               document.location = '#chat_end';
             };
