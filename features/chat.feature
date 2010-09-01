@@ -19,9 +19,12 @@ Feature: Chat
     And I should see "Tom" within ".chat_update .login"
 
   @javascript
-  Scenario: Receiving posted message
+  Scenario: Receiving posted message and newcomer notification
     Then I should not see "How are you?"
+    And I should not see "John"
     When the chat_update exists with message: "How are you?"
-    And I wait 1 second
+    And the chatting_user exists with name: "John"
     Then I should see "How are you?"
     And I should see "Hello Chatter"
+    And I should see "John"
+
