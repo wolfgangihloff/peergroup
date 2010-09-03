@@ -7,7 +7,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(:page => params[:page])
     @title = CGI.escapeHTML(@user.name)
-    @users_groups  = GroupsUser.find(:all,:conditions => "user_id = #{current_user.id}")
   end
 
   def new

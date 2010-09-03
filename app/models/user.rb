@@ -22,24 +22,26 @@ class User < ActiveRecord::Base
                                    :class_name => "Relationship",
                                    :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
-  
-  has_many :groups_user
-  has_many :groups, :through => :groups_user
-  
+
+  has_many :memberships, :class_name => "GroupMember"
+  has_many :groups, :through => :memberships
+
+  has_many :founded_groups, :class_name => "Group"
+
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name, :email
   validates_length_of   :name, :maximum => 50
   validates_format_of   :email, :with => EmailRegex
   validates_uniqueness_of :email, :case_sensitive => false
-  
+
   # Automatically create the virtual attribute 'password_confirmation'.
   validates_confirmation_of :password
 
   # Password validations.
   validates_presence_of :password
   validates_length_of   :password, :within => 6..40
-  
+
   before_save :encrypt_password
 
   named_scope :chatting, lambda { {:conditions => ["seen_on_chat > ?", 10.seconds.ago]} }
@@ -48,18 +50,18 @@ class User < ActiveRecord::Base
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
-  
+
   def remember_me!
     self.remember_token = encrypt("#{salt}--#{id}--#{Time.now.utc}")
     save_without_validation
   end
-  
+
   def self.authenticate(email, submitted_password)
     user = find_by_email(email)
     return nil  if user.nil?
     return user if user.has_password?(submitted_password)
   end
-  
+
   def following?(followed)
     relationships.find_by_followed_id(followed)
   end
@@ -67,11 +69,11 @@ class User < ActiveRecord::Base
   def follow!(followed)
     relationships.create!(:followed_id => followed.id)
   end
-  
+
   def unfollow!(followed)
     relationships.find_by_followed_id(followed).destroy
   end
-    
+
   def feed
     Micropost.from_users_followed_by(self)
   end

@@ -20,3 +20,15 @@ Factory.define :chat_update do |chat_update|
   chat_update.login {|cu| cu.user.name }
   chat_update.sequence(:message) {|i| "Hi there! I said it #{i} times."}
 end
+
+Factory.define :group do |group|
+  group.sequence(:name) {|i| "Group #{i}"}
+  group.description "Very nice group"
+  group.founder { Factory(:user) }
+  group.members {|g| [g.founder]}
+end
+
+Factory.define(:freds_group, :parent => :group) do |freds_group|
+  freds_group.founder { Factory(:user, :name => "Fred") }
+end
+

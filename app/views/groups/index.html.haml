@@ -12,11 +12,11 @@
           %th Delete
           %th Edit
           %th Invite
-        - if @group
-          - for group in @group
+        - if @groups
+          - for group in @groups
             %tr
               %td
-                = link_to "#{group.name}"
+                = link_to group_name(group, current_user)
               %td
                 = link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
               %td

@@ -18,3 +18,6 @@ config.action_mailer.raise_delivery_errors = false
 
 config.gem "factory_girl"
 
+require 'factory_girl'
+Factory.find_definitions
+

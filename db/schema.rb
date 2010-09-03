@@ -9,7 +9,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100901120451) do
+ActiveRecord::Schema.define(:version => 20100903072441) do
+
+  create_table "group_members", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -17,13 +24,7 @@ ActiveRecord::Schema.define(:version => 20100901120451) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "groups_users", :force => true do |t|
-    t.integer  "group_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "founder_id"
   end
 
   create_table "microposts", :force => true do |t|

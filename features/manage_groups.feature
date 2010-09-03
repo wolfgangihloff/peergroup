@@ -10,7 +10,16 @@ Feature: Manage groups
     When I follow "Create Group"
     Then I should see "New Group"
     When I fill in "Name" with "Newcomers"
-    And I press "Submit"
+    When I fill in "Description" with "New group description"
+    And I press "Create Group"
     Then I should see "User Groups List"
-    And I should see "Newcomers"
+    And I should see "Newcomers*"
+
+#  Scenario: Accessing created group
+#    Given the freds_group exists with name: "Newcomers"
+#    And the user "Fred" is signed in
+#    And I am on Fred's profile page
+#    And show me the page
+#    When I follow "Newcomers*"
+#    Then I should see "Fred" within ".members"
 

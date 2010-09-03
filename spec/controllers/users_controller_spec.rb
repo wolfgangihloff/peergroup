@@ -64,8 +64,7 @@ describe UsersController do
 
     before(:each) do
       @user = Factory(:user)
-      # Arrange for User.find(params[:id]) to find the right user.
-      @controller.should_receive(:current_user).and_return(@user)
+      test_sign_in(@user)
     end
 
     it "should be successful" do

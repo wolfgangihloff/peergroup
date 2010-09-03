@@ -2,10 +2,10 @@ class GroupsController < ApplicationController
   before_filter :authenticate, :except => [:all_groups]
   
   def index
-    @group = Group.find(:all,:conditions => "user_id = #{current_user.id} ")
-    if @group.blank?
+    if current_user.groups.empty?
       flash[:notice] = "No Groups have been created by you."
     end
+    @groups = current_user.groups
   end
 
   def new
@@ -19,20 +19,14 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(params[:group])
-    @user_group = GroupsUser.new
-	
-    @group.user_id = current_user.id
+    @group.founder = current_user
 
     if @group.save
-      @user_group.group_id = @group.id
-      @user_group.user_id = current_user.id
-      @user_group.save
+      @group.add_member!(current_user)
       flash[:notice] = "Group Create Successfully"
       redirect_to groups_path
     else
-      #render :action => "new"
-      #redirect_to new_group_path
-      # redirect_to @group
+      render :action => "new"
     end
   end
 

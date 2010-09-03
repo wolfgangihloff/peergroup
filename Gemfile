@@ -9,6 +9,7 @@ gem "haml"
 gem "thin"
 gem "bundler"
 gem "pg"
+gem "formtastic"
 
 group :test do
   gem "rspec-rails"
