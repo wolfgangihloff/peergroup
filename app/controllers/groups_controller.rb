@@ -2,19 +2,13 @@ class GroupsController < ApplicationController
   before_filter :authenticate, :except => [:all_groups]
   
   def index
-    if current_user.groups.empty?
-      flash[:notice] = "No Groups have been created by you."
-    end
-    @groups = current_user.groups
+    @groups = params[:all] ? Group.all : current_user.groups
+    flash[:notice] = "There are no groups here." if @groups.empty?
   end
 
   def new
     @title = "New Group"
     @group = Group.new
-  end
-
-  def all_groups
-    @groups = Group.find(:all)
   end
 
   def create

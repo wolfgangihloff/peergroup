@@ -3,7 +3,7 @@ Feature: Manage groups
   As a user
   I want to create new group
 
-  Scenario: Create new account
+  Scenario: Create new group
     Given the user exists with name: "Social Guy"
     And the user "Social Guy" is signed in
     And I am on the homepage
@@ -14,6 +14,24 @@ Feature: Manage groups
     And I press "Create Group"
     Then I should see "User Groups List"
     And I should see "Newcomers*"
+
+  Scenario: Browsing my groups
+    Given the freds_group exists with name: "Newcomers"
+    And the group exists with name: "Outlanders"
+    And the user "Fred" is signed in
+    When I am on the homepage
+    And I follow "My Groups"
+    Then I should see "Newcomers"
+    And I should not see "Outlanders"
+
+  Scenario: Browsing all groups
+    Given the freds_group exists with name: "Newcomers"
+    And the group exists with name: "Outlanders"
+    And the user "Fred" is signed in
+    When I am on the homepage
+    And I follow "All Groups"
+    Then I should see "Newcomers"
+    And I should see "Outlanders"
 
 #  Scenario: Accessing created group
 #    Given the freds_group exists with name: "Newcomers"

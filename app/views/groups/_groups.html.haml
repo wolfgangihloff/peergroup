@@ -1,0 +1,23 @@
+%table
+  %tr
+    %td
+      %table
+        %tr
+          %th Group Name
+          %th Delete
+          %th Edit
+          %th Invite
+        - if groups
+          - groups.each do |group|
+            %tr
+              %td
+                = link_to group_name(group, current_user)
+              %td
+                = link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
+              %td
+                = link_to 'Edit', edit_group_path(group.id)
+              %td
+                = link_to "invite", :action =>"invite", :gid => group.id
+        - else
+          %tr
+            %td
