@@ -8,11 +8,15 @@ This is the first version, heavy alpha.
 
 == Running tests
 
-Install required gems
+1. Install required gems
 
   bundle install
 
-Run tests:
+2. Download mongodb from http://www.mongodb.org/downloads
+
+3. Run mongod
+
+4. Run tests:
 
   rake spec
   rake cucumber
