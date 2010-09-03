@@ -6,11 +6,13 @@ describe ChatUpdatesController do
   describe "index" do
     before do
       test_sign_in(Factory(:user))
-      @outdated_update = Factory(:chat_update, :created_at => Time.now - 10.seconds)
+      @chat_room = Factory(:chat_room)
+      @outdated_update = Factory(:chat_update, :created_at => 10.seconds.ago,
+         :chat_room => @chat_room)
       @current_time = Time.now
-      @valid_update = Factory(:chat_update)
+      @valid_update = Factory(:chat_update, :chat_room => @chat_room)
 
-      get "index", :last_update => (@current_time - 1.second).to_i, :format => :json
+      get "index", :last_update => (@current_time - 1.second).to_i, :format => :json, :chat_room_id => @chat_room.id
       @response = JSON.load(response.body)
     end
 

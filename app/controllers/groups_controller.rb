@@ -16,7 +16,6 @@ class GroupsController < ApplicationController
     @group.founder = current_user
 
     if @group.save
-      @group.add_member!(current_user)
       flash[:notice] = "Group Create Successfully"
       redirect_to groups_path
     else

@@ -24,7 +24,7 @@ jQuery(document).ready(function($) {
 
         });
 
-        $.get('chat_rooms/1/chatting_users', function(data) {
+        $.get(chatUpdateUrl.replace('chat_updates', 'chatting_users'), function(data) {
           $('.chatting_users', container).replaceWith(data);
         });
       };

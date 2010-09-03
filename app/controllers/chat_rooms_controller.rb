@@ -1,7 +1,7 @@
 class ChatRoomsController < ApplicationController
 
-  def index
-    @chat_updates = ChatUpdate.all
+  def show
+    @chat_room = ChatRoom.find(params[:id])
     current_user.seen_on_chat!
   end
 

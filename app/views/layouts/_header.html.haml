@@ -11,7 +11,6 @@
       %li= link_to "My Groups", groups_path
       \#
       %li= link_to "All Groups", groups_path(:all => true)
-      %li= link_to "Chat", chat_rooms_path
       %li= link_to "Settings", edit_user_path(current_user)
     %li= link_to "Help", help_path
     - if signed_in?

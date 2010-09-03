@@ -9,7 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100903072441) do
+ActiveRecord::Schema.define(:version => 20100903143720) do
+
+  create_table "chat_rooms", :force => true do |t|
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "group_members", :force => true do |t|
     t.integer  "group_id"

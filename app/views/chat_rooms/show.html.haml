@@ -1,14 +1,14 @@
-- @title = "Chat room"
+- @title = "#{@chat_room.group.name} Group Chat"
 
 #chat
   .hidden.timestamp= Time.now.to_i
   = render "chatting_users/chatting_users", :object => User.chatting
   %ul.chat_updates
-    - @chat_updates.each do |chat_update|
+    - @chat_room.chat_updates.each do |chat_update|
       = render "chat_updates/chat_update", :object => chat_update
     %a.chat_end{:name => 'chat_end'}
 
-  - form_for [ChatRoom.new, ChatUpdate.new] do |f|
+  - form_for [@chat_room, ChatUpdate.new] do |f|
     .field
       = f.label :message
       = f.text_field :message
