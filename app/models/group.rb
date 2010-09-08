@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
   belongs_to :founder, :class_name => "User"
 
   has_many :memberships, :autosave => true
-  has_many :members, :through => :memberships, :source => :user, :class_name => "User"
+  has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_one :chat_room
 
   attr_accessible :name, :description

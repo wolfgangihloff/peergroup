@@ -3,8 +3,7 @@
     %td.main
       %h2= @title
       - unless @users.empty?
-        %ul.users
-          = render @users
+        - users_list(@users)
         = will_paginate @users
     %td.sidebar.round
       %strong Name
