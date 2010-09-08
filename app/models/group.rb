@@ -12,7 +12,9 @@ class Group < ActiveRecord::Base
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_one :chat_room
 
-  attr_accessible :name, :description
+  has_friendly_id :name, :use_slug => true
+
+  attr_protected :created_at
 
   after_create lambda {|group| group.add_member!(group.founder)}
   after_create lambda {|group| ChatRoom.create!(:group => group)}
@@ -20,6 +22,5 @@ class Group < ActiveRecord::Base
   def add_member!(member)
     gm = memberships.create!(:user => member)
   end
-
 end
 

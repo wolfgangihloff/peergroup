@@ -10,6 +10,7 @@ gem "thin"
 gem "bundler", ">=1.0.0"
 gem "pg"
 gem "formtastic"
+gem "friendly_id", "~> 3.1"
 
 group :test do
   gem "rspec-rails"

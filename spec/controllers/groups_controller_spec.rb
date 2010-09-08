@@ -36,6 +36,5 @@ describe GroupsController do
         response.should render_template('groups/new')
       end
     end
-
   end
 end
