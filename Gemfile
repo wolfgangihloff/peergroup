@@ -1,13 +1,13 @@
 source :gemcutter
 
-gem "rails", "~> 2.3.8"
+gem "rails", "=2.3.9"
 gem "sqlite3-ruby", :require => "sqlite3"
 gem "will_paginate"
 gem "mongo_mapper"
 gem "bson_ext"
 gem "haml"
 gem "thin"
-gem "bundler"
+gem "bundler", ">=1.0.0"
 gem "pg"
 gem "formtastic"
 
