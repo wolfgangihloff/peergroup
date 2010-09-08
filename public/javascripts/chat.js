@@ -5,17 +5,21 @@ jQuery(document).ready(function($) {
       var container = this;
       var lastUpdate = $('.timestamp', container).text();
       var chatUpdateUrl = $('form.new_chat_update', container).attr('action');
+      var chatUpdates = $(".chat_updates", container);
 
-      document.location = '#chat_end';
+      function scrollUpdates() {
+        chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
+      };
+      
+      scrollUpdates();
 
       function updateChat() {
         $.getJSON(chatUpdateUrl, {last_update: lastUpdate}, function(data) {
           $.each(data.feeds, function(i, feed) {
             if(document.getElementById(feed.id) == null) {
-              $(".chat_updates", container).append(feed.update);
-              $('a.chat_end', container).remove();
-              $(".chat_updates", container).append("<a name='chat_end' class='chat_end'></a>");
-              document.location = '#chat_end';
+              chatUpdates.append(feed.update);
+              $('#' + feed.id, container).hide().fadeIn(500);
+              scrollUpdates();
             };
           });
 
