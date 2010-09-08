@@ -43,22 +43,4 @@ class GroupsController < ApplicationController
     flash[:notice] = "Group Delete Successfully"
     redirect_to groups_path
   end
-    
-  def join_group
-    @group = GroupsUser.find(:first,:conditions=>["user_id=? and group_id=?",current_user.id,params[:id].to_i])
-    if @group
-      flash[:notice] = "You have already Joined This Group.."
-      redirect_to groups_path
-    else
-      flash[:notice] = "New Group is added"
-      @group_user = GroupsUser.new
-      @group_user.group_id = params[:id]
-      @group_user.user_id = current_user.id
-      @group_user.save
-      redirect_to groups_path
-    end
-  end
-  
-  def invite
-  end
 end
