@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :chat_rooms do |chat_rooms|
     chat_rooms.resources :chat_updates
-    chat_rooms.resources :chatting_users
+    chat_rooms.resources :chat_users
   end
 
   map.resources :users, :member => { :following => :get, :followers => :get }

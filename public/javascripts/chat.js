@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
       function scrollUpdates() {
         chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
       };
-      
+
       scrollUpdates();
 
       function updateChat() {
@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 
         });
 
-        $.get(chatUpdateUrl.replace('chat_updates', 'chatting_users'), function(data) {
+        $.get(chatUpdateUrl.replace('chat_updates', 'chat_users'), function(data) {
           $('.chatting_users', container).replaceWith(data);
         });
       };

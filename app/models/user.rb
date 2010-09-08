@@ -28,6 +28,9 @@ class User < ActiveRecord::Base
 
   has_many :founded_groups, :class_name => "Group"
 
+  has_many :chat_users
+  has_many :chat_rooms, :through => :chat_users
+
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name, :email
@@ -44,7 +47,10 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  named_scope :chatting, lambda { {:conditions => ["seen_on_chat > ?", 10.seconds.ago]} }
+  named_scope :beeing_in_chat_room, lambda {|chat_room| {
+    :include => :chat_users,
+    :conditions => ["chat_users.updated_at > ? AND chat_users.chat_room_id = ?", 10.seconds.ago, chat_room.id],
+    :order => "users.name ASC"} }
 
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
@@ -78,10 +84,11 @@ class User < ActiveRecord::Base
     Micropost.from_users_followed_by(self)
   end
 
-  def seen_on_chat!
-    update_attribute(:seen_on_chat, Time.now)
+  def seen_on_chat!(chat_room)
+    chat_user = chat_users.find_or_create_by_chat_room_id(chat_room.id)
+    chat_user.touch
   end
-  
+
     private
 
       def encrypt_password

@@ -278,7 +278,7 @@ describe User do
       @user.unfollow!(@followed)
       @user.should_not be_following(@followed)
     end
-    
+
     it "should have a reverse_relationships method" do
       @user.should respond_to(:reverse_relationships)
     end
@@ -293,11 +293,30 @@ describe User do
     end
   end
 
-  describe "chatting named scope" do
+  describe "beeing_in_chat_room named scope" do
     it "should find only people beeing on chat within 10 seconds" do
-      Factory(:user, :seen_on_chat => 1.minute.ago)
-      beeing_on_chat = Factory(:user, :seen_on_chat => 8.seconds.ago)
-      User.chatting.all.should == [beeing_on_chat]
+      chat_room = Factory(:chat_room)
+      user = Factory(:chat_user, :updated_at => 11.seconds.ago, :chat_room => chat_room).user
+      beeing_on_chat = Factory(:chat_user, :chat_room => chat_room).user
+      User.beeing_in_chat_room(chat_room).all.should == [beeing_on_chat]
+    end
+  end
+
+  describe "seen_on_chat!" do
+    before do
+      @user = Factory(:user)
+      @chat_room = Factory(:chat_room)
+    end
+
+    it "should mark user as beeing on chat for the first time" do
+      @user.seen_on_chat!(@chat_room)
+      @user.chat_rooms.reload.first.should == @chat_room
+    end
+
+    it "should update user presence on chat" do
+      chat_user = Factory(:chat_user, :updated_at => 20.seconds.ago, :user => @user, :chat_room => @chat_room)
+      @user.seen_on_chat!(@chat_room)
+      chat_user.reload.updated_at.should > 2.seconds.ago
     end
   end
 end

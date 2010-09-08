@@ -23,7 +23,7 @@ Feature: Chat
     Then I should not see "How are you?"
     And I should not see "John"
     When the funny_chat_update exists with message: "How are you?"
-    And the chatting_user exists with name: "John"
+    And the user "John" is in the chat room of group "Funny"
     Then I should see "How are you?"
     And I should see "Hi Tom"
     And I should see "John"
