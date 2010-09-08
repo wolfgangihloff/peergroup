@@ -1,4 +1,4 @@
-class GroupMember < ActiveRecord::Base
+class Membership < ActiveRecord::Base
 
   validates_presence_of :group_id, :user_id
 

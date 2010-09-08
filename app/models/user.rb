@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
                                    :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
 
-  has_many :memberships, :class_name => "GroupMember"
+  has_many :memberships
   has_many :groups, :through => :memberships
 
   has_many :founded_groups, :class_name => "Group"
