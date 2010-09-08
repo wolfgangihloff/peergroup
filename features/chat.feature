@@ -14,7 +14,6 @@ Feature: Chat
   Scenario: Posting message
     When I fill in "Message" with "Hi all"
     And I press "Send"
-    And show me the page
     Then I should see "Hi all" within ".chat_update .message"
     And I should see "Tom" within ".chat_update .login"
 

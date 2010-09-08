@@ -12,7 +12,7 @@
           - groups.each do |group|
             %tr
               %td
-                = link_to group_name(group, current_user)
+                = link_to group_name(group, current_user), group
               %td
                 = link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
               %td
