@@ -31,6 +31,9 @@ module NavigationHelpers
     when /^(.*)'s profile page$/i
       user_path(User.find_by_name($1))
 
+    when /^the all groups page$/i
+      groups_path(:all => true)
+
     else
       begin
         page_name =~ /the (.*) page/

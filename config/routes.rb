@@ -15,7 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   map.delete_group 'delete_group/:id',:controller=>"groups",:action=>"destroy"
   map.cancle_group 'cancle_group',:controller=>"groups",:action=>"cancle"
   map.group_edit '/edit', :controller => 'groups',:action => 'edit'
-  map.resources :groups
+  map.resources :groups do |groups|
+    groups.resources :memberships
+  end
 
   map.signin  '/signin',  :controller => 'sessions', :action => 'new'
   map.signout '/signout', :controller => 'sessions', :action => 'destroy'

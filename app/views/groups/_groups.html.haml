@@ -6,7 +6,7 @@
           %th Group Name
           %th Delete
           %th Edit
-          %th Invite
+          %th Membership
           %th Chat
         - if groups
           - groups.each do |group|
@@ -18,7 +18,7 @@
               %td
                 = link_to 'Edit', edit_group_path(group.id)
               %td
-                = link_to "invite", :action =>"invite", :gid => group.id
+                = change_group_membership_link(current_user, group)
               %td
                 = link_to "Chat", chat_room_path(group.chat_room)
         - else

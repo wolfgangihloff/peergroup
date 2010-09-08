@@ -1,5 +1,5 @@
 Given /^the user "([^"]*)" is signed in/ do |name|
-  user = User.find_by_name(name) or raise "No user with '#{name}' name."
+  user = User.find_by_name(name) || Factory(:user, :name => name)
 
   Given %Q{I am on the homepage}
   And %Q{I follow "Sign in"}

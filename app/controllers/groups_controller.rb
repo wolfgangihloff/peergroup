@@ -3,7 +3,6 @@ class GroupsController < ApplicationController
   
   def index
     @groups = params[:all] ? Group.all : current_user.groups
-    flash[:notice] = "There are no groups here." if @groups.empty?
   end
 
   def new
