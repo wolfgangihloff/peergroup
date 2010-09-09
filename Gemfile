@@ -11,6 +11,7 @@ gem "bundler", ">=1.0.0"
 gem "pg"
 gem "formtastic"
 gem "friendly_id", "~> 3.1"
+gem "rdiscount"
 
 group :test do
   gem "rspec-rails"

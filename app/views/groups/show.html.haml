@@ -3,3 +3,8 @@
 \#{link_to 'Back', groups_path}
 
 - users_list(@group.members, @group.founder)
+
+%dl.rules
+  - @group.rules.each do |rule|
+    %dt= rule.name
+    %dl= markdown(rule.description)

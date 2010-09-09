@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100908152753) do
+ActiveRecord::Schema.define(:version => 20100909065958) do
 
   create_table "chat_rooms", :force => true do |t|
     t.integer  "group_id"
@@ -59,6 +59,16 @@ ActiveRecord::Schema.define(:version => 20100908152753) do
 
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
+  create_table "rules", :force => true do |t|
+    t.integer  "group_id"
+    t.string   "name"
+    t.integer  "position"
+    t.text     "description"
+    t.integer  "time_limit"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "slugs", :force => true do |t|
     t.string   "name"

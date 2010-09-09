@@ -14,4 +14,8 @@ module ApplicationHelper
  def logo
    logo = image_tag("logo.png", :alt => "Sample App", :class => "round")
  end
+
+ def markdown(text)
+   RDiscount.new(text).to_html
+ end
 end
