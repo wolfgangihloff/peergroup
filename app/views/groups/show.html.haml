@@ -4,7 +4,12 @@
 
 - users_list(@group.members, @group.founder)
 
-%dl.rules
+%ul.rules
   - @group.rules.each do |rule|
-    %dt= rule.name
-    %dl= markdown(rule.description)
+    %li.rule
+      %h3= rule.name
+      .description= markdown(rule.description)
+      .time_limit= "#{rule.time_limit} minutes"
+      %ul.actions
+        %li.edit= link_to "Edit", edit_group_rule_path(@group, rule)
+

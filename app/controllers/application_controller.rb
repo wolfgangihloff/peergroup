@@ -8,4 +8,10 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
+
+  protected
+
+  def require_parent_group
+    @group = Group.find(params[:group_id])
+  end
 end

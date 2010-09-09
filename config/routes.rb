@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :rules
+
 
   map.resources :chat_rooms do |chat_rooms|
     chat_rooms.resources :chat_updates
@@ -15,8 +17,10 @@ ActionController::Routing::Routes.draw do |map|
   map.delete_group 'delete_group/:id',:controller=>"groups",:action=>"destroy"
   map.cancle_group 'cancle_group',:controller=>"groups",:action=>"cancle"
   map.group_edit '/edit', :controller => 'groups',:action => 'edit'
+
   map.resources :groups do |groups|
     groups.resources :memberships
+    groups.resources :rules
   end
 
   map.signin  '/signin',  :controller => 'sessions', :action => 'new'
