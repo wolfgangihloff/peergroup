@@ -261,9 +261,9 @@ form.new_micropost textarea {
 ul.chatting_users {
   position: relative;
   list-style: none;
-  width: 630px;
   overflow: hidden;
   margin-bottom: 0;
+  font-size: 0.8em;
 }
 
 ul.chatting_users li, ul.chatting_users h3 {
