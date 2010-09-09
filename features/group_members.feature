@@ -14,8 +14,8 @@ Feature: Invitations
     And the user "Tom" should be the member of the group "Funny"
 
   Scenario: Leaving the group
-    When the user "Tom" is the member of the group "Funny"
-    And I am on the groups page
+    Given the user "Tom" is the member of the group "Funny"
+    When I am on the groups page
     And I follow "leave"
     Then I should see "You are no longer the member of the group Funny"
     And the user "Tom" should not be the member of the group "Funny"

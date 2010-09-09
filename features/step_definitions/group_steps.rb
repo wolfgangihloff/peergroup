@@ -5,7 +5,7 @@ Given /^the group exists with user: "([^"]*)", name: "([^"]*)" and chat message:
 end
 
 When /^the user "([^"]*)" is the member of the group "([^"]*)"$/ do |user_name, group_name|
-  user = User.find_by_name(user_name)
+  user = User.find_by_name(user_name) || Factory(:user)
   Group.find_by_name(group_name).add_member!(user)
 end
 
@@ -23,4 +23,11 @@ Then /^the user "([^"]*)" should (not )?be the member of the group "([^"]*)"$/ d
   else
     group.should_not be_nil
   end
+end
+
+Then /^user "([^"]*)" should be the (.+) of the chat room of the group "([^"]*)"$/ do |user_name, role, group_name|
+  user = User.find_by_name(user_name)
+  group = Group.find_by_name(group_name)
+  role.gsub!(' ', '_')
+  group.chat_room.send(role).should == user
 end

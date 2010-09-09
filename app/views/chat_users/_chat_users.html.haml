@@ -1,4 +1,9 @@
 %ul.chatting_users
-  %h3 Present users
   - chat_users.each do |cu|
-    %li= cu.name
+    %li
+      = gravatar_for cu, :size => 30
+      %p.name= cu.name
+      %ul.actions
+        %li= select_leader_link(@chat_room, cu)
+        %li= select_problem_owner_link(@chat_room, cu)
+
