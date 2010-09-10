@@ -9,9 +9,7 @@ Feature: Chat room roles
 
   Scenario: Selecting the leader and problem owner
     When the user "A" is signed in
-    And I am on the homepage
-    And I follow "All Groups"
-    And I follow "Chat"
+    And I am on the "Funny" group chat
     And I follow "Leader"
     Then user "A" should be the leader of the chat room of the group "Funny"
     When I follow "Problem owner"
