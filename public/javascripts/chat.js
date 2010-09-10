@@ -31,6 +31,10 @@ jQuery(document).ready(function($) {
         $.get(chatUpdateUrl.replace('chat_updates', 'chat_users'), function(data) {
           $('.chatting_users', container).replaceWith(data);
         });
+
+        $.get(chatUpdateUrl.replace('chat_updates', 'chat_rules'), function(data) {
+          $('.rules', container).replaceWith(data);
+        });
       };
 
       $('form.new_chat_update', container).ajaxForm(function() {

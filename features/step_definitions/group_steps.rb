@@ -9,7 +9,7 @@ When /^the user "([^"]*)" is the member of the group "([^"]*)"$/ do |user_name, 
   Group.find_by_name(group_name).add_member!(user)
 end
 
-When /^the user "([^"]*)" is in the chat room of group "([^"]*)"$/ do |user_name, group_name|
+When /^the user "([^"]*)" (?:is in|enters) the chat room of group "([^"]*)"$/ do |user_name, group_name|
   user = User.find_by_name(user_name) || Factory(:user, :name => user_name)
   group = Group.find_by_name(group_name)
   Factory(:chat_user, :user => user, :chat_room => group.chat_room)
@@ -31,3 +31,10 @@ Then /^user "([^"]*)" should be the (.+) of the chat room of the group "([^"]*)"
   role.gsub!(' ', '_')
   group.chat_room.send(role).should == user
 end
+
+When /^the "([^"]*)" group chat current rule changes to "([^"]*)"$/ do |group_name, rule_name|
+  chat_room = Group.find_by_name(group_name).chat_room
+  chat_room.current_rule = Rule.find_by_name(rule_name)
+  chat_room.save!
+end
+

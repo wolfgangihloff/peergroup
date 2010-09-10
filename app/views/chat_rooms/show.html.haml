@@ -10,13 +10,7 @@
           = render "chat_updates/chat_update", :object => chat_update
         %a.chat_end{:name => 'chat_end'}
     .span-8.last
-      %ul.rules
-        - @chat_room.group.rules.each do |rule|
-          %li.rule{:class => @chat_room.current_rule == rule ? 'current' : ''}
-            %p= rule.name
-            %ul.actions
-              - unless @chat_room.current_rule == rule
-                %li= link_to "Activate", select_current_rule_chat_room_path(@chat_room, :rule_id => rule.id), :method => :post
+      = render "chat_rules/chat_rules"
 
   - form_for [@chat_room, ChatUpdate.new] do |f|
     .field
