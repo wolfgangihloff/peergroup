@@ -1,7 +1,9 @@
-#header.round
-  = link_to logo, root_path
-  %h2= @title
-  %ul.navigation.round
+#header.span-24.last.round
+  .span-8.colborder
+    = link_to logo, root_path
+  .span-15.last
+    %h2= @title
+  %ul.navigation
     %li= link_to "Home", root_path
     - if signed_in?
       %li= link_to "Users", users_path

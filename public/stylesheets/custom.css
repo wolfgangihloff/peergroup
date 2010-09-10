@@ -1,6 +1,3 @@
-.container {
-  width: 710px; }
-
 .hidden {
   display: none; }
 
@@ -8,15 +5,13 @@ body {
   background: #ccffff; }
 
 #header {
-  padding-top: 20px; }
-  #header img {
-    padding: 1em;
-    background: white; }
+  padding-top: 20px;
+  background: white; }
 
 #content {
   margin-top: 1em;
-  font-size: 120%;
-  padding: 20px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 100%;
   background: white; }
 
 /* Links */
@@ -175,7 +170,6 @@ form.new_micropost {
 /* CSS for chat */
 #chat ul.chat_updates {
   height: 300px;
-  width: 630px;
   margin-top: 10px;
   border: 1px solid;
   padding: 3px;
@@ -197,3 +191,13 @@ ul.chatting_users {
     padding: 2px; }
   ul.chatting_users li {
     background-color: #dddddd; }
+
+ul.rules li {
+  list-style-type: none;
+  padding: 3px; }
+ul.rules li.current {
+  background-color: yellow; }
+ul.rules li.rule {
+  border: 1px solid black; }
+ul.rules ul, ul.rules ul li, ul.rules p {
+  display: inline; }

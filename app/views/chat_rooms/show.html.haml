@@ -1,21 +1,22 @@
 - @title = "#{@chat_room.group.name} Group Chat"
 
-#chat
+#chat.span-24.last
   .hidden.timestamp= Time.now.to_i
   = render "chat_users/chat_users", :object => @users_on_chat
-  .main
-    %ul.chat_updates
-      - @chat_room.chat_updates.each do |chat_update|
-        = render "chat_updates/chat_update", :object => chat_update
-      %a.chat_end{:name => 'chat_end'}
-
-    %ul.rules
-      - @chat_room.group.rules.each do |rule|
-        %li.rule{:class => @chat_room.current_rule == rule ? 'current' : ''}
-          %p= rule.name
-        %ul.actions
-          - unless @chat_room.current_rule == rule
-            %li= link_to "Activate", select_current_rule_chat_room_path(@chat_room, :rule_id => rule.id), :method => :post
+  .main.span-24.last
+    .span-16
+      %ul.chat_updates
+        - @chat_room.chat_updates.each do |chat_update|
+          = render "chat_updates/chat_update", :object => chat_update
+        %a.chat_end{:name => 'chat_end'}
+    .span-8.last
+      %ul.rules
+        - @chat_room.group.rules.each do |rule|
+          %li.rule{:class => @chat_room.current_rule == rule ? 'current' : ''}
+            %p= rule.name
+            %ul.actions
+              - unless @chat_room.current_rule == rule
+                %li= link_to "Activate", select_current_rule_chat_room_path(@chat_room, :rule_id => rule.id), :method => :post
 
   - form_for [@chat_room, ChatUpdate.new] do |f|
     .field

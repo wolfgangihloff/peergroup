@@ -1,6 +1,3 @@
-.container
-  width: 710px
-
 .hidden
   display: none
 
@@ -9,14 +6,12 @@ body
 
 #header
   padding-top: 20px
-  img
-    padding: 1em
-    background: #fff
+  background: #fff
 
 #content
   margin-top: 1em
-  font-size: 120%
-  padding: 20px
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif
+  font-size: 100%
   background: #fff
 
 /* Links
@@ -190,7 +185,6 @@ form.new_micropost
 #chat
   ul.chat_updates
     height: 300px
-    width: 630px
     margin-top: 10px
     border: 1px solid
     padding: 3px
@@ -212,3 +206,14 @@ ul.chatting_users
     padding: 2px
   li
     background-color: #DDDDDD
+
+ul.rules
+  li
+    list-style-type: none
+    padding: 3px
+  li.current
+    background-color: yellow
+  li.rule
+    border: 1px solid black
+  ul, ul li, p
+    display: inline
