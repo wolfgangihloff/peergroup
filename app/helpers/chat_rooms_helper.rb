@@ -14,4 +14,12 @@ module ChatRoomsHelper
       link_to "Problem owner", path, :method => :post
     end
   end
+
+  def chat_user_class(chat_room, user)
+    case user
+    when chat_room.leader then "leader"
+    when chat_room.problem_owner then "problem_owner"
+    else ""
+    end
+  end
 end

@@ -183,14 +183,26 @@ ul.chatting_users {
   position: relative;
   list-style: none;
   overflow: hidden;
-  margin-bottom: 0;
-  font-size: 0.8em; }
-  ul.chatting_users li, ul.chatting_users h3 {
+  margin-bottom: 0; }
+  ul.chatting_users li.chat_user.leader .brief {
+    background-color: yellow; }
+  ul.chatting_users li.chat_user.problem_owner .brief {
+    background-color: green; }
+  ul.chatting_users li.chat_user {
     float: left;
     margin-right: 10px;
-    padding: 2px; }
-  ul.chatting_users li {
-    background-color: #dddddd; }
+    padding: 2px;
+    width: 100px; }
+    ul.chatting_users li.chat_user img {
+      margin-left: 20px; }
+    ul.chatting_users li.chat_user p {
+      text-align: center;
+      margin: 0; }
+    ul.chatting_users li.chat_user .brief {
+      border: 1px solid black; }
+  ul.chatting_users ul.actions {
+    list-style: none;
+    color: #888888; }
 
 ul.rules li {
   list-style-type: none;

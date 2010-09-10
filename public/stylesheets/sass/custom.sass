@@ -199,13 +199,25 @@ ul.chatting_users
   list-style: none
   overflow: hidden
   margin-bottom: 0
-  font-size: 0.8em
-  li, h3
+  li.chat_user.leader .brief
+    background-color: yellow
+  li.chat_user.problem_owner .brief
+    background-color: green
+  li.chat_user
     float: left
     margin-right: 10px
     padding: 2px
-  li
-    background-color: #DDDDDD
+    width: 100px
+    img
+      margin-left: 20px
+    p
+      text-align: center
+      margin: 0
+    .brief
+      border: 1px solid black
+  ul.actions
+    list-style: none
+    color: #888
 
 ul.rules
   li
