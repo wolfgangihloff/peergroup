@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100909115330) do
+ActiveRecord::Schema.define(:version => 20100910072344) do
 
   create_table "chat_rooms", :force => true do |t|
     t.integer  "group_id"
@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20100909115330) do
     t.datetime "updated_at"
     t.integer  "leader_id"
     t.integer  "problem_owner_id"
+    t.integer  "current_rule_id"
   end
 
   create_table "chat_users", :force => true do |t|

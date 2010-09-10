@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
 
   map.resources(:chat_rooms, :member =>
-    {:select_leader => :post, :select_problem_owner => :post}
+    {:select_leader => :post, :select_problem_owner => :post, :select_current_rule => :post}
   ) do |chat_rooms|
     chat_rooms.resources :chat_updates
     chat_rooms.resources :chat_users

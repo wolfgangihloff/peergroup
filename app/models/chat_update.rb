@@ -8,14 +8,14 @@ class ChatUpdate
 
   timestamps!
 
-  validates_presence_of :user_id, :chat_room_id, :login
-  validates_numericality_of :user_id
+  validates_presence_of :chat_room_id, :login
+  validates_numericality_of :user_id, :allow_nil => true
 
   # -1 second needed as time in database is saved without usec part
   scope :newer_than, lambda {|time| {:created_at.gte => time.utc - 1.second}}
 
   def user
-    User.find(user_id)
+    User.find_by_id(user_id) || nil
   end
 
   def user=(user)

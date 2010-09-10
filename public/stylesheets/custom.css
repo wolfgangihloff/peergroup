@@ -1,155 +1,112 @@
 .container {
-  width: 710px;
-}
+  width: 710px; }
 
 .hidden {
-  display: none;
-}
+  display: none; }
 
 body {
-  background: #cff;
-}
+  background: #ccffff; }
 
 #header {
-  padding-top: 20px;
-}
-
-#header img {
-  padding: 1em;
-  background: #fff;
-}
+  padding-top: 20px; }
+  #header img {
+    padding: 1em;
+    background: white; }
 
 #content {
   margin-top: 1em;
   font-size: 120%;
   padding: 20px;
-  background: #fff;
-}
+  background: white; }
 
 /* Links */
-
 a {
-  color: #09c;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #069;
-  text-decoration: underline;
-}
-
-a:visited {
-  color: #069;
-}
+  color: #0099cc;
+  text-decoration: none; }
+  a:hover {
+    color: #006699;
+    text-decoration: underline; }
+  a:visited {
+    color: #006699; }
 
 /* Navigation */
-
 .navigation {
   float: right;
-}
-
-.navigation {
   background-color: white;
   padding: 0 0.7em;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
 
 ul.navigation {
-  margin: 0;
-}
+  margin: 0; }
 
 .navigation li {
   list-style-type: none;
   display: inline-block;
-  padding: 0.2em 0;
-}
-
-.navigation li a {
-  padding: 0 5px;
-  font-weight: bold;
-}
-
-.navigation li a:visited {
-  color: #09c;
-}
-
-.navigation li a:hover {
-  text-decoration: underline;
-}
+  padding: 0.2em 0; }
+  .navigation li a {
+    padding: 0 5px;
+    font-weight: bold; }
+    .navigation li a:visited {
+      color: #0099cc; }
+    .navigation li a:hover {
+      text-decoration: underline; }
 
 /* Sign up button */
-
 a.signup_button {
   margin-left: auto;
   margin-right: auto;
   display: block;
   text-align: center;
   width: 190px;
-  color: #fff;
+  color: white;
   background: #006400;
   font-size: 150%;
   font-weight: bold;
-  padding: 20px;
-}
+  padding: 20px; }
 
 /* Round corners */
-
 .round {
-  -moz-border-radius:    10px;
+  -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  border-radius:         10px;
-}
+  border-radius: 10px; }
 
 #footer {
   text-align: center;
   margin-top: 10px;
   width: 710px;
   margin-left: auto;
-  margin-right: auto;
-}
-
-#footer .navigation {
-  float: none;
-}
+  margin-right: auto; }
+  #footer .navigation {
+    float: none; }
 
 /* User show page */
-
 table.profile {
   width: 100%;
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 td.main {
   width: 70%;
-  padding: 1em;
-}
-
+  padding: 1em; }
 td.sidebar {
   width: 30%;
   padding: 1em;
   vertical-align: top;
-  background: #ffc;
-}
+  background: #ffffcc; }
 
 .profile img.gravatar {
-  border: 1px solid #999;
-  margin-bottom: -15px;
-}
+  border: 1px solid #999999;
+  margin-bottom: -15px; }
 
 div.field, div.actions {
-  margin-bottom: 10px;
-}
+  margin-bottom: 10px; }
 
 /* Error Messages */
 .fieldWithErrors {
   padding: 2px;
   background-color: red;
-  display: table;
-}
-
-.fieldWithErrors label {
-  color: #fff;
-}
+  display: table; }
+  .fieldWithErrors label {
+    color: white; }
 
 #errorExplanation {
   width: 400px;
@@ -157,88 +114,63 @@ div.field, div.actions {
   padding: 7px;
   padding-bottom: 12px;
   margin-bottom: 20px;
-  background-color: #f0f0f0;
-}
+  background-color: #f0f0f0; }
+  #errorExplanation h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    background-color: #cc0000;
+    color: white; }
+  #errorExplanation p {
+    color: #333333;
+    margin-bottom: 0;
+    padding: 5px; }
+  #errorExplanation ul li {
+    font-size: 12px;
+    list-style: square; }
 
-#errorExplanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  background-color: #c00;
-  color: #fff;
-}
-
-#errorExplanation p {
-  color: #333;
-  margin-bottom: 0;
-  padding: 5px;
-}
-
-#errorExplanation ul li {
-  font-size: 12px;
-  list-style: square;
-}
 /* CSS for the user index */
 ul.users {
-  margin-top: 1em;
-}
+  margin-top: 1em; }
 
 .users li {
-  list-style: none;
-}
+  list-style: none; }
+
 /* CSS for the microposts */
 h2.micropost {
-  margin-bottom: 0;
-}
+  margin-bottom: 0; }
 
 table.microposts tr {
-  height: 70px;
-}
-
-table.microposts tr td.gravatar {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  width: 50px;
-}
-
-table.microposts tr td.micropost {
-  border-top: 1px solid #ccc;
-  vertical-align: top;
-  padding-top: 10px;
-}
-
-table.microposts tr td.micropost span.timestamp {
-  display: block;
-  font-size: 85%;
-  color: #666;
-}
+  height: 70px; }
+  table.microposts tr td.gravatar {
+    border-top: 1px solid #cccccc;
+    vertical-align: top;
+    width: 50px; }
+  table.microposts tr td.micropost {
+    border-top: 1px solid #cccccc;
+    vertical-align: top;
+    padding-top: 10px; }
+    table.microposts tr td.micropost span.timestamp {
+      display: block;
+      font-size: 85%;
+      color: #666666; }
 
 div.user_info img {
-  padding-right: 0.1em;
-}
-
+  padding-right: 0.1em; }
 div.user_info a {
-  text-decoration: none;
-}
-
+  text-decoration: none; }
 div.user_info span.user_name {
-  position: absolute;
-}
-
+  position: absolute; }
 div.user_info span.microposts {
-  font-size: 80%;
-}
+  font-size: 80%; }
 
 form.new_micropost {
-  margin-bottom: 2em;
-}
-
-form.new_micropost textarea {
-  height: 4em;
-  margin-bottom: 0;
-}
+  margin-bottom: 2em; }
+  form.new_micropost textarea {
+    height: 4em;
+    margin-bottom: 0; }
 
 /* CSS for chat */
 #chat ul.chat_updates {
@@ -247,31 +179,21 @@ form.new_micropost textarea {
   margin-top: 10px;
   border: 1px solid;
   padding: 3px;
-  overflow: auto;
-}
-
+  overflow: auto; }
 #chat li.chat_update div {
-  display: inline;
-}
-
-#chat li.chat_update div.login {
-  color: blue;
-}
+  display: inline; }
+  #chat li.chat_update div.login {
+    color: blue; }
 
 ul.chatting_users {
   position: relative;
   list-style: none;
   overflow: hidden;
   margin-bottom: 0;
-  font-size: 0.8em;
-}
-
-ul.chatting_users li, ul.chatting_users h3 {
-  float: left;
-  margin-right: 10px;
-  padding: 2px;
-}
-
-ul.chatting_users li {
-  background-color: #DDDDDD;
-}
+  font-size: 0.8em; }
+  ul.chatting_users li, ul.chatting_users h3 {
+    float: left;
+    margin-right: 10px;
+    padding: 2px; }
+  ul.chatting_users li {
+    background-color: #dddddd; }

@@ -5,15 +5,7 @@
 - users_list(@group.members, @group.founder)
 
 .rules
-  %ul
-    - @group.rules.each do |rule|
-      %li.rule
-        %h3= rule.name
-        .description= markdown(rule.description)
-        .time_limit= "#{rule.time_limit} minutes"
-        %ul.actions
-          %li.edit= link_to "Edit", edit_group_rule_path(@group, rule)
-          %li.remove= link_to "Remove", group_rule_path(@group, rule), :method => :delete
+  = render :partial => 'rules/rules'
 
   %ul.actions
     %li= link_to "New Rule", new_group_rule_path(@group)

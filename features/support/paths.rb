@@ -34,6 +34,9 @@ module NavigationHelpers
     when /^the all groups page$/i
       groups_path(:all => true)
 
+    when /the "([^"]*)" group chat/i
+      chat_room_path(Group.find_by_name($1).chat_room)
+
     else
       begin
         page_name =~ /the (.*) page/
