@@ -4,7 +4,8 @@ jQuery(document).ready(function($) {
     this.each(function() {
       var container = this;
       var lastUpdate = $('.timestamp', container).text();
-      var chatUpdateUrl = $('form.new_chat_update', container).attr('action');
+      var chatUpdateUrl = $('form.edit_chat_update', container).attr('action');
+      var chatRoomUrl = chatUpdateUrl.replace(/\/chat_updates.+/, '');
       var chatUpdates = $(".chat_updates", container);
 
       function scrollUpdates() {
@@ -13,13 +14,16 @@ jQuery(document).ready(function($) {
 
       scrollUpdates();
 
+
       function updateChat() {
-        $.getJSON(chatUpdateUrl, {last_update: lastUpdate}, function(data) {
+        $.getJSON(chatRoomUrl + '/chat_updates', {last_update: lastUpdate}, function(data) {
           $.each(data.feeds, function(i, feed) {
             if(document.getElementById(feed.id) == null) {
               chatUpdates.append(feed.update);
               $('#' + feed.id, container).hide().fadeIn(500);
               scrollUpdates();
+            } else {
+              $('#' + feed.id, container).replaceWith(feed.update);
             };
           });
 
@@ -28,20 +32,27 @@ jQuery(document).ready(function($) {
 
         });
 
-        $.get(chatUpdateUrl.replace('chat_updates', 'chat_users'), function(data) {
+        $.get(chatRoomUrl + '/chat_users', function(data) {
           $('.chatting_users', container).replaceWith(data);
         });
 
-        $.get(chatUpdateUrl.replace('chat_updates', 'chat_rules'), function(data) {
+        $.get(chatRoomUrl + '/chat_rules', function(data) {
           $('.rules', container).replaceWith(data);
         });
       };
 
-      $('form.new_chat_update', container).ajaxForm(function() {
-        $('#chat_update_message').val('');
+      $('form.edit_chat_update', container).live('submit', function() {
+        $(this).ajaxSubmit({
+          clearForm: true,
+          target: $('form.edit_chat_update', container),
+          replaceTarget: true,
+          success: function() {
+            $('#chat_update_message').focus();
+          }
+        });
+        return false;
       });
 
-      $('#chat_update_message').focus();
 
       setTimeout(updateChat, 1000);
     });

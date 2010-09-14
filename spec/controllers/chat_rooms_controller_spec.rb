@@ -22,8 +22,12 @@ describe ChatRoomsController do
       response.should_not have_tag("ul.chatting_users a", :text => "Problem owner")
     end
 
-    it "should show newly initialized chat line" do
-      pending
+    it "should show form for newly initialized chat update" do
+      get :show, :id => @chat_room.id
+
+      chat_update = assigns[:chat_update]
+      expected_path = chat_room_chat_update_path(@chat_room, chat_update)
+      response.should have_tag("form[action=?]", expected_path)
     end
   end
 

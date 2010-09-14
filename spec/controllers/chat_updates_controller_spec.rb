@@ -27,6 +27,10 @@ describe ChatUpdatesController do
         @chat_update.reload.state.should == "commited"
       end
 
+      it "should save chat update message" do
+        @chat_update.reload.message.should == @message
+      end
+
       it "should initialize new chat update" do
         assigns[:chat_update].state.should == "new"
       end
