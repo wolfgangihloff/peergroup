@@ -3,11 +3,33 @@ require 'spec_helper'
 describe ChatUpdatesController do
   integrate_views
 
+  describe "update" do
+    describe "when commiting" do
+      it "should save chat update as commited" do
+        pending
+      end
+
+      it "should send chat update form to the browser" do
+        pending
+      end
+    end
+
+    describe "when updating only" do
+      it "should perform the update when message changed" do
+        pending
+      end
+
+      it "should not touch the record when message not changed" do
+        pending
+      end
+    end
+  end
+
   describe "index" do
     before do
       test_sign_in(Factory(:user))
       @chat_room = Factory(:chat_room)
-      @outdated_update = Factory(:chat_update, :created_at => 10.seconds.ago,
+      @outdated_update = past_chat_update(:created_at => 10.seconds.ago,
          :chat_room => @chat_room)
       @current_time = Time.now
       @valid_update = Factory(:chat_update, :chat_room => @chat_room)
@@ -19,6 +41,14 @@ describe ChatUpdatesController do
     describe "feeds array" do
       it "should contain missing updates" do
         @response["feeds"].first["update"].should =~ /#{@valid_update.message}/
+      end
+
+      it "should not contain dirty updates" do
+        pending
+      end
+
+      it "should not contain new updates" do
+        pending
       end
 
       it "should contain ids of missing updates" do

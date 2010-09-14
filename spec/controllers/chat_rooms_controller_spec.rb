@@ -21,6 +21,10 @@ describe ChatRoomsController do
       get :show, :id => @chat_room.id
       response.should_not have_tag("ul.chatting_users a", :text => "Problem owner")
     end
+
+    it "should show newly initialized chat line" do
+      pending
+    end
   end
 
   describe "POST select_leader" do

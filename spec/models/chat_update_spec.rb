@@ -1,20 +1,66 @@
 require 'spec_helper'
 
 describe ChatUpdate do
+
+  def past_chat_update(options)
+    outdated = Factory.build(:chat_update, options)
+    outdated.should_receive(:update_timestamps)
+    outdated.save!
+    # Get rid of the mock
+    ChatUpdate.find(outdated.id)
+  end
+
   it "should create a new instance given valid attributes" do
     Factory(:chat_update)
   end
 
   describe "newer_than scope" do
     before do
-      Factory(:chat_update, :created_at => 1.second.ago)
+      outdated = past_chat_update(:updated_at => 2.seconds.ago)
+
       @current_time = Time.now
       @valid_update = Factory(:chat_update)
     end
 
-    it "should return all updates newer than given date" do
+    it "should return all updates updated after the given date" do
       ChatUpdate.newer_than(@current_time).all.should == [@valid_update]
     end
+  end
+
+  describe "commit_message" do
+    it "should be implemented" do
+      pending
+    end
+  end
+
+  describe "update_message!" do
+    before do
+      @message = "Hi"
+      @timestamp = 5.minutes.ago
+      @chat_update = past_chat_update(:message => @message, :updated_at => @timestamp)
+    end
+
+    it "should not touch the timestamp when message not changed" do
+      @chat_update.update_message!(@message)
+      @chat_update.updated_at.should be_close(@timestamp, 1.second)
+    end
+
+    describe "when message changed" do
+      it "should save new message" do
+        @chat_update.update_message!("Hi Tom")
+        @chat_update.reload.message.should == "Hi Tom"
+      end
+
+      it "should mark the record as uncommited" do
+        @chat_update.update_message!("Hi Tom")
+        @chat_update.reload.state.should == "uncommited"
+      end
+    end
+  end
+
+  it "should be in new state after creating" do
+    chat_update = Factory(:chat_update)
+    chat_update.reload.state.should == "new"
   end
 end
 
