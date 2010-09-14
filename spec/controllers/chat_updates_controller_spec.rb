@@ -37,13 +37,25 @@ describe ChatUpdatesController do
     end
 
     describe "when updating only" do
+      before do
+        @chat_update = Factory(:chat_update)
+        @message = "Hi Kacper"
+        @update = lambda {
+          put "update", :update_type => "update",
+            :chat_room_id => @chat_update.chat_room_id,
+            :id => @chat_update.id,
+            :chat_update => {:message => @message} }
+      end
 
       it "should be successful" do
-        pending
+        @update.call
+        response.should be_success
       end
 
       it "should perform the update" do
-        pending
+        ChatUpdate.should_receive(:find).and_return(@chat_update)
+        @chat_update.should_receive(:update_message!).with(@message)
+        @update.call
       end
     end
   end
@@ -65,7 +77,7 @@ describe ChatUpdatesController do
         @response["feeds"].first["update"].should =~ /#{@valid_update.message}/
       end
 
-      it "should not contain dirty updates" do
+      it "should not contain uncommited updates" do
         pending
       end
 

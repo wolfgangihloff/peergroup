@@ -13,12 +13,16 @@ class ChatUpdatesController < ApplicationController
   end
 
   def update
+    @chat_update = ChatUpdate.find(params[:id])
+
     case params[:update_type]
     when "commit"
-      chat_update = ChatUpdate.find(params[:id])
-      chat_update.commit_message!(params[:message])
+      @chat_update.commit_message!(params[:chat_update][:message])
       @chat_update = initialized_chat_update
       render :partial => "form", :layout => false
+    when "update"
+      @chat_update.update_message!(params[:chat_update][:message])
+      render :text => 'ok'
     else
       raise "Bad update type: #{params[:update_type].inspect}"
     end
