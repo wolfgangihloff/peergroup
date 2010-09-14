@@ -27,9 +27,19 @@ describe ChatUpdate do
     end
   end
 
-  describe "commit_message" do
-    it "should be implemented" do
-      pending
+  describe "commit_message!" do
+    before do
+      @chat_update = Factory(:chat_update)
+      @message = "Hi, it's new message"
+      @chat_update.commit_message!(@message)
+    end
+
+    it "should mark record as commited" do
+      @chat_update.reload.state.should == "commited"
+    end
+
+    it "should update the message" do
+      @chat_update.reload.message.should == @message
     end
   end
 

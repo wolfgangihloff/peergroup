@@ -9,14 +9,9 @@ class ChatUpdate
 
   timestamps!
 
-  state_machine :state, :initial => :new do
-    state :new
-    state :uncommited
-    state :commited
-  end
-
   validates_presence_of :chat_room_id, :login
   validates_numericality_of :user_id, :allow_nil => true
+  validates_true_for :state, :logic => lambda { %w{new uncommited commited}.include?(state) }
 
   # -1 second needed as time in database is saved without usec part
   scope :newer_than, lambda {|time| {:updated_at.gte => time.utc - 1.second}}
@@ -27,6 +22,12 @@ class ChatUpdate
       self.state = "uncommited"
       save!
     end
+  end
+
+  def commit_message!(message)
+    self.message = message
+    self.state = "commited"
+    save!
   end
 
   def user
@@ -40,6 +41,10 @@ class ChatUpdate
 
   def chat_room=(chat_room)
     self.chat_room_id = chat_room.id
+  end
+
+  def state
+    read_attribute(:state) || "new"
   end
 
 end

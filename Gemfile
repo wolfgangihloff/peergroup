@@ -12,7 +12,6 @@ gem "pg"
 gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
-gem "state_machine"
 
 group :test do
   gem "rspec-rails"
