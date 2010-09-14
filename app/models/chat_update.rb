@@ -31,7 +31,7 @@ class ChatUpdate
   end
 
   def user
-    User.find_by_id(user_id) || nil
+    User.find_by_id(user_id)
   end
 
   def user=(user)
@@ -48,3 +48,4 @@ class ChatUpdate
   end
 
 end
+

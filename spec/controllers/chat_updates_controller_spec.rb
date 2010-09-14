@@ -3,23 +3,46 @@ require 'spec_helper'
 describe ChatUpdatesController do
   integrate_views
 
+  before do
+    @user = Factory(:user)
+    test_sign_in(@user)
+  end
+
   describe "update" do
     describe "when commiting" do
+      before do
+        @chat_update = Factory(:chat_update)
+        @message = "Hi Kacper"
+        put "update", :update_type => "commit",
+          :chat_room_id => @chat_update.chat_room_id,
+          :id => @chat_update.id,
+          :chat_update => {:message => @message}
+      end
+
+      it "should be successful" do
+        response.should be_success
+      end
+
       it "should save chat update as commited" do
-        pending
+        @chat_update.reload.state.should == "commited"
+      end
+
+      it "should initialize new chat update" do
+        assigns[:chat_update].state.should == "new"
       end
 
       it "should send chat update form to the browser" do
-        pending
+        response.should render_template("chat_updates/_form")
       end
     end
 
     describe "when updating only" do
-      it "should perform the update when message changed" do
+
+      it "should be successful" do
         pending
       end
 
-      it "should not touch the record when message not changed" do
+      it "should perform the update" do
         pending
       end
     end
@@ -27,7 +50,6 @@ describe ChatUpdatesController do
 
   describe "index" do
     before do
-      test_sign_in(Factory(:user))
       @chat_room = Factory(:chat_room)
       @outdated_update = past_chat_update(:created_at => 10.seconds.ago,
          :chat_room => @chat_room)
@@ -61,3 +83,4 @@ describe ChatUpdatesController do
     end
   end
 end
+

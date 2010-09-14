@@ -12,11 +12,5 @@
     .span-8.last
       = render "chat_rules/chat_rules"
 
-  - form_for [@chat_room, ChatUpdate.new] do |f|
-    .field
-      = f.label :message
-      = f.text_field :message
-    .actions
-      = f.submit "Send"
-
+  = render "chat_updates/form"
 

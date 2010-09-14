@@ -1,0 +1,7 @@
+- form_for [@chat_room, @chat_update || ChatUpdate.new] do |f|
+  .field
+    = f.label :message
+    = f.text_field :message
+  .actions
+    = f.submit "Send"
+
