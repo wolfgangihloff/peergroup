@@ -56,6 +56,11 @@ jQuery(document).ready(function($) {
         return false;
       });
 
+      $('.chat_update.root', container).live('click', function() {
+        var chatUpdate = $(this);
+        var id = $('.reply a', chatUpdate).attr('href').replace('#', '');
+        $('form.edit_chat_update #parent_id', container).val(id);
+      });
 
       setTimeout(updateChat, 1000);
     });

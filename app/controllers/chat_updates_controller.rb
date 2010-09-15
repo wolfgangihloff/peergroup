@@ -6,6 +6,7 @@ class ChatUpdatesController < ApplicationController
   def update
     current_user.seen_on_chat!(@chat_room)
     @chat_update = ChatUpdate.find(params[:id])
+    @chat_update.attach_parent!(params[:parent_id]) if params[:parent_id]
 
     case params[:update_type]
     when "commit"

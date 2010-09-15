@@ -1,7 +1,9 @@
-%li[chat_update]{:class => chat_update.state}
+%li[chat_update]{:class => chat_update_class(chat_update)}
   .time= l chat_update.created_at, :format => :short
   .login= chat_update.login
   .message= chat_update.message
+  - if chat_update.parent.nil?
+    .reply= link_to "reply", "##{chat_update.id}"
   %ul.children
     - chat_update.children.not_new.each do |child_chat_update|
       = render "chat_updates/chat_update", :object => child_chat_update

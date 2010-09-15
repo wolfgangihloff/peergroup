@@ -1,5 +1,6 @@
 - form_for [@chat_room, @chat_update], :html => {:autocomplete => "off"}  do |f|
   = hidden_field_tag :update_type, "commit"
+  = hidden_field_tag "parent_id", @chat_update.parent? ? @chat_update.parent.id : ''
   .field
     = f.label :message
     = f.text_field :message

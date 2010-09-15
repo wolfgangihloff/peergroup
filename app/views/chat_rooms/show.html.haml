@@ -8,9 +8,6 @@
       %ul.chat_updates
         - @chat_room.chat_updates.root.not_new.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update
-          %ul.children
-            - chat_update.children.not_new.each do |child_chat_update|
-              =render "chat_updates/chat_update", :object => child_chat_update
         %a.chat_end{:name => 'chat_end'}
     .span-8.last
       = render "chat_rules/chat_rules"

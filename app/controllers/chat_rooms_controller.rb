@@ -38,3 +38,4 @@ class ChatRoomsController < ApplicationController
     @chat_room = ChatRoom.find(params[:id])
   end
 end
+

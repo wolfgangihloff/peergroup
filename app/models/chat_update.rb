@@ -6,7 +6,7 @@ class ChatUpdate
   key :login, String
   key :message, String
   key :state, String
-  key :chat_update_id, BSON::ObjectID
+  key :parent_id, BSON::ObjectID
 
   timestamps!
 
@@ -23,6 +23,16 @@ class ChatUpdate
   scope :not_new, :conditions => {:state => ["uncommited", "commited"]}
 
   scope :root, :conditions => {:parent_id => nil}
+
+  def attach_parent!(parent_id)
+    new_parent = ChatUpdate.find(parent_id)
+    return if new_parent == self.parent || new_parent.nil?
+
+    self.parent = new_parent
+    self.parent.children << self unless parent.children.include?(self)
+    parent.save!
+    save!
+  end
 
   def update_message!(new_message)
     unless new_message == self.message || [new_message, message].all? {|s| s.blank?}
