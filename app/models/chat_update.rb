@@ -14,6 +14,8 @@ class ChatUpdate
   validates_numericality_of :user_id, :allow_nil => true
   validates_true_for :state, :logic => lambda { %w{new uncommited commited}.include?(state) }
 
+  before_save lambda {|u| u.parent.save! unless u.parent.nil?}
+
   belongs_to :parent, :class_name => "ChatUpdate"
   many :children, :class_name => "ChatUpdate"
 

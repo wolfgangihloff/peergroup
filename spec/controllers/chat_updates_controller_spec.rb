@@ -68,8 +68,11 @@ describe ChatUpdatesController do
 
       describe "the response body" do
         before do
-          @outdated_update = past_chat_update(:created_at => 10.seconds.ago,
+          @outdated_update = past_chat_update(:updated_at => 10.seconds.ago,
             :chat_room => @chat_room, :state => "commited")
+          @child_update = Factory(:chat_update,
+            :chat_room => @chat_room, :state => "commited")
+          @child_update.attach_parent!(@chat_update.id)
 
           @update.call('json')
           @response = JSON.load(response.body)
@@ -82,6 +85,10 @@ describe ChatUpdatesController do
 
           it "should contain ids of missing updates" do
             @response["feeds"].first["id"].should == "chat_update_#{@chat_update.id.to_s}"
+          end
+
+          it "should not contain child updates" do
+            @response["feeds"].size.should == 1
           end
         end
 

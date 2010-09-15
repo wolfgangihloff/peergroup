@@ -84,5 +84,13 @@ describe ChatUpdate do
     chat_update = Factory(:chat_update)
     chat_update.reload.state.should == "new"
   end
+
+  it "should touch parent after updating" do
+    parent_update = past_chat_update(:updated_at => 1.hour.ago)
+    child_update = Factory(:chat_update, :parent_id => parent_update.id)
+
+    child_update.update_attributes(:message => "new message")
+    parent_update.reload.updated_at.should > 1.second.ago
+  end
 end
 

@@ -7,6 +7,7 @@ jQuery(document).ready(function($) {
       var chatUpdateUrl = $('form.edit_chat_update', container).attr('action');
       var chatRoomUrl = chatUpdateUrl.replace(/\/chat_updates.+/, '');
       var chatUpdates = $(".chat_updates", container);
+      var activeUpdateId;
 
       function scrollUpdates() {
         chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
@@ -29,6 +30,8 @@ jQuery(document).ready(function($) {
                 $('#' + feed.id, container).replaceWith(feed.update);
               };
             });
+
+            $('#' + activeUpdateId, container).addClass('active');
 
             lastUpdate = data.timestamp;
             setTimeout(updateChat, 1000);
@@ -58,6 +61,9 @@ jQuery(document).ready(function($) {
 
       $('.chat_update.root', container).live('click', function() {
         var chatUpdate = $(this);
+        $('.chat_update', container).removeClass('active');
+        chatUpdate.addClass('active');
+        activeUpdateId = chatUpdate.attr('id');
         var id = $('.reply a', chatUpdate).attr('href').replace('#', '');
         $('form.edit_chat_update #parent_id', container).val(id);
       });

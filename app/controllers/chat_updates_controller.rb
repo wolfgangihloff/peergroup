@@ -15,7 +15,7 @@ class ChatUpdatesController < ApplicationController
       render :partial => "form", :layout => false
     when "update"
       @chat_update.update_message!(params[:chat_update][:message])
-      @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new
+      @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new.root
       render :action => "index"
     else
       raise "Bad update type: #{params[:update_type].inspect}"
