@@ -2,11 +2,11 @@
 
 #chat.span-24.last
   .hidden.timestamp= Time.now.to_i
-  = render "chat_users/chat_users", :object => @users_on_chat
+  = render "chat_users/chat_users"
   .main.span-24.last
     .span-16
       %ul.chat_updates
-        - @chat_room.chat_updates.each do |chat_update|
+        - @chat_room.chat_updates.not_new.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update
         %a.chat_end{:name => 'chat_end'}
     .span-8.last

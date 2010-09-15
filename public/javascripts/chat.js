@@ -16,20 +16,23 @@ jQuery(document).ready(function($) {
 
 
       function updateChat() {
-        $.getJSON(chatRoomUrl + '/chat_updates', {last_update: lastUpdate}, function(data) {
-          $.each(data.feeds, function(i, feed) {
-            if(document.getElementById(feed.id) == null) {
-              chatUpdates.append(feed.update);
-              $('#' + feed.id, container).hide().fadeIn(500);
-              scrollUpdates();
-            } else {
-              $('#' + feed.id, container).replaceWith(feed.update);
-            };
-          });
+        $('form.edit_chat_update', container).ajaxSubmit({
+          data: {update_type: 'update', last_update: lastUpdate},
+          dataType: 'json',
+          success: function(data) {
+            $.each(data.feeds, function(i, feed) {
+              if(document.getElementById(feed.id) == null) {
+                chatUpdates.append(feed.update);
+                $('#' + feed.id, container).hide().fadeIn(500);
+                scrollUpdates();
+              } else {
+                $('#' + feed.id, container).replaceWith(feed.update);
+              };
+            });
 
-          lastUpdate = data.timestamp;
-          setTimeout(updateChat, 1000);
-
+            lastUpdate = data.timestamp;
+            setTimeout(updateChat, 1000);
+          }
         });
 
         $.get(chatRoomUrl + '/chat_users', function(data) {

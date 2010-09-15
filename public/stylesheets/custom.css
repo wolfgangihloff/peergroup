@@ -174,6 +174,8 @@ form.new_micropost {
   border: 1px solid;
   padding: 3px;
   overflow: auto; }
+#chat li.chat_update.uncommited div.message {
+  color: green; }
 #chat li.chat_update div {
   display: inline; }
   #chat li.chat_update div.login {
@@ -184,15 +186,15 @@ ul.chatting_users {
   list-style: none;
   overflow: hidden;
   margin-bottom: 0; }
-  ul.chatting_users li.chat_user.leader .brief {
-    background-color: yellow; }
-  ul.chatting_users li.chat_user.problem_owner .brief {
-    background-color: green; }
   ul.chatting_users li.chat_user {
     float: left;
     margin-right: 10px;
     padding: 2px;
     width: 100px; }
+    ul.chatting_users li.chat_user.leader .brief {
+      background-color: yellow; }
+    ul.chatting_users li.chat_user.problem_owner .brief {
+      background-color: green; }
     ul.chatting_users li.chat_user img {
       margin-left: 20px; }
     ul.chatting_users li.chat_user p {
@@ -200,6 +202,8 @@ ul.chatting_users {
       margin: 0; }
     ul.chatting_users li.chat_user .brief {
       border: 1px solid black; }
+    ul.chatting_users li.chat_user.active {
+      background-color: #cfffcf; }
   ul.chatting_users ul.actions {
     list-style: none;
     color: #888888; }

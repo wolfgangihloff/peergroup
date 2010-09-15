@@ -293,15 +293,6 @@ describe User do
     end
   end
 
-  describe "beeing_in_chat_room named scope" do
-    it "should find only people beeing on chat within 10 seconds" do
-      chat_room = Factory(:chat_room)
-      user = Factory(:chat_user, :updated_at => 11.seconds.ago, :chat_room => chat_room).user
-      beeing_on_chat = Factory(:chat_user, :chat_room => chat_room).user
-      User.beeing_in_chat_room(chat_room).all.should == [beeing_on_chat]
-    end
-  end
-
   describe "seen_on_chat!" do
     before do
       @user = Factory(:user)

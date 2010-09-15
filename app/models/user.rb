@@ -47,11 +47,6 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  named_scope :beeing_in_chat_room, lambda {|chat_room| {
-    :include => :chat_users,
-    :conditions => ["chat_users.updated_at > ? AND chat_users.chat_room_id = ?", 10.seconds.ago, chat_room.id],
-    :order => "users.name ASC"} }
-
   # Return true if the user's password matches the submitted password.
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)

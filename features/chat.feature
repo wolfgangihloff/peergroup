@@ -14,6 +14,7 @@ Feature: Chat
   Scenario: Posting message
     When I fill in "Message" with "Hi all"
     And I press "Send"
+    When I am on the "Funny" group chat
     Then I should see "Hi all" within ".chat_update .message"
     And I should see "Tom" within ".chat_update .login"
 
@@ -28,4 +29,9 @@ Feature: Chat
     And I should see "Hi Tom"
     And I should see "John"
     And I should see "Decide on Leader" within "ul.rules li.current:first-child"
+
+  @javascript
+  Scenario: Receiving active user notification
+    When I fill in "Message" with "I am currently writing"
+    Then I should see "Tom" within ".chat_user.active"
 

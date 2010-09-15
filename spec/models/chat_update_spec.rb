@@ -27,6 +27,18 @@ describe ChatUpdate do
     end
   end
 
+  describe "not_new scope" do
+    before do
+      @new = Factory(:chat_update)
+      @uncommited = Factory(:chat_update, :state => "uncommited")
+      @commited = Factory(:chat_update, :state => "commited")
+    end
+
+    it "should return only commited and uncommited updates" do
+      ChatUpdate.not_new.all.should =~ [@uncommited, @commited]
+    end
+  end
+
   describe "commit_message!" do
     before do
       @chat_update = Factory(:chat_update)

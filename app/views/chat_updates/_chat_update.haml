@@ -1,4 +1,4 @@
-%li[chat_update]
+%li[chat_update]{:class => chat_update.state}
   .time= l chat_update.created_at, :format => :short
   .login= chat_update.login
   .message= chat_update.message

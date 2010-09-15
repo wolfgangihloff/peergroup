@@ -16,8 +16,10 @@ class ChatUpdate
   # -1 second needed as time in database is saved without usec part
   scope :newer_than, lambda {|time| {:updated_at.gte => time.utc - 1.second}}
 
+  scope :not_new, :conditions => {:state => ["uncommited", "commited"]}
+
   def update_message!(new_message)
-    unless new_message == self.message
+    unless new_message == self.message || [new_message, message].all? {|s| s.blank?}
       self.message = new_message
       self.state = "uncommited"
       save!

@@ -25,6 +25,7 @@ Factory.define :chat_update do |chat_update|
 end
 
 Factory.define(:funny_chat_update, :parent => :chat_update) do |funny_chat_update|
+  funny_chat_update.state "commited"
   funny_chat_update.chat_room_id do
     group = Group.find_by_name("Funny") || Factory(:group, :name => "Funny")
     group.chat_room.id
