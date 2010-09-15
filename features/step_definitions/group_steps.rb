@@ -38,3 +38,19 @@ When /^the "([^"]*)" group chat current rule changes to "([^"]*)"$/ do |group_na
   chat_room.save!
 end
 
+Given /^the chat message exists with message "([^"]*)" within "([^"]*)" thread$/ do |message, parent_message|
+  parent = ChatUpdate.find_by_message(parent_message)
+  user = User.first
+  parent.children << Factory(:chat_update, :chat_room => parent.chat_room, :user => user,
+    :parent => parent, :state => "commited", :message => message)
+  parent.save!
+end
+
+Then /^I should see "([^"]*)" within "([^"]*)" thread$/ do |message, parent_message|
+  parent = ChatUpdate.find_by_message(parent_message)
+  parent_dom_id = "chat_update_#{parent.id}"
+  with_scope("##{parent_dom_id}") do
+    page.should have_content(message)
+  end
+end
+

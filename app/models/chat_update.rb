@@ -6,6 +6,7 @@ class ChatUpdate
   key :login, String
   key :message, String
   key :state, String
+  key :chat_update_id, BSON::ObjectID
 
   timestamps!
 
@@ -13,10 +14,15 @@ class ChatUpdate
   validates_numericality_of :user_id, :allow_nil => true
   validates_true_for :state, :logic => lambda { %w{new uncommited commited}.include?(state) }
 
+  belongs_to :parent, :class_name => "ChatUpdate"
+  many :children, :class_name => "ChatUpdate"
+
   # -1 second needed as time in database is saved without usec part
   scope :newer_than, lambda {|time| {:updated_at.gte => time.utc - 1.second}}
 
   scope :not_new, :conditions => {:state => ["uncommited", "commited"]}
+
+  scope :root, :conditions => {:parent_id => nil}
 
   def update_message!(new_message)
     unless new_message == self.message || [new_message, message].all? {|s| s.blank?}
@@ -43,6 +49,10 @@ class ChatUpdate
 
   def chat_room=(chat_room)
     self.chat_room_id = chat_room.id
+  end
+
+  def chat_room
+    ChatRoom.find_by_id(chat_room_id)
   end
 
   def state
