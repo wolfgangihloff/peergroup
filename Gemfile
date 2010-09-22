@@ -8,10 +8,13 @@ gem "bson_ext"
 gem "haml"
 gem "thin"
 gem "bundler", ">=1.0.0"
-gem "pg"
 gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
+
+group :staging do   
+  gem "pg" 
+end 
 
 group :test do
   gem "rspec-rails"
