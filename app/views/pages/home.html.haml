@@ -9,9 +9,10 @@
         = render 'pages/user_info'
         = render 'pages/stats'
 - else
-  %h1 Sample App Home
+  %h1 Peer Supervision Groups
   %p
-    This is the home page for the
-    %a{:href => "http://www.railstutorial.org/"} Ruby on Rails Tutorial
-    sample application.
+    This is the live test site for the Peer Supervision Groups project, for questions or comments visit our
+    %a{:href => "http://github.com/wolfgangihloff/peergroupsupervision"} github site.
+  %h2 About Peer Supervision Groups
+  =render 'about'
   = link_to "Sign up now!", signup_path, :class => "signup_button round"
