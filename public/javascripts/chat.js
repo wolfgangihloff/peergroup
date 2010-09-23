@@ -31,7 +31,7 @@ jQuery(document).ready(function($) {
         function processChatFeed(data) {
           $.each(data.feeds, function(i, feed) {
             if(document.getElementById(feed.id) == null) {
-              chatUpdates.append(feed.update);
+              $('a.new_message', container).before(feed.update);
               $('#' + feed.id, container).hide().fadeIn(500);
               ViewHelper.scrollUpdates();
             } else {
