@@ -7,7 +7,7 @@ describe PagesController do
     #
     # Define @base_title here.
     #
-    @base_title = "Ruby on Rails Tutorial Sample App"
+    @base_title = "Peer Supervision Groups"
   end
   
   describe "GET 'contact'" do
