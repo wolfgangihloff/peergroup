@@ -32,6 +32,8 @@ class ChatUpdate
 
   scope :root, :conditions => {:parent_id => nil}
 
+  scope :by_created_at, :order => "created_at"
+
   def attach_parent!(parent_id)
     new_parent = ChatUpdate.find(parent_id)
     return if new_parent == self.parent || new_parent.nil?

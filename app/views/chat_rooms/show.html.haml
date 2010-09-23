@@ -6,7 +6,7 @@
   .main.span-24.last
     .span-16
       %ul.chat_updates
-        - @chat_room.chat_updates.root.not_new.each do |chat_update|
+        - @chat_room.chat_updates.root.not_new.by_created_at.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update
         %a.chat_end{:name => 'chat_end'}
         = link_to("new thread", "#", :class => :new_message)

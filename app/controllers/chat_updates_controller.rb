@@ -4,7 +4,7 @@ class ChatUpdatesController < ApplicationController
   before_filter :require_chat_room
 
   def index
-    @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new.root
+    @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new.root.by_created_at
     current_user.seen_on_chat!(@chat_room)
   end
 

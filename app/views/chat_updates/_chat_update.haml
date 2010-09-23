@@ -5,5 +5,5 @@
   - if chat_update.parent.nil?
     .reply= link_to "reply", "##{chat_update.id}"
   %ul.children
-    - chat_update.children.not_new.each do |child_chat_update|
+    - chat_update.children.not_new.by_created_at.each do |child_chat_update|
       = render "chat_updates/chat_update", :object => child_chat_update
