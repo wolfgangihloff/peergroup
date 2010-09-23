@@ -3,74 +3,156 @@ jQuery(document).ready(function($) {
   $.fn.chat = function() {
     this.each(function() {
       var container = this;
-      var lastUpdate = $('.timestamp', container).text();
-      var chatUpdateUrl = $('form.edit_chat_update', container).attr('action');
-      var chatRoomUrl = chatUpdateUrl.replace(/\/chat_updates.+/, '');
       var chatUpdates = $(".chat_updates", container);
-      var activeUpdateId;
+      var activeChatUpdateElementId;
 
-      function scrollUpdates() {
-        chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
-      };
+      //////////////// View helper
+      var ViewHelper = {
+        scrollUpdates: function() {
+          chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
+        }
+      }
 
-      scrollUpdates();
+      var UrlHelper = function() {
+        var base = $('form.edit_chat_update', container).attr('action').replace(/\/chat_updates.+/, '');
+        return {
+          chatRooms: base,
+          chatUpdates: base + '/chat_updates',
+          newChatUpdate: base + '/chat_updates/new',
+          chatRules: base + '/chat_rules',
+          chatUsers: base + '/chat_users'
+        };
+      }();
 
+      //////////////// Chat updates controller
+      var ChatUpdatesController = function() {
+        var lastUpdate = $('.timestamp', container).text();
 
-      function updateChat() {
-        $('form.edit_chat_update', container).ajaxSubmit({
-          data: {update_type: 'update', last_update: lastUpdate},
-          dataType: 'json',
-          success: function(data) {
-            $.each(data.feeds, function(i, feed) {
-              if(document.getElementById(feed.id) == null) {
-                chatUpdates.append(feed.update);
-                $('#' + feed.id, container).hide().fadeIn(500);
-                scrollUpdates();
-              } else {
-                $('#' + feed.id, container).replaceWith(feed.update);
-              };
+        function processChatFeed(data) {
+          $.each(data.feeds, function(i, feed) {
+            if(document.getElementById(feed.id) == null) {
+              chatUpdates.append(feed.update);
+              $('#' + feed.id, container).hide().fadeIn(500);
+              ViewHelper.scrollUpdates();
+            } else {
+              $('#' + feed.id, container).replaceWith(feed.update);
+            };
+          });
+
+          $('#' + activeChatUpdateElementId, container).addClass('active');
+
+          lastUpdate = data.timestamp;
+          setTimeout(queryChatFeed, 1000);
+        }
+
+        function queryChatFeed() {
+          $.get(UrlHelper.chatUpdates, {last_update: lastUpdate}, processChatFeed, 'json');
+        }
+
+        setTimeout(queryChatFeed, 1000);
+      }();
+
+      //////////////// MessagesController
+      var MessagesController = function() {
+        var activeChatUpdateId;
+        var dirty = false;
+
+        // As form is reloaded it must be lazy
+        function form() {
+          return $('form.edit_chat_update', container);
+        }
+
+        function submitMessage(callback, rejectBlank, updateOnly) {
+          var data = updateOnly ? {update_type: "update"} : {}
+          dirty = false;
+
+          function submit() {
+            form().ajaxSubmit({
+              success: function() {
+                if(callback) callback();
+              },
+              data: data
             });
-
-            $('#' + activeUpdateId, container).addClass('active');
-
-            lastUpdate = data.timestamp;
-            setTimeout(updateChat, 1000);
           }
+
+          if(rejectBlank) {
+            if($('#chat_update_message', form()).val().length < 1) {
+              if(callback) callback();
+            } else {
+              submit();
+            }
+          } else {
+            submit();
+          }
+        }
+
+        function getForm(parentID) {
+          $.get(UrlHelper.newChatUpdate, {parent_id: parentID}, function(data) {
+            form().replaceWith(data);
+            $('#chat_update_message').focus();
+          });
+        }
+
+        function pushUpdates() {
+          if(dirty) {
+            submitMessage(null, null, true);
+            dirty = false;
+          }
+          setTimeout(pushUpdates, 1000);
+        }
+        setTimeout(pushUpdates, 1000);
+
+        $('#chat_update_message', form()).live('keyup', function() {
+          dirty = true;
         });
 
-        $.get(chatRoomUrl + '/chat_users', function(data) {
+        form().live('submit', function() {
+          submitMessage(function() {
+            getForm(activeChatUpdateId);
+          });
+          return false;
+        });
+
+        $('.chat_update.root', container).live('click', function() {
+          var chatUpdate = $(this);
+          activeChatUpdateId = $('.reply a', chatUpdate).attr('href').replace('#', '');
+          activeChatUpdateElementId = chatUpdate.attr('id');
+
+          submitMessage(function() {
+            $('.chat_update').removeClass('active');
+            getForm(activeChatUpdateId);
+          }, true);
+        });
+
+        $('.new_message', container).click(function() {
+          activeChatUpdateElementId = activeChatUpdateId = undefined;
+          submitMessage(null, true);
+          getForm();
+        });
+
+      }();
+
+      // Chat users
+      function updateChatUsers() {
+        $.get(UrlHelper.chatUsers, function(data) {
           $('.chatting_users', container).replaceWith(data);
         });
+        setTimeout(updateChatUsers, 1000);
+      }
 
-        $.get(chatRoomUrl + '/chat_rules', function(data) {
+      setTimeout(updateChatUsers, 1000);
+
+      // Active rules
+      function updateChatRules() {
+        $.get(UrlHelper.chatRules, function(data) {
           $('.rules', container).replaceWith(data);
         });
-      };
+        setTimeout(updateChatRules, 1000);
+      }
 
-      $('form.edit_chat_update', container).live('submit', function() {
-        $(this).ajaxSubmit({
-          clearForm: true,
-          target: $('form.edit_chat_update', container),
-          replaceTarget: true,
-          success: function() {
-            $('#chat_update_message').focus();
-          }
-        });
-        return false;
-      });
-
-      $('.chat_update.root', container).live('click', function() {
-        var chatUpdate = $(this);
-        $('.chat_update', container).removeClass('active');
-        chatUpdate.addClass('active');
-        activeUpdateId = chatUpdate.attr('id');
-        var id = $('.reply a', chatUpdate).attr('href').replace('#', '');
-        $('form.edit_chat_update #parent_id', container).val(id);
-      });
-
-      setTimeout(updateChat, 1000);
+      setTimeout(updateChatRules, 1000);
     });
-  };
+  }
 
   $('#chat').chat();
 });

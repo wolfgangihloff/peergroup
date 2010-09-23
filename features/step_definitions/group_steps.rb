@@ -46,11 +46,12 @@ Given /^the chat message exists with message "([^"]*)" within "([^"]*)" thread$/
   parent.save!
 end
 
-Then /^I should see "([^"]*)" within "([^"]*)" thread$/ do |message, parent_message|
+Then /^I should (not |)?see "([^"]*)" within "([^"]*)" thread$/ do |negation, message, parent_message|
   parent = ChatUpdate.find_by_message(parent_message)
   parent_dom_id = "chat_update_#{parent.id}"
   with_scope("##{parent_dom_id}") do
-    page.should have_content(message)
+    expactation_verb = negation.blank? ? "should" : "should_not"
+    page.send(expactation_verb, have_content(message))
   end
 end
 

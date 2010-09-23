@@ -9,6 +9,7 @@
         - @chat_room.chat_updates.root.not_new.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update
         %a.chat_end{:name => 'chat_end'}
+        = link_to("new thread", "#", :class => :new_message)
     .span-8.last
       = render "chat_rules/chat_rules"
 

@@ -3,23 +3,24 @@ class ChatUpdatesController < ApplicationController
 
   before_filter :require_chat_room
 
-  def update
+  def index
+    @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new.root
     current_user.seen_on_chat!(@chat_room)
-    @chat_update = ChatUpdate.find(params[:id])
-    @chat_update.attach_parent!(params[:parent_id]) if params[:parent_id]
+  end
 
-    case params[:update_type]
-    when "commit"
-      @chat_update.commit_message!(params[:chat_update][:message])
-      @chat_update = initialized_chat_update
-      render :partial => "form", :layout => false
-    when "update"
-      @chat_update.update_message!(params[:chat_update][:message])
-      @chat_updates = @chat_room.chat_updates.newer_than(Time.at(params[:last_update].to_i)).not_new.root
-      render :action => "index"
-    else
-      raise "Bad update type: #{params[:update_type].inspect}"
-    end
+  def new
+    @chat_update = initialized_chat_update
+    @chat_update.attach_parent!(params[:parent_id]) unless params[:parent_id].blank?
+    render :partial => "form", :layout => false
+  end
+
+  def update
+    raise "Bad update type: #{params[:update_type].inspect}" unless
+      %w{commit update}.include?(params[:update_type])
+
+    @chat_update = ChatUpdate.find(params[:id])
+    @chat_update.send("#{params[:update_type]}_message!", params[:chat_update][:message])
+    render :nothing => true
   end
 
   protected
@@ -29,3 +30,4 @@ class ChatUpdatesController < ApplicationController
   end
 
 end
+
