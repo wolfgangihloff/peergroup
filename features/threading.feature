@@ -18,6 +18,7 @@ Feature: threading
     When I am on the "Funny" group chat
     And I follow "reply"
     And I fill in "Message" with "Hi you"
+    And I wait 1 second
     Then I should see "Hi you" within "Hi Tom" thread
 
   @javascript
