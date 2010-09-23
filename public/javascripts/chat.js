@@ -8,10 +8,14 @@ jQuery(document).ready(function($) {
 
       //////////////// View helper
       var ViewHelper = {
-        scrollUpdates: function() {
-          chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
+        scrollUpdates: function(callback) {
+          var scroll = chatUpdates.attr('clientHeight')  + chatUpdates.attr('scrollTop') == chatUpdates.attr('scrollHeight');
+          if(callback) callback();
+          if(!callback || scroll) {
+            chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
+          }
         }
-      }
+      };
 
       var UrlHelper = function() {
         var base = $('form.edit_chat_update', container).attr('action').replace(/\/chat_updates.+/, '');
@@ -29,17 +33,19 @@ jQuery(document).ready(function($) {
         var lastUpdate = $('.timestamp', container).text();
 
         function processChatFeed(data) {
-          $.each(data.feeds, function(i, feed) {
-            if(document.getElementById(feed.id) == null) {
-              $('a.new_message', container).before(feed.update);
-              $('#' + feed.id, container).hide().fadeIn(500);
-              ViewHelper.scrollUpdates();
-            } else {
-              $('#' + feed.id, container).replaceWith(feed.update);
-            };
+          ViewHelper.scrollUpdates(function() {
+            $.each(data.feeds, function(i, feed) {
+              if(document.getElementById(feed.id) == null) {
+                $('a.new_message', container).before(feed.update);
+                $('#' + feed.id, container).hide().fadeIn(500);
+              } else {
+                $('#' + feed.id, container).replaceWith(feed.update);
+              };
+            });
+
+            $('#' + activeChatUpdateElementId, container).addClass('active');
           });
 
-          $('#' + activeChatUpdateElementId, container).addClass('active');
 
           lastUpdate = data.timestamp;
           setTimeout(queryChatFeed, 1000);
@@ -151,6 +157,8 @@ jQuery(document).ready(function($) {
       }
 
       setTimeout(updateChatRules, 1000);
+
+      ViewHelper.scrollUpdates();
     });
   }
 
