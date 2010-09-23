@@ -22,6 +22,7 @@ module FactoryHelpers
   def past_chat_update(options)
     outdated = Factory.build(:chat_update, options)
     outdated.should_receive(:update_timestamps)
+    outdated.should_receive(:message_changed?).and_return(false)
     outdated.save!
     # Get rid of the mock
     ChatUpdate.find(outdated.id)

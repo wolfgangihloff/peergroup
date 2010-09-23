@@ -14,13 +14,13 @@ describe ChatUser do
 
     it "should admit when user wrote something within 3 seconds" do
       past_chat_update(:chat_room_id => @chat_room.id, :user_id => @user.id,
-        :updated_at => 2.seconds.ago)
+        :message_updated_at => 2.seconds.ago)
       @chat_user.active?.should be_true
     end
 
     it "should deny when user wrote something earlier then 3 seconds ago" do
       past_chat_update(:chat_room_id => @chat_room.id, :user_id => @user.id,
-        :updated_at => 4.seconds.ago)
+        :message_updated_at => 4.seconds.ago)
       @chat_user.active?.should be_false
     end
   end

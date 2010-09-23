@@ -9,8 +9,8 @@ class ChatUser < ActiveRecord::Base
   named_scope :by_username, :order => "users.name", :include => :user
 
   def active?
-    uptodate = ChatUpdate.newer_than(3.seconds.ago)
-    uptodate.first(:user_id => user.id, :chat_room_id => chat_room.id)
+    uptodate_chat_updates = ChatUpdate.with_message_updated_after(3.seconds.ago)
+    uptodate_chat_updates.first(:user_id => user.id, :chat_room_id => chat_room.id)
   end
 end
 

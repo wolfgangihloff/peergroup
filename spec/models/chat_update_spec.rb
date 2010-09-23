@@ -2,14 +2,6 @@ require 'spec_helper'
 
 describe ChatUpdate do
 
-  def past_chat_update(options)
-    outdated = Factory.build(:chat_update, options)
-    outdated.should_receive(:update_timestamps)
-    outdated.save!
-    # Get rid of the mock
-    ChatUpdate.find(outdated.id)
-  end
-
   it "should create a new instance given valid attributes" do
     Factory(:chat_update)
   end
@@ -80,6 +72,22 @@ describe ChatUpdate do
     end
   end
 
+  describe "message_updated_at" do
+    before do
+      @chat_update = past_chat_update(:message_updated_at => 1.hour.ago)
+    end
+
+    it "should be modified after message has been changed" do
+      @chat_update.update_attributes!(:message => "Changed message")
+      @chat_update.reload.message_updated_at.should > 1.minute.ago
+    end
+
+    it "should not be modified after message has not been changed" do
+      @chat_update.update_attributes!(:state => :commited)
+      @chat_update.reload.message_updated_at.should < 50.minutes.ago
+    end
+  end
+
   it "should be in new state after creating" do
     chat_update = Factory(:chat_update)
     chat_update.reload.state.should == "new"
@@ -92,5 +100,6 @@ describe ChatUpdate do
     child_update.update_attributes(:message => "new message")
     parent_update.reload.updated_at.should > 1.second.ago
   end
+
 end
 
