@@ -78,6 +78,5 @@ class ChatUpdate
   def state
     read_attribute(:state) || "new"
   end
-
 end
 

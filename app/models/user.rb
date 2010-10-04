@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation
   
-  has_many :microposts, :dependent => :destroy
   has_many :relationships, :foreign_key => "follower_id",
                            :dependent => :destroy
   has_many :following, :through => :relationships, :source => :followed
@@ -73,10 +72,6 @@ class User < ActiveRecord::Base
 
   def unfollow!(followed)
     relationships.find_by_followed_id(followed).destroy
-  end
-
-  def feed
-    Micropost.from_users_followed_by(self)
   end
 
   def seen_on_chat!(chat_room)

@@ -6,14 +6,14 @@ gem "will_paginate"
 gem "mongo_mapper"
 gem "bson_ext"
 gem "haml"
-gem "thin"
 gem "bundler", ">=1.0.0"
 gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
 
-group :staging do   
-  gem "pg" 
+group :staging do
+  gem "pg"
+  gem "thin"
 end 
 
 group :test do

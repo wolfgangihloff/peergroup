@@ -11,12 +11,6 @@ Factory.define :chat_user do |chat_user|
   chat_user.chat_room { Factory(:chat_room) }
 end
 
-
-Factory.define :micropost do |micropost|
-  micropost.content "Foo bar"
-  micropost.association :user
-end
-
 Factory.define :chat_update do |chat_update|
   chat_update.user_id { Factory(:user).id }
   chat_update.chat_room_id { Factory(:chat_room).id }
