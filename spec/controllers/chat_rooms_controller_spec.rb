@@ -31,27 +31,45 @@ describe ChatRoomsController do
     end
   end
 
-  describe "POST select_leader" do
-    it "should mark user as a leader" do
-      post :select_leader, :id => @chat_room.id, :user_id => @user.id
-      @chat_room.reload.leader.should == @user
+  context "roles selection" do
+    def post_select(role, format)
+      post "select_#{role}", :id => @chat_room.id, :user_id => @user.id,
+        :format => format
+      @chat_room.reload
     end
 
-    it "should redirect to chat_room page" do
-      post :select_leader, :id => @chat_room.id, :user_id => @user.id
-      response.should redirect_to(chat_room_path(@chat_room))
-    end
-  end
+    describe "POST select_leader" do
+      context "when requesting html format" do
+        before { post_select('leader', 'html') }
 
-  describe "POST select_problem_owner" do
-    it "should mark user as a problem owner" do
-      post :select_problem_owner, :id => @chat_room.id, :user_id => @user.id
-      @chat_room.reload.problem_owner.should == @user
+        specify { @response.should redirect_to(chat_room_path(@chat_room)) }
+        specify { @chat_room.leader.should == @user }
+      end
+
+      context "when requesting js format" do
+        before { post_select('leader', 'json') }
+
+        specify { @response.should be_success }
+        specify { @response.body.should be_blank }
+        specify { @chat_room.leader.should == @user }
+      end
     end
 
-    it "should redirect to chat_room page" do
-      post :select_problem_owner, :id => @chat_room.id, :user_id => @user.id
-      response.should redirect_to(chat_room_path(@chat_room))
+    describe "POST select_problem_owner" do
+      context "when requesting html format" do
+        before { post_select('problem_owner', 'html') }
+
+        specify { @response.should redirect_to(chat_room_path(@chat_room)) }
+        specify { @chat_room.problem_owner.should == @user }
+      end
+
+      context "when requesting js format" do
+        before { post_select('problem_owner', 'json') }
+
+        specify { @response.should be_success }
+        specify { @response.body.should be_blank }
+        specify { @chat_room.problem_owner.should == @user }
+      end
     end
   end
 

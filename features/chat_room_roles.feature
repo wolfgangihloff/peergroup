@@ -7,6 +7,7 @@ Feature: Chat room roles
     Given the group exists with name: "Funny"
     And the user "A" is the member of the group "Funny"
 
+  @javascript
   Scenario: Selecting the leader and problem owner
     When the user "A" is signed in
     And I am on the "Funny" group chat

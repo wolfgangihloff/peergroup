@@ -13,13 +13,21 @@ class ChatRoomsController < ApplicationController
   def select_leader
     @chat_room.leader = @user
     @chat_room.save!
-    redirect_to @chat_room
+
+    respond_to do |format|
+      format.html { redirect_to @chat_room }
+      format.json { render :nothing => true }
+    end
   end
 
   def select_problem_owner
     @chat_room.problem_owner = @user
     @chat_room.save!
-    redirect_to @chat_room
+
+    respond_to do |format|
+      format.html { redirect_to @chat_room }
+      format.json { render :nothing => true }
+    end
   end
 
   def select_current_rule

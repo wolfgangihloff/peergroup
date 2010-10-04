@@ -49,7 +49,6 @@ jQuery(document).ready(function($) {
             $('#' + activeChatUpdateElementId, container).addClass('active');
           });
 
-
           lastUpdate = data.timestamp;
           setTimeout(queryChatFeed, 1000);
         }
@@ -148,6 +147,7 @@ jQuery(document).ready(function($) {
           ViewHelper.replaceWithSpinner(this);
         });
 
+        // TODO: extract into periodically updater?
         function updateChatRules() {
           $.get(UrlHelper.chatRules, function(data) {
             $('.rules', container).replaceWith(data);
@@ -159,14 +159,22 @@ jQuery(document).ready(function($) {
       }();
 
       // Chat users
-      function updateChatUsers() {
-        $.get(UrlHelper.chatUsers, function(data) {
-          $('.chatting_users', container).replaceWith(data);
+      var ChatUsersController = function() {
+        $('ul.chatting_users ul.actions a', container).live('click', function(e) {
+          $.post($(this).attr('href').gsub('#', ''), null, null, 'json');
+          ViewHelper.replaceWithSpinner(this);
         });
-        setTimeout(updateChatUsers, 1000);
-      }
 
-      setTimeout(updateChatUsers, 1000);
+        // TODO: extract into periodically updater?
+        function updateChatUsers() {
+          $.get(UrlHelper.chatUsers, function(data) {
+            $('.chatting_users', container).replaceWith(data);
+          });
+          setTimeout(updateChatUsers, 1000);
+        }
+
+        setTimeout(updateChatUsers, 1000);
+      }();
 
       ViewHelper.scrollUpdates();
     });

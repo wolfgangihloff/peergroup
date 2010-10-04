@@ -4,7 +4,7 @@ module ChatRoomsHelper
     return "Leader" if user == chat_room.leader
 
     path = select_leader_chat_room_path(@chat_room, :user_id => user.id)
-    link_to "Leader", path, :method => :post
+    link_to "Leader", "#" + path
   end
 
   def select_problem_owner_link(chat_room, chat_user)
@@ -13,7 +13,7 @@ module ChatRoomsHelper
 
     if current_user == @chat_room.leader
       path = select_problem_owner_chat_room_path(@chat_room, :user_id => user.id)
-      link_to "Problem owner", path, :method => :post
+      link_to "Problem owner", "#" + path
     end
   end
 
