@@ -14,6 +14,9 @@ jQuery(document).ready(function($) {
           if(!callback || scroll) {
             chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
           }
+        },
+        replaceWithSpinner: function(element) {
+          $(element).replaceWith("<img src='/images/ajax-loader.gif' alt='spinner' />");
         }
       };
 
@@ -138,6 +141,23 @@ jQuery(document).ready(function($) {
 
       }();
 
+      ////////////// Chat rules controller
+      var ChatRulesController = function() {
+        $('ul.rules ul.actions a', container).live('click', function(e) {
+          $.post($(this).attr('href').gsub('#', ''), null, null, 'json');
+          ViewHelper.replaceWithSpinner(this);
+        });
+
+        function updateChatRules() {
+          $.get(UrlHelper.chatRules, function(data) {
+            $('.rules', container).replaceWith(data);
+          });
+          setTimeout(updateChatRules, 1000);
+        }
+
+        setTimeout(updateChatRules, 1000);
+      }();
+
       // Chat users
       function updateChatUsers() {
         $.get(UrlHelper.chatUsers, function(data) {
@@ -147,16 +167,6 @@ jQuery(document).ready(function($) {
       }
 
       setTimeout(updateChatUsers, 1000);
-
-      // Active rules
-      function updateChatRules() {
-        $.get(UrlHelper.chatRules, function(data) {
-          $('.rules', container).replaceWith(data);
-        });
-        setTimeout(updateChatRules, 1000);
-      }
-
-      setTimeout(updateChatRules, 1000);
 
       ViewHelper.scrollUpdates();
     });

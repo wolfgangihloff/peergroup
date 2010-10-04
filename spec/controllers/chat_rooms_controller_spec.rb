@@ -54,5 +54,29 @@ describe ChatRoomsController do
       response.should redirect_to(chat_room_path(@chat_room))
     end
   end
+
+  describe "POST select_current_rule" do
+    before { @rule = @chat_room.group.rules.all.sample }
+
+    def post_with(format)
+      post :select_current_rule, :id => @chat_room.id, :rule_id => @rule.id, :format => format
+      @chat_room.reload
+    end
+
+    context "when requesting html format" do
+      before { post_with('html') }
+
+      specify { @response.should redirect_to(chat_room_path(@chat_room)) }
+      specify { @chat_room.current_rule.should == @rule }
+    end
+
+    context "when requesting js format" do
+      before { post_with('json') }
+
+      specify { @response.should be_success }
+      specify { @response.body.should be_blank }
+      specify { @chat_room.current_rule.should == @rule }
+    end
+  end
 end
 
