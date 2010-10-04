@@ -1,0 +1,9 @@
+.span-7.group_brief.round
+  .inner
+    .title= link_to group_name(group, current_user), group
+    .description= markdown(group.description)
+    %ul.actions
+      %li= link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
+      %li= link_to 'Edit', edit_group_path(group.id)
+      %li= change_group_membership_link(current_user, group)
+      %li= link_to "Chat", chat_room_path(group.chat_room)

@@ -12,7 +12,7 @@ Feature: Manage groups
     When I fill in "Name" with "Newcomers"
     When I fill in "Description" with "New group description"
     And I press "Create Group"
-    Then I should see "User Groups List"
+    Then I should see "Your Groups"
     And I should see "Newcomers*"
 
   Scenario: Browsing my groups

@@ -3,6 +3,7 @@ class GroupsController < ApplicationController
   before_filter :require_group, :except => [:index, :new, :create]
 
   def index
+    @title = params[:all] ? 'All Groups' : 'Your Groups'
     @groups = params[:all] ? Group.all : current_user.groups
   end
 

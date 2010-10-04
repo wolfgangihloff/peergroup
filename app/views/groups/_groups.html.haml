@@ -1,26 +1,3 @@
-%table
-  %tr
-    %td
-      %table
-        %tr
-          %th Group Name
-          %th Delete
-          %th Edit
-          %th Membership
-          %th Chat
-        - if groups
-          - groups.each do |group|
-            %tr
-              %td
-                = link_to group_name(group, current_user), group
-              %td
-                = link_to "delete", delete_group_path(group.id), :method => :delete, :confirm => "You sure?"
-              %td
-                = link_to 'Edit', edit_group_path(group.id)
-              %td
-                = change_group_membership_link(current_user, group)
-              %td
-                = link_to "Chat", chat_room_path(group.chat_room)
-        - else
-          %tr
-            %td
+- groups.each do |group|
+  = render 'group_brief', :group => group
+

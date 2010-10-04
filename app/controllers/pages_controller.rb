@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   def home
     @title = "Home"
+    render :action => signed_in? ? 'home_member' : 'home_guest'
   end
 
   def contact

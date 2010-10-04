@@ -75,15 +75,7 @@ a.signup_button {
     float: none; }
 
 /* User show page */
-table.profile {
-  width: 100%;
-  margin-bottom: 0; }
-
-td.main {
-  width: 70%;
-  padding: 1em; }
-td.sidebar {
-  width: 30%;
+.sidebar {
   padding: 1em;
   vertical-align: top;
   background: #ffffcc; }
@@ -202,3 +194,19 @@ ul.rules {
     border: 1px solid black; }
   ul.rules ul, ul.rules ul li, ul.rules p {
     display: inline; }
+
+#content .group_brief {
+  background: #eeeeee;
+  margin: 0 25px 10px 0; }
+  #content .group_brief .inner {
+    width: 254 px;
+    margin: 8px; }
+    #content .group_brief .inner .title {
+      border-bottom: 1px solid; }
+    #content .group_brief .inner ul.actions {
+      margin: 0;
+      list-style-type: none;
+      font-size: 0.9em; }
+      #content .group_brief .inner ul.actions li {
+        float: right;
+        margin-left: 5px; }

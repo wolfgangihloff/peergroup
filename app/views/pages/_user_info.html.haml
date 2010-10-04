@@ -2,4 +2,4 @@
   %a{:href => user_path(current_user)}
     = gravatar_for current_user, :size => 30
     %span.user_name
-      = h current_user.name
+      = current_user.name

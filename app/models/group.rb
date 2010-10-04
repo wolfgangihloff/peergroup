@@ -17,6 +17,8 @@ class Group < ActiveRecord::Base
 
   has_friendly_id :name, :use_slug => true
 
+  named_scope :newest, :order => 'created_at desc', :limit => 6
+
   attr_protected :created_at
 
   after_create lambda {|group| group.add_member!(group.founder)}
