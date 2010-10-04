@@ -1,17 +1,17 @@
 - @title = "#{@chat_room.group.name} Group Chat"
 
-#chat.span-24.last
+#chat.span-23.last
   .hidden.timestamp= Time.now.to_i
   = render "chat_users/chat_users"
-  .main.span-24.last
+  .main.span-23.last
     .span-16
       %ul.chat_updates
         - @chat_room.chat_updates.root.not_new.by_created_at.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update
         %a.chat_end{:name => 'chat_end'}
         = link_to("new thread", "#", :class => :new_message)
-    .span-8.last
+      = render "chat_updates/form"
+    .span-7.last
       = render "chat_rules/chat_rules"
 
-  = render "chat_updates/form"
 

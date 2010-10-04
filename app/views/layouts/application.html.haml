@@ -11,7 +11,7 @@
     .container
       = render 'layouts/header'
 
-      #content.round.span-24.last
+      #content.round.span-23.last
         - flash.each do |key, value|
           %div{:class => "flash #{key}"}= value
         = yield
