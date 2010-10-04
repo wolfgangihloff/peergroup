@@ -141,27 +141,6 @@ ul.users
 .users li
   list-style: none
 
-/* CSS for the microposts
-
-h2.micropost
-  margin-bottom: 0
-
-table.microposts tr
-  height: 70px
-  td
-    &.gravatar
-      border-top: 1px solid #ccc
-      vertical-align: top
-      width: 50px
-    &.micropost
-      border-top: 1px solid #ccc
-      vertical-align: top
-      padding-top: 10px
-      span.timestamp
-        display: block
-        font-size: 85%
-        color: #666
-
 div.user_info
   img
     padding-right: 0.1em
@@ -170,14 +149,6 @@ div.user_info
   span
     &.user_name
       position: absolute
-    &.microposts
-      font-size: 80%
-
-form.new_micropost
-  margin-bottom: 2em
-  textarea
-    height: 4em
-    margin-bottom: 0
 
 /* CSS for chat
 
@@ -185,7 +156,7 @@ form.new_micropost
   ul.chat_updates
     height: 300px
     border: 1px solid
-    margin-right: 0
+    margin: 0 0 0 1.5em
     padding: 3px
     overflow: auto
   li.chat_update
@@ -226,8 +197,18 @@ ul.chatting_users
     list-style: none
     color: #888
 
+form.edit_chat_update .field
+  margin-left: 1.5em
+  label
+    display: inline
+    margin-right: 10px
+  #chat_update_message
+    width: 440px
+  #chat_update_submit
+    width: 104px
+
 ul.rules
-  margin-left: 0
+  margin: 0 1.5em 0 0
   li
     list-style-type: none
     padding: 3px
