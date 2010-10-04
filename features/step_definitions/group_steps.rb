@@ -55,3 +55,6 @@ Then /^I should (not |)?see "([^"]*)" within "([^"]*)" thread$/ do |negation, me
   end
 end
 
+Then /^I should not see any active chat update$/ do
+  page.should_not have_css('.chat_update.active')
+end

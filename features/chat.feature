@@ -35,3 +35,10 @@ Feature: Chat
     When I fill in "Message" with "I am currently writing"
     Then I should see "Tom" within ".chat_user.active"
 
+  @javascript
+  Scenario: Creating new thread
+    When I follow "reply"
+    Then I should see "Tom" within ".chat_update.active"
+    When I follow "new thread"
+    Then I should not see any active chat update
+

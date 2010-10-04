@@ -132,7 +132,7 @@ jQuery(document).ready(function($) {
 
         $('.new_message', container).click(function() {
           activeChatUpdateElementId = activeChatUpdateId = undefined;
-          submitMessage(null, true);
+          submitMessage(function() { $('.chat_update').removeClass('active'); }, true);
           getForm();
         });
 
