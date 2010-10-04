@@ -169,8 +169,8 @@ form.new_micropost {
 /* CSS for chat */
 #chat ul.chat_updates {
   height: 300px;
-  margin-top: 10px;
   border: 1px solid;
+  margin-right: 0;
   padding: 3px;
   overflow: auto; }
 #chat li.chat_update.active {
@@ -209,12 +209,14 @@ ul.chatting_users {
     list-style: none;
     color: #888888; }
 
-ul.rules li {
-  list-style-type: none;
-  padding: 3px; }
-ul.rules li.current {
-  background-color: yellow; }
-ul.rules li.rule {
-  border: 1px solid black; }
-ul.rules ul, ul.rules ul li, ul.rules p {
-  display: inline; }
+ul.rules {
+  margin-left: 0; }
+  ul.rules li {
+    list-style-type: none;
+    padding: 3px; }
+  ul.rules li.current {
+    background-color: yellow; }
+  ul.rules li.rule {
+    border: 1px solid black; }
+  ul.rules ul, ul.rules ul li, ul.rules p {
+    display: inline; }
