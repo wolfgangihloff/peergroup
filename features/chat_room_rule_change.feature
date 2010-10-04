@@ -3,6 +3,7 @@ Feature: Chat room rule change
   As a peer group supervision process member
   I want to change current rule
 
+  @javascript
   Scenario: Change rule
     Given the group exists with name: "Funny"
     And the user "Tom" is signed in
