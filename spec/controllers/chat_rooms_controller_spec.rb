@@ -32,65 +32,36 @@ describe ChatRoomsController do
   end
 
   context "roles selection" do
-    def post_select(role, format)
-      post "select_#{role}", :id => @chat_room.id, :user_id => @user.id,
-        :format => format
+    def post_select(role)
+      post "select_#{role}", :id => @chat_room.id, :user_id => @user.id
       @chat_room.reload
     end
 
     describe "POST select_leader" do
-      context "when requesting html format" do
-        before { post_select('leader', 'html') }
+      before { post_select('leader') }
 
-        specify { @response.should redirect_to(chat_room_path(@chat_room)) }
-        specify { @chat_room.leader.should == @user }
-      end
-
-      context "when requesting js format" do
-        before { post_select('leader', 'json') }
-
-        specify { @response.should be_success }
-        specify { @response.body.should be_blank }
-        specify { @chat_room.leader.should == @user }
-      end
+      specify { @response.should be_success }
+      specify { @response.body.should be_blank }
+      specify { @chat_room.leader.should == @user }
     end
 
     describe "POST select_problem_owner" do
-      context "when requesting html format" do
-        before { post_select('problem_owner', 'html') }
+      before { post_select('problem_owner') }
 
-        specify { @response.should redirect_to(chat_room_path(@chat_room)) }
-        specify { @chat_room.problem_owner.should == @user }
-      end
-
-      context "when requesting js format" do
-        before { post_select('problem_owner', 'json') }
-
-        specify { @response.should be_success }
-        specify { @response.body.should be_blank }
-        specify { @chat_room.problem_owner.should == @user }
-      end
+      specify { @response.should be_success }
+      specify { @response.body.should be_blank }
+      specify { @chat_room.problem_owner.should == @user }
     end
   end
 
   describe "POST select_current_rule" do
-    before { @rule = @chat_room.group.rules.all.sample }
-
-    def post_with(format)
-      post :select_current_rule, :id => @chat_room.id, :rule_id => @rule.id, :format => format
+    before do
+      @rule = @chat_room.group.rules.all.sample
+      post :select_current_rule, :id => @chat_room.id, :rule_id => @rule.id
       @chat_room.reload
     end
 
-    context "when requesting html format" do
-      before { post_with('html') }
-
-      specify { @response.should redirect_to(chat_room_path(@chat_room)) }
-      specify { @chat_room.current_rule.should == @rule }
-    end
-
     context "when requesting js format" do
-      before { post_with('json') }
-
       specify { @response.should be_success }
       specify { @response.body.should be_blank }
       specify { @chat_room.current_rule.should == @rule }
