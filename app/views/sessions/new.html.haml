@@ -11,4 +11,5 @@
   .actions
     = f.submit "Sign in"
 %p
-  New user? #{link_to "Sign up now!", signup_path}
+  = t(".signup_teaser", :default => "New user? ") + link_to(t(".links.signup", :default => "Sign up now!"), signup_path)
+

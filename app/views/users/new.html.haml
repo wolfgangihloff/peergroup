@@ -1,5 +1,5 @@
-%h2 Sign up
+%h2= t(".signup", :default => "Sign up")
 - form_for(@user) do |f|
   = render :partial => 'fields', :locals => { :f => f }
   .actions
-    = f.submit "Sign up"
+    = f.submit t(".buttons.signup", :default => "Sign up")

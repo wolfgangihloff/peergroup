@@ -6,10 +6,10 @@
         - users_list(@users)
         = will_paginate @users
     %td.sidebar.round
-      %strong Name
+      %strong= t(".captions.name", :default => "Name")
       = h @user.name
       %br/
-      %strong URL
+      %strong= t(".captions.url", :default => "URL")
       = link_to user_path(@user), @user
       %br/
       = render 'pages/stats'

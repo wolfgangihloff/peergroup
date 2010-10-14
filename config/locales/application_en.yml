@@ -1,22 +1,5 @@
 --- 
 :en: 
-  :layouts: 
-    :header: 
-      :links: 
-        :all_groups: All Groups
-        :signin: Sign in
-        :profile: Profile
-        :help: Help
-        :settings: Settings
-        :signout: Sign out
-        :home: Home
-        :my_groups: My Groups
-        :create_group: Create Group
-        :users: Users
-    :footer: 
-      :links: 
-        :about: About
-        :contact: Contact
   :chat_rules: 
     :chat_rules: 
       :activate_link: Activate
@@ -40,12 +23,24 @@
     :edit: 
       :title: Edit Rule
       :links: 
-        :show: Show
         :view_all: View All
+        :show: Show
     :new: 
       :title: New Rule
       :links: 
         :back_to_list: Back to List
+  :pages: 
+    :home_guest: 
+      :links: 
+        :signup: Sign up now!
+      :about_title: About Peer Supervision Groups
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+    :help: 
+      :help: Help
+    :about: 
+      :about_title: About Peer Supervision Groups
+    :contact: 
+      :contact_title: Contact
   :helpers: 
     :label: 
       :chat_update: 
@@ -54,21 +49,66 @@
         :password: ""
         :name: ""
         :email: ""
+        :password_confirmation: Confirmation
       :session: 
         :password: ""
         :email: ""
+  :sessions: 
+    :new: 
+      :links: 
+        :signup: Sign up now!
+      :signup_teaser: "New user? "
+  :layouts: 
+    :header: 
+      :links: 
+        :all_groups: All Groups
+        :create_group: Create Group
+        :signin: Sign in
+        :profile: Profile
+        :help: Help
+        :my_groups: My Groups
+        :settings: Settings
+        :signout: Sign out
+        :home: Home
+        :users: Users
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
+  :chat_updates: 
+    :chat_update: 
+      :links: 
+        :reply: reply
   :formtastic: 
     :required: required
+  :users: 
+    :edit: 
+      :buttons: 
+        :update: Update
+      :links: 
+        :change_gravatar: change
+    :show_follow: 
+      :captions: 
+        :name: Name
+        :url: URL
+    :new: 
+      :buttons: 
+        :signup: Sign up
+      :signup: Sign up
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
   :groups: 
     :index: 
       :no_groups: There are no groups here.
     :group_brief: 
-      :links: 
-        :edit: Edit
-        :chat: Chat
-        :delete: delete
       :confirmations: 
         :delete: You sure?
+      :links: 
+        :edit: Edit
+        :delete: delete
+        :chat: Chat
     :show: 
       :links: 
         :edit: Edit

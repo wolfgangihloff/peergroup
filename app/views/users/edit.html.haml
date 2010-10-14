@@ -3,7 +3,7 @@
   = f.error_messages
   = render :partial => 'fields', :locals => { :f => f }
   .actions
-    = f.submit "Update"
+    = f.submit t(".buttons.update", :default => "Update")
 %div
   = gravatar_for @user
-  %a{:href => "http://gravatar.com/emails", :target => "_blank"} change
+  = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")
