@@ -1,8 +1,8 @@
-- @title = "Edit Rule"
+- @title = t(".title", :default => "Edit Rule")
 
 = render :partial => 'form'
 
 %p
-  = link_to "Show", rule_path(@rule)
+  = link_to t(".links.show", :default => "Show"), rule_path(@rule)
   |
-  = link_to "View All", rules_path
+  = link_to t(".links.view_all", :default => "View All"), rules_path

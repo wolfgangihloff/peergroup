@@ -4,4 +4,4 @@
       %p= rule.name
       %ul.actions
         - unless @chat_room.current_rule == rule
-          %li= link_to "Activate", "#" + select_current_rule_chat_room_path(@chat_room, :rule_id => rule.id)
+          %li= link_to t(".activate_link", :default => "Activate"), "#" + select_current_rule_chat_room_path(@chat_room, :rule_id => rule.id)

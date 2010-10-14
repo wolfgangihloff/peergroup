@@ -1,4 +1,4 @@
-- @title = "#{@chat_room.group.name} Group Chat"
+- @title = t ".title", :group_name => @chat_room.group.name, :default => "%{group_name} Group Chat"
 
 #chat.span-23.last
   .hidden.timestamp= Time.now.to_i

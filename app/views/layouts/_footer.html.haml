@@ -1,6 +1,6 @@
 #footer.span-24.last.round
   %ul.navigation
-    %li= link_to "About", about_path
-    %li= link_to "Contact", contact_path
-    %li
-      %a{:href => "http://github.com/wolfgangihloff/peergroupsupervision"} on GitHub
+    %li= link_to t(".links.about", :default => "About"), about_path
+    %li= link_to t(".links.contact", :default => "Contact"), contact_path
+    %li= link_to t(".links.github", :url => "http://github.com/wolfgangihloff/peergroupsupervision", :default => "%{url} on GitHub"), "http://github.com/wolfgangihloff/peergroupsupervision"
+

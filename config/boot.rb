@@ -122,3 +122,4 @@ end
 
 # All that for this:
 Rails.boot!
+

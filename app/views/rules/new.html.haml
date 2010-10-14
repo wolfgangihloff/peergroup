@@ -1,5 +1,5 @@
-- @title = "New Rule"
+- @title = t(".title", :default => "New Rule")
 
 = render :partial => 'form'
 
-%p= link_to "Back to List", rules_path
+%p= link_to t(".links.back_to_list", :default => "Back to List"), rules_path

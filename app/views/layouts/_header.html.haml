@@ -4,16 +4,16 @@
   .span-15.last
     %h2= @title
   %ul.navigation
-    %li= link_to "Home", root_path
+    %li= link_to t(".links.home", :default => "Home"), root_path
     - if signed_in?
-      %li= link_to "Users", users_path
-      %li= link_to "Profile", current_user
-      %li= link_to "Create Group", new_group_path
-      %li= link_to "My Groups", groups_path
-      %li= link_to "All Groups", groups_path(:all => true)
-      %li= link_to "Settings", edit_user_path(current_user)
-    %li= link_to "Help", help_path
+      %li= link_to t(".links.users", :default => "Users"), users_path
+      %li= link_to t(".links.profile", :default => "Profile"), current_user
+      %li= link_to t(".links.create_group", :default => "Create Group"), new_group_path
+      %li= link_to t(".links.my_groups", :default => "My Groups"), groups_path
+      %li= link_to t(".links.all_groups", :default => "All Groups"), groups_path(:all => true)
+      %li= link_to t(".links.settings", :default => "Settings"), edit_user_path(current_user)
+    %li= link_to t(".links.help", :default => "Help"), help_path
     - if signed_in?
-      %li= link_to "Sign out", signout_path, :method => :delete
+      %li= link_to t(".links.signout", :default => "Sign out"), signout_path, :method => :delete
     - else
-      %li= link_to "Sign in", signin_path
+      %li= link_to t(".links.signin", :default => "Sign in"), signin_path

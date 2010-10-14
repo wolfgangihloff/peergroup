@@ -1,5 +1,5 @@
 = render "groups", :object => @groups
 .new= link_to image_tag("group-new.png",:title=>"Create Group",:height=>"40",:width=>"40"),new_group_path
 - if @groups.empty?
-  %p There are no groups here.
+  %p= t(".no_groups", :default => "There are no groups here.")
 

@@ -1,0 +1,75 @@
+--- 
+:en: 
+  :layouts: 
+    :header: 
+      :links: 
+        :all_groups: All Groups
+        :signin: Sign in
+        :profile: Profile
+        :help: Help
+        :settings: Settings
+        :signout: Sign out
+        :home: Home
+        :my_groups: My Groups
+        :create_group: Create Group
+        :users: Users
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
+  :chat_rules: 
+    :chat_rules: 
+      :activate_link: Activate
+  :activerecord: 
+    :models: 
+      :user: user
+    :errors: 
+      :models: 
+        :rule: 
+          :blank: missing!
+          :not_a_number: missing!
+        :user: 
+          :blank: missing!
+          :invalid: missing!
+          :too_short: missing!
+  :rules: 
+    :rules: 
+      :links: 
+        :edit: Edit
+        :remove: Remove
+    :edit: 
+      :title: Edit Rule
+      :links: 
+        :show: Show
+        :view_all: View All
+    :new: 
+      :title: New Rule
+      :links: 
+        :back_to_list: Back to List
+  :helpers: 
+    :label: 
+      :chat_update: 
+        :message: ""
+      :user: 
+        :password: ""
+        :name: ""
+        :email: ""
+      :session: 
+        :password: ""
+        :email: ""
+  :formtastic: 
+    :required: required
+  :groups: 
+    :index: 
+      :no_groups: There are no groups here.
+    :group_brief: 
+      :links: 
+        :edit: Edit
+        :chat: Chat
+        :delete: delete
+      :confirmations: 
+        :delete: You sure?
+    :show: 
+      :links: 
+        :edit: Edit
+        :new_role: New Rule

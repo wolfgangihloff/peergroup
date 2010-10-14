@@ -1,6 +1,4 @@
-= link_to 'Edit', edit_group_path(@group)
-|
-\#{link_to 'Back', groups_path}
+= link_to t(".links.edit", :default => "Edit"), edit_group_path(@group)
 
 - users_list(@group.members, @group.founder)
 
@@ -8,5 +6,5 @@
   = render :partial => 'rules/rules'
 
   %ul.actions
-    %li= link_to "New Rule", new_group_rule_path(@group)
+    %li= link_to t(".links.new_role", :default => "New Rule"), new_group_rule_path(@group)
 
