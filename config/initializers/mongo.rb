@@ -1,5 +1,6 @@
 if ENV['MONGOHQ_URL']
   MongoMapper.config = {RAILS_ENV => {'uri' => ENV['MONGOHQ_URL']}}
+  MongoMapper.connect(RAILS_ENV)
 else
   # Read in the config info 
   mongo_cfg = YAML.load( IO.read("#{RAILS_ROOT}/config/mongodb.yml") )[RAILS_ENV]
@@ -12,10 +13,4 @@ else
   db_cfg = Rails.configuration.database_configuration[RAILS_ENV]
   MongoMapper.database = mongo_cfg['database'] || db_cfg['database']
 end
-
-MongoMapper.connect(RAILS_ENV)
-
-
-
-
 
