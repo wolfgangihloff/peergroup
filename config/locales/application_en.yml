@@ -1,115 +1,118 @@
 --- 
 :en: 
+  :formtastic: 
+    :required: required
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
   :chat_rules: 
     :chat_rules: 
       :activate_link: Activate
-  :activerecord: 
-    :models: 
-      :user: user
-    :errors: 
-      :models: 
-        :rule: 
-          :blank: missing!
-          :not_a_number: missing!
-        :user: 
-          :blank: missing!
-          :invalid: missing!
-          :too_short: missing!
   :rules: 
+    :edit: 
+      :title: Edit Rule
+      :links: 
+        :show: Show
+        :view_all: View All
     :rules: 
       :links: 
         :edit: Edit
         :remove: Remove
-    :edit: 
-      :title: Edit Rule
-      :links: 
-        :view_all: View All
-        :show: Show
     :new: 
       :title: New Rule
       :links: 
         :back_to_list: Back to List
+  :activerecord: 
+    :errors: 
+      :models: 
+        :user: 
+          :invalid: missing!
+          :blank: missing!
+          :too_short: missing!
+        :rule: 
+          :blank: missing!
+          :not_a_number: missing!
+    :models: 
+      :user: user
+  :layouts: 
+    :header: 
+      :links: 
+        :create_group: Create Group
+        :home: Home
+        :all_groups: All Groups
+        :my_groups: My Groups
+        :signin: Sign in
+        :profile: Profile
+        :help: Help
+        :settings: Settings
+        :signout: Sign out
+        :users: Users
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
   :pages: 
     :home_guest: 
-      :links: 
-        :signup: Sign up now!
       :about_title: About Peer Supervision Groups
       :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-    :help: 
-      :help: Help
+      :links: 
+        :signup: Sign up now!
     :about: 
       :about_title: About Peer Supervision Groups
+    :help: 
+      :help: Help
     :contact: 
       :contact_title: Contact
+  :sessions: 
+    :new: 
+      :links: 
+        :signup: Sign up now!
+      :signup_teaser: "New user? "
+  :users: 
+    :show_follow: 
+      :captions: 
+        :url: URL
+        :name: Name
+    :edit: 
+      :links: 
+        :change_gravatar: change
+      :buttons: 
+        :update: Update
+    :new: 
+      :buttons: 
+        :signup: Sign up
+      :signup: Sign up
   :helpers: 
     :label: 
       :chat_update: 
         :message: ""
       :user: 
         :password: ""
-        :name: ""
         :email: ""
         :password_confirmation: Confirmation
+        :name: ""
+      :group: 
+        :description: ""
+        :name: ""
       :session: 
         :password: ""
         :email: ""
-  :sessions: 
-    :new: 
-      :links: 
-        :signup: Sign up now!
-      :signup_teaser: "New user? "
-  :layouts: 
-    :header: 
-      :links: 
-        :all_groups: All Groups
-        :create_group: Create Group
-        :signin: Sign in
-        :profile: Profile
-        :help: Help
-        :my_groups: My Groups
-        :settings: Settings
-        :signout: Sign out
-        :home: Home
-        :users: Users
-    :footer: 
-      :links: 
-        :about: About
-        :contact: Contact
   :chat_updates: 
     :chat_update: 
       :links: 
         :reply: reply
-  :formtastic: 
-    :required: required
-  :users: 
-    :edit: 
-      :buttons: 
-        :update: Update
-      :links: 
-        :change_gravatar: change
-    :show_follow: 
-      :captions: 
-        :name: Name
-        :url: URL
-    :new: 
-      :buttons: 
-        :signup: Sign up
-      :signup: Sign up
-  :chat_rooms: 
+  :groups: 
     :show: 
       :links: 
-        :new_thread: new thread
-  :groups: 
-    :index: 
-      :no_groups: There are no groups here.
+        :new_role: New Rule
+        :edit: Edit
     :group_brief: 
-      :confirmations: 
-        :delete: You sure?
       :links: 
+        :chat: Chat
         :edit: Edit
         :delete: delete
-        :chat: Chat
-    :show: 
-      :links: 
-        :edit: Edit
-        :new_role: New Rule
+      :confirmations: 
+        :delete: You sure?
+    :index: 
+      :no_groups: There are no groups here.
