@@ -19,10 +19,6 @@
           :blank: missing!
           :invalid: missing!
           :too_short: missing!
-  :chat_rooms: 
-    :show: 
-      :links: 
-        :new_thread: new thread
   :rules: 
     :edit: 
       :title: Edit Rule
@@ -49,26 +45,13 @@
       :flash: 
         :success: Successfully destroyed rule.
         :successful: Successfully destroyed rule.
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
   :chat_rules: 
     :chat_rules: 
       :activate_link: Activate
-  :layouts: 
-    :footer: 
-      :links: 
-        :about: About
-        :contact: Contact
-    :header: 
-      :links: 
-        :profile: Profile
-        :all_groups: All Groups
-        :help: Help
-        :settings: Settings
-        :signin: Sign in
-        :home: Home
-        :signout: Sign out
-        :create_group: Create Group
-        :users: Users
-        :my_groups: My Groups
   :flash: 
     :sign_in_request: Please sign in to access this page.
   :other: 
@@ -98,6 +81,23 @@
       :signup_teaser: "New user? "
       :links: 
         :signup: Sign up now!
+  :layouts: 
+    :header: 
+      :links: 
+        :profile: Profile
+        :all_groups: All Groups
+        :help: Help
+        :settings: Settings
+        :signin: Sign in
+        :my_groups: My Groups
+        :home: Home
+        :create_group: Create Group
+        :signout: Sign out
+        :users: Users
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
   :formtastic: 
     :required: required
   :users: 
@@ -141,19 +141,19 @@
         :all_groups: All Groups
         :your_groups: Your Groups
       :no_groups: There are no groups here.
-    :group_brief: 
-      :links: 
-        :edit: Edit
-        :chat: Chat
-        :join: join
-        :leave: leave
-        :delete: delete
-      :confirmations: 
-        :delete: You sure?
     :create: 
       :flash: 
         :success: Group Create Successfully
         :successful: Group Create Successfully
+    :group_brief: 
+      :links: 
+        :edit: Edit
+        :chat: Chat
+        :leave: leave
+        :join: join
+        :delete: delete
+      :confirmations: 
+        :delete: You sure?
     :show: 
       :links: 
         :edit: Edit
