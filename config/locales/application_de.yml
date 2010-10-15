@@ -1,0 +1,163 @@
+--- 
+:de:
+  :activerecord: 
+    :models: 
+      :user: user
+    :errors: 
+      :models: 
+        :user: 
+          :invalid: missing!
+          :blank: missing!
+          :too_short: missing!
+        :rule: 
+          :blank: missing!
+          :not_a_number: missing!
+  :users: 
+    :edit: 
+      :links: 
+        :change_gravatar: change
+      :buttons: 
+        :update: Update
+    :show_follow: 
+      :captions: 
+        :url: URL
+        :name: Name
+    :new: 
+      :signup: Sign up
+      :buttons: 
+        :signup: Sign up
+  :sessions: 
+    :create: 
+      :title: Sign in
+    :new: 
+      :links: 
+        :signup: Sign up now!
+      :title: Sign in
+      :signup_teaser: "New user? "
+  :rules: 
+    :update: 
+      :flash: 
+        :success: Successfully updated rule.
+        :successful: Successfully updated rule.
+    :rules: 
+      :links: 
+        :remove: Remove
+        :edit: Edit
+    :destroy: 
+      :flash: 
+        :success: Successfully destroyed rule.
+        :successful: Successfully destroyed rule.
+    :edit: 
+      :links: 
+        :show: Show
+        :view_all: View All
+      :title: Edit Rule
+    :create: 
+      :flash: 
+        :success: Successfully created rule.
+        :successful: Successfully created rule.
+    :new: 
+      :links: 
+        :back_to_list: Back to List
+      :title: New Rule
+  :layouts: 
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
+    :header: 
+      :links: 
+        :signout: Sign out
+        :users: Users
+        :home: Home
+        :settings: Settings
+        :profile: Profile
+        :all_groups: Alle Gruppe
+        :my_groups: My Groups
+        :signin: Sign in
+        :help: Help
+        :create_group: Create Group
+  :chat_updates: 
+    :chat_update: 
+      :links: 
+        :reply: reply
+  :pages: 
+    :home_guest: 
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+      :links: 
+        :signup: Sign up now!
+      :about_title: About Peer Supervision Groups
+    :home: 
+      :title: Home
+    :about: 
+      :title: About
+      :about_title: About Peer Supervision Groups
+    :contact: 
+      :contact_title: Contact
+      :title: Contact
+    :help: 
+      :title: Help
+      :help: Help
+  :chat_users: 
+    :chat_users: 
+      :links: 
+        :problem_owner: Problem owner
+        :leader: Leader
+      :captions: 
+        :leader: Leader
+  :formtastic: 
+    :required: required
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
+  :chat_rules: 
+    :chat_rules: 
+      :activate_link: Activate
+  :other: 
+    :controller: 
+      :action: 
+        :flash: 
+          :success: default
+          :successful: default
+          :error: default
+  :flash: 
+    :sign_in_request: Please sign in to access this page.
+  :helpers: 
+    :label: 
+      :chat_update: 
+        :message: ""
+      :user: 
+        :password: ""
+        :name: ""
+        :password_confirmation: Confirmation
+        :email: ""
+      :session: 
+        :password: ""
+        :email: ""
+  :groups: 
+    :index: 
+      :no_groups: There are no groups here.
+      :title: 
+        :your_groups: Your Groups
+        :all_groups: All Groups
+    :show: 
+      :links: 
+        :new_role: New Rule
+        :edit: Edit
+    :group_brief: 
+      :confirmations: 
+        :delete: You sure?
+      :links: 
+        :join: join
+        :leave: leave
+        :edit: Edit
+        :chat: Chat
+        :delete: delete
+    :create: 
+      :flash: 
+        :success: Group Create Successfully
+        :successful: Group Create Successfully
+    :new: 
+      :title: New Group
+

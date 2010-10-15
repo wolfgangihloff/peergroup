@@ -2,11 +2,11 @@
 :en: 
   :chat_users: 
     :chat_users: 
-      :links: 
-        :problem_owner: Problem owner
-        :leader: Leader
       :captions: 
         :leader: Leader
+      :links: 
+        :leader: Leader
+        :problem_owner: Problem owner
   :activerecord: 
     :models: 
       :user: user
@@ -52,15 +52,15 @@
   :chat_rules: 
     :chat_rules: 
       :activate_link: Activate
-  :flash: 
-    :sign_in_request: Please sign in to access this page.
   :other: 
     :controller: 
       :action: 
         :flash: 
+          :successful: default
           :success: default
           :error: default
-          :successful: default
+  :flash: 
+    :sign_in_request: Please sign in to access this page.
   :helpers: 
     :label: 
       :user: 
@@ -73,39 +73,56 @@
         :email: ""
       :chat_update: 
         :message: ""
-  :sessions: 
-    :create: 
-      :title: Sign in
-    :new: 
-      :title: Sign in
-      :signup_teaser: "New user? "
-      :links: 
-        :signup: Sign up now!
   :layouts: 
     :header: 
       :links: 
+        :create_group: Create Group
         :profile: Profile
         :all_groups: All Groups
         :help: Help
         :settings: Settings
         :signin: Sign in
-        :my_groups: My Groups
         :home: Home
-        :create_group: Create Group
         :signout: Sign out
         :users: Users
+        :my_groups: My Groups
     :footer: 
       :links: 
         :about: About
         :contact: Contact
+  :pages: 
+    :home_guest: 
+      :links: 
+        :signup: Sign up now!
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+      :about_title: About Peer Supervision Groups
+    :help: 
+      :title: Help
+      :help: Help
+    :about: 
+      :title: About
+      :about_title: About Peer Supervision Groups
+    :home: 
+      :title: Home
+    :contact: 
+      :title: Contact
+      :contact_title: Contact
+  :sessions: 
+    :create: 
+      :title: Sign in
+    :new: 
+      :signup_teaser: "New user? "
+      :title: Sign in
+      :links: 
+        :signup: Sign up now!
   :formtastic: 
     :required: required
   :users: 
     :edit: 
-      :buttons: 
-        :update: Update
       :links: 
         :change_gravatar: change
+      :buttons: 
+        :update: Update
     :show_follow: 
       :captions: 
         :name: Name
@@ -118,23 +135,6 @@
     :chat_update: 
       :links: 
         :reply: reply
-  :pages: 
-    :help: 
-      :title: Help
-      :help: Help
-    :about: 
-      :title: About
-      :about_title: About Peer Supervision Groups
-    :home: 
-      :title: Home
-    :home_guest: 
-      :about_title: About Peer Supervision Groups
-      :links: 
-        :signup: Sign up now!
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-    :contact: 
-      :title: Contact
-      :contact_title: Contact
   :groups: 
     :index: 
       :title: 
@@ -146,14 +146,14 @@
         :success: Group Create Successfully
         :successful: Group Create Successfully
     :group_brief: 
-      :links: 
-        :edit: Edit
-        :chat: Chat
-        :leave: leave
-        :join: join
-        :delete: delete
       :confirmations: 
         :delete: You sure?
+      :links: 
+        :edit: Edit
+        :leave: leave
+        :chat: Chat
+        :join: join
+        :delete: delete
     :show: 
       :links: 
         :edit: Edit

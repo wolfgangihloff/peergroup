@@ -31,7 +31,7 @@ class Group < ActiveRecord::Base
   end
 
   def create_default_rules
-    path = File.join(Rails.root, "db", "default_rules.csv")
+    path = File.join(Rails.root, "db", "default_rules_#{I18n.locale}.csv")
     CSV.open(path, "r") do |position, name, description, time_limit|
       rules.create!(:position => position, :name => name,
         :description => description, :time_limit => time_limit)

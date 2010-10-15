@@ -42,7 +42,7 @@ module I18n
   end
 end
 
-if %w{test cucumber development}.include?(Rails.env)
+if %w{test cucumber}.include?(Rails.env)
   I18n::Backend::Simple.send(:include, I18n::Backend::Collector)
   at_exit do
     I18n::Backend::Collector.dump!
