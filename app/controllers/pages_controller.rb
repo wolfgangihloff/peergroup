@@ -1,20 +1,19 @@
 class PagesController < ApplicationController
   def home
-    @title = "Home"
+    @title = t(".title", :default => "Home")
     render :action => signed_in? ? 'home_member' : 'home_guest'
   end
 
   def contact
-    @title = "Contact"
+    @title = t(".title", :default => "Contact")
   end
   
   def about
-    @title = "About"
+    @title = t(".title", :default => "About")
   end
 
   def help
-    @title = "Help"
+    @title = t(".title", :default => "Help")
   end
-
-
 end
+

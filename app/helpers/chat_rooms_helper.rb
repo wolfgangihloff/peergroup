@@ -1,19 +1,19 @@
 module ChatRoomsHelper
   def select_leader_link(chat_room, chat_user)
     user = chat_user.user
-    return "Leader" if user == chat_room.leader
+    return t(".captions.leader", :default => "Leader") if user == chat_room.leader
 
     path = select_leader_chat_room_path(@chat_room, :user_id => user.id)
-    link_to "Leader", "#" + path
+    link_to t(".links.leader", :default => "Leader"), "#" + path
   end
 
   def select_problem_owner_link(chat_room, chat_user)
     user = chat_user.user
-    return "Problem owner" if user == @chat_room.problem_owner
+    return t(".captions.problem_owner", :default => "Problem owner") if user == @chat_room.problem_owner
 
     if current_user == @chat_room.leader
       path = select_problem_owner_chat_room_path(@chat_room, :user_id => user.id)
-      link_to "Problem owner", "#" + path
+      link_to t(".links.problem_owner", :default => "Problem owner"), "#" + path
     end
   end
 

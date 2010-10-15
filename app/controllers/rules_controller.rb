@@ -10,7 +10,7 @@ class RulesController < ApplicationController
   def create
     @rule = @group.rules.build(params[:rule])
     if @rule.save
-      flash[:notice] = "Successfully created rule."
+      successful_flash("Successfully created rule.")
       redirect_to @group
     else
       render :action => 'new'
@@ -22,7 +22,7 @@ class RulesController < ApplicationController
   
   def update
     if @rule.update_attributes(params[:rule])
-      flash[:notice] = "Successfully updated rule."
+      successful_flash("Successfully updated rule.")
       redirect_to @group
     else
       render :action => 'edit'
@@ -31,7 +31,7 @@ class RulesController < ApplicationController
   
   def destroy
     @rule.destroy
-    flash[:notice] = "Successfully destroyed rule."
+    successful_flash("Successfully destroyed rule.")
     redirect_to @group
   end
 

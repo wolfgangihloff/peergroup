@@ -3,12 +3,16 @@ class GroupsController < ApplicationController
   before_filter :require_group, :except => [:index, :new, :create]
 
   def index
-    @title = params[:all] ? 'All Groups' : 'Your Groups'
+    @title = if params[:all]
+      t(".title.all_groups", :default => "All Groups")
+    else
+      t(".title.your_groups", :default => "Your Groups")
+    end
     @groups = params[:all] ? Group.all : current_user.groups
   end
 
   def new
-    @title = "New Group"
+    @title = t(".title", :default => "New Group")
     @group = Group.new
   end
 
@@ -17,7 +21,7 @@ class GroupsController < ApplicationController
     @group.founder = current_user
 
     if @group.save
-      flash[:notice] = "Group Create Successfully"
+      successful_flash("Group Create Successfully")
       redirect_to groups_path
     else
       render :action => "new"
@@ -29,7 +33,7 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update_attributes(params[:group])
-      flash[:notice] = "Group Update successfully" 
+      successful_flash("Group Update successfully")
       redirect_to groups_path
     end
   end
@@ -42,7 +46,7 @@ class GroupsController < ApplicationController
 
     @group.destroy if @user_group.group.user_id == current_user.id
 
-    flash[:notice] = "Group Delete Successfully"
+    successful_flash("Group Delete Successfully")
     redirect_to groups_path
   end
 
@@ -52,3 +56,4 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 end
+

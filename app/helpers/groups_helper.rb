@@ -7,9 +7,9 @@ module GroupsHelper
   def change_group_membership_link(user, group)
     if user.groups.include?(group)
       membership = user.memberships.find_by_group_id(group.id)
-      link_to "leave", group_membership_path(group, membership), :method => :delete
+      link_to t(".links.leave", :default => "leave"), group_membership_path(group, membership), :method => :delete
     else
-      link_to "join", group_memberships_path(group), :method => :post
+      link_to t(".links.join", :default => "join"), group_memberships_path(group), :method => :post
     end
   end
 end

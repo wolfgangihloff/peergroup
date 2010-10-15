@@ -1,8 +1,12 @@
 --- 
 :en: 
-  :chat_rules: 
-    :chat_rules: 
-      :activate_link: Activate
+  :chat_users: 
+    :chat_users: 
+      :links: 
+        :problem_owner: Problem owner
+        :leader: Leader
+      :captions: 
+        :leader: Leader
   :activerecord: 
     :models: 
       :user: user
@@ -15,70 +19,85 @@
           :blank: missing!
           :invalid: missing!
           :too_short: missing!
-  :rules: 
-    :rules: 
+  :chat_rooms: 
+    :show: 
       :links: 
-        :edit: Edit
-        :remove: Remove
+        :new_thread: new thread
+  :rules: 
     :edit: 
       :title: Edit Rule
       :links: 
         :view_all: View All
         :show: Show
+    :rules: 
+      :links: 
+        :edit: Edit
+        :remove: Remove
+    :update: 
+      :flash: 
+        :success: Successfully updated rule.
+        :successful: Successfully updated rule.
+    :create: 
+      :flash: 
+        :success: Successfully created rule.
+        :successful: Successfully created rule.
     :new: 
       :title: New Rule
       :links: 
         :back_to_list: Back to List
-  :pages: 
-    :home_guest: 
-      :links: 
-        :signup: Sign up now!
-      :about_title: About Peer Supervision Groups
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-    :help: 
-      :help: Help
-    :about: 
-      :about_title: About Peer Supervision Groups
-    :contact: 
-      :contact_title: Contact
-  :helpers: 
-    :label: 
-      :chat_update: 
-        :message: ""
-      :user: 
-        :password: ""
-        :name: ""
-        :email: ""
-        :password_confirmation: Confirmation
-      :session: 
-        :password: ""
-        :email: ""
-  :sessions: 
-    :new: 
-      :links: 
-        :signup: Sign up now!
-      :signup_teaser: "New user? "
+    :destroy: 
+      :flash: 
+        :success: Successfully destroyed rule.
+        :successful: Successfully destroyed rule.
+  :chat_rules: 
+    :chat_rules: 
+      :activate_link: Activate
   :layouts: 
-    :header: 
-      :links: 
-        :all_groups: All Groups
-        :create_group: Create Group
-        :signin: Sign in
-        :profile: Profile
-        :help: Help
-        :my_groups: My Groups
-        :settings: Settings
-        :signout: Sign out
-        :home: Home
-        :users: Users
     :footer: 
       :links: 
         :about: About
         :contact: Contact
-  :chat_updates: 
-    :chat_update: 
+    :header: 
       :links: 
-        :reply: reply
+        :profile: Profile
+        :all_groups: All Groups
+        :help: Help
+        :settings: Settings
+        :signin: Sign in
+        :home: Home
+        :signout: Sign out
+        :create_group: Create Group
+        :users: Users
+        :my_groups: My Groups
+  :flash: 
+    :sign_in_request: Please sign in to access this page.
+  :other: 
+    :controller: 
+      :action: 
+        :flash: 
+          :success: default
+          :error: default
+          :successful: default
+  :helpers: 
+    :label: 
+      :user: 
+        :password_confirmation: Confirmation
+        :password: ""
+        :name: ""
+        :email: ""
+      :session: 
+        :password: ""
+        :email: ""
+      :chat_update: 
+        :message: ""
+  :sessions: 
+    :create: 
+      :title: Sign in
+    :new: 
+      :title: Sign in
+      :signup_teaser: "New user? "
+      :links: 
+        :signup: Sign up now!
   :formtastic: 
     :required: required
   :users: 
@@ -95,21 +114,49 @@
       :buttons: 
         :signup: Sign up
       :signup: Sign up
-  :chat_rooms: 
-    :show: 
+  :chat_updates: 
+    :chat_update: 
       :links: 
-        :new_thread: new thread
+        :reply: reply
+  :pages: 
+    :help: 
+      :title: Help
+      :help: Help
+    :about: 
+      :title: About
+      :about_title: About Peer Supervision Groups
+    :home: 
+      :title: Home
+    :home_guest: 
+      :about_title: About Peer Supervision Groups
+      :links: 
+        :signup: Sign up now!
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+    :contact: 
+      :title: Contact
+      :contact_title: Contact
   :groups: 
     :index: 
+      :title: 
+        :all_groups: All Groups
+        :your_groups: Your Groups
       :no_groups: There are no groups here.
     :group_brief: 
-      :confirmations: 
-        :delete: You sure?
       :links: 
         :edit: Edit
-        :delete: delete
         :chat: Chat
+        :join: join
+        :leave: leave
+        :delete: delete
+      :confirmations: 
+        :delete: You sure?
+    :create: 
+      :flash: 
+        :success: Group Create Successfully
+        :successful: Group Create Successfully
     :show: 
       :links: 
         :edit: Edit
         :new_role: New Rule
+    :new: 
+      :title: New Group

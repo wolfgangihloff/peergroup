@@ -15,26 +15,36 @@ describe FlashMessages do
     I18n.backend.store_translations(:en, {
       :controller => {:action => {
         :key => "scoped key",
-        :flash => {:success => "success!"}
+        :flash => {:successful => "successful", :error => "error"}
       }},
-      :key => "unscoped key"
+      :key => "unscoped key",
+      :overwritten => {:key => "overwritten scope key"}
     })
   end
 
   describe "t method" do
     specify { @controller.t("key").should == "unscoped key" }
     specify { @controller.t(".key").should == "scoped key" }
+    specify { @controller.t(".key", :overwritten_scope => "").should == "unscoped key" }
+    specify { @controller.t(".key", :overwritten_scope => [:overwritten]).should == "overwritten scope key" }
   end
 
-  describe "successful_flash method" do
-    it "should set flash notice from stored translation when available" do
-      @controller.successful_flash("does not matter")
-      @controller.flash[:notice].should == "success!"
-    end
+  {:successful => :notice, :error => :error}.each_pair do |result, flash_type|
+    describe "#{result}_flash method" do
+      it "should set flash #{flash_type} from stored translation when available" do
+        @controller.send("#{result}_flash", "does not matter")
+        @controller.flash[flash_type].should == result.to_s
+      end
 
-    it "should set flash notice from default when stored translation not available" do
-      @controller.successful_flash("default", :scope => :other)
-      @controller.flash[:notice].should == "default"
+      it "should set flash #{flash_type} from default when stored translation not available" do
+        @controller.send("#{result}_flash", "default", :scope => :other)
+        @controller.flash[flash_type].should == "default"
+      end
+
+      it "should overwrite scope" do
+        @controller.send("#{result}_flash", "default", :key => "key")
+        @controller.flash[flash_type].should == "unscoped key"
+      end
     end
   end
 end

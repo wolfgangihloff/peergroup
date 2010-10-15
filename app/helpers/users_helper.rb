@@ -8,7 +8,7 @@ module UsersHelper
           suffix = is_selected ? '*' : ''
           haml_concat link_to(user.name + suffix, user)
           if current_user.admin?
-            haml_concat "|" + link_to("delete", user, :method => :delete, :confirm => "You sure?")
+            haml_concat "|" + link_to(t(".links.delete", :default => "delete"), user, :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?"))
           end
         end
       end

@@ -31,7 +31,7 @@ module SessionsHelper
   end
   def deny_access
     store_location
-    flash[:notice] = "Please sign in to access this page."
+    successful_flash("Please sign in to access this page.", :key => "flash.sign_in_request")
     redirect_to signin_path
   end
 
