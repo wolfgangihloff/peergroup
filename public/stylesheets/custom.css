@@ -1,3 +1,16 @@
+.logo {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: x-large;
+  color: black; }
+
+a.logo:hover {
+  color: red;
+  text-decoration: none; }
+a.logo:visited {
+  color: black; }
+
 .hidden {
   display: none; }
 

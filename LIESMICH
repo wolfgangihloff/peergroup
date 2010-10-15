@@ -1,0 +1,22 @@
+== Willkommen zur Kollegialen Beratung
+
+Kollegiale Beratung unterstuetzt Kollegen sich gegenseitig zu beraten.
+
+== Updates
+
+Dies ist die aktuelle Alpha Version
+
+== Tests laufen lassen
+
+1. Notwendige gems installieren
+
+  bundle install
+
+2. mongodb herunterladen http://www.mongodb.org/downloads
+
+3. mongod starten
+
+4. Tests laufen lassen:
+
+  rake spec
+  rake cucumber

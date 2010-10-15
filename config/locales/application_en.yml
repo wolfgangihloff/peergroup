@@ -1,14 +1,26 @@
 --- 
 :en: 
-  :formtastic: 
-    :required: required
   :chat_rooms: 
     :show: 
       :links: 
         :new_thread: new thread
+  :formtastic: 
+    :required: required
   :chat_rules: 
     :chat_rules: 
       :activate_link: Activate
+  :pages: 
+    :home_guest: 
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+      :links: 
+        :signup: Sign up now!
+      :about_title: About Peer Supervision Groups
+    :about: 
+      :about_title: About Peer Supervision Groups
+    :help: 
+      :help: Help
+    :contact: 
+      :contact_title: Contact
   :rules: 
     :edit: 
       :title: Edit Rule
@@ -38,10 +50,10 @@
   :layouts: 
     :header: 
       :links: 
-        :create_group: Create Group
         :home: Home
-        :all_groups: All Groups
         :my_groups: My Groups
+        :all_groups: All Groups
+        :create_group: Create Group
         :signin: Sign in
         :profile: Profile
         :help: Help
@@ -52,18 +64,6 @@
       :links: 
         :about: About
         :contact: Contact
-  :pages: 
-    :home_guest: 
-      :about_title: About Peer Supervision Groups
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-      :links: 
-        :signup: Sign up now!
-    :about: 
-      :about_title: About Peer Supervision Groups
-    :help: 
-      :help: Help
-    :contact: 
-      :contact_title: Contact
   :sessions: 
     :new: 
       :links: 
@@ -105,13 +105,13 @@
   :groups: 
     :show: 
       :links: 
-        :new_role: New Rule
         :edit: Edit
+        :new_role: New Rule
     :group_brief: 
       :links: 
-        :chat: Chat
         :edit: Edit
         :delete: delete
+        :chat: Chat
       :confirmations: 
         :delete: You sure?
     :index: 
