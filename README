@@ -23,7 +23,7 @@ This is the first version, heavy alpha.
 
 == Translations
 
-  Currently, the application is available in 2 languages: english and german. The locale is set during the application boot and it is not possible to switch it during application run.
+  Currently, the application is available in 2 languages: English and German. The locale is set during the application boot and it is not possible to switch it during application run.
 
   To change the locale edit aprropriate line in the environment file config/environments/production.rb or config/environments/development.rb. The line looks like:
 
@@ -31,7 +31,7 @@ This is the first version, heavy alpha.
 
 === Translations maintenance
 
-  All translated strings are gathered automatically in the "test" and "cucumber" environments. They are saved to the config/locales/application_en.yml file. You can edit this file manually as the new trasnaltions will be merged so your old changes will not be lost.
+  All translated strings are gathered automatically in the "test" and "cucumber" environments. They are saved to the config/locales/application_en.yml file. You can edit this file manually as the new translations will be merged so your old changes will not be lost.
 
   Other localized files are:
    * db/default_rules_<locale>.csv

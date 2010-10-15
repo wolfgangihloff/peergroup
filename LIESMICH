@@ -20,3 +20,23 @@ Dies ist die aktuelle Alpha Version
 
   rake spec
   rake cucumber
+
+== Übersetzung
+
+  Derzeit ist die Anwendung in zwei Sprachen verfügbar, Englisch und Deutsch.
+Die Spracheinstellung wird in der Applikation während des Bootvorgangs gesetzt und kann während des Betriebs nicht geändert werden.
+  Um die Spracheinstellung zu ändern, verändern Sie die Umgebungskonfigurationsdatei config/environments/production.rb oder config/environments/development.rb. 
+
+Schauen Sie nach
+
+  # I18n.default_locale = :en
+
+=== Pflegen der Übersetzung
+
+  Alle übersetzten Strings werden automatisch in den "test" und "cucumber" Umgebungen gesammelt. Diese werden dann in die Datei config/locales/application_en.yml abgelegt. Sie koennen die Datei von Hand bearbeiten, so dass bei dem Zusammenfuehren neuerer Versionen Ihre bestehenden Veränderungen nicht verloren gehen.
+
+  Andere lokalisierte Dateien sind:
+   * db/default_rules_<locale>.csv
+   * app/views/pages/_about.<locale>.html.haml
+   * app/views/pages/_help.<locale>.html.haml
+   * README / LIESMICH

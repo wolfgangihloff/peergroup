@@ -2,7 +2,7 @@
 :de:
   :activerecord: 
     :models: 
-      :user: user
+      :user: Benutzer
     :errors: 
       :models: 
         :user: 
@@ -23,35 +23,35 @@
         :url: URL
         :name: Name
     :new: 
-      :signup: Sign up
+      :signup: Registieren
       :buttons: 
-        :signup: Sign up
+        :signup: Registieren
   :sessions: 
     :create: 
-      :title: Sign in
+      :title: Anmelden
     :new: 
       :links: 
-        :signup: Sign up now!
+        :signup: Jetzt registieren!
       :title: Sign in
-      :signup_teaser: "New user? "
+      :signup_teaser: "Neuer Benutzer?"
   :rules: 
     :update: 
       :flash: 
-        :success: Successfully updated rule.
-        :successful: Successfully updated rule.
+        :success: Regel erfolgreich aktualisiert.
+        :successful: Regel erfolgreich aktualisiert.
     :rules: 
       :links: 
         :remove: Remove
         :edit: Edit
     :destroy: 
       :flash: 
-        :success: Successfully destroyed rule.
-        :successful: Successfully destroyed rule.
+        :success: Regel erfolgreich entfernt.
+        :successful: Regel erfolgreich entfernt.
     :edit: 
       :links: 
         :show: Show
-        :view_all: View All
-      :title: Edit Rule
+        :view_all: Alle ansehen
+      :title: Regel bearbeiten
     :create: 
       :flash: 
         :success: Successfully created rule.
@@ -83,37 +83,37 @@
         :reply: reply
   :pages: 
     :home_guest: 
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+      :description: Das hier ist die testseite fuer das Patongo Project, mehr Informationen auf der <a http://www.patongo.de/'>Projektseite</a>.
       :links: 
         :signup: Sign up now!
-      :about_title: About Peer Supervision Groups
+      :about_title: Über Kollegiale Beratung
     :home: 
-      :title: Home
+      :title: Start
     :about: 
-      :title: About
-      :about_title: About Peer Supervision Groups
+      :title: Über uns
+      :about_title: Über Kollegiale Beratung
     :contact: 
-      :contact_title: Contact
-      :title: Contact
+      :contact_title: Kontakt
+      :title: Kontakt
     :help: 
-      :title: Help
-      :help: Help
+      :title: Hilfe
+      :help: Hilfe
   :chat_users: 
     :chat_users: 
       :links: 
-        :problem_owner: Problem owner
-        :leader: Leader
+        :problem_owner: Problembesitzer
+        :leader: Moderator
       :captions: 
-        :leader: Leader
+        :leader: Moderator
   :formtastic: 
-    :required: required
+    :required: notwendig
   :chat_rooms: 
     :show: 
       :links: 
-        :new_thread: new thread
+        :new_thread: antworten
   :chat_rules: 
     :chat_rules: 
-      :activate_link: Activate
+      :activate_link: aktivieren
   :other: 
     :controller: 
       :action: 
@@ -122,7 +122,7 @@
           :successful: default
           :error: default
   :flash: 
-    :sign_in_request: Please sign in to access this page.
+    :sign_in_request: Bitte melden Sie sich an um diese Seite zu sehen.
   :helpers: 
     :label: 
       :chat_update: 
@@ -130,34 +130,34 @@
       :user: 
         :password: ""
         :name: ""
-        :password_confirmation: Confirmation
+        :password_confirmation: Bestätigung
         :email: ""
       :session: 
         :password: ""
         :email: ""
   :groups: 
     :index: 
-      :no_groups: There are no groups here.
+      :no_groups: Es gibt hier keine Gruppen.
       :title: 
-        :your_groups: Your Groups
-        :all_groups: All Groups
+        :your_groups: Ihre Gruppen
+        :all_groups: Alle Gruppen
     :show: 
       :links: 
-        :new_role: New Rule
-        :edit: Edit
+        :new_role: Neue Regel
+        :edit: Bearbeiten
     :group_brief: 
       :confirmations: 
-        :delete: You sure?
+        :delete: Sind Sie sicher?
       :links: 
-        :join: join
-        :leave: leave
-        :edit: Edit
+        :join: betreten
+        :leave: verlassen
+        :edit: bearbeiten
         :chat: Chat
-        :delete: delete
+        :delete: löschen
     :create: 
       :flash: 
-        :success: Group Create Successfully
-        :successful: Group Create Successfully
+        :success: Gruppe erfolgreich angelegt.
+        :successful: Gruppe erfolgreich angelegt.
     :new: 
-      :title: New Group
+      :title: Neue Gruppe
 
