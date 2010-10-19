@@ -1,5 +1,8 @@
 --- 
 :de:
+  :time:
+    :formats: 
+      :short: "%H:%M" 
   :activerecord: 
     :models: 
       :user: Benutzer
@@ -67,25 +70,25 @@
         :contact: Contact
     :header: 
       :links: 
-        :signout: Sign out
-        :users: Users
-        :home: Home
-        :settings: Settings
-        :profile: Profile
-        :all_groups: Alle Gruppe
-        :my_groups: My Groups
-        :signin: Sign in
-        :help: Help
+        :signout: Abmelden
+        :users: Benutzer
+        :home: Start
+        :settings: Einstellungen
+        :profile: Profil
+        :all_groups: Alle Gruppen
+        :my_groups: Meine Gruppen
+        :signin: Anmelden
+        :help: Hilfe
         :create_group: Create Group
   :chat_updates: 
-    :chat_update: 
-      :links: 
-        :reply: reply
+    :chat_update:
+      :links:
+        :reply:
   :pages: 
     :home_guest: 
       :description: Das hier ist die testseite fuer das Patongo Project, mehr Informationen auf der <a http://www.patongo.de/'>Projektseite</a>.
       :links: 
-        :signup: Sign up now!
+        :signup: Jetzt anmelden.
       :about_title: Über Kollegiale Beratung
     :home: 
       :title: Start
@@ -126,12 +129,12 @@
   :helpers: 
     :label: 
       :chat_update: 
-        :message: ""
+        :message: "Chat update"
       :user: 
-        :password: ""
-        :name: ""
+        :password: "Passwort"
+        :name: "Name"
         :password_confirmation: Bestätigung
-        :email: ""
+        :email: "E-Mail"
       :session: 
         :password: ""
         :email: ""
