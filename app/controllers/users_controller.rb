@@ -17,13 +17,20 @@ class UsersController < ApplicationController
   def create
     redirect_to(root_path) unless current_user?(@user)
     @user = User.new(params[:user])
-    if @user.save
+    if params[:user]["passcode"] != "Pat0ng0"
+      flash[:error] = "Wrong Passcode"
+      @title = "Sign up"
+      @user.password = ""
+      @user.password_confirmation = ""
+      render 'new'
+    elsif @user.save && params[:user]["passcode"] == "Pat0ng0"
       sign_in @user
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
       @title = "Sign up"
       @user.password = ""
+      @user.password_confirmation = ""
       render 'new'
     end
   end
@@ -69,9 +76,7 @@ class UsersController < ApplicationController
     render 'show_follow'
   end
   
-  
   private
-
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
