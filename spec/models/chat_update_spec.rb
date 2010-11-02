@@ -35,15 +35,26 @@ describe ChatUpdate do
     before do
       @chat_update = Factory(:chat_update)
       @message = "Hi, it's new message"
+    end
+
+    def commited_update
       @chat_update.commit_message!(@message)
+      @chat_update.reload
     end
 
-    it "should mark record as commited" do
-      @chat_update.reload.state.should == "commited"
+    specify { commited_update.state.should == "commited" }
+    specify { commited_update.message.should == @message }
+
+    context "when chat room not in the problem rule" do
+      before { @chat_update.should_receive(:chat_room).and_return(mock(:problem_rule? => false)) }
+
+      specify { commited_update.writeboard.should be_nil }
     end
 
-    it "should update the message" do
-      @chat_update.reload.message.should == @message
+    context "when chat room in the problem rule" do
+      before { @chat_update.should_receive(:chat_room).and_return(mock(:problem_rule? => true)) }
+
+      specify { commited_update.writeboard.should == "problem" }
     end
   end
 

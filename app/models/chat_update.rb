@@ -7,12 +7,14 @@ class ChatUpdate
   key :message, String
   key :message_updated_at, Time
   key :state, String
+  key :writeboard, String
   key :parent_id, BSON::ObjectID
 
   timestamps!
 
   validates_presence_of :chat_room_id, :login
   validates_numericality_of :user_id, :allow_nil => true
+  validates_inclusion_of :writeboard, :within => %w{problem}, :allow_nil => true
   validates_true_for :state, :logic => lambda { %w{new uncommited commited}.include?(state) }
 
   before_save lambda {|u| u.parent.save! unless u.parent.nil?}
@@ -55,6 +57,7 @@ class ChatUpdate
   def commit_message!(message)
     self.message = message
     self.state = "commited"
+    self.writeboard = "problem" if chat_room.problem_rule?
     save!
   end
 
