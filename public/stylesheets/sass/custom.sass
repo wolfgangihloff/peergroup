@@ -173,38 +173,45 @@ div.user_info
 
 /* CSS for chat
 
-#chat .main
-  .chat_part
-    ul.chat_updates
-      height: 300px
-      border: 1px solid
-      margin: 0
-      padding: 3px
-      overflow: auto
-      li.chat_update
-        &.active
-          background-color: #ccc
-        &.uncommited
-          div.message
-            color: green
-        div
-          display: inline
-          &.login
-            color: blue
-  ul.rules
-    margin: 0
-    float: right
-    width: 250px
-    margin-left: 10px
-    li
-      list-style-type: none
-      padding: 3px
-    li.current
-      background-color: yellow
-    li.rule
-      border: 1px solid black
-    ul, ul li, p
-      display: inline
+#chat
+  #writeboard
+    float: left
+    width: 40%
+    margin-right: 1%
+    height: 450px
+  .main
+    float: left
+    width: 58%
+    .chat_part
+      ul.chat_updates
+        height: 300px
+        border: 1px solid
+        margin: 0
+        padding: 3px
+        overflow: auto
+        li.chat_update
+          &.active
+            background-color: #ccc
+          &.uncommited
+            div.message
+              color: green
+          div
+            display: inline
+            &.login
+              color: blue
+    ul.rules
+      margin: 0 0 0 10px
+      float: right
+      width: 250px
+      li
+        list-style-type: none
+        padding: 3px
+      li.current
+        background-color: yellow
+      li.rule
+        border: 1px solid black
+      ul, ul li, p
+        display: inline
 
 ul.chatting_users
   position: relative

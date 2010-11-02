@@ -2,8 +2,17 @@
 
 #chat
   .hidden.timestamp= Time.now.to_i
-  = render "chat_users/chat_users"
+  #writeboard
+    %ul
+      %li= link_to "<span>#{t('.links.tabs.problem', :default => 'Problem')}</span>", "#problem"
+      %li= link_to "<span>#{t('.links.tabs.idea', :default => 'Idea')}</span>", "#idea"
+      %li= link_to "<span>#{t('.links.tabs.solution', :default => 'Solution')}</span>", "#solution"
+    #problem= "Problem board presents current problems"
+    #idea= "Idea board presents current ideas"
+    #solution= "Solution board presents current solutions"
+
   .main
+    = render "chat_users/chat_users"
     %div.chat_part
       = render "chat_rules/chat_rules"
 

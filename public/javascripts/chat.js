@@ -180,6 +180,8 @@ jQuery(document).ready(function($) {
     });
   }
 
+  $('#writeboard').tabs();
+
   $('#chat').chat();
 });
 
