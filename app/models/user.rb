@@ -12,7 +12,9 @@
 
 class User < ActiveRecord::Base
   attr_accessor :password
+  attr_accessor :passcode
   attr_accessible :name, :email, :password, :password_confirmation
+
   
   has_many :relationships, :foreign_key => "follower_id",
                            :dependent => :destroy
@@ -39,7 +41,9 @@ class User < ActiveRecord::Base
 
   # Automatically create the virtual attribute 'password_confirmation'.
   validates_confirmation_of :password
-
+  
+  
+  
   # Password validations.
   validates_presence_of :password
   validates_length_of   :password, :within => 6..40
@@ -78,7 +82,7 @@ class User < ActiveRecord::Base
     chat_user = chat_users.find_or_create_by_chat_room_id(chat_room.id)
     chat_user.touch
   end
-
+  
     private
 
       def encrypt_password
@@ -98,7 +102,5 @@ class User < ActiveRecord::Base
 
       def secure_hash(string)
         Digest::SHA2.hexdigest(string)
-      end
-
-  
+      end  
 end

@@ -9,16 +9,16 @@
     :errors: 
       :models: 
         :user: 
-          :invalid: missing!
-          :blank: missing!
-          :too_short: missing!
+          :invalid: falsch
+          :blank: leer
+          :too_short: zu kurz
         :rule: 
-          :blank: missing!
-          :not_a_number: missing!
+          :blank: leer
+          :not_a_number: keine Zahl
   :users: 
     :edit: 
       :links: 
-        :change_gravatar: change
+        :change_gravatar: ändern
       :buttons: 
         :update: Update
     :show_follow: 
@@ -35,7 +35,7 @@
     :new: 
       :links: 
         :signup: Jetzt registieren!
-      :title: Sign in
+      :title: Anmelden
       :signup_teaser: "Neuer Benutzer?"
   :rules: 
     :update: 
@@ -44,30 +44,30 @@
         :successful: Regel erfolgreich aktualisiert.
     :rules: 
       :links: 
-        :remove: Remove
-        :edit: Edit
+        :remove: Entfernen
+        :edit: Bearbeiten
     :destroy: 
       :flash: 
         :success: Regel erfolgreich entfernt.
         :successful: Regel erfolgreich entfernt.
     :edit: 
       :links: 
-        :show: Show
+        :show: Anzeigen
         :view_all: Alle ansehen
       :title: Regel bearbeiten
     :create: 
       :flash: 
-        :success: Successfully created rule.
-        :successful: Successfully created rule.
+        :success: Erfolgreich neue Regel angelegt.
+        :successful: Erfolgreich neue Regel angelegt.
     :new: 
       :links: 
-        :back_to_list: Back to List
-      :title: New Rule
+        :back_to_list: Zurück zur Liste
+      :title: Neue Regel
   :layouts: 
     :footer: 
       :links: 
-        :about: About
-        :contact: Contact
+        :about: Über
+        :contact: Kontakt
     :header: 
       :links: 
         :signout: Abmelden
@@ -79,7 +79,7 @@
         :my_groups: Meine Gruppen
         :signin: Anmelden
         :help: Hilfe
-        :create_group: Create Group
+        :create_group: Neue Gruppe
   :chat_updates: 
     :chat_update:
       :links:
