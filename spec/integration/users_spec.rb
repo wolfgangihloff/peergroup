@@ -8,6 +8,7 @@ describe "Users" do
 
       it "should not make a new user" do
         visit signup_path
+        fill_in "Passcode",     :with => "Pat0ng0"
         click_button
         response.should render_template('users/new')
         response.should have_tag("div#errorExplanation")
@@ -21,6 +22,7 @@ describe "Users" do
           visit signup_path
           fill_in "Name",         :with => "Example User"
           fill_in "Email",        :with => "user@example.com"
+          fill_in "Passcode",     :with => "Pat0ng0"
           fill_in "Password",     :with => "foobar"
           fill_in "Confirmation", :with => "foobar"
           click_button
@@ -55,8 +57,5 @@ describe "Users" do
         end
       end
     end
-    
-    
-    
   end
 end

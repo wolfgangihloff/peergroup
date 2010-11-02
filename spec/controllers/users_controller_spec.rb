@@ -107,7 +107,7 @@ describe UsersController do
 
       before(:each) do
         @attr = { :name => "", :email => "", :password => "",
-                  :password_confirmation => "" }
+                  :password_confirmation => "", :passcode => "Pat0ng0" }
         @user = Factory.build(:user, @attr)
         User.stub!(:new).and_return(@user)
         @user.should_receive(:save).and_return(false)
@@ -128,7 +128,8 @@ describe UsersController do
 
       before(:each) do
         @attr = { :name => "New User", :email => "user@example.com",
-                  :password => "foobar", :password_confirmation => "foobar" }
+                  :password => "foobar", :password_confirmation => "foobar",
+                  :passcode => "Pat0ng0"}
         @user = Factory(:user, @attr)
         User.stub!(:new).and_return(@user)
         @user.should_receive(:save).and_return(true)
@@ -138,10 +139,12 @@ describe UsersController do
         post :create, :user => @attr
         response.should redirect_to(user_path(@user))
       end
+
       it "should have a welcome message" do
               post :create, :user => @attr
               flash[:success].should =~ /welcome to the sample app/i
       end
+
       it "should sign the user in" do
         post :create, :user => @attr
         controller.should be_signed_in
