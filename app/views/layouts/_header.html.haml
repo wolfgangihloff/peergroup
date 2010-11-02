@@ -1,8 +1,6 @@
-#header.span-24.last.round
-  .span-8.colborder
-    = link_to "Peer Group Supervision", root_path, :class => 'logo'
-  .span-15.last
-    %h2= @title
+#header.round
+  = link_to "Peer Group Supervision", root_path, :class => 'logo'
+  %h2.title= @title
   %ul.navigation
     %li= link_to t(".links.home", :default => "Home"), root_path
     - if signed_in?

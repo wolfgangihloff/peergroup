@@ -45,6 +45,23 @@
       :flash: 
         :success: Successfully destroyed rule.
         :successful: Successfully destroyed rule.
+  :layouts: 
+    :header: 
+      :links: 
+        :profile: Profile
+        :all_groups: All Groups
+        :help: Help
+        :settings: Settings
+        :signin: Sign in
+        :home: Home
+        :create_group: Create Group
+        :signout: Sign out
+        :my_groups: My Groups
+        :users: Users
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
   :chat_rooms: 
     :show: 
       :links: 
@@ -56,9 +73,9 @@
     :controller: 
       :action: 
         :flash: 
-          :successful: default
           :success: default
           :error: default
+          :successful: default
   :flash: 
     :sign_in_request: Please sign in to access this page.
   :helpers: 
@@ -73,46 +90,29 @@
         :email: ""
       :chat_update: 
         :message: ""
-  :layouts: 
-    :header: 
-      :links: 
-        :create_group: Create Group
-        :profile: Profile
-        :all_groups: All Groups
-        :help: Help
-        :settings: Settings
-        :signin: Sign in
-        :home: Home
-        :signout: Sign out
-        :users: Users
-        :my_groups: My Groups
-    :footer: 
-      :links: 
-        :about: About
-        :contact: Contact
   :pages: 
-    :home_guest: 
-      :links: 
-        :signup: Sign up now!
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-      :about_title: About Peer Supervision Groups
     :help: 
       :title: Help
       :help: Help
     :about: 
       :title: About
       :about_title: About Peer Supervision Groups
+    :home_guest: 
+      :about_title: About Peer Supervision Groups
+      :links: 
+        :signup: Sign up now!
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
     :home: 
       :title: Home
     :contact: 
-      :title: Contact
       :contact_title: Contact
+      :title: Contact
   :sessions: 
     :create: 
       :title: Sign in
     :new: 
-      :signup_teaser: "New user? "
       :title: Sign in
+      :signup_teaser: "New user? "
       :links: 
         :signup: Sign up now!
   :formtastic: 
@@ -136,24 +136,24 @@
       :links: 
         :reply: reply
   :groups: 
+    :group_brief: 
+      :links: 
+        :edit: Edit
+        :leave: leave
+        :join: join
+        :chat: Chat
+        :delete: delete
+      :confirmations: 
+        :delete: You sure?
     :index: 
       :title: 
-        :all_groups: All Groups
         :your_groups: Your Groups
+        :all_groups: All Groups
       :no_groups: There are no groups here.
     :create: 
       :flash: 
         :success: Group Create Successfully
         :successful: Group Create Successfully
-    :group_brief: 
-      :confirmations: 
-        :delete: You sure?
-      :links: 
-        :edit: Edit
-        :leave: leave
-        :chat: Chat
-        :join: join
-        :delete: delete
     :show: 
       :links: 
         :edit: Edit

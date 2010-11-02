@@ -8,11 +8,12 @@
     = javascript_include_tag 'jquery.form'
     = javascript_include_tag 'chat'
   %body
-    .container
+    #outer
       = render 'layouts/header'
 
-      #content.round.span-23.last
+      #content.round
         - flash.each do |key, value|
           %div{:class => "flash #{key}"}= value
         = yield
       = render 'layouts/footer'
+

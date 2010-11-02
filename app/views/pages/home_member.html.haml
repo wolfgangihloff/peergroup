@@ -1,12 +1,12 @@
 
-.span-15
-  %h2 Latest groups
-  - Group.newest.each do |group|
-    = render 'groups/group_brief', :group => group
-
-.span-7.last.sidebar.round
+.sidebar.round
   = render 'pages/user_info'
   %div Your groups
   - current_user.groups.each do |group|
+    = render 'groups/group_brief', :group => group
+
+%h2 Latest groups
+.groups
+  - Group.newest.each do |group|
     = render 'groups/group_brief', :group => group
 

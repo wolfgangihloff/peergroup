@@ -21,4 +21,5 @@ config.gem "factory_girl"
 require 'factory_girl'
 Factory.find_definitions
 
-I18n.default_locale = :de
+I18n.default_locale = :en
+

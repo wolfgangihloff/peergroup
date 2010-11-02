@@ -1,32 +1,21 @@
-.logo
-  text-align: left
-  font-weight: bold
-  padding: 5px 5px 5px 15px
-  font-size: x-large
-  color: #000
-a.logo
-  &:hover 
-    color: #f00
-    text-decoration: none	
-  &:visited
-    color: #000
-
 .hidden
   display: none
 
 body
   background: #cff
 
-#header
-  padding-top: 20px
-  background: #fff
+#outer
+  width: 96%
+  margin: 5px 2% 5px 2%
 
 #content
   margin-top: 1em
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif
   font-size: 100%
   background: #fff
-  padding: 20px
+  padding: 2%
+  overflow: auto
+  width: 96%
 /* Links
 
 a
@@ -38,9 +27,29 @@ a
   &:visited
     color: #069
 
-/* Navigation
+#header
+  padding: 10px 20px 10px 20px
+  background: #fff
+  overflow: auto
+
+  a.logo
+    text-align: left
+    font-weight: bold
+    padding: 5px 5px 5px 15px
+    font-size: x-large
+    color: #000
+    &:hover 
+      color: #f00
+      text-decoration: none	
+    &:visited
+      color: #000
+
+  h2.title
+    float: right
+    margin-bottom: 0
 
 .navigation
+  clear: both
   float: right
   background-color: white
   padding: 0 0.7em
@@ -93,9 +102,17 @@ a.signup_button
 /* User show page
 
 .sidebar
+  float: right
   padding: 1em
   vertical-align: top
   background: #ffc
+  width: 270px
+  height: 300px
+
+.groups
+  margin-left: auto
+  margin-right: auto
+  overflow: auto
 
 .profile img.gravatar
   border: 1px solid #999
@@ -156,23 +173,38 @@ div.user_info
 
 /* CSS for chat
 
-#chat
-  ul.chat_updates
-    height: 300px
-    border: 1px solid
+#chat .main
+  .chat_part
+    ul.chat_updates
+      height: 300px
+      border: 1px solid
+      margin: 0
+      padding: 3px
+      overflow: auto
+      li.chat_update
+        &.active
+          background-color: #ccc
+        &.uncommited
+          div.message
+            color: green
+        div
+          display: inline
+          &.login
+            color: blue
+  ul.rules
     margin: 0
-    padding: 3px
-    overflow: auto
-  li.chat_update
-    &.active
-      background-color: #ccc
-    &.uncommited
-      div.message
-        color: green
-    div
+    float: right
+    width: 250px
+    margin-left: 10px
+    li
+      list-style-type: none
+      padding: 3px
+    li.current
+      background-color: yellow
+    li.rule
+      border: 1px solid black
+    ul, ul li, p
       display: inline
-      &.login
-        color: blue
 
 ul.chatting_users
   position: relative
@@ -210,31 +242,20 @@ form.edit_chat_update .field
   #chat_update_submit
     width: 104px
 
-ul.rules
-  margin: 0
-  li
-    list-style-type: none
-    padding: 3px
-  li.current
-    background-color: yellow
-  li.rule
-    border: 1px solid black
-  ul, ul li, p
-    display: inline
 
-#content .group_brief
-  background: #eee
-  margin: 0 25px 10px 0
-  .inner
-    width: 270 - 2 * 8 px
-    margin: 8px
-    .title
-      border-bottom: 1px solid
-    ul.actions
-      margin: 0
-      list-style-type: none
-      font-size: 0.9em
-      li
-        float: right
-        margin-left: 5px
-
+#content
+  .group_brief
+    background: #eee
+    margin: 0 25px 10px 0
+    .inner
+      width: 270 - 2 * 8 px
+      margin: 8px
+      .title
+        border-bottom: 1px solid
+      ul.actions
+        margin: 0
+        list-style-type: none
+        font-size: 0.9em
+        li
+          float: right
+          margin-right: 4px

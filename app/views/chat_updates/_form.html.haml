@@ -1,7 +1,7 @@
-- form_for [@chat_room, @chat_update], :html => {:autocomplete => "off", :class => 'span-16 last edit_chat_update'}  do |f|
+- form_for [@chat_room, @chat_update], :html => {:autocomplete => "off", :class => 'edit_chat_update'}  do |f|
   = hidden_field_tag :update_type, "commit"
   = hidden_field_tag "parent_id", @chat_update.parent? ? @chat_update.parent.id : ''
-  .field.span-16
+  .field
     = f.label :message
     = f.text_field :message
     = f.submit "Send"
