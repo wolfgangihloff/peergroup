@@ -12,10 +12,6 @@ class ChatRoom < ActiveRecord::Base
     ChatUpdate.where(:chat_room_id => id)
   end
 
-  def problem_rule?
-    [3, 4].include?(current_rule.position) if current_rule
-  end
-
   def post_rule_update
     if current_rule_id_changed?
       ChatUpdate.create!(:chat_room_id => id, :login => "System",
