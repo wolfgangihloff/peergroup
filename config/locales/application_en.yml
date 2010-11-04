@@ -1,22 +1,5 @@
 --- 
 :en: 
-  :pages: 
-    :help: 
-      :title: Help
-      :help: Help
-    :about: 
-      :title: About
-      :about_title: About Peer Supervision Groups
-    :home: 
-      :title: Home
-    :home_guest: 
-      :links: 
-        :signup: Sign up now!
-      :about_title: About Peer Supervision Groups
-      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
-    :contact: 
-      :title: Contact
-      :contact_title: Contact
   :chat_users: 
     :chat_users: 
       :links: 
@@ -24,22 +7,6 @@
         :leader: Leader
       :captions: 
         :leader: Leader
-  :activerecord: 
-    :models: 
-      :user: user
-    :errors: 
-      :models: 
-        :rule: 
-          :blank: missing!
-          :not_a_number: missing!
-        :user: 
-          :blank: missing!
-          :invalid: missing!
-          :too_short: missing!
-  :chat_rooms: 
-    :show: 
-      :links: 
-        :new_thread: new thread
   :rules: 
     :edit: 
       :title: Edit Rule
@@ -48,8 +15,8 @@
         :show: Show
     :rules: 
       :links: 
-        :edit: Edit
         :remove: Remove
+        :edit: Edit
     :update: 
       :flash: 
         :success: Successfully updated rule.
@@ -66,9 +33,22 @@
       :flash: 
         :success: Successfully destroyed rule.
         :successful: Successfully destroyed rule.
-  :chat_rules: 
-    :chat_rules: 
-      :activate_link: Activate
+  :activerecord: 
+    :models: 
+      :user: user
+    :errors: 
+      :models: 
+        :rule: 
+          :blank: missing!
+          :not_a_number: missing!
+        :user: 
+          :blank: missing!
+          :invalid: missing!
+          :too_short: missing!
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
   :layouts: 
     :footer: 
       :links: 
@@ -77,15 +57,35 @@
     :header: 
       :links: 
         :profile: Profile
-        :all_groups: All Groups
-        :help: Help
         :settings: Settings
+        :help: Help
+        :all_groups: All Groups
         :signin: Sign in
         :home: Home
         :signout: Sign out
-        :my_groups: My Groups
         :create_group: Create Group
+        :my_groups: My Groups
         :users: Users
+  :pages: 
+    :help: 
+      :title: Help
+      :help: Help
+    :about: 
+      :title: About
+      :about_title: About Peer Supervision Groups
+    :home: 
+      :title: Home
+    :contact: 
+      :contact_title: Contact
+      :title: Contact
+    :home_guest: 
+      :links: 
+        :signup: Sign up now!
+      :about_title: About Peer Supervision Groups
+      :description: This is the live test site for the Peer Supervision Groups project, for questions or comments visit our <a href='http://github.com/wolfgangihloff/peergroupsupervision'> github site</a>.
+  :chat_rules: 
+    :chat_rules: 
+      :activate_link: Activate
   :flash: 
     :sign_in_request: Please sign in to access this page.
   :other: 
@@ -100,30 +100,30 @@
       :user: 
         :password_confirmation: Confirmation
         :password: ""
+        :passcode: ""
         :name: ""
         :email: ""
-        :passcode: ""
       :session: 
         :password: ""
         :email: ""
       :chat_update: 
         :message: ""
+  :formtastic: 
+    :required: required
   :sessions: 
     :create: 
       :title: Sign in
     :new: 
-      :title: Sign in
       :signup_teaser: "New user? "
+      :title: Sign in
       :links: 
         :signup: Sign up now!
-  :formtastic: 
-    :required: required
   :users: 
     :edit: 
-      :links: 
-        :change_gravatar: change
       :buttons: 
         :update: Update
+      :links: 
+        :change_gravatar: change
     :show_follow: 
       :captions: 
         :name: Name
@@ -142,19 +142,19 @@
         :all_groups: All Groups
         :your_groups: Your Groups
       :no_groups: There are no groups here.
-    :create: 
-      :flash: 
-        :success: Group Create Successfully
-        :successful: Group Create Successfully
     :group_brief: 
       :confirmations: 
         :delete: You sure?
       :links: 
-        :chat: Chat
         :edit: Edit
         :join: join
         :leave: leave
         :delete: delete
+        :chat: Chat
+    :create: 
+      :flash: 
+        :success: Group Create Successfully
+        :successful: Group Create Successfully
     :show: 
       :links: 
         :edit: Edit

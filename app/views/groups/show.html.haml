@@ -2,9 +2,3 @@
 
 - users_list(@group.members, @group.founder)
 
-.rules
-  = render :partial => 'rules/rules'
-
-  %ul.actions
-    %li= link_to t(".links.new_role", :default => "New Rule"), new_group_rule_path(@group)
-
