@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe ChatRoomsController do
-  integrate_views
-
   before do
     @group = Factory(:group)
     @chat_room = @group.chat_room

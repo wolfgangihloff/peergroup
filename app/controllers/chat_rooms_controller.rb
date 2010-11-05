@@ -1,3 +1,5 @@
+require 'chat_updates_initializer'
+
 class ChatRoomsController < ApplicationController
   include ChatUpdatesInitializer
 

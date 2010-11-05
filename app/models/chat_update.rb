@@ -7,13 +7,14 @@ class ChatUpdate
   key :message, String
   key :message_updated_at, Time
   key :state, String
-  key :parent_id, BSON::ObjectID
+  key :parent_id, BSON::ObjectId
 
   timestamps!
 
   validates_presence_of :chat_room_id, :login
   validates_numericality_of :user_id, :allow_nil => true
-  validates_true_for :state, :logic => lambda { %w{new uncommited commited}.include?(state) }
+
+  validates_true_for :state, :logic => Proc.new { %w{new uncommited commited}.include?(state) }
 
   before_save lambda {|u| u.parent.save! unless u.parent.nil?}
   before_save lambda {|u| u.message_updated_at = Time.now if u.message_changed?}

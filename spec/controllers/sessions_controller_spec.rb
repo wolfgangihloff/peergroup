@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe SessionsController do
-  integrate_views
-
   describe "GET 'new'" do
 
     it "should be successful" do

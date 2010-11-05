@@ -1,6 +1,6 @@
 source :gemcutter
 
-gem "rails", "=2.3.9"
+gem "rails", "=3.0.1"
 gem "sqlite3-ruby", :require => "sqlite3"
 gem "will_paginate"
 gem "mongo_mapper"
@@ -17,9 +17,11 @@ group :staging do
 end 
 
 group :test do
-  gem "rspec-rails"
+  gem "test-unit"
+  gem "rspec", ">=2.0.0.rc"
+  gem "rspec-rails", ">=2.0.0.rc"
   gem "faker"
-  gem "factory_girl"
+  gem "factory_girl_rails"
   gem "webrat"
 end
 

@@ -6,10 +6,9 @@ module I18n
         file_path = File.join(Rails.root, %w{config locales application_en.yml})
         keys = File.exists?(file_path) ? YAML.load(File.read(file_path)) : {}
         keys = {} unless keys.is_a?(Hash)
-        all_translations = 
-        File.open(file_path, "w") do |file|
-          file.write(Collected.deep_merge(keys).to_yaml)
-        end
+        # File.open(file_path, "w") do |file|
+        #   file.write(Collected.deep_merge(keys).to_yaml)
+        # end
       end
 
       Collected = {}
