@@ -17,12 +17,12 @@ group :staging do
 end 
 
 group :test do
+  gem "webrat"
   gem "test-unit"
   gem "rspec", ">=2.0.0.rc"
   gem "rspec-rails", ">=2.0.0.rc"
   gem "faker"
   gem "factory_girl_rails"
-  gem "webrat"
 end
 
 group :development do

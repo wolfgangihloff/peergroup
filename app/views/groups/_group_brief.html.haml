@@ -3,7 +3,7 @@
     .title= link_to group_name(group, current_user), group
     .description= markdown(group.description)
     %ul.actions
-      %li= link_to t(".links.delete", :default => "delete"), delete_group_path(group.id), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
+      %li= link_to t(".links.delete", :default => "delete"), group_path(group.id), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
       %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group.id)
       %li= change_group_membership_link(current_user, group)
       %li= link_to t(".links.chat", :default => "Chat"), chat_room_path(group.chat_room)

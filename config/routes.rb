@@ -1,9 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
   resources :rules
 
-  resources(:chat_rooms, :member =>
-    {:select_leader => :post, :select_problem_owner => :post, :select_current_rule => :post}
-  ) do
+  resources :chat_rooms do
+
+    member do
+      %w{leader problem_owner}.each {|role| post :"select_#{role}"}
+    end
+
     resources :chat_updates
     resources :chat_users
     resources :chat_rules
@@ -20,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   match '/signin' => 'sessions#new', :as => 'signin'
-  match '/signup' =>'sessions#destroy', :as => 'signout'
+  match '/signout' =>'sessions#destroy', :as => 'signout'
   match '/contact' => 'pages#contact', :as => 'contact'
   match '/about' => 'pages#about', :as => 'about'
   match '/help' => 'pages#help', :as => 'help'

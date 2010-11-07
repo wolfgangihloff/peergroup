@@ -1,21 +1,8 @@
 = f.error_messages
-.field
-  = f.label :name
-  %br/
-  = f.text_field :name
-.field
-  = f.label :email
-  %br/
-  = f.text_field :email
-.field
-  = f.label :password
-  %br/
-  = f.password_field :password
-.field
-  = f.label :password_confirmation
-  %br/
-  = f.password_field :password_confirmation
-.field
-  = f.label :passcode
-  %br/
-  = f.password_field :passcode
+
+= f.input :name
+= f.input :email
+= f.input :password, :as => :password
+= f.input :password_confirmation, :as => :password
+= f.input :passcode, :as => :password
+

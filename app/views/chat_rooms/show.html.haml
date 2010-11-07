@@ -5,8 +5,6 @@
   = render "chat_users/chat_users"
   .main
     %div.chat_part
-      = render "chat_rules/chat_rules"
-
       %ul.chat_updates
         - @chat_room.chat_updates.root.not_new.by_created_at.each do |chat_update|
           = render "chat_updates/chat_update", :object => chat_update

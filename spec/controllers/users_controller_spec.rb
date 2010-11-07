@@ -115,7 +115,7 @@ describe UsersController do
                   :passcode => "Pat0ng0"}
         @user = Factory(:user, @attr)
         User.stub!(:new).and_return(@user)
-        @user.should_receive(:save).and_return(true)
+        @user.should_receive(:save).at_least(1).and_return(true)
       end
 
       it "should redirect to the user show page" do
@@ -125,7 +125,7 @@ describe UsersController do
 
       it "should have a welcome message" do
         post :create, :user => @attr
-        flash[:success].should =~ /welcome to the sample app/i
+        flash[:success].should =~ /welcome to the peer supervision groups/i
       end
 
       it "should sign the user in" do

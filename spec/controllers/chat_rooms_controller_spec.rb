@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ChatRoomsController do
+  render_views
+
   before do
     @group = Factory(:group)
     @chat_room = @group.chat_room
@@ -12,12 +14,12 @@ describe ChatRoomsController do
     it "should show Problem owner links to the leader" do
       @chat_room.update_attributes(:leader => @user)
       get :show, :id => @chat_room.id
-      response.should have_tag("ul.chatting_users a", :text => "Problem owner")
+      response.should have_tag("ul.chatting_users a", :content => "Problem owner")
     end
 
     it "should not show Problem owner link to a member" do
       get :show, :id => @chat_room.id
-      response.should_not have_tag("ul.chatting_users a", :text => "Problem owner")
+      response.should_not have_tag("ul.chatting_users a", :content => "Problem owner")
     end
 
     it "should show form for newly initialized chat update" do
@@ -25,7 +27,7 @@ describe ChatRoomsController do
 
       chat_update = assigns[:chat_update]
       expected_path = chat_room_chat_update_path(@chat_room, chat_update)
-      response.should have_tag("form[action=?]", expected_path)
+      response.should have_tag("form", :action => expected_path)
     end
   end
 
@@ -49,20 +51,6 @@ describe ChatRoomsController do
       specify { @response.should be_success }
       specify { @response.body.should be_blank }
       specify { @chat_room.problem_owner.should == @user }
-    end
-  end
-
-  describe "POST select_current_rule" do
-    before do
-      @rule = @chat_room.group.rules.all.sample
-      post :select_current_rule, :id => @chat_room.id, :rule_id => @rule.id
-      @chat_room.reload
-    end
-
-    context "when requesting js format" do
-      specify { @response.should be_success }
-      specify { @response.body.should be_blank }
-      specify { @chat_room.current_rule.should == @rule }
     end
   end
 end

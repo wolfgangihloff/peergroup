@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       render 'new'
     elsif @user.save && params[:user]["passcode"] == "Pat0ng0"
       sign_in @user
-      flash[:success] = "Welcome to the Sample App!"
+      flash[:success] = "Welcome to the Peer Supervision Groups!"
       redirect_to @user
     else
       @title = "Sign up"

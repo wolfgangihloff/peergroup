@@ -1,9 +1,9 @@
 %h2 Edit user
-- form_for(@user) do |f|
-  = f.error_messages
-  = render :partial => 'fields', :locals => { :f => f }
-  .actions
-    = f.submit t(".buttons.update", :default => "Update")
+- semantic_form_for(@user) do |f|
+  = f.inputs do
+    = render :partial => 'fields', :locals => { :f => f }
+  = f.buttons do
+    = f.commit_button t(".buttons.update", :default => "Update")
 %div
   = gravatar_for @user
   = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")

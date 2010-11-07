@@ -18,6 +18,7 @@ module FactoryHelpers
   end
 end
 
+# TODO: Move all webrat specs to capybara
 Webrat.configure do |config|
   config.mode = :rails
 end
@@ -33,7 +34,7 @@ RSpec.configure do |config|
   config.mock_with :rspec
 
   config.include FactoryHelpers
-  config.include Webrat::HaveTagMatcher
+  config.include Webrat::HaveTagMatcher, :type => :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

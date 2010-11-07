@@ -24,12 +24,6 @@ class ChatRoomsController < ApplicationController
     render :nothing => true
   end
 
-  def select_current_rule
-    @chat_room.current_rule = Rule.find(params[:rule_id])
-    @chat_room.save!
-    render :nothing => true
-  end
-
   protected
 
   def require_user
