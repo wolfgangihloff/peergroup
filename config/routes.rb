@@ -1,4 +1,4 @@
-ActionController::Routing::Routes.draw do |map|
+Peergroupsupervision::Application.routes.draw do
   resources :rules
 
   resources :chat_rooms do
@@ -33,3 +33,4 @@ ActionController::Routing::Routes.draw do |map|
 
   match ':controller(/:action(/:id(.:format)))'
 end
+

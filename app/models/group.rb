@@ -17,7 +17,7 @@ class Group < ActiveRecord::Base
 
   has_friendly_id :name, :use_slug => true
 
-  named_scope :newest, :order => 'created_at desc', :limit => 6
+  scope :newest, :order => 'created_at desc', :limit => 6
 
   attr_protected :created_at
 

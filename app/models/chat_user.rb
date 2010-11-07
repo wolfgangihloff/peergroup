@@ -2,11 +2,11 @@ class ChatUser < ActiveRecord::Base
   belongs_to :user
   belongs_to :chat_room
 
-  named_scope :present, lambda {
+  scope :present, lambda {
     {:conditions => ["chat_users.updated_at > ?", 10.seconds.ago]}
   }
 
-  named_scope :by_username, :order => "users.name", :include => :user
+  scope :by_username, :order => "users.name", :include => :user
 
   def active?
     uptodate_chat_updates = ChatUpdate.with_message_updated_after(3.seconds.ago)

@@ -1,5 +1,6 @@
 %h2= t(".signup", :default => "Sign up")
-- semantic_form_for(@user) do |f|
+
+= semantic_form_for(@user) do |f|
   = f.inputs do
     = render :partial => 'fields', :locals => { :f => f }
   = f.buttons do
