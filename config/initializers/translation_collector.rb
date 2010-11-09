@@ -2,13 +2,22 @@ module I18n
   module Backend
     module Collector
 
+      def self.sort_hash(hash)
+        return hash unless hash.is_a?(Hash)
+        new_hash = {}
+        hash.keys.sort.each do |key|
+          new_hash[key] = sort_hash(hash[key])
+        end
+        new_hash
+      end
+
       def self.dump!
         file_path = File.join(Rails.root, %w{config locales application_en.yml})
         keys = File.exists?(file_path) ? YAML.load(File.read(file_path)) : {}
         keys = {} unless keys.is_a?(Hash)
-        # File.open(file_path, "w") do |file|
-        #   file.write(Collected.deep_merge(keys).to_yaml)
-        # end
+        File.open(file_path, "w") do |file|
+          file.write(sort_hash(Collected.deep_merge(keys)).to_yaml)
+        end
       end
 
       Collected = {}
@@ -27,11 +36,11 @@ module I18n
         keys = I18n.normalize_keys(locale, key, options[:scope], options[:separator])
 
         keys_hash = {}
-        last_hash = keys[0..-2].inject(keys_hash) do |result, scope_or_key|
+        most_shallow_hash = keys[0..-2].inject(keys_hash) do |result, scope_or_key|
           result[scope_or_key] = {}
         end
 
-        last_hash[keys[-1]] = options[:default] || translation || "missing!"
+        most_shallow_hash[keys[-1]] = options[:default] || translation
 
         Collected.deep_merge!(keys_hash)
         raise exception if exception
@@ -41,7 +50,7 @@ module I18n
   end
 end
 
-if %w{test cucumber}.include?(Rails.env)
+if Rails.env.test?
   I18n::Backend::Simple.send(:include, I18n::Backend::Collector)
   at_exit do
     I18n::Backend::Collector.dump!

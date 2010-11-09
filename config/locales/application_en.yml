@@ -1,0 +1,158 @@
+--- 
+:en: 
+  :activerecord: 
+    :errors: 
+      :messages: 
+        :blank: 
+        :confirmation: 
+        :invalid: 
+        :too_long: 
+        :too_short: 
+      :models: 
+        :group: 
+          :blank: 
+        :relationship: 
+          :blank: 
+        :user: 
+          :blank: 
+          :confirmation: 
+          :invalid: 
+          :taken: 
+          :too_long: 
+          :too_short: 
+  :attributes: 
+    :description: 
+    :email: 
+    :followed_id: 
+    :follower_id: 
+    :name: 
+    :passcode: 
+    :password: 
+    :password_confirmation: 
+  :chat_rooms: 
+    :show: 
+      :links: 
+        :new_thread: new thread
+  :chat_updates: 
+    :chat_update: 
+      :links: 
+        :reply: reply
+  :chat_users: 
+    :chat_users: 
+      :captions: 
+        :leader: Leader
+        :problem_owner: Problem owner
+      :links: 
+        :leader: Leader
+        :problem_owner: Problem owner
+  :errors: 
+    :attributes: 
+      :description: 
+        :blank: 
+      :email: 
+        :blank: 
+        :invalid: 
+      :followed_id: 
+        :blank: 
+      :follower_id: 
+        :blank: 
+      :name: 
+        :blank: 
+        :too_long: 
+      :password: 
+        :blank: 
+        :confirmation: 
+        :too_long: 
+        :too_short: 
+  :flash: 
+    :sign_in_request: Please sign in to access this page.
+  :formtastic: 
+    :required: required
+  :groups: 
+    :create: 
+      :flash: 
+        :successful: Group Create Successfully
+    :group_brief: 
+      :confirmations: 
+        :delete: You sure?
+      :links: 
+        :chat: Chat
+        :delete: delete
+        :edit: Edit
+        :join: join
+        :leave: leave
+    :index: 
+      :no_groups: There are no groups here.
+      :title: 
+        :all_groups: All Groups
+        :your_groups: Your Groups
+    :new: 
+      :title: New Group
+    :show: 
+      :links: 
+        :edit: Edit
+  :helpers: 
+    :label: 
+      :chat_update: 
+        :message: ""
+      :session: 
+        :email: ""
+        :password: ""
+  :layouts: 
+    :footer: 
+      :links: 
+        :about: About
+        :contact: Contact
+    :header: 
+      :links: 
+        :all_groups: All Groups
+        :create_group: Create Group
+        :help: Help
+        :home: Home
+        :my_groups: My Groups
+        :profile: Profile
+        :settings: Settings
+        :signin: Sign in
+        :signout: Sign out
+        :users: Users
+  :other: 
+    :controller: 
+      :action: 
+        :flash: 
+          :error: default
+          :successful: default
+  :pages: 
+    :about: 
+      :about_title: About Peer Supervision Groups
+      :title: About
+    :contact: 
+      :contact_title: Contact
+      :title: Contact
+    :help: 
+      :help: Help
+      :title: Help
+    :home: 
+      :title: Home
+    :home_guest: 
+      :about_title: About Peer Supervision Groups
+      :description: This is the live test site for the Peer Supervision Groups project for Patongo. Visit  <a href='http://www.patongo.de/'> project page</a>.
+      :links: 
+        :signup: Sign up now!
+  :sessions: 
+    :create: 
+      :title: Sign in
+    :new: 
+      :links: 
+        :signup: Sign up now!
+      :signup_teaser: "New user? "
+      :title: Sign in
+  :users: 
+    :edit: 
+      :buttons: 
+        :update: Update
+      :links: 
+        :change_gravatar: change
+    :new: 
+      :buttons: 
+        :signup: Sign up
+      :signup: Sign up

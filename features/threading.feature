@@ -24,6 +24,7 @@ Feature: threading
   Scenario: When I change my current thread the message I was writing before commits automatically
     When I am on the "Funny" group chat
     And I follow "reply"
+    And I wait 1 second
     And I fill in "Message" with "Hi you"
     And I follow "new thread"
     And I fill in "Message" with "Let's talk about something new"
