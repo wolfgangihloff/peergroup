@@ -10,6 +10,7 @@ gem "bundler", ">=1.0.0"
 gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
+gem "faker"
 
 group :staging do
   gem "pg"
@@ -21,7 +22,6 @@ group :test do
   gem "test-unit"
   gem "rspec", ">=2.0.0.rc"
   gem "rspec-rails", ">=2.0.0.rc"
-  gem "faker"
   gem "factory_girl_rails"
 end
 
