@@ -34,7 +34,7 @@ group :cucumber do
   gem "cucumber-rails"
   gem "pickle"
   gem "database_cleaner"
-  gem "capybara"
+  gem "capybara", "=0.3.9"
   gem "factory_girl"
   gem "launchy"
   gem "selenium-webdriver"

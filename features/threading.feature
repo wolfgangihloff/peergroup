@@ -18,7 +18,6 @@ Feature: threading
     When I am on the "Funny" group chat
     And I follow "reply"
     And I fill in "Message" with "Hi you"
-    And I wait 1 second
     Then I should see "Hi you" within "Hi Tom" thread
 
   @javascript
@@ -27,9 +26,8 @@ Feature: threading
     And I follow "reply"
     And I fill in "Message" with "Hi you"
     And I follow "new thread"
-    And I wait 1 second
     And I fill in "Message" with "Let's talk about something new"
-    Then I should see "Hi you" within "Hi Tom" thread
-    And I should see "Let's talk about something new"
+    Then I should see "Let's talk about something new"
+    And I should see "Hi you" within "Hi Tom" thread
     And I should not see "Let's talk about something new" within "Hi Tom" thread
 

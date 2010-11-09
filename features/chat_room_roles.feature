@@ -14,6 +14,7 @@ Feature: Chat room roles
     And I follow "Leader"
     Then user "A" should be the leader of the chat room of the group "Funny"
     When I follow "Problem owner"
+    And I wait 1 second
     Then user "A" should be the problem owner of the chat room of the group "Funny"
 
 

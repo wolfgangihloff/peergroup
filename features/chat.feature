@@ -24,11 +24,9 @@ Feature: Chat
     And I should not see "John"
     When the funny_chat_update exists with message: "How are you?"
     And the user "John" enters the chat room of group "Funny"
-    And the "Funny" group chat current rule changes to "Decide on Leader"
     Then I should see "How are you?"
     And I should see "Hi Tom"
     And I should see "John"
-    And I should see "Decide on Leader" within "ul.rules li.current:first-child"
 
   @javascript
   Scenario: Receiving active user notification

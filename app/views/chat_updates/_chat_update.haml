@@ -6,5 +6,5 @@
     .reply= link_to t(".links.reply", :default => "reply"), "##{chat_update.id}"
   %ul.children
     - chat_update.children.not_new.by_created_at.each do |child_chat_update|
-      = render "chat_updates/chat_update", :object => child_chat_update
+      = render "chat_updates/chat_update", :chat_update => child_chat_update
 

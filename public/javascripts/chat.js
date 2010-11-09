@@ -26,7 +26,6 @@ jQuery(document).ready(function($) {
           chatRooms: base,
           chatUpdates: base + '/chat_updates',
           newChatUpdate: base + '/chat_updates/new',
-          chatRules: base + '/chat_rules',
           chatUsers: base + '/chat_users'
         };
       }();
@@ -138,24 +137,6 @@ jQuery(document).ready(function($) {
           getForm();
         });
 
-      }();
-
-      ////////////// Chat rules controller
-      var ChatRulesController = function() {
-        $('ul.rules ul.actions a', container).live('click', function(e) {
-          $.post($(this).attr('href').gsub('#', ''), null, null, 'json');
-          ViewHelper.replaceWithSpinner(this);
-        });
-
-        // TODO: extract into periodically updater?
-        function updateChatRules() {
-          $.get(UrlHelper.chatRules, function(data) {
-            $('.rules', container).replaceWith(data);
-          });
-          setTimeout(updateChatRules, 1000);
-        }
-
-        setTimeout(updateChatRules, 1000);
       }();
 
       // Chat users
