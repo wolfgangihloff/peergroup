@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -46,6 +47,7 @@ RSpec.configure do |config|
 
   config.before(:all) do
     Factory.find_definitions
+    DatabaseCleaner.clean_with :truncation
   end
 
   config.before(:each) do
