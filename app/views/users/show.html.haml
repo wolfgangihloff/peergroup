@@ -1,5 +1,5 @@
 %h2
-  = raw gravatar_for(@user)
+  = gravatar_for(@user)
   = @user.name
 
 %ul.groups
@@ -7,7 +7,4 @@
 
   - @user.groups.each do |group|
     %li= link_to(group_name(group, @user), group_path(group))
-
-- if signed_in?
-  = render "follow_form"
 

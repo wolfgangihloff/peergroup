@@ -2,6 +2,11 @@
 module ApplicationHelper
   
 # Return a title on a per-page basis.
+
+  def gravatar(*args)
+    raw super
+  end
+
  def title
    base_title = "Peer Supervision Groups"
    if @title.nil?
@@ -16,6 +21,6 @@ module ApplicationHelper
  end
 
  def markdown(text)
-   RDiscount.new(text).to_html
+   raw RDiscount.new(text).to_html
  end
 end

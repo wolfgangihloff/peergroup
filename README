@@ -18,8 +18,7 @@ This is the first version, heavy alpha.
 
 4. Run tests:
 
-  rake spec
-  rake cucumber
+  rspec spec/ && cucumber
 
 == Translations
 
