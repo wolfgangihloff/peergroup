@@ -167,6 +167,7 @@
       :flash: 
         :successful: 
     :index: 
+      :heading: List of already submitted topics
       :title: Submitted topics
     :new: 
       :content: 
