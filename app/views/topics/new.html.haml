@@ -1,8 +1,9 @@
-- @topic = t(".title", :default => "New Topic")
+- @title = t(".title", :default => "New Topic")
 
 = semantic_form_for(@topic) do |f|
   = f.inputs do
+    = hidden_field_tag :supervision_id, @topic.supervision.id
     = f.input :content, :as => :text, :hint => t(".content.hint", :default => "Enter your problem or leave this blank if you do not have any.")
   = f.buttons do
-    = f.commit_button
+    = f.commit_button t(".submit", :default => "Submit Topic")
 

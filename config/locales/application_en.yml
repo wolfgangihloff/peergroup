@@ -24,6 +24,7 @@
           :too_long: 
           :too_short: 
   :attributes: 
+    :content: 
     :description: 
     :email: 
     :followed_id: 
@@ -162,9 +163,15 @@
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
   :topics: 
+    :create: 
+      :flash: 
+        :successful: 
+    :index: 
+      :title: Submitted topics
     :new: 
       :content: 
         :hint: Enter your problem or leave this blank if you do not have any.
+      :submit: Submit Topic
       :title: New Topic
   :users: 
     :edit: 

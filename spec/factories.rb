@@ -46,5 +46,6 @@ end
 
 Factory.define(:topic) do |topic|
   topic.supervision { Factory(:supervision) }
+  topic.author {|t| t.supervision.group.founder }
 end
 

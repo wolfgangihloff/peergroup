@@ -4,11 +4,7 @@ Feature: Joining supervision process
   I want to join supervision process
 
   Background:
-    Given the user exists with name: "Kacper"
-    And the user exists with name: "Wolfgang"
-    And the group exists with name: "Developers"
-    And the user "Kacper" is the member of the group "Developers"
-    And the user "Wolfgang" is the member of the group "Developers"
+    Given the group "Developers" exists with members "Kacper", "Wolfgang"
     And the user "Kacper" is signed in
 
   Scenario: Creating new session

@@ -4,6 +4,16 @@ Given /^the group exists with user: "([^"]*)", name: "([^"]*)" and chat message:
   Factory(:chat_update, :chat_room => group.chat_room, :message => chat_message, :state => "commited")
 end
 
+Given /^the group "([^"]*)" exists with members (.+)$/ do |group_name, users|
+  users = users.split(',').map do |name|
+    name = name.strip.gsub('"', '')
+    User.find_by_name(name) || Factory(:user, :name => name)
+  end
+
+  group = Factory(:group, :founder => users.first, :name => group_name)
+  users[1..-1].each {|user| group.add_member!(user) }
+end
+
 When /^the user "([^"]*)" is the member of the group "([^"]*)"$/ do |user_name, group_name|
   user = User.find_by_name(user_name) || Factory(:user, :name => user_name)
   Group.find_by_name(group_name).add_member!(user)
@@ -30,12 +40,6 @@ Then /^user "([^"]*)" should be the (.+) of the chat room of the group "([^"]*)"
   group = Group.find_by_name(group_name)
   role.gsub!(' ', '_')
   group.chat_room.send(role).should == user
-end
-
-When /^the "([^"]*)" group chat current rule changes to "([^"]*)"$/ do |group_name, rule_name|
-  chat_room = Group.find_by_name(group_name).chat_room
-  chat_room.current_rule = Rule.find_by_name(rule_name)
-  chat_room.save!
 end
 
 Given /^the chat message exists with message "([^"]*)" within "([^"]*)" thread$/ do |message, parent_message|
