@@ -18,9 +18,9 @@ Feature: Joining supervision process
     When I press "Yes"
     Then I should see "Enter your problem or leave this blank if you do not have any."
 
-#   Scenario: Joining existing session
-#     Given the session for the group "Developers" is started by "Wolfgang"
-#     When I am on the homepage
-#     And I press "Session" within "Developers" group brief
-#     Then I should see "Enter your problem or leave this blank if you do not have any."
+  Scenario: Joining existing session
+    Given the session for the group "Developers" is started by "Wolfgang"
+    When I am on the homepage
+    And I follow "Session" within "Developers" group brief
+    Then I should see "Enter your problem or leave this blank if you do not have any."
 
