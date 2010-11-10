@@ -5,3 +5,4 @@ class Topic < ActiveRecord::Base
   belongs_to :supervision
   belongs_to :author, :class_name => "User"
 end
+

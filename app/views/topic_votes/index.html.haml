@@ -1,0 +1,8 @@
+- @title = t(".title", :default => "Topic voting")
+
+%h2= t(".heading", :default => "List of all submitted topics")
+
+%p= t(".step_description", :default => "Vote on the topic you want to discuss.")
+
+= render "topics/list", :topics => @topics
+

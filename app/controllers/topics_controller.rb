@@ -1,7 +1,7 @@
 class TopicsController < ApplicationController
 
   before_filter :require_parent_supervision
-
+  before_filter :redirect_to_correct_step
 
   def new
     @topic = @supervision.topics.build
@@ -16,13 +16,16 @@ class TopicsController < ApplicationController
     topic.author = current_user
     topic.save!
     successful_flash "Topic was submitted successfully."
-    redirect_to topics_path(:supervision_id => @supervision.id)
+    redirect_to supervision_step_path(@supervision)
   end
 
   protected
 
-  def require_parent_supervision
-    @supervision = Supervision.find(params[:supervision_id])
+  def redirect_to_correct_step
+    if @supervision.state != "topic"
+      redirect_to supervision_step_path(@supervision)
+      false
+    end
   end
 
 end

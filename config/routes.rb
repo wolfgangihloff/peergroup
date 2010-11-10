@@ -18,6 +18,7 @@ Peergroupsupervision::Application.routes.draw do
   resources :relationships, :only => [:create, :destroy]
   resources :supervisions, :only => [:new, :create, :show]
   resources :topics, :only => [:new, :index, :create]
+  resources :topic_votes, :only => [:index]
 
   resources :groups do
     resources :memberships

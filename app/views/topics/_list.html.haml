@@ -1,0 +1,11 @@
+%ul.topics
+  - topics.each do |topic|
+    %li.topic
+      .author
+        = raw gravatar_for(topic.author)
+        %p= topic.author.name
+
+      - if topic.content.blank?
+        %p.blank= t(".topic.skip_notice", :default => "%{username} did not submitted his topic.", :username => topic.author.name)
+      - else
+        %p= topic.content

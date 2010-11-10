@@ -162,6 +162,11 @@
         :yes: "Yes"
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
+  :topic_votes: 
+    :index: 
+      :heading: List of all submitted topics
+      :step_description: Vote on the topic you want to discuss.
+      :title: Topic voting
   :topics: 
     :create: 
       :flash: 

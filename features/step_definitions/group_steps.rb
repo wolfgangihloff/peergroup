@@ -7,10 +7,10 @@ end
 Given /^the group "([^"]*)" exists with members (.+)$/ do |group_name, users|
   users = users.split(',').map do |name|
     name = name.strip.gsub('"', '')
-    User.find_by_name(name) || Factory(:user, :name => name)
+    create_model("user \"#{name}\"", :name => name)
   end
 
-  group = Factory(:group, :founder => users.first, :name => group_name)
+  group = create_model("group \"#{group_name}\"", :founder => users.first, :name => group_name)
   users[1..-1].each {|user| group.add_member!(user) }
 end
 
