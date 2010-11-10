@@ -13,6 +13,7 @@ class Group < ActiveRecord::Base
   has_many :memberships, :autosave => true
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_many :rules, :order => "position"
+  has_many :supervisions
   has_one :chat_room
 
   has_friendly_id :name, :use_slug => true
@@ -37,6 +38,10 @@ class Group < ActiveRecord::Base
       rules.create!(:position => position, :name => name,
         :description => description, :time_limit => time_limit)
     end
+  end
+
+  def current_supervision
+    supervisions.unfinished.first
   end
 end
 

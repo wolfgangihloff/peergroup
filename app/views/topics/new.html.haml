@@ -1,0 +1,8 @@
+- @topic = t(".title", :default => "New Topic")
+
+= semantic_form_for(@topic) do |f|
+  = f.inputs do
+    = f.input :content, :as => :text, :hint => t(".content.hint", :default => "Enter your problem or leave this blank if you do not have any.")
+  = f.buttons do
+    = f.commit_button
+

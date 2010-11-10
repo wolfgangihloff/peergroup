@@ -5,7 +5,7 @@ Given /^the group exists with user: "([^"]*)", name: "([^"]*)" and chat message:
 end
 
 When /^the user "([^"]*)" is the member of the group "([^"]*)"$/ do |user_name, group_name|
-  user = User.find_by_name(user_name) || Factory(:user)
+  user = User.find_by_name(user_name) || Factory(:user, :name => user_name)
   Group.find_by_name(group_name).add_member!(user)
 end
 
@@ -58,3 +58,10 @@ end
 Then /^I should not see any active chat update$/ do
   page.should_not have_css('.chat_update.active')
 end
+
+When /^(.+) within "([^"]*)" group brief$/ do |action, group_name|
+  group = Group.find_by_name(group_name)
+  selector = ".group_#{group.id}"
+  When "#{action} within \"#{selector}\""
+end
+

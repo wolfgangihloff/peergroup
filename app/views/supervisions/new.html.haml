@@ -1,0 +1,10 @@
+- @title = t(".title", :default => "New Supervision Session")
+
+%p= t(".question", :default => "Do you want to create new Supervision Session?")
+
+= semantic_form_for(@supervision) do |f|
+  = hidden_field_tag "group_id", @supervision.group.id
+  = f.buttons do
+    = f.commit_button t(".answers.yes", :default => "Yes")
+    %li= link_to(t(".answers.no", :default => "No"), groups_path)
+

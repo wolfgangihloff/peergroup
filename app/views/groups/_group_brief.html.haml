@@ -1,4 +1,4 @@
-.span-7.group_brief.round
+.span-7.group_brief.round{:class => dom_id(group)}
   .inner
     .title= link_to group_name(group, current_user), group
     .description= markdown(group.description)
@@ -7,3 +7,4 @@
       %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group.id)
       %li= change_group_membership_link(current_user, group)
       %li= link_to t(".links.chat", :default => "Chat"), chat_room_path(group.chat_room)
+      %li= link_to t(".links.session", :default => "Session"), new_supervision_path(:group_id => group.id)

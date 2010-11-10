@@ -40,3 +40,11 @@ Factory.define(:chat_room) do |chat_room|
   chat_room.group { Factory(:group) }
 end
 
+Factory.define(:supervision) do |supervision|
+  supervision.group { Factory(:group) }
+end
+
+Factory.define(:topic) do |topic|
+  topic.supervision { Factory(:supervision) }
+end
+

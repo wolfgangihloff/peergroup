@@ -5,6 +5,7 @@
       :messages: 
         :blank: 
         :confirmation: 
+        :inclusion: 
         :invalid: 
         :too_long: 
         :too_short: 
@@ -13,6 +14,8 @@
           :blank: 
         :relationship: 
           :blank: 
+        :supervision: 
+          :inclusion: 
         :user: 
           :blank: 
           :confirmation: 
@@ -29,6 +32,7 @@
     :passcode: 
     :password: 
     :password_confirmation: 
+    :state: 
   :chat_rooms: 
     :show: 
       :links: 
@@ -64,10 +68,13 @@
         :confirmation: 
         :too_long: 
         :too_short: 
+      :state: 
+        :inclusion: 
   :flash: 
     :sign_in_request: Please sign in to access this page.
   :formtastic: 
     :required: required
+    :submit: 
   :groups: 
     :create: 
       :flash: 
@@ -81,6 +88,7 @@
         :edit: Edit
         :join: join
         :leave: leave
+        :session: Session
     :index: 
       :no_groups: There are no groups here.
       :title: 
@@ -146,6 +154,18 @@
         :signup: Sign up now!
       :signup_teaser: "New user? "
       :title: Sign in
+  :supervisions: 
+    :new: 
+      :answers: 
+        :no: "No"
+        :yes: "Yes"
+      :question: Do you want to create new Supervision Session?
+      :title: New Supervision Session
+  :topics: 
+    :new: 
+      :content: 
+        :hint: Enter your problem or leave this blank if you do not have any.
+      :title: New Topic
   :users: 
     :edit: 
       :buttons: 

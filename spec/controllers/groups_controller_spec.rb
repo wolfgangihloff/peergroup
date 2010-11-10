@@ -7,7 +7,7 @@ describe GroupsController do
       test_sign_in @user
     end
 
-    describe "when given valid parameters" do
+    context "when given valid parameters" do
       before do
         post :create, :group => {:name => 'new group', :description => 'funky description'}
       end
@@ -23,7 +23,7 @@ describe GroupsController do
       end
     end
 
-    describe "when given invalid parameters" do
+    context "when given invalid parameters" do
       before do
         post :create, :group => {}
       end
