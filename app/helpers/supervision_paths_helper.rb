@@ -16,3 +16,4 @@ module SupervisionPathsHelper
     topic_votes_path(:supervision_id => supervision.id)
   end
 end
+

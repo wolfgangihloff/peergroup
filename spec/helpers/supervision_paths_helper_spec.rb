@@ -11,5 +11,38 @@ require 'spec_helper'
 #   end
 # end
 describe SupervisionPathsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe "supervision_step_path" do
+
+    def returned_path
+      supervision_step_path(@supervision)
+    end
+
+    before do
+      @supervision = Factory(:supervision)
+      @user = @supervision.group.founder
+      stub!(:current_user).and_return(@user)
+    end
+
+    context "when supervision is in topic state" do
+      before { @supervision.should_receive(:state).and_return("topic") }
+
+      context "and user has not yet submitted his topic" do
+        specify { returned_path.should == new_topic_path(:supervision_id => @supervision.id) }
+      end
+
+      context "and user already submitted his topic" do
+        before { @supervision.topics.create!(:author => @user) }
+
+        specify { returned_path.should == topics_path(:supervision_id => @supervision.id) }
+      end
+    end
+
+    context "when supervision is in topic_vote state" do
+      before { @supervision.should_receive(:state).and_return("topic_vote") }
+
+      specify { returned_path.should == topic_votes_path(:supervision_id => @supervision.id) }
+    end
+  end
 end
+
