@@ -3,3 +3,5 @@
 %h2= t(".heading", :default => "List of already submitted topics")
 
 = render "list", :topics => @topics
+
+= javascript_tag %Q{setTimeout("document.location=''", 1000);}
