@@ -4,6 +4,7 @@ class Supervision < ActiveRecord::Base
 
   belongs_to :group
   has_many :topics
+  has_many :votes, :through => :topics
 
   scope :unfinished, :conditions => ["state <> ?", "finished"]
 
@@ -11,6 +12,10 @@ class Supervision < ActiveRecord::Base
 
   def all_topics?
     group.members.all? {|m| !topics.where(:author_id => m.id).empty? }
+  end
+
+  def voted_on_topic?(user)
+    !votes(true).where(:user_id => user.id).empty?
   end
 end
 

@@ -43,13 +43,6 @@ describe UsersController do
           response.should have_tag("li", :content => user.name)
         end
       end
-
-      it "should paginate users" do
-        get :index
-        response.should have_tag("div.pagination")
-        response.should have_tag("span", :content => "1")
-        response.should have_tag("a", :href => "/users?page=2", :content => "2")
-      end
     end
   end
 

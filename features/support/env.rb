@@ -39,6 +39,8 @@ ActionController::Base.allow_rescue = false
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
 
+World(ActionController::RecordIdentifier)
+
 Before do
   DatabaseCleaner.clean
   ChatUpdate.delete_all

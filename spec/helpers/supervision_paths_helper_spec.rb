@@ -41,7 +41,17 @@ describe SupervisionPathsHelper do
     context "when supervision is in topic_vote state" do
       before { @supervision.should_receive(:state).and_return("topic_vote") }
 
-      specify { returned_path.should == topic_votes_path(:supervision_id => @supervision.id) }
+      context "when user not yet voted" do
+        before { @supervision.should_receive(:voted_on_topic?).and_return(false) }
+
+        specify { returned_path.should == new_topic_vote_path(:supervision_id => @supervision.id) }
+      end
+
+      context "when user already voted" do
+        before { @supervision.should_receive(:voted_on_topic?).and_return(true) }
+
+        specify { returned_path.should == topic_votes_path(:supervision_id => @supervision.id) }
+      end
     end
   end
 end

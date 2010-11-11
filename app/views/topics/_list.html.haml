@@ -1,6 +1,6 @@
 %ul.topics
   - topics.each do |topic|
-    %li.topic
+    %li[topic]
       .author
         = raw gravatar_for(topic.author)
         %p= topic.author.name
@@ -9,3 +9,14 @@
         %p.blank= t(".topic.skip_notice", :default => "%{username} did not submitted his topic.", :username => topic.author.name)
       - else
         %p= topic.content
+
+        - if @vote
+          = semantic_form_for(@vote, :url => topic_votes_path) do |f|
+            = hidden_field_tag :supervision_id, @supervision.id
+            = f.input :statement_id, :as => :hidden, :value => topic.id
+            = f.input :statement_id, :as => :hidden, :value => topic.id
+            = f.input :statement_type, :as => :hidden, :value => "Topic"
+            = f.input :user_id, :as => :hidden
+
+            = f.commit_button t(".vote", :default => "Vote")
+

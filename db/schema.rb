@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101110124603) do
+ActiveRecord::Schema.define(:version => 20101111100821) do
 
   create_table "chat_rooms", :force => true do |t|
     t.integer  "group_id"
@@ -105,5 +105,13 @@ ActiveRecord::Schema.define(:version => 20101110124603) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "votes", :force => true do |t|
+    t.integer  "statement_id"
+    t.string   "statement_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

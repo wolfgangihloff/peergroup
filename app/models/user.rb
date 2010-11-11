@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
   has_many :chat_users
   has_many :chat_rooms, :through => :chat_users
 
+  has_many :votes
+
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name, :email
@@ -41,8 +43,6 @@ class User < ActiveRecord::Base
 
   # Automatically create the virtual attribute 'password_confirmation'.
   validates_confirmation_of :password
-  
-  
   
   # Password validations.
   validates_presence_of :password

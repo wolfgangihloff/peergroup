@@ -13,7 +13,11 @@ module SupervisionPathsHelper
   end
 
   def supervision_step_topic_vote_path(supervision)
-    topic_votes_path(:supervision_id => supervision.id)
+    if supervision.voted_on_topic?(current_user)
+      topic_votes_path(:supervision_id => supervision.id)
+    else
+      new_topic_vote_path(:supervision_id => supervision.id)
+    end
   end
 end
 

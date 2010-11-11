@@ -163,7 +163,14 @@
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
   :topic_votes: 
+    :create: 
+      :flash: 
+        :successful: Thank you for voting.
     :index: 
+      :heading: List of all submitted topics
+      :step_description: Vote on the topic you want to discuss.
+      :title: Topic voting
+    :new: 
       :heading: List of all submitted topics
       :step_description: Vote on the topic you want to discuss.
       :title: Topic voting
@@ -174,6 +181,8 @@
     :index: 
       :heading: List of already submitted topics
       :title: Submitted topics
+    :list: 
+      :vote: Vote
     :new: 
       :content: 
         :hint: Enter your problem or leave this blank if you do not have any.

@@ -11,6 +11,11 @@ module NavigationHelpers
     when /the home\s?page/
       '/'
 
+    when /the (.+) for "([^"]*)" page/i
+      path_components = $1.split(/\s+/)
+      supervision = find_model!("supervision: \"#{$2}\"")
+      self.send(path_components.push('path').join('_').to_sym, :supervision_id => supervision.id)
+
     # the following are examples using path_to_pickle
 
     when /^#{capture_model}(?:'s)? page$/                           # eg. the forum's page

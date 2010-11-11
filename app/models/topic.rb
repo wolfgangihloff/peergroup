@@ -4,5 +4,7 @@ class Topic < ActiveRecord::Base
 
   belongs_to :supervision
   belongs_to :author, :class_name => "User"
+
+  has_many :votes, :as => :statement
 end
 
