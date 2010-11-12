@@ -2,5 +2,10 @@
 
 %h2= t(".heading", :default => "All submitted questions to the topic")
 
+%dl
+  %dt= t(".heading.topic", :default => "Current topic")
+  %dl
+    = render "topics/topic", :topic => @supervision.topic
+
 %p= t(".step_description", :default => "Do you have any question regarding the topic?")
 

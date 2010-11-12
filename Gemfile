@@ -19,6 +19,7 @@ end
 
 group :test, :development, :cucumber do
   gem "factory_girl_rails"
+  gem "database_cleaner"
 end
 
 group :test do
@@ -35,7 +36,6 @@ end
 group :cucumber do
   gem "cucumber-rails"
   gem "pickle"
-  gem "database_cleaner"
   gem "capybara", "=0.3.9"
   gem "launchy"
   gem "selenium-webdriver"

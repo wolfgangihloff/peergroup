@@ -1,6 +1,7 @@
 class TopicVotesController < ApplicationController
 
   before_filter :require_parent_supervision
+  before_filter :redirect_to_correct_supervision_step
 
   def new
     @topics = @supervision.topics
