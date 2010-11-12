@@ -9,8 +9,9 @@ class TopicVotesController < ApplicationController
   end
 
   def create
-    @vote = Vote.new(params[:vote])
-    @vote.save!
+    vote = Vote.new(params[:vote])
+    vote.user = current_user
+    vote.save!
     successful_flash("Thank you for voting.")
     redirect_to supervision_step_path(@supervision)
   end

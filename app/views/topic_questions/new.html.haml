@@ -1,11 +1,31 @@
 - @title = t(".title", :default => "Questions to the topic")
 
-%h2= t(".heading", :default => "All submitted questions to the topic")
+%h2= t(".heading", :default => "Questions to the topic")
 
 %dl
   %dt= t(".heading.topic", :default => "Current topic")
   %dl
     = render "topics/topic", :topic => @supervision.topic
 
+- if @supervision.topic_questions.count.zero?
+  %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
+
+%ul
+  - @supervision.topic_questions.each do |question|
+    %li[question]
+      .author
+        = raw gravatar_for(question.user)
+        %p= question.user.name
+
+    %p= question.question
+
 %p= t(".step_description", :default => "Do you have any question regarding the topic?")
+
+
+= semantic_form_for(@question, :url => topic_questions_path) do |f|
+  = hidden_field_tag :supervision_id, @supervision.id
+  = f.inputs do
+    = f.input :question
+  = f.buttons do
+    = f.commit_button t(".submit", :default => "Ask")
 

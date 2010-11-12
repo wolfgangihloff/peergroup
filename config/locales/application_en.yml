@@ -12,6 +12,8 @@
       :models: 
         :group: 
           :blank: 
+        :question: 
+          :blank: 
         :relationship: 
           :blank: 
         :supervision: 
@@ -35,9 +37,12 @@
     :passcode: 
     :password: 
     :password_confirmation: 
+    :question: 
     :state: 
     :statement: 
     :statement_id: 
+    :user: 
+    :user_id: 
   :chat_rooms: 
     :show: 
       :links: 
@@ -78,6 +83,10 @@
       :statement: 
         :blank: 
       :statement_id: 
+        :blank: 
+      :user: 
+        :blank: 
+      :user_id: 
         :blank: 
   :flash: 
     :sign_in_request: Please sign in to access this page.
@@ -171,9 +180,15 @@
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
   :topic_questions: 
+    :create: 
+      :flash: 
+        :successful: Question asked
     :new: 
-      :heading: All submitted questions to the topic
+      :heading: 
+      :notice: 
+        :no_questions: There are no questions... Be the first!
       :step_description: Do you have any question regarding the topic?
+      :submit: Ask
       :title: Questions to the topic
   :topic_votes: 
     :create: 

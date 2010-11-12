@@ -15,7 +15,7 @@ gem "faker"
 group :staging do
   gem "pg"
   gem "thin"
-end 
+end
 
 group :test, :development, :cucumber do
   gem "factory_girl_rails"

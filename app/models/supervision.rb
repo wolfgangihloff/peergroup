@@ -4,10 +4,12 @@ class Supervision < ActiveRecord::Base
 
   validates_inclusion_of :state, :in => STEPS
 
-  belongs_to :group
   has_many :topics
   has_many :topic_votes, :through => :topics, :source => :votes
+  has_many :topic_questions, :class_name => "Question"
+
   belongs_to :topic
+  belongs_to :group
 
   scope :unfinished, :conditions => ["state <> ?", "finished"]
 
