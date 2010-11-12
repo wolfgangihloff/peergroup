@@ -25,6 +25,14 @@ Feature: Questions to the topic
     And I should see "How big should be the startup?"
 
   Scenario: Answer the question
+    Given the user "Wolfgang" is signed in
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", question: "How big?"
+    When I go to the new topic question for "Current supervision" page
+    Then I should see "How big?" within question: "Kacper's question"
+    When I fill in "Answer" with "Very big!" within question: "Kacper's question"
+    When I press "Answer" within question: "Kacper's question"
+    Then I should see "Question answered"
+    And I should see "Very big!" within question: "Kacper's question"
 
   Scenario: Asking blank question
 

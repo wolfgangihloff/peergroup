@@ -10,6 +10,8 @@
         :too_long: 
         :too_short: 
       :models: 
+        :answer: 
+          :blank: 
         :group: 
           :blank: 
         :question: 
@@ -28,6 +30,7 @@
         :vote: 
           :blank: 
   :attributes: 
+    :answer: 
     :content: 
     :description: 
     :email: 
@@ -38,6 +41,7 @@
     :password: 
     :password_confirmation: 
     :question: 
+    :question_id: 
     :state: 
     :statement: 
     :statement_id: 
@@ -61,6 +65,8 @@
         :problem_owner: Problem owner
   :errors: 
     :attributes: 
+      :answer: 
+        :blank: 
       :description: 
         :blank: 
       :email: 
@@ -78,6 +84,10 @@
         :confirmation: 
         :too_long: 
         :too_short: 
+      :question: 
+        :blank: 
+      :question_id: 
+        :blank: 
       :state: 
         :inclusion: 
       :statement: 
@@ -179,16 +189,23 @@
         :yes: "Yes"
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
+  :topic_answers: 
+    :create: 
+      :flash: 
+        :successful: Question answered
   :topic_questions: 
     :create: 
       :flash: 
         :successful: Question asked
     :new: 
+      :answer: 
+        :submit: Answer
       :heading: 
       :notice: 
         :no_questions: There are no questions... Be the first!
+      :question: 
+        :submit: Ask
       :step_description: Do you have any question regarding the topic?
-      :submit: Ask
       :title: Questions to the topic
   :topic_votes: 
     :create: 

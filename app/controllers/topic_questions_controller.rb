@@ -3,7 +3,11 @@ class TopicQuestionsController < ApplicationController
   before_filter :require_parent_supervision
 
   def new
-    @question = Question.new
+    if @supervision.problem_owner?(current_user)
+      @answer = Answer.new
+    else
+      @question = Question.new
+    end
   end
 
   def create

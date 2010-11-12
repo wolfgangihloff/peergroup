@@ -7,4 +7,6 @@ class Question < ActiveRecord::Base
   belongs_to :user
   belongs_to :supervision
 
+  has_one :answer
+
 end

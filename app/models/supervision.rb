@@ -33,5 +33,9 @@ class Supervision < ActiveRecord::Base
   def choose_topic
     self.topic = topics.sort {|a,b| a.votes.count <=> b.votes.count}.last
   end
+
+  def problem_owner?(user)
+    topic && topic.user == user
+  end
 end
 
