@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
 
   def create
     topic = @supervision.topics.build(params[:topic])
-    topic.author = current_user
+    topic.user = current_user
     topic.save!
     successful_flash "Topic was submitted successfully."
     redirect_to supervision_step_path(@supervision)

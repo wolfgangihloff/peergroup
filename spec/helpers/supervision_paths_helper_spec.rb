@@ -32,7 +32,7 @@ describe SupervisionPathsHelper do
       end
 
       context "and user already submitted his topic" do
-        before { @supervision.topics.create!(:author => @user) }
+        before { @supervision.topics.create!(:user => @user) }
 
         specify { returned_path.should == topics_path(:supervision_id => @supervision.id) }
       end
@@ -52,6 +52,12 @@ describe SupervisionPathsHelper do
 
         specify { returned_path.should == topic_votes_path(:supervision_id => @supervision.id) }
       end
+    end
+
+    context "when supervision is in topic_question state" do
+      before { @supervision.should_receive(:state).and_return("topic_question") }
+
+      specify { returned_path.should == new_topic_question_path(:supervision_id => @supervision.id) }
     end
   end
 end

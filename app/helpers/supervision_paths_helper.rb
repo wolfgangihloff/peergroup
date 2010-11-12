@@ -5,7 +5,7 @@ module SupervisionPathsHelper
   end
 
   def supervision_step_topic_path(supervision)
-    if supervision.topics.find_by_author_id(current_user.id)
+    if supervision.topics.find_by_user_id(current_user.id)
       topics_path(:supervision_id => supervision.id)
     else
       new_topic_path(:supervision_id => supervision.id)
@@ -18,6 +18,10 @@ module SupervisionPathsHelper
     else
       new_topic_vote_path(:supervision_id => supervision.id)
     end
+  end
+
+  def supervision_step_topic_question_path(supervision)
+    new_topic_question_path(:supervision_id => supervision.id)
   end
 end
 

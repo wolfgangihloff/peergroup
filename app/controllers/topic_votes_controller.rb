@@ -16,7 +16,6 @@ class TopicVotesController < ApplicationController
 
   def index
     @topics = @supervision.topics
-    render :action => 'new'
   end
 end
 

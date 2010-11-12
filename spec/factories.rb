@@ -46,6 +46,11 @@ end
 
 Factory.define(:topic) do |topic|
   topic.supervision { Factory(:supervision) }
-  topic.author {|t| t.supervision.group.founder }
+  topic.user {|t| t.supervision.group.founder }
+end
+
+Factory.define(:vote) do |vote|
+  vote.statement { Factory(:topic) }
+  vote.user {|t| t.statement.user }
 end
 

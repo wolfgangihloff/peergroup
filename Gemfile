@@ -17,17 +17,19 @@ group :staging do
   gem "thin"
 end 
 
+group :test, :development, :cucumber do
+  gem "factory_girl_rails"
+end
+
 group :test do
   gem "webrat"
   gem "test-unit"
   gem "rspec", ">=2.0.0.rc"
   gem "rspec-rails", ">=2.0.0.rc"
-  gem "factory_girl_rails"
 end
 
 group :development do
   gem "nifty-generators"
-  gem "factory_girl"
 end
 
 group :cucumber do
@@ -35,7 +37,6 @@ group :cucumber do
   gem "pickle"
   gem "database_cleaner"
   gem "capybara", "=0.3.9"
-  gem "factory_girl"
   gem "launchy"
   gem "selenium-webdriver"
 end

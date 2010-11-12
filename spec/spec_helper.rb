@@ -46,7 +46,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:all) do
-    Factory.find_definitions
+    FactoryGirl.find_definitions
     DatabaseCleaner.clean_with :truncation
   end
 

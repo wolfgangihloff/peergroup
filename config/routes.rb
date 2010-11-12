@@ -19,6 +19,7 @@ Peergroupsupervision::Application.routes.draw do
   resources :supervisions, :only => [:new, :create, :show]
   resources :topics, :only => [:new, :index, :create]
   resources :topic_votes
+  resources :topic_questions
 
   resources :groups do
     resources :memberships

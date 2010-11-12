@@ -29,7 +29,7 @@ Feature: Providing the topic on supervision session
 
   Scenario: Providing the topic as the last one
     When a supervision: "Current supervision" exists with group: group "Developers"
-    And a topic exists with supervision: supervision "Current supervision", author: user "Wolfgang", content: "How to cook dinner?"
+    And a topic exists with supervision: supervision "Current supervision", user: user "Wolfgang", content: "How to cook dinner?"
     And I am on the homepage
     And I follow "Session" within "Developers" group brief
     Then I should see "Enter your problem or leave this blank if you do not have any."
