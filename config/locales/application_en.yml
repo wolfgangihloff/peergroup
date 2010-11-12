@@ -201,6 +201,8 @@
         :hint: Enter your problem or leave this blank if you do not have any.
       :submit: Submit Topic
       :title: New Topic
+    :topic: 
+      :vote: Vote
   :users: 
     :edit: 
       :buttons: 

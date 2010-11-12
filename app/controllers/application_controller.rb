@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_correct_supervision_step
-    controller_step = self.class.to_s.gsub("Controller", "").singularize.downcase
+    controller_step = self.class.to_s.gsub("Controller", "").singularize.underscore
 
     if @supervision.state != controller_step
       redirect_to supervision_step_path(@supervision)
