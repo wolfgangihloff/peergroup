@@ -5,7 +5,7 @@ class Answer < ActiveRecord::Base
 
   validates_presence_of :question, :question_id
   validates_presence_of :user, :user_id
-  validates_presence_of :answer
+  validates_presence_of :content
 
 end
 

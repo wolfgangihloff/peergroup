@@ -20,18 +20,18 @@
             = raw gravatar_for(question.user)
             %p= question.user.name
 
-          %p= question.question
+          %p= question.content
 
         - if question.answer
           %dt= t(".heading.answer", :default => "Answer")
-          %dd= question.answer.answer
+          %dd= question.answer.content
         - else
           - if @supervision.problem_owner?(current_user)
             = semantic_form_for(@answer, :url => topic_answers_path) do |f|
               = hidden_field_tag :supervision_id, @supervision.id
               = f.inputs do
                 = f.input :question_id, :as => "hidden", :value => question.id
-                = f.input :answer
+                = f.input :content
               = f.buttons do
                 = f.commit_button t(".answer.submit", :default => "Answer")
 
@@ -41,7 +41,7 @@
   = semantic_form_for(@question, :url => topic_questions_path) do |f|
     = hidden_field_tag :supervision_id, @supervision.id
     = f.inputs do
-      = f.input :question
+      = f.input :content
     = f.buttons do
       = f.commit_button t(".question.submit", :default => "Ask")
 

@@ -19,17 +19,17 @@ Feature: Questions to the topic
     Given the user "Kacper" is signed in
     When I go to the new topic question for "Current supervision" page
     Then I should see "How to make startup?"
-    When I fill in "Question" with "How big should be the startup?" within "form#new_question"
+    When I fill in "Content" with "How big should be the startup?" within "form#new_question"
     And I press "Ask" within "form#new_question"
     Then I should see "Question asked"
     And I should see "How big should be the startup?"
 
   Scenario: Answer the question
     Given the user "Wolfgang" is signed in
-    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", question: "How big?"
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
     When I go to the new topic question for "Current supervision" page
     Then I should see "How big?" within question: "Kacper's question"
-    When I fill in "Answer" with "Very big!" within question: "Kacper's question"
+    When I fill in "Content" with "Very big!" within question: "Kacper's question"
     When I press "Answer" within question: "Kacper's question"
     Then I should see "Question answered"
     And I should see "Very big!" within question: "Kacper's question"
