@@ -8,6 +8,7 @@ class TopicQuestionsController < ApplicationController
     else
       @question = Question.new
     end
+    render :partial => "questions" if params[:partial]
   end
 
   def create

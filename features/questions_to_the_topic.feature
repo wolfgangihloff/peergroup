@@ -36,5 +36,12 @@ Feature: Questions to the topic
 
   Scenario: Asking blank question
 
+  @javascript
   Scenario: Receive new question update
+    Given the user "Wolfgang" is signed in
+    When I go to the new topic question for "Current supervision" page
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+    Then I should see "How big?"
+
+  Scenario: Receive new answer update
 

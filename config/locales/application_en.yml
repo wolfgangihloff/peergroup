@@ -207,6 +207,14 @@
         :submit: Ask
       :step_description: Do you have any question regarding the topic?
       :title: Questions to the topic
+    :questions: 
+      :answer: 
+        :submit: Answer
+      :heading: 
+        :answer: Answer
+        :question: Question
+      :notice: 
+        :no_questions: There are no questions... Be the first!
   :topic_votes: 
     :create: 
       :flash: 

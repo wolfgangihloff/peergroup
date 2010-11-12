@@ -7,33 +7,7 @@
   %dd
     = render "topics/topic", :topic => @supervision.topic
 
-- if @supervision.topic_questions.count.zero?
-  %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
-
-%ul
-  - @supervision.topic_questions.each do |question|
-    %li[question]
-      %dl
-        %dt= t(".heading.question", :default => "Question")
-        %dd
-          .author
-            = raw gravatar_for(question.user)
-            %p= question.user.name
-
-          %p= question.content
-
-        - if question.answer
-          %dt= t(".heading.answer", :default => "Answer")
-          %dd= question.answer.content
-        - else
-          - if @supervision.problem_owner?(current_user)
-            = semantic_form_for(@answer, :url => topic_answers_path) do |f|
-              = hidden_field_tag :supervision_id, @supervision.id
-              = f.inputs do
-                = f.input :question_id, :as => "hidden", :value => question.id
-                = f.input :content
-              = f.buttons do
-                = f.commit_button t(".answer.submit", :default => "Answer")
+= render "questions"
 
 - unless @supervision.problem_owner?(current_user)
   %p= t(".step_description", :default => "Do you have any question regarding the topic?")
