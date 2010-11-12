@@ -43,5 +43,12 @@ Feature: Questions to the topic
     And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
     Then I should see "How big?"
 
+  @javascript
   Scenario: Receive new answer update
+    Given the user "Kacper" is signed in
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+    When I go to the new topic question for "Current supervision" page
+    Then I should see "How big?"
+    When the answer exists with question: question "Kacper's question", user: user "Wolfgang", content: "Worldwide"
+    Then I should see "Worldwide" within question: "Kacper's question"
 

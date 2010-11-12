@@ -13,10 +13,13 @@ jQuery(document).ready(function($) {
               $('#' + $(this).attr('id')).hide().fadeIn();
             }
           });
-        }
+        } else {
+          // Non problem owner scenario
 
+          $('#topic_questions').replaceWith(data);
+        }
+        setTimeout(updateList, 1000);
       });
-      setTimeout(updateList, 1000);
     }
 
     setTimeout(updateList, 1000);
