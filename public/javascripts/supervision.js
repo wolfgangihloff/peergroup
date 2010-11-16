@@ -1,22 +1,23 @@
 jQuery(document).ready(function($) {
-  if($('#topic_questions').length > 0) {
+
+  function setupNotifications(selector, resource) {
+
+    if($(selector).length == 0) return false;
 
     function updateList() {
       $.get(document.location + '&partial=true', function(data) {
 
-        if($('form#new_question').length == 0) {
+        if($('form#new_' + resource).length == 0) {
           // Problem owner scenario
-
-          $('li.question', data).each(function() {
+          $('li.' + resource, data).each(function() {
             if($('#' + $(this).attr('id')).length == 0) {
-              $('#topic_questions').append(this);
+              $(selector).append(this);
               $('#' + $(this).attr('id')).hide().fadeIn();
             }
           });
         } else {
           // Non problem owner scenario
-
-          $('#topic_questions').replaceWith(data);
+          $(selector).replaceWith(data);
         }
 
         if($('#next_step', data).length == 1) {
@@ -27,7 +28,14 @@ jQuery(document).ready(function($) {
     }
 
     setTimeout(updateList, 1000);
+  }
 
+  if(document.pgs.controller == 'TopicQuestionsController') {
+    setupNotifications('#topic_questions', 'question');
+  }
+
+  if(document.pgs.controller == 'IdeasController') {
+    setupNotifications('#ideas', 'idea');
   }
 });
 

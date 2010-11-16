@@ -20,3 +20,5 @@
         = yield
       = render 'layouts/footer'
 
+  = javascript_tag "if(document.pgs === undefined) document.pgs = {}; document.pgs.controller = '#{controller.class}';"
+

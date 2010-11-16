@@ -28,3 +28,19 @@ Feature: Providing ideas
     Then I should see "Idea rated"
     And the idea: "Kacper's idea" rating should be "4"
 
+  @javascript
+  Scenario: Receive new idea update
+    Given the user "Wolfgang" is signed in
+    When I go to the ideas for "Current supervision" page
+    And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    Then I should see "Use the newest technologies."
+
+#  @javascript
+#  Scenario: Receive new rating update
+#    Given the user "Kacper" is signed in
+#    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+#    When I go to the new topic question for "Current supervision" page
+#    Then I should see "How big?"
+#    When the answer exists with question: question "Kacper's question", user: user "Wolfgang", content: "Worldwide"
+#    Then I should see "Worldwide" within question: "Kacper's question"
+

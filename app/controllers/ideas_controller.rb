@@ -4,6 +4,7 @@ class IdeasController < ApplicationController
 
   def index
     @idea = Idea.new unless @supervision.problem_owner?(current_user)
+    render :partial => "ideas" if params[:partial]
   end
 
   def create
