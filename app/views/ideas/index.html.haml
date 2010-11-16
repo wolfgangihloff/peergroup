@@ -9,8 +9,20 @@
 
 = render "topic_questions/questions"
 
+= render "ideas"
+
 - if @supervision.problem_owner?(current_user)
-  %p= t(".no_ideas", :default => "Wait for some ideas")
+  - if @supervision.ideas.empty?
+    %p= t(".no_ideas", :default => "Wait for some ideas")
 - else
   %p= t(".step_description", :default => "Any ideas?")
+
+  = semantic_form_for(@idea) do |f|
+    = hidden_field_tag :supervision_id, @supervision.id
+    = f.inputs do
+      = f.input :content
+    = f.buttons do
+      = f.commit_button t(".idea.submit", :default => "Submit")
+      = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
+
 

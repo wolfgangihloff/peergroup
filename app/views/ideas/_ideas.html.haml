@@ -1,0 +1,12 @@
+%ul#ideas
+  - @supervision.ideas.each do |idea|
+    %li[idea]
+      %dl
+        %dt= t(".heading.idea", :default => "Idea")
+        %dd
+          .author
+            = raw gravatar_for(idea.user)
+            %p= idea.user.name
+
+          %p= idea.content
+

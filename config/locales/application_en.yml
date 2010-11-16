@@ -137,10 +137,21 @@
         :email: ""
         :password: ""
   :ideas: 
+    :create: 
+      :flash: 
+        :successful: Idea successfully submited
+    :ideas: 
+      :heading: 
+        :idea: Idea
     :index: 
+      :heading: Ideas
+      :idea: 
+        :no_more: I have no more ideas
+        :submit: Submit
       :no_ideas: Wait for some ideas
       :step_description: Any ideas?
       :title: Ideas
+      :topic: Current topic
   :layouts: 
     :footer: 
       :links: 
@@ -216,6 +227,7 @@
         :submit: Ask
       :step_description: Do you have any question regarding the topic?
       :title: Questions to the topic
+      :topic: Current topic
     :questions: 
       :answer: 
         :submit: Answer

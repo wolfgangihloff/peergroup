@@ -98,3 +98,4 @@ end
 Then /^#{capture_model} should have (\d+) (\w+)$/ do |name, size, association|
   model!(name).send(association).size.should == size.to_i
 end
+

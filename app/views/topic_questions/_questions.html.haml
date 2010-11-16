@@ -24,7 +24,7 @@
                 = f.commit_button t(".answer.submit", :default => "Answer")
 
   - unless @supervision.problem_owner?(current_user)
-    - if @supervision.topic_questions.count.zero?
+    - if @supervision.topic_questions.empty?
       %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
 
 - if @supervision.state != "topic_question" && controller.is_a?(TopicQuestionsController)

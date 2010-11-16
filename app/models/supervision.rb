@@ -9,6 +9,7 @@ class Supervision < ActiveRecord::Base
   has_many :next_step_votes, :class_name => "Vote", :as => :statement
   has_many :topic_questions, :class_name => "Question"
   has_many :questions
+  has_many :ideas
 
   belongs_to :topic
   belongs_to :group
