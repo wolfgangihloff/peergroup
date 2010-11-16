@@ -143,6 +143,9 @@
     :ideas: 
       :heading: 
         :idea: Idea
+        :rating: Rating
+      :rate: 
+        :rate: Rate
     :index: 
       :heading: Ideas
       :idea: 
@@ -152,6 +155,9 @@
       :step_description: Any ideas?
       :title: Ideas
       :topic: Current topic
+    :update: 
+      :flash: 
+        :successful: Idea rated
   :layouts: 
     :footer: 
       :links: 

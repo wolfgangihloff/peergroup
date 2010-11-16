@@ -60,6 +60,12 @@ Factory.define(:question) do |question|
   question.content "Why?"
 end
 
+Factory.define(:idea) do |question|
+  question.supervision { Factory(:supervision) }
+  question.user {|q| q.supervision.group.members.first }
+  question.content "Less talk, more action."
+end
+
 Factory.define(:answer) do |answer|
   answer.question { Factory(:question) }
   answer.user {|q| q.question.supervision.group.members.first }

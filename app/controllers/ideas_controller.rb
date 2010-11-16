@@ -18,4 +18,11 @@ class IdeasController < ApplicationController
     end
   end
 
+  def update
+    idea = @supervision.ideas.find(params[:id])
+    idea.update_attributes!(params[:idea])
+    successful_flash("Idea rated")
+    redirect_to supervision_step_path(@supervision)
+  end
 end
+

@@ -19,4 +19,12 @@ Feature: Providing ideas
     And I should see "Use the newest technologies."
 
   Scenario: Rating the idea
+    Given the user "Wolfgang" is signed in
+    And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    When I go to the ideas for "Current supervision" page
+    Then I should see "Use the newest technologies."
+    When I choose "4" within idea: "Kacper's idea"
+    And I press "Rate" within idea: "Kacper's idea"
+    Then I should see "Idea rated"
+    And the idea: "Kacper's idea" rating should be "4"
 

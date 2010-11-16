@@ -10,3 +10,14 @@
 
           %p= idea.content
 
+        %dt= t(".heading.rating", :default => "Rating")
+        %dl
+          = form_for(idea) do |f|
+            = hidden_field_tag :supervision_id, @supervision.id
+
+            - 1.upto(5) do |i|
+              = f.label :"rating_#{i}", i
+              = f.radio_button :rating, i
+
+            = f.submit t(".rate.rate", :default => "Rate")
+
