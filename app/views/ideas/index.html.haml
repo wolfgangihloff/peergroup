@@ -3,8 +3,9 @@
 %h2= t(".heading", :default => "Ideas")
 
 %dl
-  %dt= t(".heading.topic", :default => "Current topic")
+  %dt= t(".topic", :default => "Current topic")
   %dd
+    = render "topics/topic", :topic => @supervision.topic
 
 = render "topic_questions/questions"
 

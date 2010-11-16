@@ -70,4 +70,21 @@ Feature: Questions to the topic
     And I should see "Wait for some ideas"
 
   Scenario: Moving forward by clicking "No more questions" button
+    Given the user "Kacper" is signed in
+    When I go to the new topic question for "Current supervision" page
+    And I follow "I have no more questions"
+    Then the supervision: "Current supervision" state should be "idea"
+    And I should see "Any ideas?"
+
+  @javascript
+  Scenario: Moving forward non problem owner after problem owner gave last answer
+    Given the user "Kacper" is signed in
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+    When I go to the new topic question for "Current supervision" page
+    And I follow "I have no more questions"
+    Then the supervision: "Current supervision" state should be "topic_question"
+    And I should not see "Any ideas?"
+    When the answer exists with question: question "Kacper's question", user: user "Wolfgang", content: "Worldwide"
+    Then the supervision: "Current supervision" state should be "idea"
+    And I should see "Any ideas?"
 

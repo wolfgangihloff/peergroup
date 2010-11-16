@@ -18,6 +18,10 @@ jQuery(document).ready(function($) {
 
           $('#topic_questions').replaceWith(data);
         }
+
+        if($('#next_step', data).length == 1) {
+          $('#content').append($('#next_step', data).html());
+        }
         setTimeout(updateList, 1000);
       });
     }

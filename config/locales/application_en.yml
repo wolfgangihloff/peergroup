@@ -138,9 +138,8 @@
         :password: ""
   :ideas: 
     :index: 
-      :heading: 
-        :topic: Current topic
       :no_ideas: Wait for some ideas
+      :step_description: Any ideas?
       :title: Ideas
   :layouts: 
     :footer: 
@@ -213,6 +212,7 @@
       :notice: 
         :no_questions: There are no questions... Be the first!
       :question: 
+        :no_more: I have no more questions
         :submit: Ask
       :step_description: Do you have any question regarding the topic?
       :title: Questions to the topic

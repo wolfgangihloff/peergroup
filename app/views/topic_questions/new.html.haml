@@ -3,7 +3,7 @@
 %h2= t(".heading", :default => "Questions to the topic")
 
 %dl
-  %dt= t(".heading.topic", :default => "Current topic")
+  %dt= t(".topic", :default => "Current topic")
   %dd
     = render "topics/topic", :topic => @supervision.topic
 
@@ -18,4 +18,5 @@
       = f.input :content
     = f.buttons do
       = f.commit_button t(".question.submit", :default => "Ask")
+      = link_to(t(".question.no_more", :default => "I have no more questions"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
 

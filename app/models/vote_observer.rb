@@ -6,6 +6,9 @@ class VoteObserver < ActiveRecord::Observer
         supervision.choose_topic
         supervision.next_step!
       end
+    elsif vote.statement.is_a?(Supervision)
+      supervision = vote.statement
+      supervision.next_step! if supervision.can_move_to_idea_state?
     end
   end
 end

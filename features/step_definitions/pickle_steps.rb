@@ -80,7 +80,7 @@ end
 
 # model.attribute.should eql(value)
 # model.attribute.should_not eql(value)
-Then(/^#{capture_model}'s (\w+) (should(?: not)?) be #{capture_value}$/) do |name, attribute, expectation, expected|
+Then(/^#{capture_model}(?:'s)? (\w+) (should(?: not)?) be #{capture_value}$/) do |name, attribute, expectation, expected|
   actual_value  = model(name).send(attribute)
   expectation   = expectation.gsub(' ', '_')
   

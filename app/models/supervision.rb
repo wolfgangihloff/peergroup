@@ -27,6 +27,10 @@ class Supervision < ActiveRecord::Base
     group.members.all? {|m| problem_owner?(m) || !next_step_votes.where(:user_id => m.id).empty? }
   end
 
+  def can_move_to_idea_state?
+    state == "topic_question" && all_next_step_votes? && all_answers?
+  end
+
   def all_answers?
     questions.unanswered.empty?
   end
