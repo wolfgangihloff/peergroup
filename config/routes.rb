@@ -21,6 +21,7 @@ Peergroupsupervision::Application.routes.draw do
   resources :topic_votes
   resources :topic_questions
   resources :topic_answers
+  resources :ideas
 
   resources :groups do
     resources :memberships

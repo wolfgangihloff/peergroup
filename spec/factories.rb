@@ -54,3 +54,15 @@ Factory.define(:vote) do |vote|
   vote.user {|t| t.statement.user }
 end
 
+Factory.define(:question) do |question|
+  question.supervision { Factory(:supervision) }
+  question.user {|q| q.supervision.group.members.first }
+  question.content "Why?"
+end
+
+Factory.define(:answer) do |answer|
+  answer.question { Factory(:question) }
+  answer.user {|q| q.question.supervision.group.members.first }
+  answer.content "Just because."
+end
+

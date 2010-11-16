@@ -67,6 +67,8 @@
     :attributes: 
       :answer: 
         :blank: 
+      :content: 
+        :blank: 
       :description: 
         :blank: 
       :email: 
@@ -134,6 +136,12 @@
       :session: 
         :email: ""
         :password: ""
+  :ideas: 
+    :index: 
+      :heading: 
+        :topic: Current topic
+      :no_ideas: Wait for some ideas
+      :title: Ideas
   :layouts: 
     :footer: 
       :links: 
@@ -196,6 +204,7 @@
   :topic_questions: 
     :create: 
       :flash: 
+        :error: You must provide your question
         :successful: Question asked
     :new: 
       :answer: 

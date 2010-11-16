@@ -9,5 +9,7 @@ class Question < ActiveRecord::Base
 
   has_one :answer
 
+  scope :unanswered, where('(SELECT count(*) FROM answers WHERE answers.question_id = questions.id) = 0')
+
 end
 

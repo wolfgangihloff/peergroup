@@ -35,6 +35,12 @@ Feature: Questions to the topic
     And I should see "Very big!" within question: "Kacper's question"
 
   Scenario: Asking blank question
+    Given the user "Kacper" is signed in
+    When I go to the new topic question for "Current supervision" page
+    Then I should see "How to make startup?"
+    When I fill in "Content" with "" within "form#new_question"
+    And I press "Ask" within "form#new_question"
+    Then I should see "You must provide your question"
 
   @javascript
   Scenario: Receive new question update
@@ -51,4 +57,17 @@ Feature: Questions to the topic
     Then I should see "How big?"
     When the answer exists with question: question "Kacper's question", user: user "Wolfgang", content: "Worldwide"
     Then I should see "Worldwide" within question: "Kacper's question"
+
+  Scenario: Moving forward by providing last answer
+    Given the user "Wolfgang" is signed in
+    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+    And the vote exists with user: user "Kacper", statement: supervision "Current supervision"
+    When I go to the new topic question for "Current supervision" page
+    Then I should see "How big?"
+    When I fill in "Content" with "Not big at all"
+    And I press "Answer"
+    Then I should see "Question answered"
+    And I should see "Wait for some ideas"
+
+  Scenario: Moving forward by clicking "No more questions" button
 

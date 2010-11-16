@@ -14,9 +14,13 @@ class TopicQuestionsController < ApplicationController
   def create
     question = @supervision.topic_questions.build(params[:question])
     question.user = current_user
-    question.save!
-    successful_flash("Question asked")
-    redirect_to supervision_step_path(@supervision)
+    if question.save
+      successful_flash("Question asked")
+      redirect_to supervision_step_path(@supervision)
+    else
+      error_flash("You must provide your question")
+      redirect_to new_topic_question_path(:supervision_id => @supervision)
+    end
   end
 
 end

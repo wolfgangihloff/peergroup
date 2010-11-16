@@ -26,5 +26,23 @@ describe Supervision do
       @supervision.topic.should == @topic
     end
   end
+
+  describe "all_answers?" do
+    before do
+      @questions = Array.new(2) { Factory(:question, :supervision => @supervision) }
+    end
+
+    it "should be true when all answers provided" do
+      @questions.each {|q| Factory(:answer, :question => q) }
+
+      @supervision.all_answers?.should be_true
+    end
+
+    it "should be false when some answers are missing" do
+      Factory(:answer, :question => @questions.first)
+
+      @supervision.all_answers?.should be_false
+    end
+  end
 end
 

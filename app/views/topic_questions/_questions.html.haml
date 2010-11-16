@@ -23,7 +23,7 @@
               = f.buttons do
                 = f.commit_button t(".answer.submit", :default => "Answer")
 
-- unless @supervision.problem_owner?(current_user)
-  - if @supervision.topic_questions.count.zero?
-    %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
+  - unless @supervision.problem_owner?(current_user)
+    - if @supervision.topic_questions.count.zero?
+      %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
 

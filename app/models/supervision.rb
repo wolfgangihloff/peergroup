@@ -1,12 +1,14 @@
 class Supervision < ActiveRecord::Base
 
-  STEPS = %w{topic topic_vote topic_question finished}
+  STEPS = %w{topic topic_vote topic_question idea finished}
 
   validates_inclusion_of :state, :in => STEPS
 
   has_many :topics
   has_many :topic_votes, :through => :topics, :source => :votes
+  has_many :next_step_votes, :class_name => "Vote", :as => :statement
   has_many :topic_questions, :class_name => "Question"
+  has_many :questions
 
   belongs_to :topic
   belongs_to :group
@@ -21,9 +23,18 @@ class Supervision < ActiveRecord::Base
     end
   end
 
+  def all_next_step_votes?
+    group.members.all? {|m| problem_owner?(m) || !next_step_votes.where(:user_id => m.id).empty? }
+  end
+
+  def all_answers?
+    questions.unanswered.empty?
+  end
+
   def next_step!
     self.state = STEPS[STEPS.index(state) + 1]
     save!
+    next_step_votes.destroy_all
   end
 
   def voted_on_topic?(user)
