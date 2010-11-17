@@ -141,6 +141,8 @@
       :flash: 
         :successful: Idea successfully submited
     :ideas: 
+      :feedback: 
+        :info: Provide the feedback on ideas
       :heading: 
         :idea: Idea
         :rating: Rating

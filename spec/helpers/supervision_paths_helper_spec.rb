@@ -65,6 +65,12 @@ describe SupervisionPathsHelper do
 
       specify { returned_path.should == ideas_path(:supervision_id => @supervision.id) }
     end
+
+    context "when supervision is in idea_feedback state" do
+      before { @supervision.should_receive(:state).and_return("idea_feedback") }
+
+      specify { returned_path.should == ideas_path(:supervision_id => @supervision.id) }
+    end
   end
 end
 

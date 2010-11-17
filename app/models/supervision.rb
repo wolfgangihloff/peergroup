@@ -1,6 +1,6 @@
 class Supervision < ActiveRecord::Base
 
-  STEPS = %w{topic topic_vote topic_question idea finished}
+  STEPS = %w{topic topic_vote topic_question idea idea_feedback finished}
 
   validates_inclusion_of :state, :in => STEPS
 
@@ -32,8 +32,16 @@ class Supervision < ActiveRecord::Base
     state == "topic_question" && all_next_step_votes? && all_answers?
   end
 
+  def can_move_to_idea_feedback_state?
+    state == "idea" && all_next_step_votes? && all_idea_ratings?
+  end
+
   def all_answers?
     questions.unanswered.empty?
+  end
+
+  def all_idea_ratings?
+    ideas.not_rated.empty?
   end
 
   def next_step!

@@ -8,7 +8,7 @@ class VoteObserver < ActiveRecord::Observer
       end
     elsif vote.statement.is_a?(Supervision)
       supervision = vote.statement
-      supervision.next_step! if supervision.can_move_to_idea_state?
+      supervision.next_step! if supervision.can_move_to_idea_state? || supervision.can_move_to_idea_feedback_state?
     end
   end
 end

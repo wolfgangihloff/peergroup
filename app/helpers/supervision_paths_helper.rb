@@ -20,5 +20,9 @@ module SupervisionPathsHelper
   def supervision_step_idea_path(*_)
     :ideas_path
   end
+
+  def supervision_step_idea_feedback_path(*_)
+    :ideas_path
+  end
 end
 

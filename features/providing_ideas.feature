@@ -44,3 +44,21 @@ Feature: Providing ideas
     When the idea: "Kacper's idea" rating is "3"
     Then I should see "Rating" within idea "Kacper's idea"
 
+  Scenario: Moving forward by providing last rating
+    Given the user "Wolfgang" is signed in
+    And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    And the vote exists with user: user "Kacper", statement: supervision "Current supervision"
+    When I go to the ideas for "Current supervision" page
+    Then I should see "Use the newest technologies."
+    When I choose "4" within idea: "Kacper's idea"
+    And I press "Rate" within idea: "Kacper's idea"
+    Then I should see "Idea rated"
+    And I should see "Provide the feedback on ideas"
+
+  Scenario: Moving forward by clicking "No more questions" button
+    Given the user "Kacper" is signed in
+    When I go to the new topic question for "Current supervision" page
+    And I follow "I have no more ideas"
+    Then the supervision: "Current supervision" state should be "idea_feedback"
+    And I should see "Wait for the feedback on the ideas"
+

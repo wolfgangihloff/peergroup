@@ -23,3 +23,7 @@
               - unless idea.rating
                 = f.submit t(".rate.rate", :default => "Rate")
 
+- if @supervision.state == "idea_feedback"
+  - if @supervision.problem_owner?(current_user)
+    %p= t(".feedback.info", :default => "Provide the feedback on ideas")
+
