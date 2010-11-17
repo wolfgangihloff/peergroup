@@ -57,8 +57,8 @@ Feature: Providing ideas
 
   Scenario: Moving forward by clicking "No more questions" button
     Given the user "Kacper" is signed in
-    When I go to the new topic question for "Current supervision" page
+    When I go to the ideas for "Current supervision" page
     And I follow "I have no more ideas"
     Then the supervision: "Current supervision" state should be "idea_feedback"
-    And I should see "Wait for the feedback on the ideas"
+    And I should see "Wait for Wolfgang's feedback"
 

@@ -54,12 +54,20 @@ class Supervision < ActiveRecord::Base
     !topic_votes(true).where(:user_id => user.id).empty?
   end
 
+  def voted_on_next_step?(user)
+    !next_step_votes(true).where(:user_id => user.id).empty?
+  end
+
   def choose_topic
     self.topic = topics.sort {|a,b| a.votes.count <=> b.votes.count}.last
   end
 
+  def problem_owner
+    topic && topic.user
+  end
+
   def problem_owner?(user)
-    topic && topic.user == user
+    problem_owner == user
   end
 end
 
