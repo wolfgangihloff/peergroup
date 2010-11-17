@@ -35,12 +35,12 @@ Feature: Providing ideas
     And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
     Then I should see "Use the newest technologies."
 
-#  @javascript
-#  Scenario: Receive new rating update
-#    Given the user "Kacper" is signed in
-#    And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
-#    When I go to the new topic question for "Current supervision" page
-#    Then I should see "How big?"
-#    When the answer exists with question: question "Kacper's question", user: user "Wolfgang", content: "Worldwide"
-#    Then I should see "Worldwide" within question: "Kacper's question"
+  @javascript
+  Scenario: Receive new rating update
+    Given the user "Kacper" is signed in
+    And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    When I go to the ideas for "Current supervision" page
+    Then I should not see "Rating" within idea "Kacper's idea"
+    When the idea: "Kacper's idea" rating is "3"
+    Then I should see "Rating" within idea "Kacper's idea"
 

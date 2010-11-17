@@ -10,3 +10,11 @@ Given /^#{capture_model} is #{capture_model}(?:'s)? (\w+)$/ do |target, owner, a
   owner.save!
 end
 
+When /^#{capture_model} ([\w]+) is #{capture_value}$/ do |name, attribute, value|
+  value = /^[+-]?[0-9_]+(\.\d+)?$/.match(value) ? value : eval(value)
+
+  record = model(name)
+  record.send(:"#{attribute}=", value)
+  record.save!
+end
+
