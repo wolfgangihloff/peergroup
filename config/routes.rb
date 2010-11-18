@@ -14,7 +14,6 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :users, :member => { :following => :get, :followers => :get }
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :microposts, :only => [:create, :destroy]
   resources :relationships, :only => [:create, :destroy]
   resources :supervisions, :only => [:new, :create, :show]
   resources :supervision_votes
@@ -23,6 +22,8 @@ Peergroupsupervision::Application.routes.draw do
   resources :topic_questions
   resources :topic_answers
   resources :ideas
+  resources :ideas_feedbacks
+  resources :solutions
 
   resources :groups do
     resources :memberships

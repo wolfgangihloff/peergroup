@@ -20,8 +20,8 @@ jQuery(document).ready(function($) {
           $(selector).replaceWith(data);
         }
 
-        if($('#next_step', data).length == 1) {
-          $('#content').append($('#next_step', data).html());
+        if($('#next_step', data).length > 0) {
+          document.location = '';
         }
         setTimeout(updateList, 1000);
       });

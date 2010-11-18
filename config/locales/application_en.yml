@@ -153,6 +153,8 @@
       :idea: 
         :no_more: I have no more ideas
         :submit: Submit
+      :ideas_feedback: 
+        :submit: Submit
       :no_ideas: Wait for some ideas
       :step_description: Any ideas?
       :title: Ideas
@@ -160,6 +162,10 @@
     :update: 
       :flash: 
         :successful: Idea rated
+  :ideas_feedbacks: 
+    :create: 
+      :flash: 
+        :successful: Feedback submitted
   :layouts: 
     :footer: 
       :links: 
@@ -208,6 +214,15 @@
         :signup: Sign up now!
       :signup_teaser: "New user? "
       :title: Sign in
+  :solutions: 
+    :index: 
+      :heading: Ideas
+      :ideas_feedback: 
+        :heading: "Feedback on ideas:"
+      :no_solutions: Wait for some solutions
+      :step_description: Any solutions?
+      :title: Solutions
+      :topic: Current topic
   :supervisions: 
     :new: 
       :answers: 

@@ -5,3 +5,4 @@ class Vote < ActiveRecord::Base
   validates_presence_of :user, :user_id
   validates_presence_of :statement, :statement_id
 end
+

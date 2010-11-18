@@ -1,0 +1,21 @@
+- @title = t(".title", :default => "Solutions")
+
+%h2= t(".heading", :default => "Solutions")
+
+%dl
+  %dt= t(".topic", :default => "Current topic")
+  %dd
+    = render "topics/topic", :topic => @supervision.topic
+
+= render "topic_questions/questions"
+
+= render "ideas/ideas"
+
+%p= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
+%p= @supervision.ideas_feedback.content
+
+- if @supervision.problem_owner?(current_user)
+  %p= t(".no_solutions", :default => "Wait for some solutions")
+- else
+  %p= t(".step_description", :default => "Any solutions?")
+

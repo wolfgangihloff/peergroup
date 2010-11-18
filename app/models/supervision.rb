@@ -1,6 +1,6 @@
 class Supervision < ActiveRecord::Base
 
-  STEPS = %w{topic topic_vote topic_question idea idea_feedback finished}
+  STEPS = %w{topic topic_vote topic_question idea idea_feedback solution finished}
 
   validates_inclusion_of :state, :in => STEPS
 
@@ -10,6 +10,8 @@ class Supervision < ActiveRecord::Base
   has_many :topic_questions, :class_name => "Question"
   has_many :questions
   has_many :ideas
+
+  has_one :ideas_feedback
 
   belongs_to :topic
   belongs_to :group

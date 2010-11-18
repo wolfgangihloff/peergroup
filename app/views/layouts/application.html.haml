@@ -8,8 +8,10 @@
     = javascript_tag "jQuery.noConflict();"
     = javascript_include_tag 'jquery.form'
     = javascript_include_tag 'chat'
+    = javascript_tag "if(document.pgs === undefined) document.pgs = {}; document.pgs.controller = '#{controller.class}';"
     = javascript_include_tag 'supervision'
     = csrf_meta_tag
+
   %body
     #outer
       = render 'layouts/header'
@@ -19,6 +21,4 @@
           %div{:class => "flash #{key}"}= value
         = yield
       = render 'layouts/footer'
-
-  = javascript_tag "if(document.pgs === undefined) document.pgs = {}; document.pgs.controller = '#{controller.class}';"
 

@@ -14,17 +14,21 @@
 - if @supervision.problem_owner?(current_user)
 
   - if @supervision.ideas.empty?
-
     %p= t(".no_ideas", :default => "Wait for some ideas")
+
+  - if @supervision.state == "idea_feedback"
+    = semantic_form_for(@ideas_feedback) do |f|
+      = hidden_field_tag :supervision_id, @supervision.id
+      = f.inputs do
+        = f.input :content
+      = f.buttons do
+        = f.commit_button t(".ideas_feedback.submit", :default => "Submit")
 
 - else
 
   - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "idea_feedback"
-
     %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
-
   - else
-
     %p= t(".step_description", :default => "Any ideas?")
 
     = semantic_form_for(@idea) do |f|
