@@ -17,20 +17,16 @@ module SupervisionPathsHelper
     :new_topic_question_path
   end
 
-  def supervision_idea_step_path(*_)
-    :ideas_path
+  %w{idea idea_feedback}.each do |step|
+    define_method "supervision_#{step}_step_path" do
+      :ideas_path
+    end
   end
 
-  def supervision_idea_feedback_step_path(*_)
-    :ideas_path
-  end
-
-  def supervision_solution_step_path(*_)
-    :solutions_path
-  end
-
-  def supervision_solution_feedback_step_path(*_)
-    :solutions_path
+  %w{solution solution_feedback finished}.each do |step|
+    define_method "supervision_#{step}_step_path" do |_|
+      :solutions_path
+    end
   end
 end
 

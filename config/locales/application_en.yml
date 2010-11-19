@@ -244,6 +244,10 @@
     :update: 
       :flash: 
         :successful: Solution rated
+  :solutions_feedbacks: 
+    :create: 
+      :flash: 
+        :successful: Feedback submitted
   :supervisions: 
     :new: 
       :answers: 

@@ -23,7 +23,7 @@
               - unless solution.rating
                 = f.submit t(".rate.rate", :default => "Rate")
 
-  - if !%w{solution solution_feedback}.include?(@supervision.state) && controller.is_a?(SolutionsController)
+  - if !%w{solution solution_feedback finished}.include?(@supervision.state) && controller.is_a?(SolutionsController)
     #next_step
       = javascript_tag "document.location='#{supervision_step_path(@supervision)}'"
 

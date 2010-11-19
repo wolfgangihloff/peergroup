@@ -83,6 +83,12 @@ describe SupervisionPathsHelper do
 
       specify { returned_path.should == solutions_path(:supervision_id => @supervision.id) }
     end
+
+    context "when supervision is in finished state" do
+      before { @supervision.should_receive(:state).and_return("finished") }
+
+      specify { returned_path.should == solutions_path(:supervision_id => @supervision.id) }
+    end
   end
 end
 
