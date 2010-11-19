@@ -1,17 +1,22 @@
-ul.topics {
+ul.topics, ul#topic_questions, ul#ideas {
   overflow: auto;
   list-style: none; }
-  ul.topics li {
+  ul.topics li, ul#topic_questions li, ul#ideas li {
     float: left; }
+
+p.head {
+  font-weight: bold; }
 
 .contentable {
   width: 250px;
   background-color: #cccccc;
   margin: 5px;
   padding: 5px;
-  overflow: auto; }
+  overflow: hidden; }
   .contentable .author {
     float: left;
     margin: 10px; }
-    .contentable .author p {
-      margin: 0; }
+  .contentable p {
+    margin: 0; }
+  .contentable form {
+    clear: both; }

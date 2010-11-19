@@ -1,18 +1,12 @@
 %ul#topic_questions
+  %p.head= t(".questions", :default => "Questions")
+
   - @supervision.topic_questions.each do |question|
     %li[question]
-      %dl
-        %dt= t(".heading.question", :default => "Question")
-        %dd
-          .author
-            = raw gravatar_for(question.user)
-            %p= question.user.name
-
-          %p= question.content
-
+      = render :layout => "supervisions/contentable", :object => question do
         - if question.answer
-          %dt= t(".heading.answer", :default => "Answer")
-          %dd= question.answer.content
+          %p.head= t(".heading.answer", :default => "Answer")
+          %p= question.answer.content
         - else
           - if @supervision.problem_owner?(current_user)
             = semantic_form_for(@answer, :url => topic_answers_path) do |f|
@@ -23,8 +17,10 @@
               = f.buttons do
                 = f.commit_button t(".answer.submit", :default => "Answer")
 
-  - unless @supervision.problem_owner?(current_user)
-    - if @supervision.topic_questions.empty?
+  - if @supervision.topic_questions.empty?
+    - if @supervision.problem_owner?(current_user)
+      %p.no_question= t(".problem_owner.no_questions", :default => "Wait for some questions.")
+    - else
       %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
 
 - if @supervision.state != "topic_question" && controller.is_a?(TopicQuestionsController)

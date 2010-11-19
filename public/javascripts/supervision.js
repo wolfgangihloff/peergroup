@@ -10,14 +10,17 @@ jQuery(document).ready(function($) {
         if($('form#new_' + resource).length == 0) {
           // Problem owner scenario
           $('li.' + resource, data).each(function() {
+            $('.no_' + resource).remove();
             if($('#' + $(this).attr('id')).length == 0) {
               $(selector).append(this);
+              $('input[type=radio].star').rating();
               $('#' + $(this).attr('id')).hide().fadeIn();
             }
           });
         } else {
           // Non problem owner scenario
           $(selector).replaceWith(data);
+          $('input[type=radio].star').rating();
         }
 
         if($('#next_step', data).length > 0) {

@@ -284,6 +284,8 @@
         :question: Question
       :notice: 
         :no_questions: There are no questions... Be the first!
+      :problem_owner: 
+        :no_questions: Wait for some questions.
   :topic_votes: 
     :create: 
       :flash: 
@@ -293,7 +295,7 @@
       :step_description: 
       :title: Topic voting
     :new: 
-      :heading:
+      :heading: 
       :step_description: Vote on the topic you want to discuss.
       :title: Topic voting
   :topics: 

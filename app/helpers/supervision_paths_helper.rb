@@ -18,7 +18,7 @@ module SupervisionPathsHelper
   end
 
   %w{idea idea_feedback}.each do |step|
-    define_method "supervision_#{step}_step_path" do
+    define_method "supervision_#{step}_step_path" do |_|
       :ideas_path
     end
   end

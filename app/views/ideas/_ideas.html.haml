@@ -1,27 +1,20 @@
 %ul#ideas
+  %p.head= t(".ideas", :default => "Ideas")
+
   - @supervision.ideas.each do |idea|
     %li[idea]
-      %dl
-        %dt= t(".heading.idea", :default => "Idea")
-        %dd
-          .author
-            = raw gravatar_for(idea.user)
-            %p= idea.user.name
-
-          %p= idea.content
-
+      = render :layout => "supervisions/contentable", :object => idea do
         - if idea.rating || @supervision.problem_owner?(current_user)
-          %dt= t(".heading.rating", :default => "Rating")
-          %dl
-            = form_for(idea) do |f|
-              = hidden_field_tag :supervision_id, @supervision.id
+          = form_for(idea) do |f|
+            %p.head= t(".heading.rating", :default => "Rating")
+            = hidden_field_tag :supervision_id, @supervision.id
 
-              - 1.upto(5) do |i|
-                = f.label :"rating_#{i}", i
-                = f.radio_button :rating, i, idea.rating ? {:disabled => 'disabled'} : {}
+            - 1.upto(5) do |i|
+              = f.label :"rating_#{i}", i, :class => "hidden"
+              = f.radio_button :rating, i, (idea.rating ? {:disabled => 'disabled'} : {}).update(:class => "star")
 
-              - unless idea.rating
-                = f.submit t(".rate.rate", :default => "Rate")
+            - unless idea.rating
+              = f.submit t(".rate.rate", :default => "Rate")
 
   - if !%w{idea idea_feedback}.include?(@supervision.state) && controller.is_a?(IdeasController)
     #next_step

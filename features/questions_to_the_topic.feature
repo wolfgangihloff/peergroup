@@ -46,7 +46,9 @@ Feature: Questions to the topic
   Scenario: Receive new question update
     Given the user "Wolfgang" is signed in
     When I go to the new topic question for "Current supervision" page
+    Then I should see "Wait for some questions"
     And the question: "Kacper's question" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "How big?"
+    Then I should not see "Wait for some questions"
     Then I should see "How big?"
 
   @javascript
