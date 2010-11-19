@@ -1,0 +1,17 @@
+ul.topics {
+  overflow: auto;
+  list-style: none; }
+  ul.topics li {
+    float: left; }
+
+.contentable {
+  width: 250px;
+  background-color: #cccccc;
+  margin: 5px;
+  padding: 5px;
+  overflow: auto; }
+  .contentable .author {
+    float: left;
+    margin: 10px; }
+    .contentable .author p {
+      margin: 0; }

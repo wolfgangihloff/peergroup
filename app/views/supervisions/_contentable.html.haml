@@ -1,0 +1,11 @@
+.contentable.round
+  .author
+    = raw gravatar_for(contentable.user)
+    %p= contentable.user.name
+
+  %p.content= defined?(content) ? content : contentable.content
+
+  - if block_given?
+    .additional
+      = yield
+

@@ -289,11 +289,11 @@
       :flash: 
         :successful: Thank you for voting.
     :index: 
-      :heading: List of all submitted topics
+      :heading: 
       :step_description: 
       :title: Topic voting
     :new: 
-      :heading: List of all submitted topics
+      :heading:
       :step_description: Vote on the topic you want to discuss.
       :title: Topic voting
   :topics: 

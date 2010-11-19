@@ -1,13 +1,5 @@
-.author
-  = raw gravatar_for(topic.user)
-  %p= topic.user.name
-
-- if topic.content.blank?
-  %p.blank= t(".topic.skip_notice", :default => "%{username} did not submitted his topic.", :username => topic.user.name)
-- else
-  %p= topic.content
-
-  - if @vote
+= render :layout => "supervisions/contentable", :object => topic, :locals => {:content => topic_content(topic)} do
+  - if @vote && !topic.content.blank?
     = semantic_form_for(@vote, :url => topic_votes_path) do |f|
       = hidden_field_tag :supervision_id, @supervision.id
       = f.input :statement_id, :as => :hidden, :value => topic.id

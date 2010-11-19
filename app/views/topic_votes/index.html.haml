@@ -1,10 +1,10 @@
 - @title = t(".title", :default => "Topic voting")
 
-%h2= t(".heading", :default => "List of all submitted topics")
+%h2= t(".heading", :default => "All submitted topics")
 
 %p= t(".step_description", :default => "Waiting for others to vote.")
 
-= render "topics/list", :topics => @topics
+= render "topics/topics", :topics => @topics
 
 = javascript_tag %Q{setTimeout("document.location=''", 1000);}
 
