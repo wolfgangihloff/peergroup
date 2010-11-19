@@ -9,7 +9,9 @@ class VoteObserver < ActiveRecord::Observer
       end
     when Supervision
       supervision = vote.statement
-      supervision.next_step! if supervision.can_move_to_idea_state? || supervision.can_move_to_idea_feedback_state?
+      supervision.next_step! if %w{idea idea_feedback solution_feedback}.any? do |step|
+        supervision.send("can_move_to_#{step}_state?")
+      end
     end
   end
 end

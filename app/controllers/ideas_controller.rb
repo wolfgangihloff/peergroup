@@ -17,7 +17,7 @@ class IdeasController < ApplicationController
       redirect_to supervision_step_path(@supervision)
     else
       error_flash("You must provide your idea")
-      redirect_to ideas_path(:supervision_id => @supervision)
+      redirect_to ideas_path(:supervision_id => @supervision.id)
     end
   end
 

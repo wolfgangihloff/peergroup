@@ -20,7 +20,7 @@ module Peergroupsupervision
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
-    config.active_record.observers = %w{topic vote answer idea ideas_feedback}.map do |name|
+    config.active_record.observers = %w{topic vote answer idea ideas_feedback solution}.map do |name|
       :"#{name}_observer"
     end
 

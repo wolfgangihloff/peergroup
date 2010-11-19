@@ -28,5 +28,9 @@ module SupervisionPathsHelper
   def supervision_solution_step_path(*_)
     :solutions_path
   end
+
+  def supervision_solution_feedback_step_path(*_)
+    :solutions_path
+  end
 end
 

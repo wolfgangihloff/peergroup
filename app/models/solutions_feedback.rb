@@ -1,6 +1,6 @@
 require 'supervision_part'
 
-class IdeasFeedback < ActiveRecord::Base
+class SolutionsFeedback < ActiveRecord::Base
   include SupervisionPart
 end
 

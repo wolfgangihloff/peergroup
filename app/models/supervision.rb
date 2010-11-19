@@ -1,6 +1,6 @@
 class Supervision < ActiveRecord::Base
 
-  STEPS = %w{topic topic_vote topic_question idea idea_feedback solution finished}
+  STEPS = %w{topic topic_vote topic_question idea idea_feedback solution solution_feedback finished}
 
   validates_inclusion_of :state, :in => STEPS
 
@@ -10,8 +10,10 @@ class Supervision < ActiveRecord::Base
   has_many :topic_questions, :class_name => "Question"
   has_many :questions
   has_many :ideas
+  has_many :solutions
 
   has_one :ideas_feedback
+  has_one :solutions_feedback
 
   belongs_to :topic
   belongs_to :group
@@ -34,16 +36,18 @@ class Supervision < ActiveRecord::Base
     state == "topic_question" && all_next_step_votes? && all_answers?
   end
 
-  def can_move_to_idea_feedback_state?
-    state == "idea" && all_next_step_votes? && all_idea_ratings?
+  %w{idea solution}.each do |step|
+    define_method "can_move_to_#{step}_feedback_state?" do
+      state == step && all_next_step_votes? && send("all_#{step}_ratings?")
+    end
+
+    define_method "all_#{step}_ratings?" do
+      send(step.pluralize).not_rated.empty?
+    end
   end
 
   def all_answers?
     questions.unanswered.empty?
-  end
-
-  def all_idea_ratings?
-    ideas.not_rated.empty?
   end
 
   def next_step!

@@ -1,4 +1,5 @@
 class IdeasFeedbacksController < ApplicationController
+
   before_filter :require_parent_supervision
 
   def create

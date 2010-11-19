@@ -66,6 +66,12 @@ Factory.define(:idea) do |question|
   question.content "Less talk, more action."
 end
 
+Factory.define(:ideas_feedback) do |question|
+  question.supervision { Factory(:supervision) }
+  question.user {|q| q.supervision.group.founder }
+  question.content "Thanks for the ideas!"
+end
+
 Factory.define(:answer) do |answer|
   answer.question { Factory(:question) }
   answer.user {|q| q.question.supervision.group.members.first }

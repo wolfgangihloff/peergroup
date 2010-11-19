@@ -1,7 +1,7 @@
 require 'supervision_part'
 require 'rateable'
 
-class Idea < ActiveRecord::Base
+class Solution < ActiveRecord::Base
   include SupervisionPart
   include Rateable
 

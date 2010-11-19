@@ -1,0 +1,33 @@
+%ul#solutions
+  - @supervision.solutions.each do |solution|
+    %li[solution]
+      %dl
+        %dt= t(".heading.solution", :default => "Solutions")
+        %dd
+          .author
+            = raw gravatar_for(solution.user)
+            %p= solution.user.name
+
+          %p= solution.content
+
+        - if solution.rating || @supervision.problem_owner?(current_user)
+          %dt= t(".heading.rating", :default => "Rating")
+          %dl
+            = form_for(solution) do |f|
+              = hidden_field_tag :supervision_id, @supervision.id
+
+              - 1.upto(5) do |i|
+                = f.label :"rating_#{i}", i
+                = f.radio_button :rating, i, solution.rating ? {:disabled => 'disabled'} : {}
+
+              - unless solution.rating
+                = f.submit t(".rate.rate", :default => "Rate")
+
+  - if !%w{solution solution_feedback}.include?(@supervision.state) && controller.is_a?(SolutionsController)
+    #next_step
+      = javascript_tag "document.location='#{supervision_step_path(@supervision)}'"
+
+- if @supervision.state == "solution_feedback"
+  - if @supervision.problem_owner?(current_user)
+    %p= t(".feedback.info", :default => "Provide the feedback on solutions")
+

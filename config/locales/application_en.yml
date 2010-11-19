@@ -215,14 +215,35 @@
       :signup_teaser: "New user? "
       :title: Sign in
   :solutions: 
+    :create: 
+      :flash: 
+        :successful: Solution submited
     :index: 
       :heading: Ideas
       :ideas_feedback: 
         :heading: "Feedback on ideas:"
       :no_solutions: Wait for some solutions
+      :solution: 
+        :no_more: 
+        :submit: Submit
+      :solution_feedback: 
+        :description: Provide the feedback on solutions
+      :solutions_feedback: 
+        :submit: Submit
       :step_description: Any solutions?
       :title: Solutions
       :topic: Current topic
+    :solutions: 
+      :feedback: 
+        :info: Provide the feedback on solutions
+      :heading: 
+        :rating: Rating
+        :solution: Solutions
+      :rate: 
+        :rate: Rate
+    :update: 
+      :flash: 
+        :successful: Solution rated
   :supervisions: 
     :new: 
       :answers: 

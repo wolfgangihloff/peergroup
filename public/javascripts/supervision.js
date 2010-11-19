@@ -37,5 +37,10 @@ jQuery(document).ready(function($) {
   if(document.pgs.controller == 'IdeasController') {
     setupNotifications('#ideas', 'idea');
   }
+
+  if(document.pgs.controller == 'SolutionsController') {
+    setupNotifications('#solutions', 'solution');
+  }
+
 });
 
