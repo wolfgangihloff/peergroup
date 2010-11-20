@@ -25,7 +25,7 @@
 
   - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "idea_feedback"
     %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
-  - else
+  - elsif @supervision.state == "idea"
     %p= t(".step_description", :default => "Any ideas?")
 
     = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
