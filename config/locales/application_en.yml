@@ -263,6 +263,18 @@
       :rate: 
         :rate: Rate
       :vote: Vote
+    :contentable_form: 
+      :idea: 
+        :no_more: I have no more ideas
+        :submit: Submit
+      :ideas_feedback: 
+        :submit: Submit
+      :solution: 
+        :no_more: I have no more solutions
+        :submit: Submit
+      :solutions_feedback: 
+        :submit: Submit
+      :submit: Submit Topic
     :new: 
       :answers: 
         :no: "No"

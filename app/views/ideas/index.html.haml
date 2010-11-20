@@ -2,10 +2,8 @@
 
 %h2= t(".heading", :default => "Ideas")
 
-%dl
-  %dt= t(".topic", :default => "Current topic")
-  %dd
-    = render "topics/topic", :topic => @supervision.topic
+%p.head= t(".topic", :default => "Current topic")
+= render "topics/topic", :topic => @supervision.topic
 
 = render "topic_questions/questions"
 
@@ -14,16 +12,12 @@
 - if @supervision.problem_owner?(current_user)
 
   - if @supervision.ideas.empty?
-    %p= t(".no_ideas", :default => "Wait for some ideas")
+    %p.no_idea= t(".no_ideas", :default => "Wait for some ideas")
 
   - if @supervision.state == "idea_feedback"
-
     %p= t(".feedback.info", :default => "Provide the feedback on ideas")
 
-    = semantic_form_for(@ideas_feedback) do |f|
-      = hidden_field_tag :supervision_id, @supervision.id
-      = f.inputs do
-        = f.input :content
+    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @ideas_feedback} do |f|
       = f.buttons do
         = f.commit_button t(".ideas_feedback.submit", :default => "Submit")
 
@@ -34,10 +28,7 @@
   - else
     %p= t(".step_description", :default => "Any ideas?")
 
-    = semantic_form_for(@idea) do |f|
-      = hidden_field_tag :supervision_id, @supervision.id
-      = f.inputs do
-        = f.input :content
+    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
       = f.buttons do
         = f.commit_button t(".idea.submit", :default => "Submit")
         = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
