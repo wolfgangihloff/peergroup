@@ -3,17 +3,7 @@
   - @supervision.solutions.each do |solution|
     %li[solution]
       = render :layout => "supervisions/contentable", :object => solution do
-        - if solution.rating || @supervision.problem_owner?(current_user)
-          = form_for(solution) do |f|
-            %p.head= t(".heading.rating", :default => "Rating")
-            = hidden_field_tag :supervision_id, @supervision.id
-
-            - 1.upto(5) do |i|
-              = f.label :"rating_#{i}", i, :class => "hidden"
-              = f.radio_button :rating, i, (solution.rating ? {:disabled => 'disabled'} : {}).update(:class => "star")
-
-            - unless solution.rating
-              = f.submit t(".rate.rate", :default => "Rate")
+        = render "supervisions/rating", :rateable => solution
 
   #current_step{:"data-step" => @supervision.state}
 

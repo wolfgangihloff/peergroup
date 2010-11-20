@@ -1,0 +1,13 @@
+- if rateable.rating || @supervision.problem_owner?(current_user)
+
+  = form_for(rateable) do |f|
+    %p.head= t(".heading.rating", :default => "Rating")
+    = hidden_field_tag :supervision_id, @supervision.id
+
+    - 1.upto(5) do |i|
+      = f.label :"rating_#{i}", i, :class => "hidden"
+      = f.radio_button :rating, i, (rateable.rating ? {:disabled => 'disabled'} : {}).update(:class => "star")
+
+    - unless rateable.rating
+      = f.submit t(".rate.rate", :default => "Rate")
+

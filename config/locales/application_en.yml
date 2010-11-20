@@ -269,6 +269,11 @@
         :yes: "Yes"
       :question: Do you want to create new Supervision Session?
       :title: New Supervision Session
+    :rating: 
+      :heading: 
+        :rating: Rating
+      :rate: 
+        :rate: Rate
   :topic_answers: 
     :create: 
       :flash: 
