@@ -1,8 +1,12 @@
 module SupervisionPathsHelper
   def supervision_step_path(supervision)
     supervision.reload
-    method = send("supervision_#{supervision.state}_step_path", supervision)
-    send(method, :supervision_id => supervision.id)
+    method_or_path = send("supervision_#{supervision.state}_step_path", supervision)
+
+    case method_or_path
+    when Symbol then send(method_or_path, :supervision_id => supervision.id)
+    else method_or_path
+    end
   end
 
   def supervision_topic_step_path(supervision)
@@ -23,10 +27,14 @@ module SupervisionPathsHelper
     end
   end
 
-  %w{solution solution_feedback finished}.each do |step|
+  %w{solution solution_feedback}.each do |step|
     define_method "supervision_#{step}_step_path" do |_|
       :solutions_path
     end
+  end
+
+  def supervision_finished_step_path(supervision)
+    supervision_path(supervision)
   end
 end
 

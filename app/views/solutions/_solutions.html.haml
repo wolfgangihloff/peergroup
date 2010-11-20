@@ -1,33 +1,19 @@
 %ul#solutions
+  %p.head= t(".solutions", :default => "Solutions")
   - @supervision.solutions.each do |solution|
     %li[solution]
-      %dl
-        %dt= t(".heading.solution", :default => "Solutions")
-        %dd
-          .author
-            = raw gravatar_for(solution.user)
-            %p= solution.user.name
-
-          %p= solution.content
-
+      = render :layout => "supervisions/contentable", :object => solution do
         - if solution.rating || @supervision.problem_owner?(current_user)
-          %dt= t(".heading.rating", :default => "Rating")
-          %dl
-            = form_for(solution) do |f|
-              = hidden_field_tag :supervision_id, @supervision.id
+          = form_for(solution) do |f|
+            %p.head= t(".heading.rating", :default => "Rating")
+            = hidden_field_tag :supervision_id, @supervision.id
 
-              - 1.upto(5) do |i|
-                = f.label :"rating_#{i}", i
-                = f.radio_button :rating, i, solution.rating ? {:disabled => 'disabled'} : {}
+            - 1.upto(5) do |i|
+              = f.label :"rating_#{i}", i, :class => "hidden"
+              = f.radio_button :rating, i, (solution.rating ? {:disabled => 'disabled'} : {}).update(:class => "star")
 
-              - unless solution.rating
-                = f.submit t(".rate.rate", :default => "Rate")
+            - unless solution.rating
+              = f.submit t(".rate.rate", :default => "Rate")
 
-  - if !%w{solution solution_feedback finished}.include?(@supervision.state) && controller.is_a?(SolutionsController)
-    #next_step
-      = javascript_tag "document.location='#{supervision_step_path(@supervision)}'"
-
-- if @supervision.state == "solution_feedback"
-  - if @supervision.problem_owner?(current_user)
-    %p= t(".feedback.info", :default => "Provide the feedback on solutions")
+  #current_step{:"data-step" => @supervision.state}
 

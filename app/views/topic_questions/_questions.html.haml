@@ -23,7 +23,5 @@
     - else
       %p= t(".notice.no_questions", :default => "There are no questions... Be the first!")
 
-- if @supervision.state != "topic_question" && controller.is_a?(TopicQuestionsController)
-  #next_step
-    = javascript_tag "document.location='#{supervision_step_path(@supervision)}'"
+  #current_step{:"data-step" => @supervision.state}
 

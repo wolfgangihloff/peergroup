@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 
         if($('form#new_' + resource).length == 0) {
           // Problem owner scenario
-          $('li.' + resource, data).each(function() {
+          $('li.' + resource, $(data)).each(function() {
             $('.no_' + resource).remove();
             if($('#' + $(this).attr('id')).length == 0) {
               $(selector).append(this);
@@ -23,9 +23,10 @@ jQuery(document).ready(function($) {
           $('input[type=radio].star').rating();
         }
 
-        if($('#next_step', data).length > 0) {
-          document.location = '';
-        }
+        var currentStep = $('#current_step', $(data));
+        if(document.pgs.supervision_step != currentStep.attr('data-step'))
+          window.location.reload(true);
+
         setTimeout(updateList, 1000);
       });
     }

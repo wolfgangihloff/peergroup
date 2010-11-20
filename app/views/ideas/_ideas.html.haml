@@ -16,11 +16,5 @@
             - unless idea.rating
               = f.submit t(".rate.rate", :default => "Rate")
 
-  - if !%w{idea idea_feedback}.include?(@supervision.state) && controller.is_a?(IdeasController)
-    #next_step
-      = javascript_tag "document.location='#{supervision_step_path(@supervision)}'"
-
-- if @supervision.state == "idea_feedback"
-  - if @supervision.problem_owner?(current_user)
-    %p= t(".feedback.info", :default => "Provide the feedback on ideas")
+  #current_step{:"data-step" => @supervision.state}
 

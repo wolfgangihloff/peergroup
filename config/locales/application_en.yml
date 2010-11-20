@@ -146,9 +146,12 @@
       :heading: 
         :idea: Idea
         :rating: Rating
+      :ideas: Ideas
       :rate: 
         :rate: Rate
     :index: 
+      :feedback: 
+        :info: Provide the feedback on ideas
       :heading: Ideas
       :idea: 
         :no_more: I have no more ideas
@@ -219,7 +222,7 @@
       :flash: 
         :successful: Solution submited
     :index: 
-      :heading: Ideas
+      :heading: 
       :ideas_feedback: 
         :heading: "Feedback on ideas:"
       :no_solutions: Wait for some solutions
@@ -229,6 +232,7 @@
       :solution_feedback: 
         :description: Provide the feedback on solutions
       :solutions_feedback: 
+        :heading: "Feedback on solutions:"
         :submit: Submit
       :step_description: Any solutions?
       :title: Solutions
@@ -241,6 +245,7 @@
         :solution: Solutions
       :rate: 
         :rate: Rate
+      :solutions: Solutions
     :update: 
       :flash: 
         :successful: Solution rated
@@ -249,6 +254,15 @@
       :flash: 
         :successful: Feedback submitted
   :supervisions: 
+    :contentable: 
+      :answer: 
+        :submit: Answer
+      :heading: 
+        :answer: Answer
+        :rating: Rating
+      :rate: 
+        :rate: Rate
+      :vote: Vote
     :new: 
       :answers: 
         :no: "No"
@@ -276,6 +290,7 @@
       :step_description: Do you have any question regarding the topic?
       :title: Questions to the topic
       :topic: Current topic
+      :waiting_for_others: Wait for other questions and answers.
     :questions: 
       :answer: 
         :submit: Answer
@@ -286,6 +301,7 @@
         :no_questions: There are no questions... Be the first!
       :problem_owner: 
         :no_questions: Wait for some questions.
+      :questions: Questions
   :topic_votes: 
     :create: 
       :flash: 

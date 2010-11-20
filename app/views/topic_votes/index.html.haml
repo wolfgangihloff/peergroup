@@ -6,5 +6,5 @@
 
 = render "topics/topics", :topics => @topics
 
-= javascript_tag %Q{setTimeout("document.location=''", 1000);}
+= javascript_tag %Q{setTimeout("window.location.reload(true)", 1000);}
 

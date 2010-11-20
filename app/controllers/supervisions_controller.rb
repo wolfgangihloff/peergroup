@@ -11,12 +11,12 @@ class SupervisionsController < ApplicationController
   end
 
   def create
-    redirect_to supervision_path(@group.supervisions.create!)
+    redirect_to supervision_step_path(@group.supervisions.create!)
   end
 
   def show
     @supervision = Supervision.find(params[:id])
-    redirect_to new_topic_path(:supervision_id => @supervision.id)
+    render :template => "solutions/index"
   end
 
   protected
@@ -28,7 +28,7 @@ class SupervisionsController < ApplicationController
   def redirect_to_current_supervision_if_exists
     return true if @supervision.nil? || @supervision.state == "finished"
 
-    redirect_to supervision_path(@supervision)
+    redirect_to supervision_step_path(@supervision)
     return false
   end
 end

@@ -1,6 +1,7 @@
 class IdeasController < ApplicationController
 
   before_filter :require_parent_supervision
+  require_supervision_step :idea, :idea_feedback
 
   def index
     @idea = Idea.new unless @supervision.problem_owner?(current_user)

@@ -1,6 +1,7 @@
 class TopicQuestionsController < ApplicationController
 
   before_filter :require_parent_supervision
+  require_supervision_step :topic_question
 
   def new
     if @supervision.problem_owner?(current_user)

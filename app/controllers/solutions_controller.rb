@@ -1,6 +1,7 @@
 class SolutionsController < ApplicationController
 
   before_filter :require_parent_supervision
+  require_supervision_step :solution, :solution_feedback
 
   def index
     @solution = Solution.new unless @supervision.problem_owner?(current_user)

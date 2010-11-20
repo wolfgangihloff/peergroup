@@ -25,5 +25,18 @@ class ApplicationController < ActionController::Base
       false
     end
   end
+
+  def self.require_supervision_step(*steps)
+    filter_name = :"require_supervision_#{steps.join("_or_")}_step"
+
+    define_method filter_name do
+      unless steps.map(&:to_s).include?(@supervision.state)
+        redirect_to supervision_step_path(@supervision)
+        false
+      end
+    end
+
+    before_filter filter_name
+  end
 end
 
