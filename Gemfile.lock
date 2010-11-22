@@ -97,7 +97,6 @@ GEM
       plucky (~> 0.3.6)
     nifty-generators (0.4.2)
     nokogiri (1.4.3.1)
-    pg (0.9.0)
     pickle (0.4.3)
       cucumber (>= 0.8)
       rake
@@ -179,7 +178,6 @@ DEPENDENCIES
   launchy
   mongo_mapper
   nifty-generators
-  pg
   pickle
   rails (= 3.0.3)
   rdiscount

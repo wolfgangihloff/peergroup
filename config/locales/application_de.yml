@@ -163,4 +163,133 @@
         :successful: Gruppe erfolgreich angelegt.
     :new: 
       :title: Neue Gruppe
-
+  :solutions: 
+    :create: 
+      :flash: 
+        :successful: Loseung eingereicht
+    :index: 
+      :heading: 
+      :ideas_feedback: 
+        :heading: "Feedback on ideas:"
+      :no_solutions: Wait for some solutions
+      :solution: 
+        :no_more: 
+        :submit: Submit
+      :solution_feedback: 
+        :description: Provide the feedback on solutions
+      :solutions_feedback: 
+        :heading: "Feedback on solutions:"
+        :submit: Submit
+      :step_description: Any solutions?
+      :title: Solutions
+      :topic: Current topic
+    :solutions: 
+      :feedback: 
+        :info: Provide the feedback on solutions
+      :heading: 
+        :rating: Rating
+        :solution: Solutions
+      :rate: 
+        :rate: Rate
+      :solutions: Solutions
+    :update: 
+      :flash: 
+        :successful: Solution rated
+  :solutions_feedbacks: 
+    :create: 
+      :flash: 
+        :successful: Feedback submitted
+  :supervisions: 
+    :contentable: 
+      :answer: 
+        :submit: Answer
+      :heading: 
+        :answer: Answer
+        :rating: Rating
+      :rate: 
+        :rate: Rate
+      :vote: Vote
+    :contentable_form: 
+      :idea: 
+        :no_more: I have no more ideas
+        :submit: Submit
+      :ideas_feedback: 
+        :submit: Submit
+      :solution: 
+        :no_more: I have no more solutions
+        :submit: Submit
+      :solutions_feedback: 
+        :submit: Submit
+      :submit: Submit Topic
+    :new: 
+      :answers: 
+        :no: "No"
+        :yes: "Yes"
+      :question: Willst Du eine neue Kollegiale Beratung starten?
+      :title: New Supervision Session
+    :rating: 
+      :heading: 
+        :rating: Rating
+      :rate: 
+        :rate: Rate
+  :topic_answers: 
+    :create: 
+      :flash: 
+        :successful: Question answered
+  :topic_questions: 
+    :create: 
+      :flash: 
+        :error: You must provide your question
+        :successful: Question asked
+    :new: 
+      :answer: 
+        :submit: Answer
+      :heading: 
+      :notice: 
+        :no_questions: There are no questions... Be the first!
+      :question: 
+        :no_more: I have no more questions
+        :submit: Ask
+      :step_description: Do you have any question regarding the topic?
+      :title: Questions to the topic
+      :topic: Current topic
+      :waiting_for_others: Wait for other questions and answers.
+    :questions: 
+      :answer: 
+        :submit: Answer
+      :heading: 
+        :answer: Answer
+        :question: Question
+      :notice: 
+        :no_questions: There are no questions... Be the first!
+      :problem_owner: 
+        :no_questions: Wait for some questions.
+      :questions: Questions
+  :topic_votes: 
+    :create: 
+      :flash: 
+        :successful: Thank you for voting.
+    :index: 
+      :heading: 
+      :step_description: 
+      :title: Topic voting
+    :new: 
+      :heading: 
+      :step_description: Vote on the topic you want to discuss.
+      :title: Topic voting
+  :topics: 
+    :create: 
+      :flash: 
+        :successful: 
+    :index: 
+      :heading: List of already submitted topics
+      :title: Submitted topics
+    :list: 
+      :vote: Vote
+    :new: 
+      :content: 
+        :hint: Enter your problem or leave this blank if you do not have any.
+      :submit: Submit Topic
+      :title: New Topic
+    :topic: 
+      :vote: Vote

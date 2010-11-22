@@ -13,7 +13,7 @@ gem "rdiscount"
 gem "faker"
 
 group :staging do
-  gem "pg"
+#  gem "pg"
   gem "thin"
 end
 
