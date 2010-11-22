@@ -223,73 +223,73 @@
       :submit: Submit Topic
     :new: 
       :answers: 
-        :no: "No"
-        :yes: "Yes"
+        :no: "Nein"
+        :yes: "Ja"
       :question: Willst Du eine neue Kollegiale Beratung starten?
-      :title: New Supervision Session
+      :title: Neue Kollegiale Beratung
     :rating: 
       :heading: 
-        :rating: Rating
+        :rating: Bewertung
       :rate: 
-        :rate: Rate
+        :rate: Werte
   :topic_answers: 
     :create: 
       :flash: 
-        :successful: Question answered
+        :successful: Frage beantwortet
   :topic_questions: 
     :create: 
       :flash: 
-        :error: You must provide your question
-        :successful: Question asked
+        :error: Du must Deine Frage angeben
+        :successful: Frage gestellt
     :new: 
       :answer: 
-        :submit: Answer
+        :submit: Antwort
       :heading: 
       :notice: 
-        :no_questions: There are no questions... Be the first!
+        :no_questions: Es gibt noch keine Fragen ... Sei der erste!
       :question: 
-        :no_more: I have no more questions
-        :submit: Ask
-      :step_description: Do you have any question regarding the topic?
-      :title: Questions to the topic
-      :topic: Current topic
-      :waiting_for_others: Wait for other questions and answers.
+        :no_more: Ich habe keine weiteren Fragen
+        :submit: Frage
+      :step_description: Hast Du fragen zum Thema?
+      :title: Fragen zum Thema
+      :topic: Aktuelles Thema
+      :waiting_for_others: Warte auf die Fragen und Antworten der anderen
     :questions: 
       :answer: 
-        :submit: Answer
+        :submit: Antworte
       :heading: 
-        :answer: Answer
-        :question: Question
+        :answer: Antwort
+        :question: Frage
       :notice: 
-        :no_questions: There are no questions... Be the first!
+        :no_questions: Es gibt keine Fragen, sei der erste.
       :problem_owner: 
-        :no_questions: Wait for some questions.
-      :questions: Questions
+        :no_questions: Warten auf Fragen.
+      :questions: Fragen
   :topic_votes: 
     :create: 
       :flash: 
-        :successful: Thank you for voting.
+        :successful: Danke fuer das Bewerten.
     :index: 
       :heading: 
       :step_description: 
-      :title: Topic voting
+      :title: Thema waehlen
     :new: 
       :heading: 
-      :step_description: Vote on the topic you want to discuss.
-      :title: Topic voting
+      :step_description: Waehle das Thema fuer die Beratung
+      :title: Thema waehlen
   :topics: 
     :create: 
       :flash: 
         :successful: 
     :index: 
-      :heading: List of already submitted topics
-      :title: Submitted topics
+      :heading: Liste der bereits eingestellten Themen
+      :title: Abgesandte Themen
     :list: 
-      :vote: Vote
+      :vote: Abstimmung
     :new: 
       :content: 
-        :hint: Enter your problem or leave this blank if you do not have any.
-      :submit: Submit Topic
-      :title: New Topic
+        :hint: Stelle Dein Thema ein oder lass das Feld frei, wenn Du keins hast.
+      :submit: Thema uebersenden
+      :title: Neues Thema
     :topic: 
-      :vote: Vote
+      :vote: Abstimmen
