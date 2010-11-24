@@ -20,7 +20,7 @@ class RelationshipsController < ApplicationController
 
   private
 
-    def get_followed_user
-      @user = User.find(params[:relationship][:followed_id])
-    end
+  def get_followed_user
+    @user = User.find(params[:relationship][:followed_id])
+  end
 end

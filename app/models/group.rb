@@ -36,7 +36,7 @@ class Group < ActiveRecord::Base
     reader = CSV.open(path, "r")
     reader.each do |position, name, description, time_limit|
       rules.create!(:position => position, :name => name,
-        :description => description, :time_limit => time_limit)
+                    :description => description, :time_limit => time_limit)
     end
   end
 

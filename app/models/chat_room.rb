@@ -15,7 +15,7 @@ class ChatRoom < ActiveRecord::Base
   def post_rule_update
     if current_rule_id_changed?
       ChatUpdate.create!(:chat_room_id => id, :login => "System",
-        :message => "#{current_rule.name} phase starts", :state => "commited")
+                         :message => "#{current_rule.name} phase starts", :state => "commited")
     end
   end
 end

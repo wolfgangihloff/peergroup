@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   def contact
     @title = t(".title", :default => "Contact")
   end
-  
+
   def about
     @title = t(".title", :default => "About")
   end

@@ -4,10 +4,10 @@ class GroupsController < ApplicationController
 
   def index
     @title = if params[:all]
-      t(".title.all_groups", :default => "All Groups")
-    else
-      t(".title.your_groups", :default => "Your Groups")
-    end
+               t(".title.all_groups", :default => "All Groups")
+             else
+               t(".title.your_groups", :default => "Your Groups")
+             end
     @groups = params[:all] ? Group.all : current_user.groups
   end
 

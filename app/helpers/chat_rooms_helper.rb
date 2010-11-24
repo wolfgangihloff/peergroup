@@ -19,10 +19,10 @@ module ChatRoomsHelper
 
   def chat_user_class(chat_room, chat_user)
     role_class = case chat_user.user
-      when chat_room.leader then "leader"
-      when chat_room.problem_owner then "problem_owner"
-      else ""
-    end
+                 when chat_room.leader then "leader"
+                 when chat_room.problem_owner then "problem_owner"
+                 else ""
+                 end
 
     chat_user.active? ? role_class + ' active' : role_class
   end

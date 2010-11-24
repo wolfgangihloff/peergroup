@@ -3,13 +3,13 @@ class User < ActiveRecord::Base
   attr_accessor :passcode
   attr_accessible :name, :email, :password, :password_confirmation
 
-  
+
   has_many :relationships, :foreign_key => "follower_id",
-                           :dependent => :destroy
+    :dependent => :destroy
   has_many :following, :through => :relationships, :source => :followed
   has_many :reverse_relationships, :foreign_key => "followed_id",
-                                   :class_name => "Relationship",
-                                   :dependent => :destroy
+    :class_name => "Relationship",
+    :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
 
   has_many :memberships
@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   # Automatically create the virtual attribute 'password_confirmation'.
   validates_confirmation_of :password
-  
+
   # Password validations.
   validates_presence_of :password
   validates_length_of   :password, :within => 6..40
@@ -69,25 +69,25 @@ class User < ActiveRecord::Base
     chat_user = chat_users.find_or_create_by_chat_room_id(chat_room.id)
     chat_user.touch
   end
-  
-    private
 
-      def encrypt_password
-        unless password.nil?
-          self.salt = make_salt
-          self.encrypted_password = encrypt(password)
-        end
-      end
+  private
 
-      def encrypt(string)
-        secure_hash("#{salt}#{string}")
-      end
-    
-      def make_salt
-        secure_hash("#{Time.now.utc}#{password}")
-      end
+  def encrypt_password
+    unless password.nil?
+      self.salt = make_salt
+      self.encrypted_password = encrypt(password)
+    end
+  end
 
-      def secure_hash(string)
-        Digest::SHA2.hexdigest(string)
-      end  
+  def encrypt(string)
+    secure_hash("#{salt}#{string}")
+  end
+
+  def make_salt
+    secure_hash("#{Time.now.utc}#{password}")
+  end
+
+  def secure_hash(string)
+    Digest::SHA2.hexdigest(string)
+  end  
 end

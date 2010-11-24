@@ -38,12 +38,12 @@ class UsersController < ApplicationController
   def edit
     @title = "Edit user"
   end
-  
+
   def index
     @title = "All Users"
     @users = User.paginate(:page => params[:page])
   end
-  
+
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated."
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       render 'edit'
     end
   end
-  
+
   def destroy
     # This should prevent users from deleteing themselves, the test is missing for this
     unless @user === User.find(params[:id]).destroy
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
       redirect_to users_path
     end
   end
-  
+
   def following
     @title = "Following"
     @user = User.find(params[:id])
@@ -75,14 +75,14 @@ class UsersController < ApplicationController
     @users = @user.followers.paginate(:page => params[:page])
     render 'show_follow'
   end
-  
-  private
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
-    end
 
-    def admin_user
-      redirect_to(root_path) unless current_user.admin?
-    end
+  private
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_path) unless current_user?(@user)
+  end
+
+  def admin_user
+    redirect_to(root_path) unless current_user.admin?
+  end
 end

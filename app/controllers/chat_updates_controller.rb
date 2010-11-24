@@ -15,8 +15,7 @@ class ChatUpdatesController < ApplicationController
   end
 
   def update
-    raise "Bad update type: #{params[:update_type].inspect}" unless
-      %w{commit update}.include?(params[:update_type])
+    raise "Bad update type: #{params[:update_type].inspect}" unless %w{commit update}.include?(params[:update_type])
 
     @chat_update = ChatUpdate.find(params[:id])
     @chat_update.send("#{params[:update_type]}_message!", params[:chat_update][:message])
