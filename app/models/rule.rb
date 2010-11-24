@@ -8,6 +8,4 @@ class Rule < ActiveRecord::Base
   belongs_to :group
 
   has_one :chat_room, :foreign_key => "current_rule_id", :dependent => :nullify
-
-  acts_as_list :scope => :group
 end
