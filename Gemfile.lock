@@ -78,6 +78,9 @@ GEM
     i18n (0.4.2)
     jnunemaker-validatable (1.8.4)
       activesupport (>= 2.3.4)
+    jquery-rails (0.2.5)
+      rails (~> 3.0)
+      thor (~> 0.14.4)
     json (1.4.6)
     json_pure (1.4.6)
     launchy (0.3.7)
@@ -175,6 +178,7 @@ DEPENDENCIES
   formtastic
   friendly_id (~> 3.1)
   haml
+  jquery-rails
   launchy
   mongo_mapper
   nifty-generators

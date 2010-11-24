@@ -11,6 +11,7 @@ gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
 gem "faker"
+gem "jquery-rails"
 
 group :staging do
 #  gem "pg"
