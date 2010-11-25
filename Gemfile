@@ -12,6 +12,7 @@ gem "friendly_id", "~> 3.1"
 gem "rdiscount"
 gem "faker"
 gem "jquery-rails"
+gem "compass"
 
 group :staging do
 #  gem "pg"

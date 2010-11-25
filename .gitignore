@@ -7,4 +7,5 @@ doc/app
 db/*.sqlite3
 db/*.sqlite3-journal
 capybara-*.html
+public/stylesheets/compiled/
 
