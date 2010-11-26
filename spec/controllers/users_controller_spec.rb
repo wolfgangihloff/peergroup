@@ -249,7 +249,7 @@ describe UsersController do
 
       before(:each) do
         admin = Factory(:user, :email => "admin@example.com", :admin => true)
-        test_sign_in(admin)        
+        test_sign_in(admin)
         User.should_receive(:find).with(@user).and_return(@user)
         @user.should_receive(:destroy).and_return(@user)
       end

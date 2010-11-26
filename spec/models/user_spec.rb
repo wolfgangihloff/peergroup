@@ -1,21 +1,9 @@
-# == Schema Information
-# Schema version: 20100707090206
-#
-# Table name: users
-#
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 require 'spec_helper'
 
 describe User do
   before(:each) do
-    @attr = { 
-      :name => "Example User", 
+    @attr = {
+      :name => "Example User",
       :email => "user@example.com",
       :password => "foobar",
       :password_confirmation => "foobar"
@@ -30,18 +18,18 @@ describe User do
     no_name_user = User.new(@attr.merge(:name => ""))
     no_name_user.should_not be_valid
   end
-    
+
   it "should require an email" do
     no_email_user = User.new(@attr.merge(:email => ""))
     no_email_user.should_not be_valid
   end
-  
+
   it "should reject names that are too long" do
     long_name = "a" * 51
     long_name_user = User.new(@attr.merge(:name => long_name))
     long_name_user.should_not be_valid
   end
-  
+
   it "should accept valid email addresses" do
     addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
     addresses.each do |address|
@@ -57,7 +45,7 @@ describe User do
       invalid_email_user.should_not be_valid
     end
   end
-  
+
   it "should reject duplicate email addresses" do
     # Put a user with given email address into the database.
     User.create!(@attr)
@@ -115,13 +103,13 @@ describe User do
 
       it "should be true if the passwords match" do
         @user.has_password?(@attr[:password]).should be_true
-      end    
+      end
 
       it "should be false if the passwords don't match" do
         @user.has_password?("invalid").should be_false
-      end 
+      end
     end
-        
+
     describe "authenticate method" do
 
       it "should return nil on email/password mismatch" do
@@ -140,7 +128,7 @@ describe User do
       end
     end
   end
-      
+
   describe "remember me" do
 
     before(:each) do
@@ -207,7 +195,7 @@ describe User do
       @user.follow!(@followed)
       @user.following.include?(@followed).should be_true
     end
-    
+
     it "should have an unfollow! method" do
       @followed.should respond_to(:unfollow!)
     end

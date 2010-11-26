@@ -34,7 +34,7 @@ describe Relationship do
       @relationship.followed.should == @followed
     end
   end
-  
+
   describe "validations" do
 
     it "should reqire a follower_id" do

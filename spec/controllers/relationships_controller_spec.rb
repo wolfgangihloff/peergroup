@@ -27,12 +27,12 @@ describe RelationshipsController do
       post :create, :relationship => { :followed_id => @followed }
       response.should be_redirect
     end
-    
+
     it "should respond to an Ajax request" do
       xhr :post, :create, :relationship => { :followed_id => @followed }
       response.should be_success
     end
-    
+
   end
 
   describe "DELETE 'destroy'" do
@@ -48,11 +48,11 @@ describe RelationshipsController do
       delete :destroy, :relationship => { :followed_id => @followed }
       response.should be_redirect
     end
-    
+
     it "should respond to an Ajax request" do
       xhr :delete, :destroy, :relationship => { :followed_id => @followed }
       response.should be_success
     end
-    
+
   end
 end

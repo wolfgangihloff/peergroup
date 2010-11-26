@@ -8,7 +8,7 @@ describe SessionsController do
       response.should be_success
     end
   end
-  
+
   describe "POST 'create'" do
 
     describe "invalid signin" do
@@ -25,7 +25,7 @@ describe SessionsController do
         response.should render_template('new')
       end
     end
-    
+
     describe "with valid email and password" do
 
       before(:each) do
@@ -48,7 +48,7 @@ describe SessionsController do
       end
     end
   end
-  
+
   describe "DELETE 'destroy'" do
 
     it "should sign a user out" do
