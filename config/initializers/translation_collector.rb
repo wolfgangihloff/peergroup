@@ -4,8 +4,8 @@ module I18n
 
       def self.sort_hash(hash)
         return hash unless hash.is_a?(Hash)
-        new_hash = {}
-        hash.keys.sort.each do |key|
+        new_hash = ActiveSupport::OrderedHash.new
+        hash.keys.sort_by(&:to_s).each do |key|
           new_hash[key] = sort_hash(hash[key])
         end
         new_hash

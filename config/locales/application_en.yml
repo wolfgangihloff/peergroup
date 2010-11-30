@@ -1,359 +1,286 @@
---- 
-:en: 
-  :activerecord: 
-    :errors: 
-      :messages: 
-        :blank: 
-        :confirmation: 
-        :inclusion: 
-        :invalid: 
-        :too_long: 
-        :too_short: 
-      :models: 
-        :answer: 
-          :blank: 
-        :group: 
-          :blank: 
-        :question: 
-          :blank: 
-        :relationship: 
-          :blank: 
-        :supervision: 
-          :inclusion: 
-        :user: 
-          :blank: 
-          :confirmation: 
-          :invalid: 
-          :taken: 
-          :too_long: 
-          :too_short: 
-        :vote: 
-          :blank: 
-  :attributes: 
-    :answer: 
-    :content: 
-    :description: 
-    :email: 
-    :followed_id: 
-    :follower_id: 
-    :name: 
-    :passcode: 
-    :password: 
-    :password_confirmation: 
-    :question: 
-    :question_id: 
-    :state: 
-    :statement: 
-    :statement_id: 
-    :user: 
-    :user_id: 
-  :chat_rooms: 
-    :show: 
-      :links: 
-        :new_thread: new thread
-  :chat_updates: 
-    :chat_update: 
-      :links: 
-        :reply: reply
-  :chat_users: 
-    :chat_users: 
-      :captions: 
-        :leader: Leader
-        :problem_owner: Problem owner
-      :links: 
-        :leader: Leader
-        :problem_owner: Problem owner
-  :errors: 
-    :attributes: 
-      :answer: 
-        :blank: 
-      :content: 
-        :blank: 
-      :description: 
-        :blank: 
-      :email: 
-        :blank: 
-        :invalid: 
-      :followed_id: 
-        :blank: 
-      :follower_id: 
-        :blank: 
-      :name: 
-        :blank: 
-        :too_long: 
-      :password: 
-        :blank: 
-        :confirmation: 
-        :too_long: 
-        :too_short: 
-      :question: 
-        :blank: 
-      :question_id: 
-        :blank: 
-      :state: 
-        :inclusion: 
-      :statement: 
-        :blank: 
-      :statement_id: 
-        :blank: 
-      :user: 
-        :blank: 
-      :user_id: 
-        :blank: 
-  :flash: 
-    :sign_in_request: Please sign in to access this page.
-  :formtastic: 
-    :required: required
-    :submit: 
-  :groups: 
-    :create: 
-      :flash: 
-        :successful: Group Create Successfully
-    :group_brief: 
-      :confirmations: 
-        :delete: You sure?
-      :links: 
-        :chat: Chat
-        :delete: delete
-        :edit: Edit
-        :join: join
-        :leave: leave
-        :session: Session
-    :index: 
-      :no_groups: There are no groups here.
-      :title: 
-        :all_groups: All Groups
-        :your_groups: Your Groups
-    :new: 
-      :title: New Group
-    :show: 
-      :links: 
-        :edit: Edit
-  :helpers: 
-    :label: 
-      :chat_update: 
-        :message: ""
-      :session: 
-        :email: ""
-        :password: ""
-  :ideas: 
-    :create: 
-      :flash: 
-        :successful: Idea successfully submited
-    :ideas: 
-      :feedback: 
-        :info: Provide the feedback on ideas
-      :heading: 
-        :idea: Idea
-        :rating: Rating
-      :ideas: Ideas
-      :rate: 
-        :rate: Rate
-    :index: 
-      :feedback: 
-        :info: Provide the feedback on ideas
-      :heading: Ideas
-      :idea: 
-        :no_more: I have no more ideas
-        :submit: Submit
-      :ideas_feedback: 
-        :submit: Submit
-      :no_ideas: Wait for some ideas
-      :step_description: Any ideas?
-      :title: Ideas
-      :topic: Current topic
-    :update: 
-      :flash: 
-        :successful: Idea rated
-  :ideas_feedbacks: 
-    :create: 
-      :flash: 
-        :successful: Feedback submitted
-  :layouts: 
-    :footer: 
-      :links: 
-        :about: About
-        :contact: Contact
-    :header: 
-      :links: 
-        :all_groups: All Groups
-        :create_group: Create Group
-        :help: Help
-        :home: Home
-        :my_groups: My Groups
-        :profile: Profile
-        :settings: Settings
-        :signin: Sign in
-        :signout: Sign out
-        :users: Users
-  :other: 
-    :controller: 
-      :action: 
-        :flash: 
-          :error: default
-          :successful: default
-  :pages: 
-    :about: 
-      :about_title: About Peer Supervision Groups
-      :title: About
-    :contact: 
-      :contact_title: Contact
-      :title: Contact
-    :help: 
-      :help: Help
-      :title: Help
-    :home: 
-      :title: Home
-    :home_guest: 
-      :about_title: About Peer Supervision Groups
-      :description: This is the live test site for the Peer Supervision Groups project for Patongo. Visit  <a href='http://www.patongo.de/'> project page</a>.
-      :links: 
-        :signup: Sign up now!
-  :sessions: 
-    :create: 
-      :title: Sign in
-    :new: 
-      :links: 
-        :signup: Sign up now!
-      :signup_teaser: "New user? "
-      :title: Sign in
-  :solutions: 
-    :create: 
-      :flash: 
-        :successful: Solution submited
-    :index: 
-      :heading: 
-      :ideas_feedback: 
-        :heading: "Feedback on ideas:"
-      :no_solutions: Wait for some solutions
-      :solution: 
-        :no_more: 
-        :submit: Submit
-      :solution_feedback: 
-        :description: Provide the feedback on solutions
-      :solutions_feedback: 
-        :heading: "Feedback on solutions:"
-        :submit: Submit
-      :step_description: Any solutions?
-      :title: Solutions
-      :topic: Current topic
-    :solutions: 
-      :feedback: 
-        :info: Provide the feedback on solutions
-      :heading: 
-        :rating: Rating
-        :solution: Solutions
-      :rate: 
-        :rate: Rate
-      :solutions: Solutions
-    :update: 
-      :flash: 
-        :successful: Solution rated
-  :solutions_feedbacks: 
-    :create: 
-      :flash: 
-        :successful: Feedback submitted
-  :supervisions: 
-    :contentable: 
-      :answer: 
-        :submit: Answer
-      :heading: 
-        :answer: Answer
-        :rating: Rating
-      :rate: 
-        :rate: Rate
-      :vote: Vote
-    :contentable_form: 
-      :idea: 
-        :no_more: I have no more ideas
-        :submit: Submit
-      :ideas_feedback: 
-        :submit: Submit
-      :solution: 
-        :no_more: I have no more solutions
-        :submit: Submit
-      :solutions_feedback: 
-        :submit: Submit
-      :submit: Submit Topic
-    :new: 
-      :answers: 
-        :no: "No"
-        :yes: "Yes"
-      :question: Do you want to create new Supervision Session?
-      :title: New Supervision Session
-    :rating: 
-      :heading: 
-        :rating: Rating
-      :rate: 
-        :rate: Rate
-  :topic_answers: 
-    :create: 
-      :flash: 
-        :successful: Question answered
-  :topic_questions: 
-    :create: 
-      :flash: 
-        :error: You must provide your question
-        :successful: Question asked
-    :new: 
-      :answer: 
-        :submit: Answer
-      :heading: 
-      :notice: 
-        :no_questions: There are no questions... Be the first!
-      :question: 
-        :no_more: I have no more questions
-        :submit: Ask
-      :step_description: Do you have any question regarding the topic?
-      :title: Questions to the topic
-      :topic: Current topic
-      :waiting_for_others: Wait for other questions and answers.
-    :questions: 
-      :answer: 
-        :submit: Answer
-      :heading: 
-        :answer: Answer
-        :question: Question
-      :notice: 
-        :no_questions: There are no questions... Be the first!
-      :problem_owner: 
-        :no_questions: Wait for some questions.
-      :questions: Questions
-  :topic_votes: 
-    :create: 
-      :flash: 
-        :successful: Thank you for voting.
-    :index: 
-      :heading: 
-      :step_description: 
-      :title: Topic voting
-    :new: 
-      :heading: 
-      :step_description: Vote on the topic you want to discuss.
-      :title: Topic voting
-  :topics: 
-    :create: 
-      :flash: 
-        :successful: 
-    :index: 
-      :heading: List of already submitted topics
-      :title: Submitted topics
-    :list: 
-      :vote: Vote
-    :new: 
-      :content: 
-        :hint: Enter your problem or leave this blank if you do not have any.
-      :submit: Submit Topic
-      :title: New Topic
-    :topic: 
-      :vote: Vote
-  :users: 
-    :edit: 
-      :buttons: 
-        :update: Update
-      :links: 
-        :change_gravatar: change
-    :new: 
-      :buttons: 
-        :signup: Sign up
-      :signup: Sign up
+--- !omap 
+- :en: !omap 
+    - :activerecord: !omap 
+        - :errors: !omap 
+            - :messages: !omap 
+                - :blank: 
+                - :confirmation: 
+                - :invalid: 
+                - :too_long: 
+                - :too_short: 
+            - :models: !omap 
+                - :group: !omap 
+                    - :blank: 
+                - :question: !omap 
+                    - :blank: 
+                - :relationship: !omap 
+                    - :blank: 
+                - :user: !omap 
+                    - :blank: 
+                    - :confirmation: 
+                    - :invalid: 
+                    - :taken: 
+                    - :too_long: 
+                    - :too_short: 
+    - :attributes: !omap 
+        - :content: 
+        - :description: 
+        - :email: 
+        - :followed_id: 
+        - :follower_id: 
+        - :name: 
+        - :passcode: 
+        - :password: 
+        - :password_confirmation: 
+    - :chat_rooms: !omap 
+        - :show: !omap 
+            - :links: !omap 
+                - :new_thread: new thread
+    - :chat_updates: !omap 
+        - :chat_update: !omap 
+            - :links: !omap 
+                - :reply: reply
+    - :chat_users: !omap 
+        - :chat_users: !omap 
+            - :captions: !omap 
+                - :leader: Leader
+            - :links: !omap 
+                - :leader: Leader
+                - :problem_owner: Problem owner
+    - :errors: !omap 
+        - :attributes: !omap 
+            - :content: !omap 
+                - :blank: 
+            - :description: !omap 
+                - :blank: 
+            - :email: !omap 
+                - :blank: 
+                - :invalid: 
+            - :followed_id: !omap 
+                - :blank: 
+            - :follower_id: !omap 
+                - :blank: 
+            - :name: !omap 
+                - :blank: 
+                - :too_long: 
+            - :password: !omap 
+                - :blank: 
+                - :confirmation: 
+                - :too_long: 
+                - :too_short: 
+    - :flash: !omap 
+        - :sign_in_request: Please sign in to access this page.
+    - :formtastic: !omap 
+        - :required: required
+    - :groups: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Group Create Successfully
+        - :group_brief: !omap 
+            - :confirmations: !omap 
+                - :delete: You sure?
+            - :links: !omap 
+                - :chat: Chat
+                - :delete: delete
+                - :edit: Edit
+                - :join: join
+                - :leave: leave
+                - :session: Session
+        - :index: !omap 
+            - :no_groups: There are no groups here.
+            - :title: !omap 
+                - :all_groups: All Groups
+                - :your_groups: Your Groups
+        - :new: !omap 
+            - :title: New Group
+        - :show: !omap 
+            - :links: !omap 
+                - :edit: Edit
+    - :helpers: !omap 
+        - :label: !omap 
+            - :chat_update: !omap 
+                - :message: ""
+            - :session: !omap 
+                - :email: ""
+                - :password: ""
+    - :ideas: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Idea successfully submited
+        - :ideas: !omap 
+            - :ideas: Ideas
+        - :index: !omap 
+            - :feedback: !omap 
+                - :info: Provide the feedback on ideas
+            - :heading: Ideas
+            - :no_ideas: Wait for some ideas
+            - :step_description: Any ideas?
+            - :title: Ideas
+            - :topic: Current topic
+        - :update: !omap 
+            - :flash: !omap 
+                - :successful: Idea rated
+    - :ideas_feedbacks: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Feedback submitted
+    - :layouts: !omap 
+        - :footer: !omap 
+            - :links: !omap 
+                - :about: About
+                - :contact: Contact
+        - :header: !omap 
+            - :links: !omap 
+                - :all_groups: All Groups
+                - :create_group: Create Group
+                - :help: Help
+                - :home: Home
+                - :my_groups: My Groups
+                - :profile: Profile
+                - :settings: Settings
+                - :signin: Sign in
+                - :signout: Sign out
+                - :users: Users
+    - :other: !omap 
+        - :controller: !omap 
+            - :action: !omap 
+                - :flash: !omap 
+                    - :error: default
+                    - :successful: default
+    - :pages: !omap 
+        - :about: !omap 
+            - :about_title: About Peer Supervision Groups
+            - :title: About
+        - :contact: !omap 
+            - :contact_title: Contact
+            - :title: Contact
+        - :help: !omap 
+            - :help: Help
+            - :title: Help
+        - :home: !omap 
+            - :title: Home
+        - :home_guest: !omap 
+            - :about_title: About Peer Supervision Groups
+            - :description: This is the live test site for the Peer Supervision Groups project for Patongo. Visit  <a href='http://www.patongo.de/'> project page</a>.
+            - :links: !omap 
+                - :signup: Sign up now!
+    - :sessions: !omap 
+        - :create: !omap 
+            - :title: Sign in
+        - :new: !omap 
+            - :links: !omap 
+                - :signup: Sign up now!
+            - :signup_teaser: "New user? "
+            - :title: Sign in
+    - :solutions: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Solution submited
+        - :index: !omap 
+            - :heading: Solutions
+            - :ideas_feedback: !omap 
+                - :heading: "Feedback on ideas:"
+            - :no_solutions: Wait for some solutions
+            - :solution_feedback: !omap 
+                - :description: Provide the feedback on solutions
+            - :solutions_feedback: !omap 
+                - :heading: "Feedback on solutions:"
+            - :step_description: Any solutions?
+            - :title: Solutions
+            - :topic: Current topic
+        - :solutions: !omap 
+            - :solutions: Solutions
+        - :update: !omap 
+            - :flash: !omap 
+                - :successful: Solution rated
+    - :solutions_feedbacks: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Feedback submitted
+    - :supervisions: !omap 
+        - :contentable: !omap 
+            - :answer: !omap 
+                - :submit: Answer
+            - :heading: !omap 
+                - :answer: Answer
+            - :vote: Vote
+        - :contentable_form: !omap 
+            - :idea: !omap 
+                - :no_more: I have no more ideas
+                - :submit: Submit
+            - :ideas_feedback: !omap 
+                - :submit: Submit
+            - :solution: !omap 
+                - :no_more: I have no more solutions
+                - :submit: Submit
+            - :solutions_feedback: !omap 
+                - :submit: Submit
+            - :submit: Submit Topic
+        - :new: !omap 
+            - :answers: !omap 
+                - :no: "No"
+                - :yes: "Yes"
+            - :question: Do you want to create new Supervision Session?
+            - :title: New Supervision Session
+        - :rating: !omap 
+            - :heading: !omap 
+                - :rating: Rating
+            - :rate: !omap 
+                - :rate: Rate
+    - :topic_answers: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Question answered
+    - :topic_questions: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :error: You must provide your question
+                - :successful: Question asked
+        - :new: !omap 
+            - :heading: Questions to the topic
+            - :question: !omap 
+                - :no_more: I have no more questions
+                - :submit: Ask
+            - :step_description: Do you have any question regarding the topic?
+            - :title: Questions to the topic
+            - :topic: Current topic
+            - :waiting_for_others: Wait for other questions and answers.
+        - :questions: !omap 
+            - :notice: !omap 
+                - :no_questions: There are no questions... Be the first!
+            - :problem_owner: !omap 
+                - :no_questions: Wait for some questions.
+            - :questions: Questions
+    - :topic_votes: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Thank you for voting.
+        - :index: !omap 
+            - :heading: All submitted topics
+            - :step_description: Waiting for others to vote.
+            - :title: Topic voting
+        - :new: !omap 
+            - :heading: All submitted topics
+            - :step_description: Vote on the topic you want to discuss.
+            - :title: Topic voting
+    - :topics: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Topic was submitted successfully.
+        - :index: !omap 
+            - :heading: List of already submitted topics
+            - :title: Submitted topics
+        - :new: !omap 
+            - :content: !omap 
+                - :hint: Enter your problem or leave this blank if you do not have any.
+            - :title: New Topic
+    - :users: !omap 
+        - :edit: !omap 
+            - :buttons: !omap 
+                - :update: Update
+            - :links: !omap 
+                - :change_gravatar: change
+        - :new: !omap 
+            - :buttons: !omap 
+                - :signup: Sign up
+            - :signup: Sign up
