@@ -30,4 +30,8 @@ module ApplicationHelper
     javascript_tag js_code
   end
 
+  def id_for_body
+    [controller_name, action_name].join "_"
+  end
+
 end
