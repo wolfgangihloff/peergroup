@@ -14,6 +14,8 @@
 @import compass/reset/utilities
 @import compass/utilities
 
+@import html5_reset
+
 .hidden
   display: none
 
@@ -28,6 +30,7 @@ section > header
   +prepend-top
   +border-radius($border-radius)
   +box-shadow
+  +clearfix
   background-color: $blueprint-background-color
 
   $h1-columns: ceil($blueprint-grid-columns / 2) - 1
@@ -69,6 +72,7 @@ section > footer
   +prepend-top
   +border-radius($border-radius)
   +box-shadow
+  +clearfix
   background-color: $blueprint-background-color
 
   nav
