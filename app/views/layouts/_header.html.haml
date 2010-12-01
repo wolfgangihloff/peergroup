@@ -1,17 +1,19 @@
-#header.round
-  = link_to "Peer Group Supervision", root_path, :class => 'logo'
-  %h2.title= @title
-  %ul.navigation
-    %li= link_to t(".links.home", :default => "Home"), root_path
-    - if signed_in?
-      %li= link_to t(".links.users", :default => "Users"), users_path
-      %li= link_to t(".links.profile", :default => "Profile"), current_user
-      %li= link_to t(".links.create_group", :default => "Create Group"), new_group_path
-      %li= link_to t(".links.my_groups", :default => "My Groups"), groups_path
-      %li= link_to t(".links.all_groups", :default => "All Groups"), groups_path(:all => true)
-      %li= link_to t(".links.settings", :default => "Settings"), edit_user_path(current_user)
-    %li= link_to t(".links.help", :default => "Help"), help_path
-    - if signed_in?
-      %li= link_to t(".links.signout", :default => "Sign out"), signout_path, :method => :delete
-    - else
-      %li= link_to t(".links.signin", :default => "Sign in"), signin_path
+%header
+  %hgroup
+    %h1= link_to "Peer Group Supervision", root_path
+    %h2= @title
+  %nav
+    %ul
+      %li= link_to t(".links.home", :default => "Home"), root_path
+      - if signed_in?
+        %li= link_to t(".links.users", :default => "Users"), users_path
+        %li= link_to t(".links.profile", :default => "Profile"), current_user
+        %li= link_to t(".links.create_group", :default => "Create Group"), new_group_path
+        %li= link_to t(".links.my_groups", :default => "My Groups"), groups_path
+        %li= link_to t(".links.all_groups", :default => "All Groups"), groups_path(:all => true)
+        %li= link_to t(".links.settings", :default => "Settings"), edit_user_path(current_user)
+      %li= link_to t(".links.help", :default => "Help"), help_path
+      - if signed_in?
+        %li= link_to t(".links.signout", :default => "Sign out"), signout_path, :method => :delete
+      - else
+        %li= link_to t(".links.signin", :default => "Sign in"), signin_path

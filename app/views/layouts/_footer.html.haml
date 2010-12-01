@@ -1,6 +1,7 @@
-#footer.round
-  %ul.navigation.round
-    %li= link_to t(".links.about", :default => "About"), about_path
-    %li= link_to t(".links.contact", :default => "Contact"), contact_path
-    %li= link_to t(".links.patongo", :url => "http://www.patongo.de/", :default => "%{url} Project"), "http://www.patongo.de/"
+%footer
+  %nav
+    %ul
+      %li= link_to t(".links.about", :default => "About"), about_path
+      %li= link_to t(".links.contact", :default => "Contact"), contact_path
+      %li= link_to t(".links.patongo", :url => "http://www.patongo.de/", :default => "%{url} Project"), "http://www.patongo.de/"
 
