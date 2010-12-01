@@ -4,7 +4,8 @@ Peergroupsupervision::Application.routes.draw do
   resources :chat_rooms do
 
     member do
-      %w{leader problem_owner}.each {|role| post :"select_#{role}"}
+      post :select_leader
+      post :select_problem_owner
     end
 
     resources :chat_updates
@@ -39,7 +40,5 @@ Peergroupsupervision::Application.routes.draw do
   match '/signup' =>'users#new', :as => 'signup'
 
   root :to => 'pages#home'
-
-  match ':controller(/:action(/:id(.:format)))'
 end
 

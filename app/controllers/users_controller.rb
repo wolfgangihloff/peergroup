@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @title = CGI.escapeHTML(@user.name)
+    @title = @user.name
   end
 
   def new

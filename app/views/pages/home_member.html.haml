@@ -1,11 +1,11 @@
 
 .sidebar.round
   = render 'pages/user_info'
-  %div Your groups
+  %div= t(".your_groups", :default => "Your groups")
   - current_user.groups.each do |group|
     = render 'groups/group_brief', :group => group
 
-%h2 Latest groups
+%h2= t(".latest_groups", :default => "Latest groups")
 .groups
   - Group.newest.each do |group|
     = render 'groups/group_brief', :group => group
