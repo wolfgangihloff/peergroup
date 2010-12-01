@@ -164,12 +164,18 @@
             - :description: This is the live test site for the Peer Supervision Groups project for Patongo. Visit  <a href='http://www.patongo.de/'> project page</a>.
             - :links: !omap 
                 - :signup: Sign up now!
+            - :title: Peer Supervision Groups
+        - :home_member: !omap 
+            - :latest_groups: Latest groups
+            - :your_groups: Your groups
     - :sessions: !omap 
         - :create: !omap 
             - :title: Sign in
         - :new: !omap 
             - :links: !omap 
                 - :signup: Sign up now!
+            - :signin: Sign in
+            - :signin_title: Sign in
             - :signup_teaser: "New user? "
             - :title: Sign in
     - :solutions: !omap 
@@ -280,7 +286,12 @@
                 - :update: Update
             - :links: !omap 
                 - :change_gravatar: change
+        - :index: !omap 
+            - :users_title: All users
         - :new: !omap 
             - :buttons: !omap 
                 - :signup: Sign up
+            - :links: !omap 
+                - :signin: Sign in!
             - :signup: Sign up
+            - :signup_title: Sign up
