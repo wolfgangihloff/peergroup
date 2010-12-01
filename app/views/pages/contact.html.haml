@@ -1,3 +1,6 @@
-%h1= t(".contact_title", :default => "Contact")
-%p
-  wolfgang.ihloff@gmail.com
+%article
+  %header
+    %h1= t(".contact_title", :default => "Contact")
+
+  %p
+    = mail_to "wolfgang.ihloff@gmail.com"

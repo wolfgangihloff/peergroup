@@ -1,9 +1,13 @@
-%h2 Edit user
-= semantic_form_for(@user) do |f|
-  = f.inputs do
-    = render :partial => 'fields', :locals => { :f => f }
-  = f.buttons do
-    = f.commit_button t(".buttons.update", :default => "Update")
-%div
-  = gravatar_for @user
-  = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")
+%article
+  %header
+    %h1= t(".edit_title", :default => "Edit user")
+
+  = semantic_form_for(@user) do |f|
+    = f.inputs do
+      = render :partial => 'fields', :locals => { :f => f }
+    = f.buttons do
+      = f.commit_button t(".buttons.update", :default => "Update")
+
+  %div
+    = gravatar_for @user
+    = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")

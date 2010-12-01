@@ -11,24 +11,18 @@ class UsersController < ApplicationController
   def new
     redirect_to(root_path) unless current_user?(@user)
     @user = User.new
-    @title = "Sign up"
   end
 
   def create
     redirect_to(root_path) unless current_user?(@user)
     @user = User.new(params[:user])
-    if params[:user]["passcode"] != "Pat0ng0"
-      flash[:error] = "Wrong Passcode"
-      @title = "Sign up"
-      @user.password = ""
-      @user.password_confirmation = ""
-      render 'new'
-    elsif @user.save && params[:user]["passcode"] == "Pat0ng0"
+
+    if params[:user][:passcode] == "Pat0ng0" && @user.save
       sign_in @user
       flash[:success] = "Welcome to the Peer Supervision Groups!"
       redirect_to @user
     else
-      @title = "Sign up"
+      flash[:error] = "Wrong Passcode" unless params[:user][:passcode] == "Pat0ng0"
       @user.password = ""
       @user.password_confirmation = ""
       render 'new'

@@ -1,8 +1,13 @@
-%h1= t(".title", :default => "Peer Supervision Groups")
-%p
-  = t(".description", :default => "This is the live test site for the Peer Supervision Groups project for Patongo. Visit <a href='http://www.patongo.de/'>project page</a>.").html_safe
+%article
+  %header
+    %h1= t(".title", :default => "Peer Supervision Groups")
 
-%h2= t(".about_title", :default => "About Peer Supervision Groups")
-= render 'about'
-= link_to t(".links.signup", :default => "Sign up now!"), signup_path, :class => "signup_button round"
+  %p
+    = t(".description", :default => "This is the live test site for the Peer Supervision Groups project for Patongo. Visit <a href='http://www.patongo.de/'>project page</a>.").html_safe
+
+  %h2= t(".about_title", :default => "About Peer Supervision Groups")
+  = render 'about'
+
+  %footer
+    = link_to t(".links.signup", :default => "Sign up now!"), signup_path, :class => "signup_button"
 

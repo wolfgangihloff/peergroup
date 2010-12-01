@@ -1,4 +1,7 @@
-%h2 All users
-= will_paginate
-- users_list(@users)
-= will_paginate
+%article
+  %header
+    %h1= t(".users_title", :default => "All users")
+
+  = will_paginate
+  - users_list(@users)
+  = will_paginate

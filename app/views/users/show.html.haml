@@ -1,10 +1,11 @@
-%h2
-  = gravatar_for(@user)
-  = @user.name
+%article
+  %header
+    %h1
+      = gravatar_for(@user)
+      = @user.name
 
-%ul.groups
-  %h3= t(".group_list_title", :user_name => @user.name, :default => "%{user_name}'s Group List")
-
-  - @user.groups.each do |group|
-    %li= link_to(group_name(group, @user), group_path(group))
+  %h2= t(".group_list_title", :user_name => @user.name, :default => "%{user_name}'s Group List")
+  %ul.groups
+    - @user.groups.each do |group|
+      %li= link_to(group_name(group, @user), group_path(group))
 

@@ -1,12 +1,15 @@
+%article.with_sidebar
+  %header
+    %h1= t(".latest_groups", :default => "Latest groups")
 
-.sidebar.round
-  = render 'pages/user_info'
-  %div= t(".your_groups", :default => "Your groups")
-  - current_user.groups.each do |group|
-    = render 'groups/group_brief', :group => group
+  .groups
+    - Group.newest.each do |group|
+      = render 'groups/group_brief', :group => group
 
-%h2= t(".latest_groups", :default => "Latest groups")
-.groups
-  - Group.newest.each do |group|
-    = render 'groups/group_brief', :group => group
+  %aside.sidebar.round
+    = render 'pages/user_info'
+    %div= t(".your_groups", :default => "Your groups")
+    - current_user.groups.each do |group|
+      = render 'groups/group_brief', :group => group
+
 

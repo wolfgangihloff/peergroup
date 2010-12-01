@@ -9,7 +9,26 @@ $blueprint-grid-margin: 10px
 // Or you can set $blueprint-grid-width to a fixed value and unset $blueprint-container-size -- it will be calculated for you.
 $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin
 
-$blueprint-background-color: #ffffff
+$border-radius: 10px
+
+// http://colorschemedesigner.com/#3nd1Tw0w0w0w0
+$primary-color-1: #099
+$primary-color-2: #366
+$primary-color-3: #066
+$primary-color-4: #39c
+$primary-color-5: #6cc
+$secondary-color-a-1: #039
+$secondary-color-a-2: #339
+$secondary-color-a-3: #036
+$secondary-color-a-4: #36c
+$secondary-color-a-5: #69c
+$secondary-color-b-1: #0c3
+$secondary-color-b-2: #393
+$secondary-color-b-3: #063
+$secondary-color-b-4: #3c6
+$secondary-color-b-5: #6c9
+
+$blueprint-background-color: #fff
 
 $body-bg-color: #cff
 
@@ -18,6 +37,17 @@ $header-pagetitle-hover-color: #f00
 $header-pagetitle-active-color: $header-pagetitle-hover-color
 $header-pagetitle-visited-color: $header-pagetitle-color
 
-$link-color: #09c
-$link-hover-color: #069
+$link-color: $primary-color-1
+$link-hover-color: $primary-color-2
+$link-active-color: $link-hover-color
 $link-visited-color: $link-color
+
+$signup-link-color: #fff
+$signup-link-hover-color: #fff
+$signup-link-active-color: $signup-link-hover-color
+$signup-link-visited-color: $signup-link-color
+
+$signup-link-bg-color: $secondary-color-b-1
+$signup-link-hover-bg-color: $secondary-color-b-2
+$signup-link-active-bg-color: $signup-link-hover-bg-color
+$signup-link-visited-bg-color: $signup-link-bg-color

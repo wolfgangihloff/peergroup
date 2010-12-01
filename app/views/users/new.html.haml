@@ -1,7 +1,14 @@
-%h2= t(".signup", :default => "Sign up")
+- @title = t(".signup_title", :default => "Sign up")
 
-= semantic_form_for(@user) do |f|
-  = f.inputs do
-    = render :partial => 'fields', :locals => { :f => f }
-  = f.buttons do
-    = f.commit_button t(".buttons.signup", :default => "Sign up")
+%article
+  %header
+    %h1= t(".signup_title", :default => "Sign up")
+
+  = semantic_form_for(@user) do |f|
+    = f.inputs do
+      = render :partial => 'fields', :locals => { :f => f }
+    = f.buttons do
+      = f.commit_button t(".signup", :default => "Sign up")
+
+  %footer
+    = link_to t(".links.signin", :default => "Sign in!"), signin_path, :class => "signin_button"
