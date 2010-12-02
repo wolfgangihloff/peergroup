@@ -284,6 +284,7 @@
         - :edit: !omap 
             - :buttons: !omap 
                 - :update: Update
+            - :edit_title: Edit user
             - :links: !omap 
                 - :change_gravatar: change
         - :index: !omap 

@@ -34,7 +34,7 @@ describe UsersController do
 
       it "should have the right title" do
         get :index
-        response.should have_tag("h2", :content => "All users")
+        response.should have_tag("h1", :content => "All users")
       end
 
       it "should have an element for each of first 30 users" do
@@ -65,12 +65,12 @@ describe UsersController do
 
     it "should include the user's name" do
       get :show, :id => @user
-      response.should have_tag("h2", :content => @user.name)
+      response.should have_tag("h1", :content => @user.name)
     end
 
     it "should have a profile image" do
       get :show, :id => @user
-      response.should have_tag("h2 img", :class => "gravatar")
+      response.should have_tag("img", :class => "gravatar")
     end
   end
 

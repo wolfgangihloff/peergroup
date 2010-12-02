@@ -13,9 +13,12 @@ Peergroupsupervision::Application.routes.draw do
     resources :chat_rules
   end
 
-  resources :users, :member => { :following => :get, :followers => :get }
+  resources :users do
+    get :following
+    get :followers
+  end
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :relationships, :only => [:create, :destroy]
+  resource :relationships, :only => [:create, :destroy]
   resources :supervisions, :only => [:new, :create, :show]
   resources :supervision_votes
   resources :topics, :only => [:new, :index, :create]
