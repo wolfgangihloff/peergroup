@@ -1,4 +1,4 @@
-Feature: Chat
+Feature: Browsing
   In order to find my friend in the website users list
   As a user
   I want to browse all users

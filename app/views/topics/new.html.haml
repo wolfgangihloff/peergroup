@@ -1,8 +1,11 @@
 - @title = t(".title", :default => "New Topic")
 
-%p= t(".content.hint", :default => "Enter your problem or leave this blank if you do not have any.")
+%article
+  %p= t(".content.hint", :default => "Enter your problem or leave this blank if you do not have any.")
 
-= render :layout => "supervisions/contentable_form", :locals => {:contentable => @topic} do |f|
-  = f.buttons do
-    = f.commit_button t(".submit", :default => "Submit Topic")
+  = semantic_form_for([@supervision, @topic]) do |f|
+    = f.inputs do
+      = f.input :content
+    = f.buttons do
+      = f.commit_button t(".submit", :default => "Submit Topic")
 

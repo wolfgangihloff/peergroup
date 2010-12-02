@@ -21,8 +21,8 @@ Feature: Providing feedback on ideas
   @javascript
   Scenario: Receive feedback update
     Given the user "Kacper" is signed in
-    When I go to the ideas for "Current supervision" page
     And the ideas feedback exists with supervision: supervision "Current supervision", user: user "Wolfgang", content: "These are nice ideas!"
+    When I go to the ideas for "Current supervision" page
     Then the supervision: "Current supervision" state should be "solution"
     And I should see "These are nice ideas!"
     And I should see "Any solutions?"

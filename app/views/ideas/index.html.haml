@@ -31,5 +31,5 @@
     = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
       = f.buttons do
         = f.commit_button t(".idea.submit", :default => "Submit")
-        = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
+        = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)
 

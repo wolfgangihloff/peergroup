@@ -10,26 +10,26 @@ module SupervisionPathsHelper
   end
 
   def supervision_topic_step_path(supervision)
-    supervision.topics.find_by_user_id(current_user.id) ? :topics_path : :new_topic_path
+    supervision.topics.find_by_user_id(current_user.id) ? :supervision_topics_path : :new_supervision_topic_path
   end
 
   def supervision_topic_vote_step_path(supervision)
-    supervision.voted_on_topic?(current_user) ? :topic_votes_path : :new_topic_vote_path
+    supervision.voted_on_topic?(current_user) ? :supervision_topic_votes_path : :new_supervision_topic_vote_path
   end
 
   def supervision_topic_question_step_path(*_)
-    :new_topic_question_path
+    :new_supervision_topic_question_path
   end
 
   %w{idea idea_feedback}.each do |step|
     define_method "supervision_#{step}_step_path" do |_|
-      :ideas_path
+      :supervision_ideas_path
     end
   end
 
   %w{solution solution_feedback}.each do |step|
     define_method "supervision_#{step}_step_path" do |_|
-      :solutions_path
+      :supervision_solutions_path
     end
   end
 

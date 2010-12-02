@@ -9,8 +9,7 @@
           %p= question.answer.content
         - else
           - if @supervision.problem_owner?(current_user)
-            = semantic_form_for(@answer, :url => topic_answers_path) do |f|
-              = hidden_field_tag :supervision_id, @supervision.id
+            = semantic_form_for([@supervision, @answer], :url => supervision_topic_answers_path(@supervision)) do |f|
               = f.inputs do
                 = f.input :question_id, :as => "hidden", :value => question.id
                 = f.input :content

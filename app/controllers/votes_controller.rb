@@ -1,4 +1,4 @@
-class SupervisionVotesController < ApplicationController
+class VotesController < ApplicationController
 
   before_filter :require_parent_supervision
   before_filter :require_voteable_step

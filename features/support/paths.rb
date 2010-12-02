@@ -13,8 +13,13 @@ module NavigationHelpers
 
     when /the (.+) for "([^"]*)" page/i
       path_components = $1.split(/\s+/)
+      if path_components.first == "new"
+        path_components = ["new", "supervision"] + path_components[1..-1]
+      else
+        path_components = ["supervision"] + path_components
+      end
       supervision = find_model!("supervision: \"#{$2}\"")
-      self.send(path_components.push('path').join('_').to_sym, :supervision_id => supervision.id)
+      self.send(path_components.push('path').join('_').to_sym, supervision)
 
     # the following are examples using path_to_pickle
 

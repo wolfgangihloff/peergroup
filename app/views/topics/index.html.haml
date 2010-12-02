@@ -1,8 +1,10 @@
 - @title = t(".title", :default => "Submitted topics")
 
-%h2= t(".heading", :default => "List of already submitted topics")
+%article
+  %header
+    %h1= t(".heading", :default => "List of already submitted topics")
 
-= render "topics", :topics => @topics
+  = render "topics", :topics => @topics
 
-= javascript_tag %Q{setTimeout("window.location.reload(true)", 1000);}
+-#= javascript_tag %Q{setTimeout("window.location.reload(true)", 1000);}
 

@@ -1,5 +1,4 @@
-= semantic_form_for(contentable) do |f|
-  = hidden_field_tag :supervision_id, @supervision.id
+= semantic_form_for([@supervision, contentable]) do |f|
   = f.inputs do
     = f.input :content
   = yield f

@@ -28,13 +28,13 @@ describe SupervisionPathsHelper do
       before { @supervision.should_receive(:state).and_return("topic") }
 
       context "and user has not yet submitted his topic" do
-        specify { returned_path.should == new_topic_path(:supervision_id => @supervision.id) }
+        specify { returned_path.should == new_supervision_topic_path(@supervision) }
       end
 
       context "and user already submitted his topic" do
         before { @supervision.topics.create!(:user => @user) }
 
-        specify { returned_path.should == topics_path(:supervision_id => @supervision.id) }
+        specify { returned_path.should == supervision_topics_path(@supervision) }
       end
     end
 
@@ -44,44 +44,44 @@ describe SupervisionPathsHelper do
       context "when user not yet voted" do
         before { @supervision.should_receive(:voted_on_topic?).and_return(false) }
 
-        specify { returned_path.should == new_topic_vote_path(:supervision_id => @supervision.id) }
+        specify { returned_path.should == new_supervision_topic_vote_path(@supervision) }
       end
 
       context "when user already voted" do
         before { @supervision.should_receive(:voted_on_topic?).and_return(true) }
 
-        specify { returned_path.should == topic_votes_path(:supervision_id => @supervision.id) }
+        specify { returned_path.should == supervision_topic_votes_path(@supervision) }
       end
     end
 
     context "when supervision is in topic_question state" do
       before { @supervision.should_receive(:state).and_return("topic_question") }
 
-      specify { returned_path.should == new_topic_question_path(:supervision_id => @supervision.id) }
+      specify { returned_path.should == new_supervision_topic_question_path(@supervision) }
     end
 
     context "when supervision is in idea state" do
       before { @supervision.should_receive(:state).and_return("idea") }
 
-      specify { returned_path.should == ideas_path(:supervision_id => @supervision.id) }
+      specify { returned_path.should == supervision_ideas_path(@supervision) }
     end
 
     context "when supervision is in idea_feedback state" do
       before { @supervision.should_receive(:state).and_return("idea_feedback") }
 
-      specify { returned_path.should == ideas_path(:supervision_id => @supervision.id) }
+      specify { returned_path.should == supervision_ideas_path(@supervision) }
     end
 
     context "when supervision is in solution state" do
       before { @supervision.should_receive(:state).and_return("solution") }
 
-      specify { returned_path.should == solutions_path(:supervision_id => @supervision.id) }
+      specify { returned_path.should == supervision_solutions_path(@supervision) }
     end
 
     context "when supervision is in solution feedback state" do
       before { @supervision.should_receive(:state).and_return("solution_feedback") }
 
-      specify { returned_path.should == solutions_path(:supervision_id => @supervision.id) }
+      specify { returned_path.should == supervision_solutions_path(@supervision) }
     end
 
     context "when supervision is in finished state" do

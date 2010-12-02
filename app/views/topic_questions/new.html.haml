@@ -1,25 +1,25 @@
 - @title = t(".title", :default => "Questions to the topic")
 
-%h2= t(".heading", :default => "Questions to the topic")
+%article
+  %header
+    %h1= t(".heading", :default => "Questions to the topic")
 
-%dl
-  %dt= t(".topic", :default => "Current topic")
-  %dd
-    = render "topics/topic", :topic => @supervision.topic
+  %dl
+    %dt= t(".topic", :default => "Current topic")
+    %dd= render @supervision.topic
 
-= render "questions"
+  = render "questions"
 
-- unless @supervision.problem_owner?(current_user)
-  - if @supervision.voted_on_next_step?(current_user)
-    %p= t(".waiting_for_others", :default => "Wait for other questions and answers.")
-  - else
-    %p= t(".step_description", :default => "Do you have any question regarding the topic?")
+  - unless @supervision.problem_owner?(current_user)
+    - if @supervision.voted_on_next_step?(current_user)
+      %p= t(".waiting_for_others", :default => "Wait for other questions and answers.")
+    - else
+      %p= t(".step_description", :default => "Do you have any question regarding the topic?")
 
-    = semantic_form_for(@question, :url => topic_questions_path) do |f|
-      = hidden_field_tag :supervision_id, @supervision.id
-      = f.inputs do
-        = f.input :content
-      = f.buttons do
-        = f.commit_button t(".question.submit", :default => "Ask")
-        = link_to(t(".question.no_more", :default => "I have no more questions"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
+      = semantic_form_for([@supervision, @question], :url => supervision_topic_questions_path(@supervision)) do |f|
+        = f.inputs do
+          = f.input :content
+        = f.buttons do
+          = f.commit_button t(".question.submit", :default => "Ask")
+          = link_to(t(".question.no_more", :default => "I have no more questions"), supervision_votes_path(@supervision), :method => :post)
 

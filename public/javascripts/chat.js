@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
       var ViewHelper = {
         scrollUpdates: function(callback) {
           var scroll = chatUpdates.attr('clientHeight')  + chatUpdates.attr('scrollTop') == chatUpdates.attr('scrollHeight');
-          if(callback) callback();
+          if(callback) { callback(); }
           if(!callback || scroll) {
             chatUpdates.animate({ scrollTop: chatUpdates.attr("scrollHeight") }, 500);
           }
@@ -37,12 +37,12 @@ jQuery(document).ready(function($) {
         function processChatFeed(data) {
           ViewHelper.scrollUpdates(function() {
             $.each(data.feeds, function(i, feed) {
-              if(document.getElementById(feed.id) == null) {
+              if(! document.getElementById(feed.id)) {
                 $('a.new_message', container).before(feed.update);
                 $('#' + feed.id, container).hide().fadeIn(500);
               } else {
                 $('#' + feed.id, container).replaceWith(feed.update);
-              };
+              }
             });
 
             $('#' + activeChatUpdateElementId, container).addClass('active');
@@ -70,13 +70,13 @@ jQuery(document).ready(function($) {
         }
 
         function submitMessage(callback, rejectBlank, updateOnly) {
-          var data = updateOnly ? {update_type: "update"} : {}
+          var data = updateOnly ? {update_type: "update"} : {};
           dirty = false;
 
           function submit() {
             form().ajaxSubmit({
               success: function() {
-                if(callback) callback();
+                if(callback) { callback(); }
               },
               data: data
             });
@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
 
           if(rejectBlank) {
             if($('#chat_update_message', form()).val().length < 1) {
-              if(callback) callback();
+              if(callback) { callback(); }
             } else {
               submit();
             }
@@ -142,7 +142,7 @@ jQuery(document).ready(function($) {
       // Chat users
       var ChatUsersController = function() {
         $('ul.chatting_users ul.actions a', container).live('click', function(e) {
-          $.post($(this).attr('href').gsub('#', ''), null, null, 'json');
+          $.post($(this).attr('href').replace('#', ''), null, null, 'json');
           ViewHelper.replaceWithSpinner(this);
         });
 
@@ -159,7 +159,7 @@ jQuery(document).ready(function($) {
 
       ViewHelper.scrollUpdates();
     });
-  }
+  };
 
   $('#chat').chat();
 });

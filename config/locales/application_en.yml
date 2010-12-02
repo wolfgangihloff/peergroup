@@ -44,6 +44,7 @@
         - :chat_users: !omap 
             - :captions: !omap 
                 - :leader: Leader
+                - :problem_owner: Problem owner
             - :links: !omap 
                 - :leader: Leader
                 - :problem_owner: Problem owner
@@ -279,6 +280,7 @@
         - :new: !omap 
             - :content: !omap 
                 - :hint: Enter your problem or leave this blank if you do not have any.
+            - :submit: Submit Topic
             - :title: New Topic
     - :users: !omap 
         - :edit: !omap 

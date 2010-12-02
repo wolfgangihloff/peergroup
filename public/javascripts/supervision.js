@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
     if($(selector).length == 0) return false;
 
     function updateList() {
-      $.get(document.location + '&partial=true', function(data) {
+      $.get(document.location + '?partial=true', function(data) {
 
         if($('form#new_' + resource).length == 0) {
           // Problem owner scenario

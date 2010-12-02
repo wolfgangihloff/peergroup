@@ -22,10 +22,12 @@ class Supervision < ActiveRecord::Base
 
   before_validation(:on => :create) { self.state ||= "topic" }
 
-  %w{topics topic_votes}.each do |step|
-    define_method(:"all_#{step}?") do
-      group.members.all? {|m| !send(step).where(:user_id => m.id).empty? }
-    end
+  def all_topics?
+    group.members.all? {|m| topics.where(:user_id => m.id).any? }
+  end
+
+  def all_topic_votes?
+    group.members.all? {|m| topic_votes.where(:user_id => m.id).present? }
   end
 
   def all_next_step_votes?
@@ -36,15 +38,22 @@ class Supervision < ActiveRecord::Base
     state == "topic_question" && all_next_step_votes? && all_answers?
   end
 
-  %w{idea solution}.each do |step|
-    define_method "can_move_to_#{step}_feedback_state?" do
-      state == step && all_next_step_votes? && send("all_#{step}_ratings?")
-    end
-
-    define_method "all_#{step}_ratings?" do
-      send(step.pluralize).not_rated.empty?
-    end
+  def can_move_to_idea_feedback_state?
+    state == "idea" && all_next_step_votes? && all_idea_ratings?
   end
+
+  def all_idea_ratings?
+    ideas.not_rated.empty?
+  end
+
+  def can_move_to_solution_feedback_state?
+    state == "solution" && all_next_step_votes? && all_solution_ratings?
+  end
+
+  def all_solution_ratings?
+    solutions.not_rated.empty?
+  end
+
 
   def all_answers?
     questions.unanswered.empty?

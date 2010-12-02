@@ -26,7 +26,7 @@ class SupervisionsController < ApplicationController
   end
 
   def redirect_to_current_supervision_if_exists
-    return true if @supervision.nil? || @supervision.state == "finished"
+    return if @supervision.nil? || @supervision.state == "finished"
 
     redirect_to supervision_step_path(@supervision)
     return false

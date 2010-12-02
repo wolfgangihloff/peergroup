@@ -31,8 +31,8 @@ Feature: Providing ideas
   @javascript
   Scenario: Receive new idea update
     Given the user "Wolfgang" is signed in
-    When I go to the ideas for "Current supervision" page
     And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    When I go to the ideas for "Current supervision" page
     Then I should see "Use the newest technologies."
 
   @javascript
@@ -41,7 +41,13 @@ Feature: Providing ideas
     And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
     When I go to the ideas for "Current supervision" page
     Then I should not see "Rating" within idea "Kacper's idea"
-    When the idea: "Kacper's idea" rating is "3"
+
+  @javascript
+  Scenario: Receive new rating update - step 2
+    Given the user "Kacper" is signed in
+    And the idea: "Kacper's idea" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Use the newest technologies."
+    And the idea: "Kacper's idea" rating is "3"
+    When I go to the ideas for "Current supervision" page
     Then I should see "Rating" within idea "Kacper's idea"
 
   Scenario: Moving forward by providing last rating
@@ -55,6 +61,7 @@ Feature: Providing ideas
     Then I should see "Idea rated"
     And I should see "Provide the feedback on ideas"
 
+    @wip
   Scenario: Moving forward by clicking "No more questions" button
     Given the user "Kacper" is signed in
     When I go to the ideas for "Current supervision" page

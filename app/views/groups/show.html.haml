@@ -1,4 +1,5 @@
-= link_to t(".links.edit", :default => "Edit"), edit_group_path(@group)
+%article
+  = link_to t(".links.edit", :default => "Edit"), edit_group_path(@group)
 
-- users_list(@group.members, @group.founder)
+  - users_list(@group.members, @group.founder)
 

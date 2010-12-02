@@ -17,5 +17,6 @@ Feature: Signin
       | Email                 | tom@example.com |
       | Password              | foobar |
     And I press "Sign in"
-    Then I should see "Tom's Group List"
+    Then I should see "Welcome Tom"
+    And I should be on the home page
 

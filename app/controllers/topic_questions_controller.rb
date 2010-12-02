@@ -20,7 +20,7 @@ class TopicQuestionsController < ApplicationController
       redirect_to supervision_step_path(@supervision)
     else
       error_flash("You must provide your question")
-      redirect_to new_topic_question_path(:supervision_id => @supervision)
+      redirect_to new_supervision_topic_question_path(@supervision)
     end
   end
 

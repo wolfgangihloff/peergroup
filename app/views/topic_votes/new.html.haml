@@ -1,8 +1,9 @@
 - @title = t(".title", :default => "Topic voting")
 
-%h2= t(".heading", :default => "All submitted topics")
+%article
+  %header
+    %h1= t(".heading", :default => "All submitted topics")
+    %h2= t(".step_description", :default => "Vote on the topic you want to discuss.")
 
-%p= t(".step_description", :default => "Vote on the topic you want to discuss.")
-
-= render "topics/topics", :topics => @topics
+  = render "topics/topics", :topics => @topics
 
