@@ -41,6 +41,7 @@
                     - :post_topic_vote: 
                     - :post_vote_for_next_step: 
     - :attributes: !omap 
+        - :conent: 
         - :content: 
         - :description: 
         - :email: 
@@ -133,6 +134,11 @@
             - :feedback: !omap 
                 - :info: Provide the feedback on ideas
             - :heading: Ideas
+            - :idea: !omap 
+                - :no_more: I have no more ideas
+                - :submit: Submit
+            - :ideas_feedback: !omap 
+                - :submit: Submit
             - :no_ideas: Wait for some ideas
             - :step_description: Any ideas?
             - :title: Ideas
@@ -207,10 +213,14 @@
             - :ideas_feedback: !omap 
                 - :heading: "Feedback on ideas:"
             - :no_solutions: Wait for some solutions
+            - :solution: !omap 
+                - :no_more: I have no more solutions
+                - :submit: Submit
             - :solution_feedback: !omap 
                 - :description: Provide the feedback on solutions
             - :solutions_feedback: !omap 
                 - :heading: "Feedback on solutions:"
+                - :submit: Submit
             - :step_description: Any solutions?
             - :title: Solutions
             - :topic: Current topic

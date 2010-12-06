@@ -19,7 +19,9 @@
     - if @supervision.state == "idea_feedback"
       %p= t(".feedback.info", :default => "Provide the feedback on ideas")
 
-      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @ideas_feedback} do |f|
+      = semantic_form_for([@supervision, @ideas_feedback]) do |f|
+        = f.inputs do
+          = f.input :content
         = f.buttons do
           = f.commit_button t(".ideas_feedback.submit", :default => "Submit")
 
@@ -30,7 +32,9 @@
     - elsif @supervision.state == "idea"
       %p= t(".step_description", :default => "Any ideas?")
 
-      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
+      = semantic_form_for([@supervision, @idea]) do |f|
+        = f.inputs do
+          = f.input :content
         = f.buttons do
           = f.commit_button t(".idea.submit", :default => "Submit")
           = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)
