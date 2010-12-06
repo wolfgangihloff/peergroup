@@ -1,8 +1,30 @@
 class Supervision < ActiveRecord::Base
 
-  STEPS = %w{topic topic_vote topic_question idea idea_feedback solution solution_feedback finished}
+  # Run:
+  #     rake state_machine:draw CLASS=Supervision
+  # to generate diagram how this state machine changes states
+  state_machine :state, :initial => :topic do
+    before_transition :topic => :topic_vote, :do => :choose_topic
+    after_transition all => all, :do => :destroy_next_step_votes
 
-  validates_inclusion_of :state, :in => STEPS
+    event :post_topic do
+      transition :topic => :topic_vote, :if => :all_topics?
+    end
+    event :post_topic_vote do
+      transition :topic_vote => :topic_question, :if => :all_topic_votes?
+    end
+    event :owner_idea_feedback do
+      transition :idea_feedback => :solution
+    end
+    event :owner_solution_feedback do
+      transition :solution_feedback => :finished
+    end
+    event :post_vote_for_next_step do
+      transition :topic_question => :idea, :if => :can_move_to_idea_state?
+      transition :idea => :idea_feedback, :if => :can_move_to_idea_feedback_state?
+      transition :solution => :solution_feedback, :if => :can_move_to_solution_feedback_state?
+    end
+  end
 
   has_many :topics
   has_many :topic_votes, :through => :topics, :source => :votes
@@ -20,8 +42,6 @@ class Supervision < ActiveRecord::Base
 
   scope :unfinished, :conditions => ["state <> ?", "finished"]
 
-  before_validation(:on => :create) { self.state ||= "topic" }
-
   def all_topics?
     group.members.all? {|m| topics.where(:user_id => m.id).any? }
   end
@@ -35,33 +55,30 @@ class Supervision < ActiveRecord::Base
   end
 
   def can_move_to_idea_state?
-    state == "topic_question" && all_next_step_votes? && all_answers?
+    all_next_step_votes? && all_answers?
   end
 
   def can_move_to_idea_feedback_state?
-    state == "idea" && all_next_step_votes? && all_idea_ratings?
+    all_next_step_votes? && all_idea_ratings?
+  end
+
+  def can_move_to_solution_feedback_state?
+    all_next_step_votes? && all_solution_ratings?
+  end
+
+  def all_answers?
+    questions.unanswered.empty?
   end
 
   def all_idea_ratings?
     ideas.not_rated.empty?
   end
 
-  def can_move_to_solution_feedback_state?
-    state == "solution" && all_next_step_votes? && all_solution_ratings?
-  end
-
   def all_solution_ratings?
     solutions.not_rated.empty?
   end
 
-
-  def all_answers?
-    questions.unanswered.empty?
-  end
-
-  def next_step!
-    self.state = STEPS[STEPS.index(state) + 1]
-    save!
+  def destroy_next_step_votes
     next_step_votes.destroy_all
   end
 

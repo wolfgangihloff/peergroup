@@ -5,14 +5,14 @@ Feature: Questions to the topic
 
   Background:
     Given the group "Developers" exists with members "Kacper", "Wolfgang"
-    And a supervision: "Current supervision" exists with group: group "Developers", state: "topic_vote"
+    And a supervision: "Current supervision" exists with group: group "Developers"
     And the following topics exist:
-      | topic | supervision | user | content |
-      | Kacper's topic | supervision: "Current supervision" | user: "Kacper" | How to cook? |
+      | topic            | supervision                        | user             | content              |
+      | Kacper's topic   | supervision: "Current supervision" | user: "Kacper"   | How to cook?         |
       | Wolfgang's topic | supervision: "Current supervision" | user: "Wolfgang" | How to make startup? |
     And the following votes exist:
-      | statement | user |
-      | topic: "Wolfgang's topic" | user: "Kacper" |
+      | statement                 | user             |
+      | topic: "Wolfgang's topic" | user: "Kacper"   |
       | topic: "Wolfgang's topic" | user: "Wolfgang" |
 
   Scenario: Ask the question

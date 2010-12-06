@@ -4,6 +4,7 @@
   %header
     %h1= t(".heading", :default => "Questions to the topic")
 
+  = @supervision.state
   %dl
     %dt= t(".topic", :default => "Current topic")
     %dd= render @supervision.topic

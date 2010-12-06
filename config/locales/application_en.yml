@@ -15,6 +15,8 @@
                     - :blank: 
                 - :relationship: !omap 
                     - :blank: 
+                - :supervision: !omap 
+                    - :invalid_transition: 
                 - :user: !omap 
                     - :blank: 
                     - :confirmation: 
@@ -22,6 +24,22 @@
                     - :taken: 
                     - :too_long: 
                     - :too_short: 
+        - :state_machines: !omap 
+            - :events: !omap 
+                - :next_step: 
+                - :owner_feedback: 
+                - :owner_idea_feedback: 
+                - :post_topic: 
+                - :post_topic_vote: 
+                - :post_vote_for_next_step: 
+            - :state: !omap 
+                - :events: !omap 
+                    - :next_step: 
+                    - :owner_feedback: 
+                    - :owner_idea_feedback: 
+                    - :post_topic: 
+                    - :post_topic_vote: 
+                    - :post_vote_for_next_step: 
     - :attributes: !omap 
         - :content: 
         - :description: 
@@ -32,6 +50,7 @@
         - :passcode: 
         - :password: 
         - :password_confirmation: 
+        - :state: 
     - :chat_rooms: !omap 
         - :show: !omap 
             - :links: !omap 

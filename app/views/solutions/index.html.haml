@@ -1,44 +1,46 @@
 - @title = t(".title", :default => "Solutions")
 
-%h2= t(".heading", :default => "Solutions")
+%article
+  %header
+    %h1= t(".heading", :default => "Solutions")
 
-%p.head= t(".topic", :default => "Current topic")
-= render "topics/topic", :topic => @supervision.topic
+  %p.head= t(".topic", :default => "Current topic")
+  = render "topics/topic", :topic => @supervision.topic
 
-= render "topic_questions/questions"
+  = render "topic_questions/questions"
 
-= render "ideas/ideas"
+  = render "ideas/ideas"
 
-%p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
-= render(:layout => "supervisions/contentable", :object => @supervision.ideas_feedback) {}
+  %p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
+  = render(:layout => "supervisions/contentable", :object => @supervision.ideas_feedback) {}
 
-= render "solutions/solutions"
+  = render "solutions/solutions"
 
-- if @supervision.problem_owner?(current_user)
+  - if @supervision.problem_owner?(current_user)
 
-  - if @supervision.solutions.empty?
-    %p= t(".no_solutions", :default => "Wait for some solutions")
+    - if @supervision.solutions.empty?
+      %p= t(".no_solutions", :default => "Wait for some solutions")
 
-  - if @supervision.state == "solution_feedback"
+    - if @supervision.state == "solution_feedback"
 
-    %p= t(".solution_feedback.description", :default => "Provide the feedback on solutions")
-    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @solutions_feedback} do |f|
-      = f.buttons do
-        = f.commit_button t(".solutions_feedback.submit", :default => "Submit")
+      %p= t(".solution_feedback.description", :default => "Provide the feedback on solutions")
+      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @solutions_feedback} do |f|
+        = f.buttons do
+          = f.commit_button t(".solutions_feedback.submit", :default => "Submit")
 
-- else
+  - else
 
-  - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "solution_feedback"
-    %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
-  - elsif @supervision.state == "solution"
-    %p= t(".step_description", :default => "Any solutions?")
+    - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "solution_feedback"
+      %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
+    - elsif @supervision.state == "solution"
+      %p= t(".step_description", :default => "Any solutions?")
 
-    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @solution} do |f|
-      = f.buttons do
-        = f.commit_button t(".solution.submit", :default => "Submit")
-        = link_to(t(".solution.no_more", :default => "I have no more solutions"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
+      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @solution} do |f|
+        = f.buttons do
+          = f.commit_button t(".solution.submit", :default => "Submit")
+          = link_to(t(".solution.no_more", :default => "I have no more solutions"), supervision_votes_path(:supervision_id => @supervision.id), :method => :post)
 
-- if @supervision.solutions_feedback
-  %p.head= t(".solutions_feedback.heading", :default => "Feedback on solutions:")
-  = render(:layout => "supervisions/contentable", :object => @supervision.solutions_feedback) {}
+  - if @supervision.solutions_feedback
+    %p.head= t(".solutions_feedback.heading", :default => "Feedback on solutions:")
+    = render(:layout => "supervisions/contentable", :object => @supervision.solutions_feedback) {}
 

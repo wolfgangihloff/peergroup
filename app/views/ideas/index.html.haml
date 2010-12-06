@@ -1,35 +1,37 @@
 - @title = t(".title", :default => "Ideas")
 
-%h2= t(".heading", :default => "Ideas")
+%article
+  %header
+    %h1= t(".heading", :default => "Ideas")
 
-%p.head= t(".topic", :default => "Current topic")
-= render "topics/topic", :topic => @supervision.topic
+  %p.head= t(".topic", :default => "Current topic")
+  = render "topics/topic", :topic => @supervision.topic
 
-= render "topic_questions/questions"
+  = render "topic_questions/questions"
 
-= render "ideas"
+  = render "ideas"
 
-- if @supervision.problem_owner?(current_user)
+  - if @supervision.problem_owner?(current_user)
 
-  - if @supervision.ideas.empty?
-    %p.no_idea= t(".no_ideas", :default => "Wait for some ideas")
+    - if @supervision.ideas.empty?
+      %p.no_idea= t(".no_ideas", :default => "Wait for some ideas")
 
-  - if @supervision.state == "idea_feedback"
-    %p= t(".feedback.info", :default => "Provide the feedback on ideas")
+    - if @supervision.state == "idea_feedback"
+      %p= t(".feedback.info", :default => "Provide the feedback on ideas")
 
-    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @ideas_feedback} do |f|
-      = f.buttons do
-        = f.commit_button t(".ideas_feedback.submit", :default => "Submit")
+      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @ideas_feedback} do |f|
+        = f.buttons do
+          = f.commit_button t(".ideas_feedback.submit", :default => "Submit")
 
-- else
+  - else
 
-  - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "idea_feedback"
-    %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
-  - elsif @supervision.state == "idea"
-    %p= t(".step_description", :default => "Any ideas?")
+    - if @supervision.voted_on_next_step?(current_user) || @supervision.state == "idea_feedback"
+      %p= t(".waiting_for_feedback", :default => "Wait for %{problem_owner}'s feedback", :problem_owner => @supervision.problem_owner.name)
+    - elsif @supervision.state == "idea"
+      %p= t(".step_description", :default => "Any ideas?")
 
-    = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
-      = f.buttons do
-        = f.commit_button t(".idea.submit", :default => "Submit")
-        = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)
+      = render :layout => "supervisions/contentable_form", :locals => {:contentable => @idea} do |f|
+        = f.buttons do
+          = f.commit_button t(".idea.submit", :default => "Submit")
+          = link_to(t(".idea.no_more", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)
 

@@ -2,16 +2,9 @@ class VoteObserver < ActiveRecord::Observer
   def after_create(vote)
     case vote.statement
     when Topic
-      supervision = vote.statement.supervision
-      if supervision.state == "topic_vote" && supervision.all_topic_votes?
-        supervision.choose_topic
-        supervision.next_step!
-      end
+      vote.statement.supervision.post_topic_vote
     when Supervision
-      supervision = vote.statement
-      supervision.next_step! if %w{idea idea_feedback solution_feedback}.any? do |step|
-        supervision.send("can_move_to_#{step}_state?")
-      end
+      vote.statement.post_vote_for_next_step
     end
   end
 end

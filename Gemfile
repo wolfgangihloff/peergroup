@@ -13,6 +13,7 @@ gem "rdiscount"
 gem "faker"
 gem "jquery-rails"
 gem "compass"
+gem "state_machine"
 
 group :staging do
 #  gem "pg"
@@ -33,6 +34,7 @@ end
 
 group :development do
   gem "nifty-generators"
+  gem "ruby-graphviz"
 end
 
 group :cucumber do
