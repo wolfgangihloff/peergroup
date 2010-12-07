@@ -7,16 +7,16 @@ Feature: Signin
     Given the user exists with name: "Tom", email: "tom@example.com"
 
   Scenario: Providing invalid credentials
-    When I go to the signin page
-    And I press "Sign in"
-    Then I should see "Invalid email/password combination"
+     When I go to the signin page
+      And I press "Sign in"
+     Then I should see "Invalid email/password combination"
 
   Scenario: Successful signin
-    When I go to the signin page
-    And I fill in the following:
-      | Email                 | tom@example.com |
-      | Password              | foobar |
-    And I press "Sign in"
-    Then I should see "Welcome Tom"
-    And I should be on the home page
+     When I go to the signin page
+      And I fill in the following:
+        | Email    | tom@example.com |
+        | Password | foobar          |
+      And I press "Sign in"
+     Then I should see "Welcome Tom"
+      And I should be on the home page
 

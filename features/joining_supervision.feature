@@ -5,18 +5,18 @@ Feature: Joining supervision process
 
   Background:
     Given the group "Developers" exists with members "Kacper", "Wolfgang"
-    And the user "Kacper" is signed in
+      And I am logged in as "Kacper"
 
   Scenario: Creating new session
-    When I am on the homepage
-    And I follow "Session" within "Developers" group brief
-    Then I should see "Do you want to create new Supervision Session?"
-    When I press "Yes"
-    Then I should see "Enter your problem or leave this blank if you do not have any."
+     When I am on the homepage
+      And I follow "Session" within "Developers" group brief
+     Then I should see "Do you want to create new Supervision Session?"
+     When I press "Yes"
+     Then I should see "Enter your problem or leave this blank if you do not have any."
 
   Scenario: Joining existing session
     Given the session for the group "Developers" is started by "Wolfgang"
-    When I am on the homepage
-    And I follow "Session" within "Developers" group brief
-    Then I should see "Enter your problem or leave this blank if you do not have any."
+     When I am on the homepage
+      And I follow "Session" within "Developers" group brief
+     Then I should see "Enter your problem or leave this blank if you do not have any."
 

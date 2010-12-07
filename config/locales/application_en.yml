@@ -35,6 +35,7 @@
                 - :next_step: 
                 - :owner_feedback: 
                 - :owner_idea_feedback: 
+                - :owner_solution_feedback: 
                 - :post_topic: 
                 - :post_topic_vote: 
                 - :post_vote_for_next_step: 
@@ -44,6 +45,7 @@
                     - :next_step: 
                     - :owner_feedback: 
                     - :owner_idea_feedback: 
+                    - :owner_solution_feedback: 
                     - :post_topic: 
                     - :post_topic_vote: 
                     - :post_vote_for_next_step: 
@@ -241,6 +243,9 @@
             - :flash: !omap 
                 - :successful: Feedback submitted
     - :supervision_feedbacks: !omap 
+        - :create: !omap 
+            - :flash: !omap 
+                - :successful: Feedback submitted
         - :index: !omap 
             - :heading: Supervision feedback
             - :ideas_feedback: !omap 

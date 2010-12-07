@@ -4,11 +4,10 @@ Feature: Browsing
   I want to browse all users
 
   Scenario: Accessing users list
-    Given the user exists with name: "Kacper"
-    And the user exists with name: "Wolfgang"
-    And the user "Kacper" is signed in
-    When I am on the homepage
-    And I follow "Users"
-    Then I should see "Kacper"
-    And I should see "Wolfgang"
+    Given the user exists with name: "Wolfgang"
+      And I am logged in as "Kacper"
+     When I am on the homepage
+      And I follow "Users"
+     Then I should see "Kacper"
+      And I should see "Wolfgang"
 
