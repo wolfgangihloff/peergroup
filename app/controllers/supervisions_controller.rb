@@ -6,6 +6,11 @@ class SupervisionsController < ApplicationController
   before_filter :check_current_supervision, :only => [:new, :create]
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
 
+  def index
+    @finished_supervisions = Supervision.finished.where(:group_id => current_user.group_ids).paginate :per_page => 10, :page => params[:page], :order => "created_at DESC"
+    @current_supervisions = Supervision.unfinished.where(:group_id => current_user.group_ids)
+  end
+
   def new
     @supervision = @group.supervisions.build
   end

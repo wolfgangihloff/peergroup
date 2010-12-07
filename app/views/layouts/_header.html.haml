@@ -12,6 +12,7 @@
         %li= link_to t(".links.create_group", :default => "Create Group"), new_group_path
         %li= link_to t(".links.my_groups", :default => "My Groups"), groups_path
         %li= link_to t(".links.all_groups", :default => "All Groups"), groups_path(:all => true)
+        %li= link_to t(".links.supervisions", :default => "Supervisions"), supervisions_path
         %li= link_to t(".links.settings", :default => "Settings"), edit_user_path(current_user)
       %li= link_to t(".links.help", :default => "Help"), help_path
       - if signed_in?
