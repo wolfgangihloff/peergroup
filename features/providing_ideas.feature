@@ -61,7 +61,6 @@ Feature: Providing ideas
     Then I should see "Idea rated"
     And I should see "Provide the feedback on ideas"
 
-    @wip
   Scenario: Moving forward by clicking "No more questions" button
     Given the user "Kacper" is signed in
     When I go to the ideas for "Current supervision" page

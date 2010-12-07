@@ -16,7 +16,7 @@ class SupervisionsController < ApplicationController
 
   def show
     @supervision = Supervision.find(params[:id])
-    render :template => "solutions/index"
+    render :template => "supervision_feedbacks/index"
   end
 
   protected

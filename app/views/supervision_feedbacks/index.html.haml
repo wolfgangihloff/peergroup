@@ -1,0 +1,34 @@
+- @title = t(".title", :default => "Supervision feedback")
+
+%article
+  %header
+    %h1= t(".heading", :default => "Supervision feedback")
+
+  %p.head= t(".topic", :default => "Current topic")
+  = render "topics/topic", :topic => @supervision.topic
+
+  = render "topic_questions/questions"
+
+  = render "ideas/ideas"
+
+  %p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
+  = render(:partial => "supervisions/contentable", :object => @supervision.ideas_feedback)
+
+  = render "solutions/solutions"
+
+  %p.head= t(".solutions_feedback.heading", :default => "Feedback on solutions:")
+  = render(:partial => "supervisions/contentable", :object => @supervision.solutions_feedback)
+
+  %p.head= t(".supervision_feedback.heading", :default => "General feedback on supervision:")
+  - @supervision.supervision_feedbacks.each do |supervision_feedback|
+    = render(:partial => "supervisions/contentable", :object => supervision_feedback)
+
+  - unless @supervision.posted_supervision_feedback?(current_user)
+    - supervision_feedback = @supervision.supervision_feedbacks.build(:user => current_user)
+    = semantic_form_for([@supervision, supervision_feedback], :url => supervision_supervision_feedbacks_path(@supervision)) do |f|
+      = f.inputs do
+        = f.input :content
+      = f.buttons do
+        = f.commit_button
+
+

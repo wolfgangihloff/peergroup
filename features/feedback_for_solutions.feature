@@ -16,7 +16,7 @@ Feature: Providing feedback on solutions
     And I fill in "Content" with "Thanks for all solutions!" within "form#new_solutions_feedback"
     And I press "Submit"
     Then I should see "Feedback submitted"
-    And the supervision: "Current supervision" state should be "finished"
+    And the supervision: "Current supervision" state should be "supervision_feedback"
     And I should see "Thanks for all solutions!"
 
   @javascript
@@ -24,6 +24,6 @@ Feature: Providing feedback on solutions
     Given the user "Kacper" is signed in
     When I go to the solutions for "Current supervision" page
     And the solutions feedback exists with supervision: supervision "Current supervision", user: user "Wolfgang", content: "These are nice solutions!"
-    Then the supervision: "Current supervision" state should be "finished"
+    Then the supervision: "Current supervision" state should be "supervision_feedback"
     And I should see "These are nice solutions!"
 

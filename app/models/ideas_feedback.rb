@@ -1,6 +1,6 @@
-require 'supervision_part'
-
-class IdeasFeedback < ActiveRecord::Base
-  include SupervisionPart
+class IdeasFeedback < Feedback
+  after_create do |ideas_feedback|
+    ideas_feedback.supervision.owner_idea_feedback
+  end
 end
 

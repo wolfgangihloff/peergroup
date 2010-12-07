@@ -17,7 +17,10 @@ class Supervision < ActiveRecord::Base
       transition :idea_feedback => :solution
     end
     event :owner_solution_feedback do
-      transition :solution_feedback => :finished
+      transition :solution_feedback => :supervision_feedback
+    end
+    event :general_feedback do
+      transition :supervision_feedback => :finished, :if => :can_move_to_finished_state?
     end
     event :post_vote_for_next_step do
       transition :topic_question => :idea, :if => :can_move_to_idea_state?
@@ -36,10 +39,12 @@ class Supervision < ActiveRecord::Base
 
   has_one :ideas_feedback
   has_one :solutions_feedback
+  has_many :supervision_feedbacks
 
   belongs_to :topic
   belongs_to :group
 
+  scope :finished, :conditions => {:state => "finished"}
   scope :unfinished, :conditions => ["state <> ?", "finished"]
 
   def all_topics?
@@ -66,6 +71,10 @@ class Supervision < ActiveRecord::Base
     all_next_step_votes? && all_solution_ratings?
   end
 
+  def can_move_to_finished_state?
+    all_supervision_feedbacks?
+  end
+
   def all_answers?
     questions.unanswered.empty?
   end
@@ -78,6 +87,10 @@ class Supervision < ActiveRecord::Base
     solutions.not_rated.empty?
   end
 
+  def all_supervision_feedbacks?
+    group.members.all? {|m| supervision_feedbacks.count(:conditions => {:user_id => m.id}) > 0 }
+  end
+
   def destroy_next_step_votes
     next_step_votes.destroy_all
   end
@@ -88,6 +101,10 @@ class Supervision < ActiveRecord::Base
 
   def voted_on_next_step?(user)
     !next_step_votes(true).where(:user_id => user.id).empty?
+  end
+
+  def posted_supervision_feedback?(user)
+    supervision_feedbacks.count(:conditions => {:user_id => user.id}) > 0
   end
 
   def choose_topic

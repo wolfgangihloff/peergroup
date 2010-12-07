@@ -1,6 +1,9 @@
 --- !omap 
 - :en: !omap 
     - :activerecord: !omap 
+        - :attributes: !omap 
+            - :feedback: !omap 
+                - :content: 
         - :errors: !omap 
             - :messages: !omap 
                 - :blank: 
@@ -24,8 +27,11 @@
                     - :taken: 
                     - :too_long: 
                     - :too_short: 
+        - :models: !omap 
+            - :feedback: 
         - :state_machines: !omap 
             - :events: !omap 
+                - :general_feedback: 
                 - :next_step: 
                 - :owner_feedback: 
                 - :owner_idea_feedback: 
@@ -34,6 +40,7 @@
                 - :post_vote_for_next_step: 
             - :state: !omap 
                 - :events: !omap 
+                    - :general_feedback: 
                     - :next_step: 
                     - :owner_feedback: 
                     - :owner_idea_feedback: 
@@ -233,6 +240,17 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Feedback submitted
+    - :supervision_feedbacks: !omap 
+        - :index: !omap 
+            - :heading: Supervision feedback
+            - :ideas_feedback: !omap 
+                - :heading: "Feedback on ideas:"
+            - :solutions_feedback: !omap 
+                - :heading: "Feedback on solutions:"
+            - :supervision_feedback: !omap 
+                - :heading: "General feedback on supervision:"
+            - :title: Supervision feedback
+            - :topic: Current topic
     - :supervisions: !omap 
         - :contentable: !omap 
             - :answer: !omap 

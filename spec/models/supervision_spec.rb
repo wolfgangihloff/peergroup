@@ -16,7 +16,7 @@ describe Supervision do
       supervision = Factory(:supervision, :state => "topic")
 
       supervision.should_receive(:all_topics?).and_return(true)
-      supervision.post_topic
+      supervision.post_topic!
       supervision.state.should == "topic_vote"
     end
 
@@ -24,7 +24,7 @@ describe Supervision do
       supervision = Factory(:supervision, :state => "topic_vote")
 
       supervision.should_receive(:all_topic_votes?).and_return(true)
-      supervision.post_topic_vote
+      supervision.post_topic_vote!
       supervision.state.should == "topic_question"
     end
 
@@ -33,7 +33,7 @@ describe Supervision do
 
       supervision.should_receive(:all_answers?).and_return(true)
       supervision.should_receive(:all_next_step_votes?).and_return(true)
-      supervision.post_vote_for_next_step
+      supervision.post_vote_for_next_step!
       supervision.state.should == "idea"
     end
 
@@ -42,7 +42,7 @@ describe Supervision do
 
       supervision.should_receive(:all_idea_ratings?).and_return(true)
       supervision.should_receive(:all_next_step_votes?).and_return(true)
-      supervision.post_vote_for_next_step
+      supervision.post_vote_for_next_step!
       supervision.state.should == "idea_feedback"
     end
 
@@ -58,14 +58,21 @@ describe Supervision do
 
       supervision.should_receive(:all_solution_ratings?).and_return(true)
       supervision.should_receive(:all_next_step_votes?).and_return(true)
-      supervision.post_vote_for_next_step
+      supervision.post_vote_for_next_step!
       supervision.state.should == "solution_feedback"
     end
 
-    it "should change from solution_feedback to finished" do
+    it "should change from solution_feedback to supervision_feedback" do
       supervision = Factory(:supervision, :state => "solution_feedback")
 
       supervision.owner_solution_feedback!
+      supervision.state.should == "supervision_feedback"
+    end
+
+    it "should change from supervision_feedback to finished" do
+      supervision = Factory(:supervision, :state => "supervision_feedback")
+
+      supervision.general_feedback!
       supervision.state.should == "finished"
     end
   end

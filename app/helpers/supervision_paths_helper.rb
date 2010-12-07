@@ -33,6 +33,10 @@ module SupervisionPathsHelper
     end
   end
 
+  def supervision_supervision_feedback_step_path(supervision)
+    :supervision_supervision_feedbacks_path
+  end
+
   def supervision_finished_step_path(supervision)
     supervision_path(supervision)
   end
