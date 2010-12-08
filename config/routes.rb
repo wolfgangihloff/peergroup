@@ -14,8 +14,11 @@ Peergroupsupervision::Application.routes.draw do
   end
 
   resources :users do
-    get :following
-    get :followers
+    member do
+      get :following
+      get :followers
+    end
+    resources :groups
   end
   resources :sessions, :only => [:new, :create, :destroy]
   resource :relationships, :only => [:create, :destroy]

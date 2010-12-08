@@ -1,14 +1,15 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
-  before_filter :require_group, :except => [:index, :new, :create]
+  before_filter :require_group, :except => [:index, :my, :new, :create]
 
   def index
-    @title = if params[:all]
-               t(".title.all_groups", :default => "All Groups")
-             else
-               t(".title.your_groups", :default => "Your Groups")
-             end
-    @groups = params[:all] ? Group.all : current_user.groups
+    if params[:user_id].present?
+      @title = t(".title.your_groups", :default => "Your Groups")
+      @groups = current_user.groups
+    else
+      @title = t(".title.all_groups", :default => "All Groups")
+      @groups = Group.all
+    end
   end
 
   def new
