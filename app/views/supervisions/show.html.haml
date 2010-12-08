@@ -1,10 +1,17 @@
-- @title = t(".title", :default => "Supervision feedback")
+- @title = t(".title", :default => "Supervision")
 
 %article
   %header
     %h1= t(".heading", :default => "Supervision feedback")
 
-  %p.head= t(".topic", :default => "Current topic")
+  %p
+    = t(".supervision_finished", :default => "This supervision is finished.")
+    - if @supervision.group.current_supervision.present?
+      = link_to(t(".go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
+    - else
+      = link_to(t(".create_new", :default => "Create new?"), new_supervision_path(:group_id => @supervision.group))
+
+  %p.head= t(".topic", :default => "Topic")
   = render "topics/topic", :topic => @supervision.topic
 
   %p.head= t(".questions", :default => "Questions")
@@ -26,12 +33,9 @@
   - @supervision.supervision_feedbacks.each do |supervision_feedback|
     = render(:partial => "supervisions/contentable", :object => supervision_feedback)
 
-  - unless @supervision.posted_supervision_feedback?(current_user)
-    - supervision_feedback = @supervision.supervision_feedbacks.build(:user => current_user)
-    = semantic_form_for([@supervision, supervision_feedback], :url => supervision_supervision_feedbacks_path(@supervision)) do |f|
-      = f.inputs do
-        = f.input :content
-      = f.buttons do
-        = f.commit_button
-
-
+  %footer
+    = t(".supervision_finished", :default => "This supervision is finished.")
+    - if @supervision.group.current_supervision.present?
+      = link_to(t(".go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
+    - else
+      = link_to(t(".create_new", :default => "Create new?"), new_supervision_path(:group_id => @supervision.group))

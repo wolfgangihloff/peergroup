@@ -1,6 +1,4 @@
 %ul#ideas
-  %p.head= t(".ideas", :default => "Ideas")
-
   - @supervision.ideas.each do |idea|
     %li[idea]
       = render :layout => "supervisions/contentable", :object => idea do

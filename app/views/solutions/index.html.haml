@@ -7,13 +7,16 @@
   %p.head= t(".topic", :default => "Current topic")
   = render "topics/topic", :topic => @supervision.topic
 
+  %p.head= t(".questions", :default => "Questions")
   = render "topic_questions/questions"
 
+  %p.head= t(".ideas", :default => "Ideas")
   = render "ideas/ideas"
 
   %p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
   = render(:layout => "supervisions/contentable", :object => @supervision.ideas_feedback) {}
 
+  %p.head= t(".solutions", :default => "Solutions")
   = render "solutions/solutions"
 
   - if @supervision.problem_owner?(current_user)

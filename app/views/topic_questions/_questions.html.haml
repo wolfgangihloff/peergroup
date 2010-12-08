@@ -1,6 +1,4 @@
 %ul#topic_questions
-  %p.head= t(".questions", :default => "Questions")
-
   - @supervision.topic_questions.each do |question|
     %li[question]
       = render :layout => "supervisions/contentable", :object => question do
