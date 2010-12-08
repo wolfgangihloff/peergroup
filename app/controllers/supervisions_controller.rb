@@ -2,6 +2,7 @@ class SupervisionsController < ApplicationController
 
   respond_to :html
 
+  before_filter :authenticate
   before_filter :require_parent_group, :only => [:new, :create]
   before_filter :check_current_supervision, :only => [:new, :create]
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
