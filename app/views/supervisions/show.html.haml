@@ -9,7 +9,7 @@
     - if @supervision.group.current_supervision.present?
       = link_to(t(".go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
     - else
-      = link_to(t(".create_new", :default => "Create new?"), new_supervision_path(:group_id => @supervision.group))
+      = link_to(t(".create_new", :default => "Create new?"), new_gropup_supervision_path(@supervision.group))
 
   %p.head= t(".topic", :default => "Topic")
   = render "topics/topic", :topic => @supervision.topic
@@ -38,4 +38,4 @@
     - if @supervision.group.current_supervision.present?
       = link_to(t(".go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
     - else
-      = link_to(t(".create_new", :default => "Create new?"), new_supervision_path(:group_id => @supervision.group))
+      = link_to(t(".create_new", :default => "Create new?"), new_group_supervision_path(@supervision.group))

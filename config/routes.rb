@@ -23,7 +23,7 @@ Peergroupsupervision::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
   resource :relationships, :only => [:create, :destroy]
 
-  resources :supervisions, :only => [:new, :create, :show, :index] do
+  resources :supervisions, :only => [:show, :index] do
     resources :topics, :only => [:new, :index, :create]
     resources :topic_votes
     resources :topic_questions
@@ -37,6 +37,7 @@ Peergroupsupervision::Application.routes.draw do
   end
 
   resources :groups do
+    resources :supervisions, :only => [:new, :create]
     resources :memberships
     resources :rules
   end
