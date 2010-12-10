@@ -13,49 +13,49 @@
   - if @supervision.topic_vote?
     = render :partial => 'supervision_topic_vote'
 
-  - if step_finished?(@supervision, :topic_vote)
+  - if @supervision.step_finished?(:topic_vote)
     .topics
       %h2= t(".topic", :default => "Topic")
       = render @supervision.topic
 
   - if @supervision.topic_question?
     = render :partial => 'supervision_topic_question'
-  - elsif step_finished?(@supervision, :topic_question)
+  - elsif @supervision.step_finished?(:topic_question)
     .questions
       %h2= t(".questions", :default => "Questions")
       = render @supervision.topic_questions
 
   - if @supervision.idea?
     = render :partial => 'supervision_idea'
-  - elsif step_finished?(@supervision, :idea)
+  - elsif @supervision.step_finished?(:idea)
     .ideas
       %h2= t(".ideas", :default => "Ideas")
       = render @supervision.ideas
 
   - if @supervision.idea_feedback?
     = render :partial => 'supervision_idea_feedback'
-  - elsif step_finished?(@supervision, :idea_feedback)
+  - elsif @supervision.step_finished?(:idea_feedback)
     .ideas_feedbacks
       %h2= t(".ideas_feedback", :default => "Feedback on ideas")
       = render @supervision.ideas_feedback
 
   - if @supervision.solution?
     = render :partial => 'supervision_solution'
-  - elsif step_finished?(@supervision, :solution)
+  - elsif @supervision.step_finished?(:solution)
     .solutions
       %h2= t(".solutions", :default => "Solutions")
       = render @supervision.solutions
 
   - if @supervision.solution_feedback?
     = render :partial => 'supervision_solution_feedback'
-  - elsif step_finished?(@supervision, :solution_feedback)
+  - elsif @supervision.step_finished?(:solution_feedback)
     .solutions_feedbacks
       %h2= t(".solutions_feedback", :default => "Feedback on solutions")
       = render @supervision.solutions_feedback
 
   - if @supervision.supervision_feedback?
     = render :partial => 'supervision_supervision_feedback'
-  - elsif step_finished?(@supervision, :supervision_feedback)
+  - elsif @supervision.step_finished?(:supervision_feedback)
     .supervision_feedbacks
       %h2= t(".supervision_feedback", :default => "General feedback on supervision")
       = render @supervision.supervision_feedbacks

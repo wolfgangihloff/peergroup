@@ -4,6 +4,8 @@
         - :attributes: !omap 
             - :feedback: !omap 
                 - :content: 
+                - :supervision: 
+                - :user: 
         - :errors: !omap 
             - :messages: !omap 
                 - :blank: 
@@ -12,14 +14,29 @@
                 - :too_long: 
                 - :too_short: 
             - :models: !omap 
+                - :feedback: !omap 
+                    - :attributes: !omap 
+                        - :content: !omap 
+                            - :blank: 
+                        - :supervision: !omap 
+                            - :blank: 
+                        - :user: !omap 
+                            - :blank: 
+                    - :blank: 
                 - :group: !omap 
                     - :blank: 
                 - :question: !omap 
                     - :blank: 
                 - :relationship: !omap 
                     - :blank: 
+                - :solution: !omap 
+                    - :blank: 
+                - :solutions_feedback: !omap 
+                    - :blank: 
                 - :supervision: !omap 
                     - :invalid_transition: 
+                - :topic: !omap 
+                    - :blank: 
                 - :user: !omap 
                     - :blank: 
                     - :confirmation: 
@@ -27,6 +44,8 @@
                     - :taken: 
                     - :too_long: 
                     - :too_short: 
+                - :vote: !omap 
+                    - :blank: 
         - :models: !omap 
             - :feedback: 
         - :state_machines: !omap 
@@ -61,6 +80,8 @@
         - :password: 
         - :password_confirmation: 
         - :state: 
+        - :supervision: 
+        - :user: 
     - :chat_rooms: !omap 
         - :show: !omap 
             - :links: !omap 
@@ -98,6 +119,10 @@
                 - :confirmation: 
                 - :too_long: 
                 - :too_short: 
+            - :supervision: !omap 
+                - :blank: 
+            - :user: !omap 
+                - :blank: 
     - :flash: !omap 
         - :sign_in_request: Please sign in to access this page.
     - :formtastic: !omap 
@@ -307,6 +332,11 @@
             - :supervision_finished: This supervision is finished.
             - :title: Supervision
             - :topic: Topic
+        - :supervision_topic: !omap 
+            - :new_topic: New Topic
+            - :post_topic: Your topic
+            - :topic_content_hint: Enter your problem or leave this blank if you do not have any
+            - :topics: Topics
     - :topic_answers: !omap 
         - :create: !omap 
             - :flash: !omap 

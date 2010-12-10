@@ -1,9 +1,0 @@
-.contentable.round
-  = render contentable.user
-
-  %p.content= defined?(content) ? content : contentable.content
-
-  - if block_given?
-    .additional
-      = yield
-

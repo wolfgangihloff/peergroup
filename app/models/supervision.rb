@@ -31,23 +31,25 @@ class Supervision < ActiveRecord::Base
     end
   end
 
-  has_many :topics
+  has_many :topics, :dependent => :destroy
   has_many :topic_votes, :through => :topics, :source => :votes
-  has_many :next_step_votes, :class_name => "Vote", :as => :statement
-  has_many :topic_questions, :class_name => "Question"
-  has_many :questions
-  has_many :ideas
-  has_many :solutions
+  has_many :next_step_votes, :class_name => "Vote", :as => :statement, :dependent => :destroy
+  has_many :topic_questions, :class_name => "Question", :dependent => :destroy
+  has_many :questions, :dependent => :destroy
+  has_many :ideas, :dependent => :destroy
+  has_many :solutions, :dependent => :destroy
 
-  has_one :ideas_feedback
-  has_one :solutions_feedback
-  has_many :supervision_feedbacks
+  has_one :ideas_feedback, :dependent => :destroy
+  has_one :solutions_feedback, :dependent => :destroy
+  has_many :supervision_feedbacks, :dependent => :destroy
 
   belongs_to :topic
   belongs_to :group
 
   scope :finished, :conditions => {:state => "finished"}
   scope :unfinished, :conditions => ["state <> ?", "finished"]
+
+  attr_accessible
 
   def all_topics?
     group.members.all? {|m| topics.where(:user_id => m.id).any? }
@@ -123,6 +125,12 @@ class Supervision < ActiveRecord::Base
 
   def problem_owner?(user)
     problem_owner == user
+  end
+
+  def step_finished?(step)
+    final_state = STATES.index(step.to_s)
+    previous_steps = STATES.to(final_state)
+    previous_steps.exclude? state
   end
 end
 

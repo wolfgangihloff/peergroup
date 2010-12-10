@@ -20,9 +20,6 @@ module Peergroupsupervision
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
     # Activate observers that should always be running.
-    config.active_record.observers = %w{topic vote answer idea solution}.map do |name|
-      :"#{name}_observer"
-    end
 
     # Active additional middlewares
     config.middleware.use "Rack::Sprockets"

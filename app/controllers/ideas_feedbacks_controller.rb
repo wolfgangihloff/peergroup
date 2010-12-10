@@ -1,14 +1,18 @@
 class IdeasFeedbacksController < ApplicationController
 
+  before_filter :authenticate
   before_filter :require_parent_supervision
+  require_supervision_step :idea_feedback
 
   def create
-    ideas_feedback = IdeasFeedback.new(params[:ideas_feedback])
-    ideas_feedback.supervision = @supervision
+    ideas_feedback = @supervision.build_ideas_feedback(params[:ideas_feedback])
     ideas_feedback.user = current_user
-    ideas_feedback.save!
-    successful_flash("Feedback submitted")
-    redirect_to supervision_step_path(@supervision)
+    if ideas_feedback.save
+      successful_flash("Feedback submitted")
+    else
+      error_flash("You must provide feedback")
+    end
+    redirect_to supervision_path(@supervision)
   end
 end
 

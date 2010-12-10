@@ -1,20 +1,16 @@
 class VotesController < ApplicationController
 
+  before_filter :authenticate
   before_filter :require_parent_supervision
-  before_filter :require_voteable_step
+  require_supervision_step :topic_question, :idea, :solution
 
   def create
-    @supervision.next_step_votes.create!(:user => current_user)
-    redirect_to supervision_step_path(@supervision)
-  end
-
-  protected
-
-  def require_voteable_step
-    unless %w{topic_question idea solution}.include?(@supervision.state)
-      redirect_to supervision_step_path(@supervision)
-      return false
+    vote = @supervision.next_step_votes.build do |vote|
+      vote.user = current_user
     end
+    vote.save
+    redirect_to supervision_path(@supervision)
   end
+
 end
 

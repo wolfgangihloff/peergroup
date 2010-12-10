@@ -14,7 +14,9 @@ describe Group do
     end
 
     it "should return nil when no unfinished supervisions" do
-      @group.supervisions.create!(:state => "finished")
+      @group.supervisions.create! do |supervision|
+        supervision.state = "finished"
+      end
       @group.current_supervision.should be_nil
     end
   end

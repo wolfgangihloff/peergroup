@@ -17,7 +17,7 @@ class SupervisionsController < ApplicationController
   end
 
   def create
-    redirect_to supervision_step_path(@group.supervisions.create!)
+    redirect_to supervision_path(@group.supervisions.create!)
   end
 
   def show
@@ -33,7 +33,7 @@ class SupervisionsController < ApplicationController
   def redirect_to_current_supervision_if_exists
     return if @supervision.nil? || @supervision.state == "finished"
 
-    redirect_to supervision_step_path(@supervision)
+    redirect_to supervision_path(@supervision)
     return false
   end
 end
