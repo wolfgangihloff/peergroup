@@ -11,9 +11,9 @@ gem "formtastic"
 gem "friendly_id", "~> 3.1"
 gem "rdiscount"
 gem "faker"
-gem "jquery-rails"
 gem "compass"
 gem "state_machine"
+gem "rack-sprockets", :require => "rack/sprockets"
 
 group :staging do
 #  gem "pg"

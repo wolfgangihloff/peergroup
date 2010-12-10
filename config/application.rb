@@ -24,6 +24,9 @@ module Peergroupsupervision
       :"#{name}_observer"
     end
 
+    # Active additional middlewares
+    config.middleware.use "Rack::Sprockets"
+
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
@@ -33,7 +36,7 @@ module Peergroupsupervision
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
+    config.action_view.javascript_expansions[:defaults] = %w(application)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
