@@ -1,24 +1,45 @@
-ul.topics, ul#topic_questions, ul#ideas, ul#solutions
-  overflow: auto
-  list-style: none
-  margin: 0
-  li
-    float: left
-
-p.head
-  font-weight: bold
-
-.contentable
-  width: 250px
-  background-color: #CCC
-  margin: 5px
-  padding: 5px
-  overflow: hidden
-  .author
-    float: left
-    margin: 10px
-  p
-    margin: 0
-  form
-    clear: both
-
+$content-columns: $blueprint-grid-columns - 2 - 6
+#supervisions_show
+  .topic, .question, .idea, .ideas_feedback, .solution, .solutions_feedback, .supervision_feedback
+    overflow: hidden
+    +append-bottom
+    +border-top-left-radius($border-radius)
+    +border-bottom-right-radius($border-radius)
+    background-color: #F4F8F8
+    border-top: 1px solid $primary-color-1
+    border-left: 1px solid $primary-color-1
+    border-bottom: 2px solid $primary-color-3
+    border-right: 2px solid $primary-color-3
+    .user
+      +push(1)
+      +column(4)
+      +prepend-top
+      p
+        font-weight: bold
+        font-size: large
+        +ellipsis
+    .content
+      +prepend-top
+      overflow: auto
+      p
+        +column($content-columns, true)
+        text-align: justify
+      .answer, .rating
+        +column($content-columns, true)
+        +append-bottom
+        border: 1px solid $primary-color-5
+        .head
+          +reset-box-model
+          font-weight: bold
+          background-color: $primary-color-5
+          color: $primary-color-3
+          overflow: auto
+          p
+            font-style: normal
+            text-align: left
+        p, form
+          +reset-box-model
+          +push(1)
+          +column($content-columns - 2, true)
+          font-style: italic
+          text-align: justify

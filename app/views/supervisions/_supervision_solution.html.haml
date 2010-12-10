@@ -5,11 +5,15 @@
       - @supervision.solutions.each do |solution|
         %div[solution]
           = render solution.user
-          %p.content= solution.content
-          = semantic_form_for([@supervision, solution]) do |f|
-            = f.inputs t(".rate_solution", :default => "Solution rating") do
-              = f.input :rating, :as => :radio, :collection => 1..5, :disabled => solution.rating
-            = f.buttons :commit unless solution.rating
+          .content
+            %p= solution.content
+            .rating
+              .head
+                %p= t(".solution_rating", :default => "Rating")
+              = form_for([@supervision, solution]) do |f|
+                - 1.upto(5) do |i|
+                  = f.radio_button :rating, i, { :disabled => solution.rating.present?, :class => "star" }
+                = f.submit t(".submit_rate", :default => "Rate") unless solution.rating
     - else
       %p= t(".waiting_for_solutions", :default => "Waiting for solutions")
   - else

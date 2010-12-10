@@ -1,4 +1,11 @@
 %div[solution]
   =render solution.user
-  %p.content= solution.content
-  .additional= render "supervisions/rating", :rateable => solution
+  .content
+    %p= solution.content
+    - if solution.rating
+      .rating
+        .head
+          %p= t(".rating", :default => "Rating")
+        = form_tag "#" do
+          - 1.upto(5) do |i|
+            = radio_button_tag :solution, :rating, i, { :disabled => true, :class => "star" }

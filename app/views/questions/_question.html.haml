@@ -1,4 +1,5 @@
 %div[question]
   = render question.user
-  %p.content= question.content
-  = render question.answer if question.answer
+  .content
+    %p= question.content
+    = render question.answer if question.answer

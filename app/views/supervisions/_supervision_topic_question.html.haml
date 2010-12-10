@@ -4,14 +4,18 @@
     - @supervision.topic_questions.each do |question|
       %div[question]
         = render question.user
-        %p.content= question.content
-        - if question.answer
-          = render question.answer
-        - else
-          = semantic_form_for([@supervision,question,Answer.new]) do |f|
-            = f.inputs t(".post_answer", :default => "Your answer") do
-              = f.input :content
-            = f.buttons :commit
+        .content
+          %p= question.content
+          - if question.answer
+            = render question.answer
+          - else
+            .answer
+              .head
+                %p= t(".post_answer", :default => "Your answer")
+              = semantic_form_for([@supervision,question,Answer.new]) do |f|
+                = f.inputs do
+                  = f.input :content
+                = f.buttons :commit
   - else
     = render @supervision.topic_questions
 

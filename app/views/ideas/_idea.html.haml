@@ -1,4 +1,11 @@
 %div[idea]
   = render idea.user
-  %p.content= idea.content
-  .additional= render "supervisions/rating", :rateable => idea
+  .content
+    %p= idea.content
+    - if idea.rating
+      .rating
+        .head
+          %p= t(".rating", :default => "Rating")
+        = form_tag "#" do
+          - 1.upto(5) do |i|
+            = radio_button_tag :idea, :rating, i, { :disabled => true, :class => "star" }

@@ -8,6 +8,7 @@
     - @supervision.topics.each do |topic|
       %div[topic]
         = render topic.user
-        %p.content= topic_content(topic)
-        = semantic_form_for([@supervision, topic, Vote.new]) do |f|
-          = f.buttons :commit
+        .content
+          %p= topic_content(topic)
+          = form_for([@supervision, topic, Vote.new]) do |f|
+            = f.submit t(".submit_vote", :default => "Vote")
