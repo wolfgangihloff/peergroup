@@ -1,5 +1,7 @@
 module SupervisionPathsHelper
   def supervision_step_path(supervision)
+    return supervision_path(supervision)
+
     supervision.reload
     method_or_path = send("supervision_#{supervision.state}_step_path", supervision)
 

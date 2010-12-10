@@ -1,0 +1,13 @@
+.topics
+  %h2= t(".topics", :default => "Topics")
+  = render @supervision.topics
+
+  - if @supervision.posted_topic?(current_user)
+    %p= t(".waiting", :default => "Waiting for others")
+  - else
+    %h2= t(".new_topic", :default => "New Topic")
+
+    = semantic_form_for([@supervision, Topic.new]) do |f|
+      = f.inputs t(".post_topic", :default => "Your topic") do
+        = f.input :content, :hint => t(".topic_content_hint", :default => "Enter your problem or leave this blank if you do not have any")
+      = f.buttons :commit

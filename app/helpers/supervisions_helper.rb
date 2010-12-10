@@ -1,6 +1,7 @@
 module SupervisionsHelper
   def step_finished?(supervision, step)
-    previous_steps = Supervision::STATES.take_while { |s| step.to_s != s }
+    final_state = Supervision::STATES.index(step.to_s)
+    previous_steps = Supervision::STATES.to(final_state)
     previous_steps.exclude? supervision.state
   end
 end

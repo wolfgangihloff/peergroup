@@ -97,6 +97,10 @@ class Supervision < ActiveRecord::Base
     next_step_votes.destroy_all
   end
 
+  def posted_topic?(user)
+    topics.where(:user_id => user.id).count > 0
+  end
+
   def voted_on_topic?(user)
     !topic_votes(true).where(:user_id => user.id).empty?
   end

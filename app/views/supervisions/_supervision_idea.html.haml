@@ -1,0 +1,27 @@
+.ideas
+  %h2= t(".ideas", :default => "Ideas")
+  - if @supervision.problem_owner?(current_user)
+    - if @supervision.ideas.any?
+      - @supervision.ideas.each do |idea|
+        %div[idea]
+          = render idea.user
+          %p.content= idea.content
+          = semantic_form_for([@supervision, idea]) do |f|
+            = f.inputs t(".idea_rating", :default => "Idea rating") do
+              = f.input :rating, :as => :radio, :collection => 1..5, :disabled => idea.rating
+            = f.buttons :commit unless idea.rating
+    - else
+      %p= t(".waiting_for_ideas", :default => "Waiting for ideas")
+
+  - else
+    = render @supervision.ideas
+
+    - if @supervision.voted_on_next_step?(current_user)
+      %p= t(".waiting", :default => "Waiting for others")
+    - else
+      = semantic_form_for([@supervision, Idea.new]) do |f|
+        = f.inputs t(".post_idea", :default => "Your idea") do
+          = f.input :content, :hint => t(".idea_content_hint", :default => "Enter your idea")
+        = f.buttons do
+          = f.commit_button
+          %li= link_to(t(".no_more_ideas", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)

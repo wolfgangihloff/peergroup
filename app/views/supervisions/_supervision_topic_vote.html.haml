@@ -1,0 +1,13 @@
+.topic_votes
+  %h2= t(".topic_votes", :default => "Topic votes")
+
+  - if @supervision.voted_on_topic?(current_user)
+    = render @supervision.topics
+    %p= t(".waiting", :default => "Waiting for others")
+  - else
+    - @supervision.topics.each do |topic|
+      %div[topic]
+        = render topic.user
+        %p.content= topic_content(topic)
+        = semantic_form_for([@supervision, topic, Vote.new]) do |f|
+          = f.buttons :commit

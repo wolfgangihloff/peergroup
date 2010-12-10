@@ -1,0 +1,26 @@
+.solutions
+  %h2= t(".solutions", :default => "Solutions")
+  - if @supervision.problem_owner?(current_user)
+    - if @supervision.solutions.any?
+      - @supervision.solutions.each do |solution|
+        %div[solution]
+          = render solution.user
+          %p.content= solution.content
+          = semantic_form_for([@supervision, solution]) do |f|
+            = f.inputs t(".rate_solution", :default => "Solution rating") do
+              = f.input :rating, :as => :radio, :collection => 1..5, :disabled => solution.rating
+            = f.buttons :commit unless solution.rating
+    - else
+      %p= t(".waiting_for_solutions", :default => "Waiting for solutions")
+  - else
+    = render @supervision.solutions
+
+    - if @supervision.voted_on_next_step?(current_user)
+      %p= t(".waiting", :default => "Waiting for others")
+    - else
+      = semantic_form_for([@supervision, Solution.new]) do |f|
+        = f.inputs t(".post_solution", :default => "Your solution") do
+          = f.input :content, :hint => t(".solution_content_hint", :default => "Enter your solution")
+        = f.buttons do
+          = f.commit_button
+          %li= link_to(t(".no_more_solutions", :default => "I have no more solutions"), supervision_votes_path(@supervision), :method => :post)

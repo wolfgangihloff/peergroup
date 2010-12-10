@@ -24,8 +24,11 @@ class IdeasController < ApplicationController
 
   def update
     idea = @supervision.ideas.find(params[:id])
-    idea.update_attributes!(params[:idea])
-    successful_flash("Idea rated")
+    unless idea.rating
+      idea.rating = params[:idea][:rating]
+      idea.save!
+      successful_flash("Idea rated")
+    end
     redirect_to supervision_step_path(@supervision)
   end
 end

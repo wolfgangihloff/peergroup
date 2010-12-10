@@ -1,0 +1,12 @@
+.supervision_feedbacks
+  %h2= t(".supervision_feedback", :default => "General feedback on supervision")
+  = render @supervision.supervision_feedbacks
+
+  - if @supervision.posted_supervision_feedback?(current_user)
+    %p= t("waiting", :default => "Waiting for others")
+  - else
+    = semantic_form_for([@supervision, SupervisionFeedback.new]) do |f|
+      = f.inputs do
+        = f.input :content, :hint => t(".supervision_feedback_content_hint", :default => "Provide feedback on current supervision")
+      = f.buttons :commit
+

@@ -11,21 +11,21 @@ class SolutionsController < ApplicationController
   end
 
   def create
-    solution = @supervision.solutions.build(params[:solution])
-    solution.user = current_user
-    if solution.save
-      successful_flash("Solution submited")
-      redirect_to supervision_step_path(@supervision)
-    else
-      error_flash("You must provide your solution")
-      redirect_to solutions_path(:supervision_id => @supervision.id)
+    solution = @supervision.solutions.build(params[:solution]) do |solution|
+      solution.user = current_user
     end
+    solution.save!
+    successful_flash("Solution submited")
+    redirect_to supervision_step_path(@supervision)
   end
 
   def update
     solution = @supervision.solutions.find(params[:id])
-    solution.update_attributes!(params[:solution])
-    successful_flash("Solution rated")
+    unless solution.rating
+      solution.rating = params[:solution][:rating]
+      solution.save!
+      successful_flash("Solution rated")
+    end
     redirect_to supervision_step_path(@supervision)
   end
 end

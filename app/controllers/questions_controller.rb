@@ -1,4 +1,4 @@
-class TopicQuestionsController < ApplicationController
+class QuestionsController < ApplicationController
 
   before_filter :require_parent_supervision
   require_supervision_step :topic_question
