@@ -1,8 +1,12 @@
-= render :layout => "supervisions/contentable", :object => topic, :locals => {:content => topic_content(topic)} do
-  - if @vote && topic.content.present?
+- if @vote && topic.content.present?
+  = render :layout => "supervisions/contentable", :object => topic, :locals => {:content => topic_content(topic)} do
     = semantic_form_for([@supervision, @vote], :url => supervision_topic_votes_path(@supervision)) do |f|
       = f.input :statement_id, :as => :hidden, :value => topic.id
       = f.input :statement_type, :as => :hidden, :value => "Topic"
 
       = f.commit_button t(".vote", :default => "Vote")
+- else
+  %div[topic]
+    = render topic.user
+    %p.content= topic_content(topic)
 

@@ -70,6 +70,10 @@ class User < ActiveRecord::Base
     chat_user.touch
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def encrypt_password

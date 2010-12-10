@@ -14,7 +14,7 @@
   = render "ideas/ideas"
 
   %p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
-  = render(:layout => "supervisions/contentable", :object => @supervision.ideas_feedback) {}
+  = render "ideas_feedbacks/ideas_feedback",  :ideas_feedback => @supervision.ideas_feedback
 
   %p.head= t(".solutions", :default => "Solutions")
   = render "solutions/solutions"
@@ -49,5 +49,5 @@
 
   - if @supervision.solutions_feedback
     %p.head= t(".solutions_feedback.heading", :default => "Feedback on solutions:")
-    = render(:layout => "supervisions/contentable", :object => @supervision.solutions_feedback) {}
+    = render "solutions_feedback/solutions_feedback", :solutions_feedback => @supervision.solutions_feedback
 

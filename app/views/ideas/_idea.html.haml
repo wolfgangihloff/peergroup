@@ -1,0 +1,4 @@
+%div[idea]
+  = render idea.user
+  %p.content= idea.content
+  .additional= render "supervisions/rating", :rateable => idea

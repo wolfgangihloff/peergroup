@@ -5,26 +5,25 @@
     %h1= t(".heading", :default => "Supervision feedback")
 
   %p.head= t(".topic", :default => "Current topic")
-  = render "topics/topic", :topic => @supervision.topic
+  = render @supervision.topic
 
   %p.head= t(".questions", :default => "Questions")
-  = render "topic_questions/questions"
+  = render @supervision.questions
 
   %p.head= t(".ideas", :default => "Ideas")
-  = render "ideas/ideas"
+  = render @supervision.ideas
 
   %p.head= t(".ideas_feedback.heading", :default => "Feedback on ideas:")
-  = render(:partial => "supervisions/contentable", :object => @supervision.ideas_feedback)
+  = render @supervision.ideas_feedback
 
   %p.head= t(".solutions", :default => "Solutions")
-  = render "solutions/solutions"
+  = render @supervision.solutions
 
   %p.head= t(".solutions_feedback.heading", :default => "Feedback on solutions:")
-  = render(:partial => "supervisions/contentable", :object => @supervision.solutions_feedback)
+  = render @supervision.solutions_feedback
 
   %p.head= t(".supervision_feedback.heading", :default => "General feedback on supervision:")
-  - @supervision.supervision_feedbacks.each do |supervision_feedback|
-    = render(:partial => "supervisions/contentable", :object => supervision_feedback)
+  = render @supervision.supervision_feedbacks
 
   - unless @supervision.posted_supervision_feedback?(current_user)
     - supervision_feedback = @supervision.supervision_feedbacks.build(:user => current_user)

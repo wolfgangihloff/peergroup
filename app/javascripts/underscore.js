@@ -661,8 +661,8 @@
   // By default, Underscore uses ERB-style template delimiters, change the
   // following template settings to use alternative delimiters.
   _.templateSettings = {
-    evaluate    : /<%([\s\S]+?)%>/g,
-    interpolate : /<%=([\s\S]+?)%>/g
+    evaluate    : /<\?([\s\S]+?)\?>/g,
+    interpolate : /<\?=([\s\S]+?)\?>/g
   };
 
   // JavaScript micro-templating, similar to John Resig's implementation.

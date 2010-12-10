@@ -1,5 +1,7 @@
 class Supervision < ActiveRecord::Base
 
+  STATES = %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
+
   # Run:
   #     rake state_machine:draw CLASS=Supervision
   # to generate diagram how this state machine changes states

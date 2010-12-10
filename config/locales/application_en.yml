@@ -149,6 +149,7 @@
             - :ideas_feedback: !omap 
                 - :submit: Submit
             - :no_ideas: Wait for some ideas
+            - :questions: Questions
             - :step_description: Any ideas?
             - :title: Ideas
             - :topic: Current topic
@@ -175,6 +176,7 @@
                 - :settings: Settings
                 - :signin: Sign in
                 - :signout: Sign out
+                - :supervisions: Supervisions
                 - :users: Users
     - :other: !omap 
         - :controller: !omap 
@@ -219,14 +221,17 @@
                 - :successful: Solution submited
         - :index: !omap 
             - :heading: Solutions
+            - :ideas: Ideas
             - :ideas_feedback: !omap 
                 - :heading: "Feedback on ideas:"
             - :no_solutions: Wait for some solutions
+            - :questions: Questions
             - :solution: !omap 
                 - :no_more: I have no more solutions
                 - :submit: Submit
             - :solution_feedback: !omap 
                 - :description: Provide the feedback on solutions
+            - :solutions: Solutions
             - :solutions_feedback: !omap 
                 - :heading: "Feedback on solutions:"
                 - :submit: Submit
@@ -248,8 +253,11 @@
                 - :successful: Feedback submitted
         - :index: !omap 
             - :heading: Supervision feedback
+            - :ideas: Ideas
             - :ideas_feedback: !omap 
                 - :heading: "Feedback on ideas:"
+            - :questions: Questions
+            - :solutions: Solutions
             - :solutions_feedback: !omap 
                 - :heading: "Feedback on solutions:"
             - :supervision_feedback: !omap 
@@ -279,6 +287,7 @@
             - :answers: !omap 
                 - :no: "No"
                 - :yes: "Yes"
+            - :heading: New Supervision Session
             - :question: Do you want to create new Supervision Session?
             - :title: New Supervision Session
         - :rating: !omap 
@@ -286,6 +295,18 @@
                 - :rating: Rating
             - :rate: !omap 
                 - :rate: Rate
+        - :show: !omap 
+            - :create_new: Create new?
+            - :heading: Supervision feedback
+            - :ideas: Ideas
+            - :ideas_feedback: Feedback on ideas
+            - :questions: Questions
+            - :solutions: Solutions
+            - :solutions_feedback: Feedback on solutions
+            - :supervision_feedback: General feedback on supervision
+            - :supervision_finished: This supervision is finished.
+            - :title: Supervision
+            - :topic: Topic
     - :topic_answers: !omap 
         - :create: !omap 
             - :flash: !omap 

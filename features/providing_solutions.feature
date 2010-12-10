@@ -29,11 +29,10 @@ Feature: Providing solutions
      Then I should see "Solution rated"
       And the solution: "Kacper's solution" rating should be "4"
 
-  @javascript
   Scenario: Receive new solution update
     Given I am logged in as "Wolfgang"
-     When I go to the solutions for "Current supervision" page
       And the solution: "Kacper's solution" exists with supervision: supervision "Current supervision", user: user "Kacper", content: "Look for an investor"
+     When I go to the solutions for "Current supervision" page
      Then I should see "Look for an investor"
 
   @javascript

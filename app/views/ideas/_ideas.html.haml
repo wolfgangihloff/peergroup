@@ -1,8 +1,7 @@
 %ul#ideas
   - @supervision.ideas.each do |idea|
-    %li[idea]
-      = render :layout => "supervisions/contentable", :object => idea do
-        = render "supervisions/rating", :rateable => idea
+    %li
+      = render idea
 
   #current_step{:"data-step" => @supervision.state}
 

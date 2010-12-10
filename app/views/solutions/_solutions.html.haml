@@ -1,8 +1,7 @@
 %ul#solutions
   - @supervision.solutions.each do |solution|
-    %li[solution]
-      = render :layout => "supervisions/contentable", :object => solution do
-        = render "supervisions/rating", :rateable => solution
+    %li
+      = render solution
 
   #current_step{:"data-step" => @supervision.state}
 

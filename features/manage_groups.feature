@@ -11,8 +11,7 @@ Feature: Manage groups
      When I fill in "Name" with "Newcomers"
       And I fill in "Description" with "New group description"
       And I press "Create Group"
-     Then I should see "Your Groups"
-      And I should see "Newcomers*"
+     Then I should see "Newcomers*"
 
   Scenario: Browsing my groups
     Given the freds_group exists with name: "Newcomers"

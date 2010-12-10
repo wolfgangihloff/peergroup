@@ -1,7 +1,5 @@
 .contentable.round
-  .author
-    = raw gravatar_for(contentable.user)
-    %p= contentable.user.name
+  = render contentable.user
 
   %p.content= defined?(content) ? content : contentable.content
 
