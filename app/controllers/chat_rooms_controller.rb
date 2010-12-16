@@ -26,6 +26,14 @@ class ChatRoomsController < ApplicationController
 
   protected
 
+  def initialized_chat_update(options = {})
+    ChatUpdate.new(options).tap do |chat_update|
+      chat_update.user = current_user
+      chat_update.chat_room = @chat_room
+      chat_update.save!
+    end
+  end
+
   def require_user
     @user = User.find(params[:user_id])
   end

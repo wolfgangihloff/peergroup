@@ -6,3 +6,5 @@
 //= require "chat"
 //= require "supervision"
 //= require "jquery.rating"
+//
+//= require "socket"
