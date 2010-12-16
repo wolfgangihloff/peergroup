@@ -10,7 +10,6 @@ Peergroupsupervision::Application.routes.draw do
 
     resources :chat_updates
     resources :chat_users
-    resources :chat_rules
   end
 
   resources :users do
