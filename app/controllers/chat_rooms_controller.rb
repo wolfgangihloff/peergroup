@@ -1,8 +1,4 @@
-require 'chat_updates_initializer'
-
 class ChatRoomsController < ApplicationController
-  include ChatUpdatesInitializer
-
   before_filter :require_user, :only => [:select_leader, :select_problem_owner]
   before_filter :require_chat_room
 

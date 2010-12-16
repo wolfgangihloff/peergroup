@@ -1,5 +1,4 @@
 class ChatUpdatesController < ApplicationController
-  include ChatUpdatesInitializer
 
   before_filter :require_chat_room
 
@@ -23,6 +22,14 @@ class ChatUpdatesController < ApplicationController
   end
 
   protected
+
+  def initialized_chat_update(options = {})
+    ChatUpdate.new(options).tap do |chat_update|
+      chat_update.user = current_user
+      chat_update.chat_room = @chat_room
+      chat_update.save!
+    end
+  end
 
   def require_chat_room
     @chat_room = ChatRoom.find(params[:chat_room_id])
