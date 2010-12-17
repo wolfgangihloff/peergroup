@@ -161,6 +161,6 @@ jQuery(document).ready(function($) {
     });
   };
 
-  $('#chat').chat();
+  //$('#chat').chat();
 });
 

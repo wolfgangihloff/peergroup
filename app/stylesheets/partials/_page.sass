@@ -237,6 +237,38 @@ div.user_info
     &.user_name
       position: absolute
 
+
+.chat_room
+  .messages
+    +reset-list-style
+    +reset-box-model
+    +column($blueprint-grid-columns - 2, true)
+    border: 1px solid black
+    height: 25em
+    overflow-y: scroll
+
+    .chat_message
+      .user
+        font-weight: bold
+      .timestamp
+        color: #888
+      &:nth-child(even)
+        background-color: #eee
+      &:nth-child(odd)
+        background-color: #ddd
+  .new_chat_message
+    #chat_message_content
+      +reset-box-model
+      +column($blueprint-grid-columns - 6)
+      background-color: #eee
+      border: 1px solid black
+      margin-top: 1.5em
+      height: 3em
+    input[type=submit]
+      +column(3, true)
+      margin-top: 1.5em
+      height: 3em
+
 /* CSS for chat
 
 #chat .main

@@ -1,7 +1,18 @@
 - @title = t ".title", :group_name => @chat_room.group.name, :default => "%{group_name} Group Chat"
 
-#chat
-  .hidden.timestamp= Time.now.to_i
+%article
+  .div[@chat_room]
+    %ul.messages
+      - @chat_messages.reverse_each do |chat_message|
+        %li[chat_message]
+          %span.user= chat_message.user
+          %span.timestamp= l(chat_message.created_at, :format => :short)
+          \:
+          %span.content= chat_message.content
+    = form_for([@chat_room, ChatMessage.new], :remote => true) do |f|
+      = f.text_area :content, :rows => 2
+      = submit_tag t(".submit", :default => "Submit")
+-#  .hidden.timestamp= Time.now.to_i
   = render "chat_users/chat_users"
   .main
     %div.chat_part
