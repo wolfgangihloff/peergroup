@@ -14,6 +14,7 @@ gem "faker"
 gem "compass"
 gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
+gem "redis"
 
 group :staging do
 #  gem "pg"
