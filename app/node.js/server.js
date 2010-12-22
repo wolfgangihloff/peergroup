@@ -11,55 +11,7 @@ server = http.createServer(function(req, res) {
     send404(res);
 });
 server.listen(port);
-
-subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
-    if (pattern === "chat:*:presence") {
-        var chatId = channel.split(":")[1],
-            presence = pmessage.split(":", 2), // user:enter|exit
-            userId = presence[0],
-            action = presence[1];
-
-        console.log("Presence: user " + userId + " " + action + " chat " + chatId);
-        redisClient.smembers("chat:" + chatId + ":sessions", function(err, replies) {
-            if (replies.forEach) {
-                replies.forEach(function(sessionId, index) {
-                    var client = socket.clients[sessionId];
-                    if (client) {
-                        client.send({ type: "presence", action: action, user: userId });
-                    } else { //cleanup
-                        redisClient.srem("chat:" + chatId + ":sessions", sessionId);
-                    }
-                });
-            } else {
-                console.log(replies);
-            }
-        });
-    } else if (pattern === "chat:*:message") {
-        var chatId = channel.split(":")[1],
-            message = pmessage.split(":", 4), // user:time:id:text
-            userId = message[0],
-            time = message[1],
-            messageId = message[2],
-            messageText = message[3];
-
-        console.log("Message from user " + userId + " on chat " + chatId);
-        redisClient.smembers("chat:" + chatId + ":sessions", function(err, replies) {
-            if (replies.forEach) {
-                replies.forEach(function(sessionId, index) {
-                    var client = socket.clients[sessionId];
-                    if (client) {
-                        client.send({ type: "message", user: userId, timestamp: time, id: messageId, content: messageText });
-                    } else {
-                        redisClient.srem("chat:" + chatId + ":sessions", sessionId);
-                    }
-                });
-            } else {
-                console.log(replies);
-            }
-        });
-    }
-});
-subscribeRedisClient.psubscribe("chat:*:presence", "chat:*:message");
+console.log("Server started on port " + port);
 
 var socket = io.listen(server);
 socket.on('connection', function(client) {
@@ -90,4 +42,54 @@ socket.on('connection', function(client) {
         });
     });
 });
-console.log("Server started on port " + port);
+
+subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
+    var chatId = channel.split(":")[1],
+        userId;
+    var presence, action;
+    var message, time, messageId, messageText;
+    if (pattern === "chat:*:presence") {
+        presence = pmessage.split(":", 2); // user:enter|exit
+        userId = presence[0];
+        action = presence[1];
+
+        console.log("Presence: user " + userId + " " + action + " chat " + chatId);
+        redisClient.smembers("chat:" + chatId + ":sessions", function(err, replies) {
+            if (replies.forEach) {
+                replies.forEach(function(sessionId, index) {
+                    var client = socket.clients[sessionId];
+                    if (client) {
+                        client.send({ type: "presence", action: action, user: userId });
+                    } else { //cleanup
+                        redisClient.srem("chat:" + chatId + ":sessions", sessionId);
+                    }
+                });
+            } else {
+                console.log(replies);
+            }
+        });
+    } else if (pattern === "chat:*:message") {
+        message = pmessage.split(":", 4); // user:time:id:text
+        userId = message[0];
+        time = message[1];
+        messageId = message[2];
+        messageText = message[3];
+
+        console.log("Message from user " + userId + " on chat " + chatId);
+        redisClient.smembers("chat:" + chatId + ":sessions", function(err, replies) {
+            if (replies.forEach) {
+                replies.forEach(function(sessionId, index) {
+                    var client = socket.clients[sessionId];
+                    if (client) {
+                        client.send({ type: "message", user: userId, timestamp: time, id: messageId, content: messageText });
+                    } else {
+                        redisClient.srem("chat:" + chatId + ":sessions", sessionId);
+                    }
+                });
+            } else {
+                console.log(replies);
+            }
+        });
+    }
+});
+subscribeRedisClient.psubscribe("chat:*:presence", "chat:*:message");
