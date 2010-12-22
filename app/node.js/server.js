@@ -17,10 +17,9 @@ var socket = io.listen(server);
 socket.on('connection', function(client) {
     client.on("message", function(message) {
         redisClient.exists("users:" + message.userId + ":token:" + message.token, function(err, resp) {
-          console.log(message);
             if (resp) {
                 console.log("User authenticated: " + message.userId + " sessionId: " + client.sessionId);
-                client.send({ status: "OK" });
+                client.send({ type: "chatAuthentication", status: "OK" });
                 redisClient.mset(
                     "sessions:" + client.sessionId + ":chat", message.chatRoom,
                     "sessions:" + client.sessionId + ":user", message.userId
@@ -29,7 +28,7 @@ socket.on('connection', function(client) {
                 redisClient.publish("chat:" + message.chatRoom + ":presence", message.userId + ":enter");
             } else {
                 console.log("User invalid: " + message.userId);
-                client.send({ status: "error", text: "Invalid id or token" });
+                client.send({ type: "chatAuthentication", status: "error", text: "Invalid id or token" });
             }
         });
     });
@@ -59,7 +58,7 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
                 replies.forEach(function(sessionId, index) {
                     var client = socket.clients[sessionId];
                     if (client) {
-                        client.send({ type: "presence", action: action, user: userId });
+                        client.send({ type: "chatPresence", action: action, user: userId });
                     } else { //cleanup
                         redisClient.srem("chat:" + chatId + ":sessions", sessionId);
                     }
@@ -81,7 +80,7 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
                 replies.forEach(function(sessionId, index) {
                     var client = socket.clients[sessionId];
                     if (client) {
-                        client.send({ type: "message", user: userId, timestamp: time, id: messageId, content: messageText });
+                        client.send({ type: "chatMessage", user: userId, timestamp: time, id: messageId, content: messageText });
                     } else {
                         redisClient.srem("chat:" + chatId + ":sessions", sessionId);
                     }

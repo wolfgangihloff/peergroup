@@ -12,23 +12,23 @@
                     date = message.date || new Date(),
                     content = message.content || "";
 
-                var message = $("<li>", { "class": "chat_message", id: id }).
+                var newMessage = $("<li>", { "class": "chat_message", id: id }).
                     append($("<span>", { "class": "user", text: user })).
                     append(" ").
                     append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
                     append(" : ").
                     append($("<span>", { "class": "content", text: content }));
-                $messages.append(message);
+                $messages.append(newMessage);
             };
             var onSystemMessage = function(event, message) {
                 var text = message.text || "",
                     date = message.date || new Date();
 
-                var message = $("<li>", { "class": "system_chat_message" }).
+                var newMessage = $("<li>", { "class": "system_chat_message" }).
                     append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
                     append(" ").
                     append($("<span>", { "class": "content", text: text }));
-                $messages.append(message);
+                $messages.append(newMessage);
             };
 
             $this.bind({
@@ -40,7 +40,8 @@
         });
     };
 })(jQuery);
-(function() {
+
+jQuery(function($) {
     $(".chat_room").each(function(i, element) {
         var $chatRoom = $(this);
         $chatRoom.chatRoom();
@@ -72,36 +73,62 @@
         var chatRoomToken = $chatRoom.data("token");
         var chatRoomId = $chatRoom.attr("id").replace("chat_room_", "");
         var socket = new io.Socket(null, { port: 8080 });
-        socket.on("connect", function() {
-            socket.send({ userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
-        });
 
-        var authenticated = false;
-        socket.on("message", function(message) {
-            if (!authenticated) {
-                if (message && message.status === "OK") {
-                    console.log("Authenticated");
-                    authenticated = true;
-                } else {
-                    console.error(message);
+        var S = function(socket) {
+            var callbacks = {},
+                connectCallbacks = [];
+
+            var that = {
+                socket: socket,
+                on: function(type, callback) {
+                    if (!callbacks[type]) { callbacks[type] = []; }
+                    callbacks[type].push(callback);
+                    return this;
+                },
+                onConnect: function(callback) {
+                    connectCallbacks.push(callback);
+                    return this;
                 }
+            };
+
+            var onMessage = function(message) {
+                if (message.type) {
+                    _.each(callbacks[message.type], function(callback) {
+                        callback.call(that, message.type, message);
+                    });
+                }
+            };
+            var onConnect = function() {
+                _.each(connectCallbacks, function(callback) {
+                    callback.call(that);
+                });
+            };
+            socket.on("message", onMessage);
+            socket.on("connect", onConnect);
+
+            return that;
+        };
+        var s = S(socket);
+        s.on("chatAuthentication", function(type, message) {
+            if (message.status === "OK") {
+                console.log("Authenticated");
             } else {
-                switch (message.type) {
-                case "presence":
-                    if (message.action === "enter") {
-                        $chatRoom.trigger("userEnters", { id: message.user });
-                    } else if (message.action === "exit") {
-                        $chatRoom.trigger("userExits", { id: message.user });
-                    }
-                    break;
-
-                case "message":
-                    $chatRoom.trigger("newMessage", message);
-                    break;
-                default: break;
-                }
+                console.error(message);
             }
+        });
+        s.on("chatPresence", function(type, message) {
+            if (message.action === "enter") {
+                $chatRoom.trigger("userEnters", { id: message.user });
+            } else if (message.action === "exit") {
+                $chatRoom.trigger("userExits", { id: message.user });
+            }
+        });
+        s.on("chatMessage", function(type, message) {
+            $chatRoom.trigger("newMessage", message);
+        });
+        s.onConnect(function() {
+            this.socket.send({ userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
         });
         socket.connect();
     });
-})();
+});
