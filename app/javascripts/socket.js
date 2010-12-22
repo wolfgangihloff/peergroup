@@ -42,6 +42,47 @@
 })(jQuery);
 
 jQuery(function($) {
+    var S = function(socket, namespace) {
+        var callbacks = {},
+            connectCallbacks = [],
+            prefix = function(type) { return namespace + "." + type; };
+
+        var that = {
+            socket: socket,
+            namespace: namespace,
+            on: function(type, callback) {
+                if (!callbacks[prefix(type)]) { callbacks[prefix(type)] = []; }
+                callbacks[prefix(type)].push(callback);
+                return this;
+            },
+            onConnect: function(callback) {
+                connectCallbacks.push(callback);
+                return this;
+            },
+            send: function(type, data) {
+                socket.send({ type: prefix(type), data: data });
+                return this;
+            }
+        };
+
+        var onMessage = function(message) {
+            if (message.type && callbacks[message.type]) {
+                _.each(callbacks[message.type], function(callback) {
+                    callback.call(that, message.type, message);
+                });
+            }
+        };
+        var onConnect = function() {
+            _.each(connectCallbacks, function(callback) {
+                callback.call(that);
+            });
+        };
+        socket.on("message", onMessage);
+        socket.on("connect", onConnect);
+
+        return that;
+    };
+
     $(".chat_room").each(function(i, element) {
         var $chatRoom = $(this);
         $chatRoom.chatRoom();
@@ -69,65 +110,30 @@ jQuery(function($) {
             "newMessage": onNewMessage
         });
 
-
         var chatRoomToken = $chatRoom.data("token");
         var chatRoomId = $chatRoom.attr("id").replace("chat_room_", "");
         var socket = new io.Socket(null, { port: 8080 });
 
-        var S = function(socket) {
-            var callbacks = {},
-                connectCallbacks = [];
-
-            var that = {
-                socket: socket,
-                on: function(type, callback) {
-                    if (!callbacks[type]) { callbacks[type] = []; }
-                    callbacks[type].push(callback);
-                    return this;
-                },
-                onConnect: function(callback) {
-                    connectCallbacks.push(callback);
-                    return this;
-                }
-            };
-
-            var onMessage = function(message) {
-                if (message.type) {
-                    _.each(callbacks[message.type], function(callback) {
-                        callback.call(that, message.type, message);
-                    });
-                }
-            };
-            var onConnect = function() {
-                _.each(connectCallbacks, function(callback) {
-                    callback.call(that);
-                });
-            };
-            socket.on("message", onMessage);
-            socket.on("connect", onConnect);
-
-            return that;
-        };
-        var s = S(socket);
-        s.on("chatAuthentication", function(type, message) {
+        var s = S(socket, "chat");
+        s.on("authentication", function(type, message) {
             if (message.status === "OK") {
                 console.log("Authenticated");
             } else {
                 console.error(message);
             }
         });
-        s.on("chatPresence", function(type, message) {
+        s.on("presence", function(type, message) {
             if (message.action === "enter") {
                 $chatRoom.trigger("userEnters", { id: message.user });
             } else if (message.action === "exit") {
                 $chatRoom.trigger("userExits", { id: message.user });
             }
         });
-        s.on("chatMessage", function(type, message) {
+        s.on("message", function(type, message) {
             $chatRoom.trigger("newMessage", message);
         });
         s.onConnect(function() {
-            this.socket.send({ userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
+            this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
         });
         socket.connect();
     });
