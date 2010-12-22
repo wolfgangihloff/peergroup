@@ -6,6 +6,30 @@ Peer Group Supervision enables professionals to help each other.
 
 This is the first version, heavy alpha.
 
+== Running the application
+
+0. Fetch all submodules unsed by node server
+
+  git submodule update --init
+
+1. Install required gems
+
+  bundle install
+
+2. Run mongodb (download from http://www.mongodb.org/downloads) - that's still in dependencies, unless we remove it
+
+3. Run redis (download from http://redis.io/download) - tested on 2.0 stable release
+
+4. Run the application
+
+  rails server
+
+5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.1
+
+  node app/node.js/server
+
+6. Open http://localhost:3000
+
 == Running tests
 
 1. Install required gems
