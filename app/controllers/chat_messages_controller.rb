@@ -10,10 +10,10 @@ class ChatMessagesController < ApplicationController
     end
     respond_to do |format|
       if @chat_message.save
-        format.js { render :json => @chat_message, :status => :created }
+        format.js { head :created }
         format.html { redirect_to(@chat_room) }
       else
-        format.js { render :json => @chat_message, :status => :error }
+        format.js { head :bad_request }
         format.html { redirect_to(@chat_room) }
       end
     end

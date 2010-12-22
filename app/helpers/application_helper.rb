@@ -25,9 +25,13 @@ module ApplicationHelper
   end
 
   def javascript_meta_information
-    js_code = "document.pgs = {controller: '#{controller.class}'};"
-    js_code += "document.pgs.supervision_step = '#{@supervision.state}';" if @supervision
-    javascript_tag js_code
+    pgs = {
+      :controller => controller.class.to_s
+    }
+    pgs[:supervision_step] = @supervision.state if @supervision
+    pgs[:currentUser] = current_user.id if current_user
+
+    javascript_tag "document.pgs = #{pgs.to_json};"
   end
 
   def id_for_body

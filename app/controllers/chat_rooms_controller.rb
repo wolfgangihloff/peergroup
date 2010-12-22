@@ -4,6 +4,7 @@ class ChatRoomsController < ApplicationController
 
   def show
     @chat_messages = @chat_room.chat_messages.limit(25)
+    @token = "1234"
   end
 
   def select_leader

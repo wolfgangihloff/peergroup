@@ -15,6 +15,7 @@ gem "compass"
 gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
+gem "SystemTimer" # for redis
 
 group :staging do
 #  gem "pg"

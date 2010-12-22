@@ -1,10 +1,12 @@
-//= require "jquery"
-//= require "rails"
-//= require "underscore"
+//= require "lib/jquery"
+//= require "lib/rails"
+//= require "lib/underscore"
 
-//= require "jquery.form"
+//= require "lib/jquery.timeago"
+jQuery.timeago.settings.allowFuture = true;
+//= require "lib/jquery.form"
+//= require "lib/jquery.rating"
+//
 //= require "chat"
 //= require "supervision"
-//= require "jquery.rating"
-//
 //= require "socket"
