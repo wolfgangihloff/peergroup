@@ -6,6 +6,12 @@ var http = require("http"),
     redisClient = redis.createClient(),
     subscribeRedisClient = redis.createClient();
 
+var send404 = function(res){ 
+    res.writeHead(404); 
+    res.write('404'); 
+    res.end(); 
+};
+
 var port = 8080;
 server = http.createServer(function(req, res) {
     send404(res);

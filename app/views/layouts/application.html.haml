@@ -30,6 +30,10 @@
       = render 'layouts/footer'
 
     -# Javascripts at end of body, to not slow down dowloading content
-    = javascript_include_tag "http://localhost:8080/socket.io/socket.io.js"
+    = javascript_include_tag "socket.io.js"
+    :javascript
+      // This really sucks, but we have no other option to override this setting, or it will point to relative path
+      // which doesn't have host:port path
+      WEB_SOCKET_SWF_LOCATION = document.location.protocol + "//" + document.location.hostname + ":8080" + WEB_SOCKET_SWF_LOCATION;
     = javascript_include_tag :defaults
 
