@@ -106,9 +106,9 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
         switch (pattern) {
         case "chat:*:presence": (function() {
                 // Message format: user:enter|exit
-                var presence = pmessage.split(":", 2),
-                    userId = presence[0],
-                    action = presence[1];
+                var presence = pmessage.match(/([^:]+):(enter|exit)/),
+                    userId = presence[1],
+                    action = presence[2];
 
                 console.log("Presence: user " + userId + " " + action + " chat " + chatId);
                 eachSession(chatId, function(client, sessionId) {
@@ -118,11 +118,11 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
             break;
         case "chat:*:message": (function() {
                 // Message format: user:time:messageId:messageText
-                var message = pmessage.split(":", 4),
-                    userId = message[0],
-                    time = message[1],
-                    messageId = message[2],
-                    messageText = message[3];
+                var message = pmessage.match(/([^:]+):([^:]+):([^:]+):(.*)/),
+                    userId = message[1],
+                    time = message[2],
+                    messageId = message[3],
+                    messageText = message[4];
 
                 console.log("Message from user " + userId + " on chat " + chatId);
                 eachSession(chatId, function(client, sessionId) {

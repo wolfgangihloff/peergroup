@@ -12,9 +12,9 @@ class Group < ActiveRecord::Base
 
   has_many :memberships, :autosave => true
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
-  has_many :rules, :order => "position"
-  has_many :supervisions
-  has_one :chat_room
+  has_many :rules, :order => "position", :dependent => :destroy
+  has_many :supervisions, :dependent => :destroy
+  has_one :chat_room, :dependent => :destroy
 
   has_friendly_id :name, :use_slug => true
 
@@ -22,8 +22,10 @@ class Group < ActiveRecord::Base
 
   attr_protected :created_at
 
-  after_create lambda {|group| group.add_member!(group.founder)}
-  after_create lambda {|group| ChatRoom.create!(:group => group)}
+  after_create do |group|
+    group.add_member!(group.founder)
+    group.create_chat_room
+  end
 
   after_create :create_default_rules
 

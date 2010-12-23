@@ -45,7 +45,7 @@ module NavigationHelpers
       groups_path(:all => true)
 
     when /the "([^"]*)" group chat/i
-      chat_room_path(Group.find_by_name($1).chat_room)
+      group_chat_room_path(Group.find_by_name($1))
 
     else
       begin

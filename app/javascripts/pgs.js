@@ -1,6 +1,14 @@
 (function() {
     var root = this;
     var usersCache = {};
+    var path = function(pathComponents, options) {
+        var p = "/" + pathComponents.join("/");
+        if (options.format) {
+            p = p + "." + options.format;
+        }
+        return p;
+    };
+
     var PGS = {
         userInfo: function(userId, callback) {
             if (usersCache[userId]) {
@@ -10,12 +18,12 @@
                     usersCache[userId] = data.user;
                     callback.call({}, userId, usersCache[userId]);
                 };
-                $.get(PGS.userPath(userId), [], onSuccess, "json");
+                $.get(PGS.userPath(userId, { format: "json" }), [], onSuccess, "json");
             }
         },
                     
-        userPath: function(userId) {
-            return "/users/" + userId;
+        userPath: function(userId, options) {
+            return path(["users", userId], options);
         }
     };
  

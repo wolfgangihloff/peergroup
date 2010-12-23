@@ -9,7 +9,7 @@
           %time{ :datetime => chat_message.created_at.getutc.iso8601 }= chat_message.created_at.to_s
           \:
           %span.content= chat_message.content
-    = form_for([@chat_room, ChatMessage.new], :remote => true) do |f|
+    = form_for(ChatMessage.new, :url => group_chat_room_chat_messages_path(@group), :remote => true) do |f|
       = f.text_area :content, :rows => 2
       = submit_tag t(".submit", :default => "Submit")
 -#  .hidden.timestamp= Time.now.to_i

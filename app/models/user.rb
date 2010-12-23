@@ -17,9 +17,6 @@ class User < ActiveRecord::Base
 
   has_many :founded_groups, :class_name => "Group"
 
-  has_many :chat_users
-  has_many :chat_rooms, :through => :chat_users
-
   has_many :votes
 
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -65,13 +62,12 @@ class User < ActiveRecord::Base
     relationships.find_by_followed_id(followed).destroy
   end
 
-  def seen_on_chat!(chat_room)
-    chat_user = chat_users.find_or_create_by_chat_room_id(chat_room.id)
-    chat_user.touch
-  end
-
   def to_s
     name
+  end
+
+  def member_of?(group)
+    groups.exists?(group.id)
   end
 
   private

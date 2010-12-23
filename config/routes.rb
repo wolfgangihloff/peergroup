@@ -1,18 +1,6 @@
 Peergroupsupervision::Application.routes.draw do
   resources :rules
 
-  resources :chat_rooms do
-
-    member do
-      post :select_leader
-      post :select_problem_owner
-    end
-
-    resources :chat_updates
-    #resources :chat_users
-    resources :chat_messages, :only => :create
-  end
-
   resources :users do
     member do
       get :following
@@ -42,6 +30,9 @@ Peergroupsupervision::Application.routes.draw do
     resources :supervisions, :only => [:new, :create]
     resources :memberships
     resources :rules
+    resource :chat_room, :only => :show do
+      resources :chat_messages, :only => :create
+    end
   end
 
   match '/signin' => 'sessions#new', :as => 'signin'

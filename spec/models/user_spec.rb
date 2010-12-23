@@ -220,21 +220,20 @@ describe User do
     end
   end
 
-  describe "seen_on_chat!" do
-    before do
+  describe "member_of" do
+    it "should be true for user's groups" do
       @user = Factory(:user)
-      @chat_room = Factory(:chat_room)
+      @group = Factory(:group)
+      @user.groups << @group
+
+      @user.member_of?(@group).should be_true
     end
 
-    it "should mark user as beeing on chat for the first time" do
-      @user.seen_on_chat!(@chat_room)
-      @user.chat_rooms.reload.first.should == @chat_room
-    end
+    it "should not be true for other groups" do
+      @user = Factory(:user)
+      @group = Factory(:group)
 
-    it "should update user presence on chat" do
-      chat_user = Factory(:chat_user, :updated_at => 20.seconds.ago, :user => @user, :chat_room => @chat_room)
-      @user.seen_on_chat!(@chat_room)
-      chat_user.reload.updated_at.should > 2.seconds.ago
+      @user.member_of?(@group).should be_false
     end
   end
 end

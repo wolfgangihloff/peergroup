@@ -95,13 +95,13 @@ jQuery(function($) {
         var onUserEnters = function(event, user) {
             PGS.userInfo(user.id, function(userId, userData) {
                 var username = userData.name;
-                $chatRoom.trigger("systemMessage", { text: "User " + username + " enters room" });
+                $chatRoom.trigger("systemMessage", { text: "<" + username + "> enter room" });
             });
         };
         var onUserExits = function(event, user) {
             PGS.userInfo(user.id, function(userId, userData) {
-                var username = user.name;
-                $chatRoom.trigger("systemMessage", { text: "User " + username + " exits room" });
+                var username = userData.name;
+                $chatRoom.trigger("systemMessage", { text: "<" + username + "> exit room" });
             });
         };
         var onNewMessage = function(event, message) {
