@@ -16,9 +16,7 @@ This is the first version, heavy alpha.
 
   bundle install
 
-2. Run mongodb (download from http://www.mongodb.org/downloads) - that's still in dependencies, unless we remove it
-
-3. Run redis (download from http://redis.io/download) - tested on 2.0 stable release
+2. Run redis (download from http://redis.io/download) - tested on 2.0 stable release
 
 4. Run the application
 
@@ -36,11 +34,7 @@ This is the first version, heavy alpha.
 
   bundle install
 
-2. Download mongodb from http://www.mongodb.org/downloads
-
-3. Run mongod
-
-4. Run tests:
+2. Run tests:
 
   rspec spec/ && cucumber
 
