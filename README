@@ -22,9 +22,9 @@ This is the first version, heavy alpha.
 
   rails server
 
-5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.1
+5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.2
 
-  node app/node.js/server
+  node app/node.js/server.js
 
 6. Open http://localhost:3000
 

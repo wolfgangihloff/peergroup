@@ -5,7 +5,7 @@ class ChatRoomsController < ApplicationController
   def show
     @chat_messages = @chat_room.chat_messages.limit(25)
     @token = SecureRandom.hex
-    REDIS.setex("users:#{current_user.id}:token:#{@token}", 60, "1")
+    REDIS.setex("chat:#{@chat_room.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   def select_leader

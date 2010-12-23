@@ -93,16 +93,22 @@ jQuery(function($) {
         });
 
         var onUserEnters = function(event, user) {
-            var username = user.id;
-            $chatRoom.trigger("systemMessage", { text: "User " + username + " enters room" });
+            PGS.userInfo(user.id, function(userId, userData) {
+                var username = userData.name;
+                $chatRoom.trigger("systemMessage", { text: "User " + username + " enters room" });
+            });
         };
         var onUserExits = function(event, user) {
-            var username = user.id;
-            $chatRoom.trigger("systemMessage", { text: "User " + username + " exits room" });
+            PGS.userInfo(user.id, function(userId, userData) {
+                var username = user.name;
+                $chatRoom.trigger("systemMessage", { text: "User " + username + " exits room" });
+            });
         };
         var onNewMessage = function(event, message) {
-            var date = new Date((+message.timestamp) * 1000);
-            $chatRoom.trigger("message", _.extend(message, { date: date }));
+            PGS.userInfo(message.user, function(userId, userData) {
+                var date = new Date((+message.timestamp) * 1000);
+                $chatRoom.trigger("message", _.extend(message, { date: date, user: userData.name }));
+            });
         };
         $chatRoom.bind({
             "userEnters": onUserEnters,

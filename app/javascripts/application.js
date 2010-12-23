@@ -10,3 +10,4 @@ jQuery.timeago.settings.allowFuture = true;
 //= require "chat"
 //= require "supervision"
 //= require "socket"
+//= require "pgs"

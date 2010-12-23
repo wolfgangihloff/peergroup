@@ -18,25 +18,37 @@ server = http.createServer(function(req, res) {
 server.listen(port);
 console.log("Server started on port " + port);
 
-// Chat
 var socket = io.listen(server);
+
+/**
+ * CHAT
+ */
+/*
+ * Connect to events from client
+ *
+ * Events:
+ *  - authenticate
+ *    message format: { type: "chat.authenticate", chatRoom: <id>, userId: <userId> }
+ */
 socket.on('connection', function(client) {
     client.on("message", function(message) {
         if (message.type.search("^chat\\.") === 0) {
             // on authenticate
             if (message.type === "chat.authenticate") {
-                redisClient.exists("users:" + message.data.userId + ":token:" + message.data.token, function(err, resp) {
+                var chatRoom = message.data.chatRoom,
+                    userId = message.data.userId;
+                var userAuthenticationKey = "chat:" + chatRoom + ":users:" + message.data.userId + ":token:" + message.data.token,
+                    sessionChatKey = "sessions:" + client.sessionId + ":chat",
+                    chatSessionsKey = "chat:" + chatRoom + ":sessions";
+                redisClient.exists(userAuthenticationKey, function(err, resp) {
                     if (resp) {
-                        console.log("User authenticated: " + message.data.userId + " sessionId: " + client.sessionId);
+                        console.log("User authenticated: " + userId + " sessionId: " + client.sessionId);
                         client.send({ type: "chat.authentication", status: "OK" });
-                        redisClient.mset(
-                            "sessions:" + client.sessionId + ":chat", message.data.chatRoom,
-                            "sessions:" + client.sessionId + ":user", message.data.userId
-                        );
-                        redisClient.sadd("chat:" + message.data.chatRoom + ":sessions", client.sessionId);
-                        redisClient.publish("chat:" + message.data.chatRoom + ":presence", message.data.userId + ":enter");
+                        redisClient.hmset(sessionChatKey, "id", chatRoom, "user", userId);
+                        redisClient.sadd(chatSessionsKey, client.sessionId);
+                        redisClient.publish("chat:" + chatRoom + ":presence", userId + ":enter");
                     } else {
-                        console.log("User invalid: " + message.data.userId);
+                        console.log("User invalid: " + userId);
                         client.send({ type: "chat.authentication", status: "error", text: "Invalid id or token" });
                     }
                 });
@@ -44,12 +56,14 @@ socket.on('connection', function(client) {
         }
     });
     client.on('disconnect', function() {
-        redisClient.mget("sessions:" + client.sessionId + ":user", "sessions:" + client.sessionId + ":chat", function(err, results) {
+        var sessionChatKey = "sessions:" + client.sessionId + ":chat";
+        redisClient.hmget(sessionChatKey, "id", "user", function(err, results) {
             if (results[0] !== null && results[1] !== null) {
-                var userId = results[0],
-                    chatId = results[1];
+                var chatId = results[0],
+                    userId = results[1];
                 redisClient.srem("chat:" + chatId + ":sessions", client.sessionId);
                 redisClient.publish("chat:" + chatId + ":presence", userId + ":exit");
+                redisClient.del(sessionChatKey);
             }
         });
     });
