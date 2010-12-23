@@ -8,17 +8,6 @@ require 'database_cleaner'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-module FactoryHelpers
-  def past_chat_update(options)
-    outdated = Factory.build(:chat_update, options)
-    outdated.should_receive(:update_timestamps)
-    outdated.should_receive(:message_changed?).and_return(false)
-    outdated.save!
-    # Get rid of the mock
-    ChatUpdate.find(outdated.id)
-  end
-end
-
 # TODO: Move all webrat specs to capybara
 Webrat.configure do |config|
   config.mode = :rails
@@ -34,7 +23,6 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
 
-  config.include FactoryHelpers
   config.include Webrat::HaveTagMatcher, :type => :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -48,10 +36,6 @@ RSpec.configure do |config|
   config.before(:all) do
     Factory.find_definitions
     DatabaseCleaner.clean_with :truncation
-  end
-
-  config.before(:each) do
-    ChatUpdate.delete_all
   end
 
   def test_sign_in(user)
