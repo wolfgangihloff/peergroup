@@ -237,7 +237,6 @@ div.user_info
     &.user_name
       position: absolute
 
-
 .chat_room
   .messages
     +reset-list-style
@@ -269,91 +268,25 @@ div.user_info
       margin-top: 1.5em
       height: 3em
 
-/* CSS for chat
-
-#chat .main
-  .chat_part
-    ul.chat_updates
-      height: 300px
-      border: 1px solid
-      margin: 0
-      padding: 3px
-      overflow: auto
-      li.chat_update
-        &.active
-          background-color: #ccc
-        &.uncommited
-          div.message
-            color: green
-        div
-          display: inline
-          &.login
-            color: blue
-  ul.rules
-    margin: 0
-    float: right
-    width: 250px
-    margin-left: 10px
-    li
-      list-style-type: none
-      padding: 3px
-    li.current
-      background-color: yellow
-    li.rule
-      border: 1px solid black
-    ul, ul li, p
-      display: inline
-
-ul.chatting_users
-  position: relative
-  list-style: none
-  overflow: hidden
-  margin-bottom: 0
-  li.chat_user
-    float: left
-    margin-right: 10px
-    padding: 2px
-    width: 100px
-    &.leader .brief
-      background-color: yellow
-    &.problem_owner .brief
-      background-color: green
-    img
-      margin-left: 20px
-    p
-      text-align: center
-      margin: 0
-    .brief
-      border: 1px solid black
-    &.active
-      background-color: #cfffcf
-  ul.actions
-    list-style: none
-    color: #888
-
-form.edit_chat_update .field
-  label
-    display: inline
-    margin-right: 10px
-  #chat_update_message
-    width: 440px
-  #chat_update_submit
-    width: 104px
-
-
-#content
-  .group_brief
-    background: #eee
-    margin: 0 25px 10px 0
-    .inner
-      width: 270 - 2 * 8 px
-      margin: 8px
-      .title
-        border-bottom: 1px solid
-      ul.actions
-        margin: 0
-        list-style-type: none
-        font-size: 0.9em
-        li
-          float: right
-          margin-right: 4px
+.group_brief
+  +border-radius($border-radius)
+  +column($blueprint-grid-columns - 2, true)
+  +append-bottom
+  background: #eee
+  .inner
+    +push(1)
+    +column($blueprint-grid-columns - 4, true)
+    +append-bottom(0)
+    .title
+      +reset-box-model
+      border-bottom: 1px solid
+      +last
+    .description
+      +reset-box-model
+      float: left
+      p
+        +reset-box-model
+    .actions
+      float: right
+      +reset-box-model
+      +horizontal-list
