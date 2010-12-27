@@ -20,6 +20,12 @@ Factory.define(:chat_room) do |chat_room|
   chat_room.group { Factory(:group) }
 end
 
+Factory.define(:chat_message) do |chat_message|
+  chat_message.user { Factory(:user) }
+  chat_message.chat_room { Factory(:chat_room) }
+  chat_message.content "Hi there"
+end
+
 Factory.define(:supervision) do |supervision|
   supervision.group { Factory(:group) }
 end
