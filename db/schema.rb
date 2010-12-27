@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101217121322) do
+ActiveRecord::Schema.define(:version => 20101227102330) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -35,13 +35,6 @@ ActiveRecord::Schema.define(:version => 20101217121322) do
     t.integer  "leader_id"
     t.integer  "problem_owner_id"
     t.integer  "current_rule_id"
-  end
-
-  create_table "chat_users", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "chat_room_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "feedbacks", :force => true do |t|

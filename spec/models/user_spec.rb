@@ -14,50 +14,66 @@ describe User do
     User.create!(@attr)
   end
 
-  it "should require a name" do
-    no_name_user = User.new(@attr.merge(:name => ""))
-    no_name_user.should_not be_valid
-  end
+  describe "name attribute" do
+    it "should require a name" do
+      no_name_user = User.new(@attr.merge(:name => ""))
+      no_name_user.should_not be_valid
+    end
 
-  it "should require an email" do
-    no_email_user = User.new(@attr.merge(:email => ""))
-    no_email_user.should_not be_valid
-  end
+    it "should reject names that are too long" do
+      long_name = "a" * 51
+      long_name_user = User.new(@attr.merge(:name => long_name))
+      long_name_user.should_not be_valid
+    end
 
-  it "should reject names that are too long" do
-    long_name = "a" * 51
-    long_name_user = User.new(@attr.merge(:name => long_name))
-    long_name_user.should_not be_valid
-  end
-
-  it "should accept valid email addresses" do
-    addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
-    addresses.each do |address|
-      valid_email_user = User.new(@attr.merge(:email => address))
-      valid_email_user.should be_valid
+    it "should be accessible to mass assignment" do
+      @user = Factory.build(:user, :name => "Wolfgant")
+      @user.attributes = { :name => "Wolf" }
+      @user.name.should be == "Wolf"
     end
   end
 
-  it "should reject invalid email addresses" do
-    addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
-    addresses.each do |address|
-      invalid_email_user = User.new(@attr.merge(:email => address))
-      invalid_email_user.should_not be_valid
+  describe "email attribute" do
+    it "should require an email" do
+      no_email_user = User.new(@attr.merge(:email => ""))
+      no_email_user.should_not be_valid
     end
-  end
 
-  it "should reject duplicate email addresses" do
-    # Put a user with given email address into the database.
-    User.create!(@attr)
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
-  end
+    it "should accept valid email addresses" do
+      addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
+      addresses.each do |address|
+        valid_email_user = User.new(@attr.merge(:email => address))
+        valid_email_user.should be_valid
+      end
+    end
 
-  it "should reject email addresses identical up to case" do
-    upcased_email = @attr[:email].upcase
-    User.create!(@attr.merge(:email => upcased_email))
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+    it "should reject invalid email addresses" do
+      addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
+      addresses.each do |address|
+        invalid_email_user = User.new(@attr.merge(:email => address))
+        invalid_email_user.should_not be_valid
+      end
+    end
+
+    it "should reject duplicate email addresses" do
+      # Put a user with given email address into the database.
+      User.create!(@attr)
+      user_with_duplicate_email = User.new(@attr)
+      user_with_duplicate_email.should_not be_valid
+    end
+
+    it "should reject email addresses identical up to case" do
+      upcased_email = @attr[:email].upcase
+      User.create!(@attr.merge(:email => upcased_email))
+      user_with_duplicate_email = User.new(@attr)
+      user_with_duplicate_email.should_not be_valid
+    end
+
+    it "should be accessible to mass assignment" do
+      @user = Factory.build(:user, :email => "wolfgant@example.com")
+      @user.attributes = { :email => "wolf@example.com" }
+      @user.email.should be == "wolf@example.com"
+    end
   end
 
   describe "password validations" do
@@ -167,6 +183,11 @@ describe User do
       @user.toggle!(:admin)
       @user.should be_admin
     end
+
+    it "should be protected agains mass assignment" do
+      @user.attributes = { :admin => true }
+      @user.should_not be_admin
+    end
   end
 
   describe "relationships" do
@@ -220,7 +241,7 @@ describe User do
     end
   end
 
-  describe "member_of" do
+  describe "#member_of?" do
     it "should be true for user's groups" do
       @user = Factory(:user)
       @group = Factory(:group)
@@ -234,6 +255,14 @@ describe User do
       @group = Factory(:group)
 
       @user.member_of?(@group).should be_false
+    end
+  end
+
+  describe "#to_s" do
+    it "should return user's name" do
+      @user = Factory(:user, :name => "John Smith")
+
+      @user.to_s.should be == @user.name
     end
   end
 end

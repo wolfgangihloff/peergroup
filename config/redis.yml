@@ -1,5 +1,2 @@
 development:
   host: "localhost"
-
-test:
-  host: "localhost"

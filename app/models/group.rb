@@ -2,11 +2,9 @@ require 'csv'
 
 class Group < ActiveRecord::Base
 
-  validates_presence_of :name
-  validates_presence_of :description
-  validates_uniqueness_of :name
-  validates_length_of :name, :maximum => 255
-  validates_length_of :description, :maximum => 255
+  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 255 }
+  validates :description, :presence => true, :length => { :maximum => 255 }
+  validates :founder, :presence => true
 
   belongs_to :founder, :class_name => "User"
 
@@ -20,7 +18,7 @@ class Group < ActiveRecord::Base
 
   scope :newest, :order => 'created_at desc', :limit => 6
 
-  attr_protected :created_at
+  attr_accessible :name, :description
 
   after_create do |group|
     group.add_member!(group.founder)
@@ -30,7 +28,7 @@ class Group < ActiveRecord::Base
   after_create :create_default_rules
 
   def add_member!(member)
-    gm = memberships.create!(:user => member)
+    members << member
   end
 
   def create_default_rules
