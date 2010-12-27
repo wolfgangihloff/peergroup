@@ -9,4 +9,6 @@ class ChatRoom < ActiveRecord::Base
 
   has_many :chat_messages, :dependent => :destroy, :order => "created_at DESC"
 
+  attr_accessible
+
 end
