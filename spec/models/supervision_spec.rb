@@ -78,7 +78,7 @@ describe Supervision do
     end
   end
 
-  describe "voted_on_topic?" do
+  describe "#voted_on_topic?" do
     it "should be true when user already voted on topic" do
       @topic.votes.create! do |vote|
         vote.user = @user
@@ -91,7 +91,7 @@ describe Supervision do
     end
   end
 
-  describe "choose_topic" do
+  describe "#choose_topic" do
     it "should choose topic with the most votes" do
       @second_topic = Factory(:topic, :supervision => @supervision)
       Factory(:vote, :statement => @topic)
@@ -100,7 +100,7 @@ describe Supervision do
     end
   end
 
-  describe "all_answers?" do
+  describe "#all_answers?" do
     before do
       @questions = Array.new(2) { Factory(:question, :supervision => @supervision) }
     end
@@ -118,7 +118,7 @@ describe Supervision do
     end
   end
 
-  describe "step_finished?" do
+  describe "#step_finished?" do
     it "should use Supervision::STATES and it should be correct" do
       Supervision::STATES.should == %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
     end

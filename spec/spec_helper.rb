@@ -38,6 +38,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with :truncation
   end
 
+  # We mock REDIS to not depend on it to run our tests.
+  RSpec::Mocks::setup(self)
+  REDIS = double(Object.new)
+
   def test_sign_in(user)
     controller.current_user = user
   end
