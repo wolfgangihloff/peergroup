@@ -22,6 +22,8 @@ class SupervisionsController < ApplicationController
 
   def show
     @supervision = Supervision.find(params[:id])
+    @token = SecureRandom.hex
+    REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   protected

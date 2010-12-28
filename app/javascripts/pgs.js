@@ -8,6 +8,7 @@
         }
         return p;
     };
+    var socket;
 
     var PGS = {
         userInfo: function(userId, callback) {
@@ -24,8 +25,17 @@
                     
         userPath: function(userId, options) {
             return path(["users", userId], options);
+        },
+
+        getSocket: function() {
+            if (typeof socket === "undefined") {
+                socket = new io.Socket(null, { port: 8080 });
+                socket.connect();
+            }
+            return socket;
         }
+
     };
  
-    this.PGS = PGS;
+    root.PGS = PGS;
 })();

@@ -95,6 +95,7 @@
         - :show: !omap 
             - :links: !omap 
                 - :new_thread: new thread
+            - :submit: Submit
     - :chat_updates: !omap 
         - :chat_update: !omap 
             - :links: !omap 

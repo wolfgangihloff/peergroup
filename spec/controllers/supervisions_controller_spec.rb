@@ -4,8 +4,8 @@ describe SupervisionsController do
 
   before do
     @group = Factory(:group)
-    @founder = @group.founder
-    test_sign_in(@founder)
+    @user = @group.founder
+    test_sign_in(@user)
   end
 
   def mock_current_supervision_with(supervision)
@@ -13,7 +13,7 @@ describe SupervisionsController do
     @group.should_receive(:current_supervision).and_return(supervision)
   end
 
-  describe "new" do
+  describe "#new" do
     context "when current supervision already exists" do
       before { mock_current_supervision_with(@supervision = @group.supervisions.create!) }
 
@@ -33,7 +33,7 @@ describe SupervisionsController do
     end
   end
 
-  describe "create" do
+  describe "#create" do
 
     context "when supervision already exists" do
       before do
@@ -57,15 +57,18 @@ describe SupervisionsController do
     end
   end
 
-  describe "show" do
-    context "when in choose topic state" do
-      before do
-        @supervision = @group.supervisions.create!(:state => "topic")
-        get :show, :id => @supervision.id
-      end
+  describe "#show" do
+    render_views
 
-      specify { response.should be_success }
+    before do
+      @supervision = @group.supervisions.create!(:state => "topic")
+      SecureRandom.should_receive(:hex).and_return("asdfb")
+      ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      get :show, :id => @supervision.id
     end
+
+    specify { response.should be_success }
+    specify { assert_tag :attributes => { "class" => "supervision", "id" => "supervision_#{@supervision.id}", "data-token" => "asdfb" } }
   end
 end
 

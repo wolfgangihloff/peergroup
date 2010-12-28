@@ -1,87 +1,7 @@
-(function($){
-    $.fn.chatRoom = function() {
-        return this.each(function() {
-            var $this = $(this),
-                $messages = $this.find(".messages");
-
-            $messages.find("time").timeago();
-
-            var onMessage = function(event, message) {
-                var id = message.id || -1,
-                    user = message.user || "(unknown)",
-                    date = message.date || new Date(),
-                    content = message.content || "";
-
-                var newMessage = $("<li>", { "class": "chat_message", id: id }).
-                    append($("<span>", { "class": "user", text: user })).
-                    append(" ").
-                    append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
-                    append(" : ").
-                    append($("<span>", { "class": "content", text: content }));
-                $messages.append(newMessage);
-            };
-            var onSystemMessage = function(event, message) {
-                var text = message.text || "",
-                    date = message.date || new Date();
-
-                var newMessage = $("<li>", { "class": "system_chat_message" }).
-                    append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
-                    append(" ").
-                    append($("<span>", { "class": "content", text: text }));
-                $messages.append(newMessage);
-            };
-
-            $this.bind({
-                "message": onMessage,
-                "systemMessage": onSystemMessage
-            });
-
-
-        });
-    };
-})(jQuery);
+//= require "chat_room"
+//= require "s"
 
 jQuery(function($) {
-    var S = function(socket, namespace) {
-        var callbacks = {},
-            connectCallbacks = [],
-            prefix = function(type) { return namespace + "." + type; };
-
-        var that = {
-            socket: socket,
-            namespace: namespace,
-            on: function(type, callback) {
-                if (!callbacks[prefix(type)]) { callbacks[prefix(type)] = []; }
-                callbacks[prefix(type)].push(callback);
-                return this;
-            },
-            onConnect: function(callback) {
-                connectCallbacks.push(callback);
-                return this;
-            },
-            send: function(type, data) {
-                socket.send({ type: prefix(type), data: data });
-                return this;
-            }
-        };
-
-        var onMessage = function(message) {
-            if (message.type && callbacks[message.type]) {
-                _.each(callbacks[message.type], function(callback) {
-                    callback.call(that, message.type, message);
-                });
-            }
-        };
-        var onConnect = function() {
-            _.each(connectCallbacks, function(callback) {
-                callback.call(that);
-            });
-        };
-        socket.on("message", onMessage);
-        socket.on("connect", onConnect);
-
-        return that;
-    };
 
     $(".chat_room").each(function(i, element) {
         var $chatRoom = $(this);
@@ -118,12 +38,11 @@ jQuery(function($) {
 
         var chatRoomToken = $chatRoom.data("token");
         var chatRoomId = $chatRoom.attr("id").replace("chat_room_", "");
-        var socket = new io.Socket(null, { port: 8080 });
 
-        var s = S(socket, "chat");
+        var s = S(PGS.getSocket(), "chat");
         s.on("authentication", function(type, message) {
             if (message.status === "OK") {
-                console.log("Authenticated");
+                console.log("chat: Authenticated");
             } else {
                 console.error(message);
             }
@@ -141,6 +60,25 @@ jQuery(function($) {
         s.onConnect(function() {
             this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
         });
-        socket.connect();
     });
+
+    $("#supervisions_show .supervision").each(function(i, element) {
+        var $supervision = $(this);
+
+        var supervisionToken = $supervision.data("token");
+        var supervisionId = $supervision.attr("id").replace("supervision_", "");
+
+        var s = S(PGS.getSocket(), "supervision");
+        s.on("authentication", function(type, message) {
+            if (message.status === "OK") {
+                console.log("supervision: Authenticated");
+            } else {
+                console.error(message);
+            }
+        });
+        s.onConnect(function() {
+            this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
+        });
+    });
+
 });

@@ -1,6 +1,6 @@
 - @title = t(".title", :default => "Supervision")
 
-%article[@supervision]{:data => {:"supervision-state" => @supervision.state}}
+%article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
   %header
     %h1= t(".heading", :default => "Supervision feedback")
 

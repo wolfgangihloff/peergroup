@@ -28,7 +28,7 @@ var socket = io.listen(server);
  *
  * Events:
  *  - authenticate
- *    message format: { type: "chat.authenticate", chatRoom: <id>, userId: <userId> }
+ *    message format: { type: "chat.authenticate", chatRoom: <id>, userId: <userId>, token: <token> }
  */
 socket.on('connection', function(client) {
     client.on("message", function(message) {
@@ -36,36 +36,29 @@ socket.on('connection', function(client) {
             // on authenticate
             if (message.type === "chat.authenticate") {
                 var chatRoom = message.data.chatRoom,
-                    userId = message.data.userId;
-                var userAuthenticationKey = "chat:" + chatRoom + ":users:" + message.data.userId + ":token:" + message.data.token,
-                    sessionChatKey = "sessions:" + client.sessionId + ":chat",
-                    chatSessionsKey = "chat:" + chatRoom + ":sessions";
+                    userId = message.data.userId,
+                    token = message.data.token;
+                var userAuthenticationKey = "chat:" + chatRoom + ":users:" + userId + ":token:" + token,
+                    chatSessionsKey = "chat:" + chatRoom + ":sessions",
+                    chatPresenceChannel = "chat:" + chatRoom + ":presence";
                 redisClient.exists(userAuthenticationKey, function(err, resp) {
                     if (resp) {
-                        console.log("User authenticated: " + userId + " sessionId: " + client.sessionId);
+                        console.log("User authenticated for chat: " + userId + " sessionId: " + client.sessionId);
                         client.send({ type: "chat.authentication", status: "OK" });
-                        redisClient.hmset(sessionChatKey, "id", chatRoom, "user", userId);
                         redisClient.sadd(chatSessionsKey, client.sessionId);
-                        redisClient.publish("chat:" + chatRoom + ":presence", userId + ":enter");
+                        redisClient.publish(chatPresenceChannel, userId + ":enter");
+
+                        client.on("disconnect", function() {
+                            redisClient.srem(chatSessionsKey, client.sessionId);
+                            redisClient.publish(chatPresenceChannel, userId + ":exit");
+                        });
                     } else {
-                        console.log("User invalid: " + userId);
+                        console.log("User invalid for chat: " + userId);
                         client.send({ type: "chat.authentication", status: "error", text: "Invalid id or token" });
                     }
                 });
             }
         }
-    });
-    client.on('disconnect', function() {
-        var sessionChatKey = "sessions:" + client.sessionId + ":chat";
-        redisClient.hmget(sessionChatKey, "id", "user", function(err, results) {
-            if (results[0] !== null && results[1] !== null) {
-                var chatId = results[0],
-                    userId = results[1];
-                redisClient.srem("chat:" + chatId + ":sessions", client.sessionId);
-                redisClient.publish("chat:" + chatId + ":presence", userId + ":exit");
-                redisClient.del(sessionChatKey);
-            }
-        });
     });
 });
 
@@ -137,3 +130,41 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
     }
 });
 subscribeRedisClient.psubscribe("chat:*:presence", "chat:*:message");
+
+/**
+ * SUPERVISION SESSION
+ */
+/*
+ * Events:
+ *  - authenticate
+ *    message format: { type: "supervision.authenticate", supervision: <id>, userId: <userId>, token: <token> }
+ */
+socket.on("connection", function(client) {
+    client.on("message", function(message){
+        if (message.type.search("^supervision\\.") === 0) {
+            // on authenticate
+            if (message.type === "supervision.authenticate") {
+                var supervision = message.data.supervision,
+                    userId = message.data.userId,
+                    token = message.data.token;
+                var userAuthenticationKey = "supervision:" + supervision + ":users:" + userId + ":token:" + token,
+                    supervisionSessionsKey = "supervision:" + supervision + ":sessions";
+                redisClient.exists(userAuthenticationKey, function(err, resp) {
+                    if (resp) {
+                        console.log("User authenticated for supervision: " + userId + " sessionId: " + client.sessionId);
+                        client.send({ type: "supervision.authentication", status: "OK" });
+                        redisClient.sadd(supervisionSessionsKey, client.sessionId);
+
+                        client.on("disconnect", function() {
+                            redisClient.srem("supervision:" + supervision + ":sessions", client.sessionId);
+                        });
+                    } else {
+                        console.log("User invalid for supervision: " + userId);
+                        client.send({ type: "supervision.authentication", status: "error", text: "Invalid id or token" });
+                    }
+                });
+            }
+        }
+    });
+});
+
