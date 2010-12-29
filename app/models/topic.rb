@@ -10,7 +10,7 @@ class Topic < ActiveRecord::Base
   attr_accessible :content
 
   after_create do |topic|
-    supervision = topic.supervision.post_topic
+    topic.supervision.post_topic(topic)
   end
 end
 

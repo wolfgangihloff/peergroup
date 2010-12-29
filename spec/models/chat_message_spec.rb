@@ -54,7 +54,6 @@ describe ChatMessage do
       # id and created_at are set to workaround problem with setting them after save
       # but we need to know them to stub method on REDIS
       @chat_message = Factory.build(:chat_message, :id => "100", :created_at => Time.now)
-      REDIS = Object.new
       REDIS.should_receive(:publish).with("chat:#{@chat_message.chat_room.id}:message",
                                           "#{@chat_message.user.id}:#{@chat_message.created_at.to_i}:#{@chat_message.id}:#{@chat_message.content}")
       @chat_message.save!
