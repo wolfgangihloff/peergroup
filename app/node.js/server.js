@@ -7,7 +7,7 @@ var http = require("http"),
     subscribeRedisClient = redis.createClient();
 
 var send404 = function(res){ 
-    res.writeHead(404); 
+    res.writeHead(404, {"Content-Type": "text/plain"}); 
     res.end("404 Not Found"); 
 };
 

@@ -40,22 +40,45 @@ Factory.define(:vote) do |vote|
   vote.user {|t| t.statement.user }
 end
 
+Factory.define(:supervision_vote, :parent => :vote) do |vote|
+  vote.statement { Factory(:topic) }
+  vote.user { Factory(:user) }
+end
+
 Factory.define(:question) do |question|
   question.supervision { Factory(:supervision) }
   question.user {|q| q.supervision.group.members.first }
   question.content "Why?"
 end
 
-Factory.define(:idea) do |question|
-  question.supervision { Factory(:supervision) }
-  question.user {|q| q.supervision.group.members.first }
-  question.content "Less talk, more action."
+Factory.define(:idea) do |idea|
+  idea.supervision { Factory(:supervision) }
+  idea.user {|i| i.supervision.group.members.first }
+  idea.content "Less talk, more action."
 end
 
-Factory.define(:ideas_feedback) do |question|
-  question.supervision { Factory(:supervision) }
-  question.user {|q| q.supervision.group.founder }
-  question.content "Thanks for the ideas!"
+Factory.define(:ideas_feedback) do |feedback|
+  feedback.supervision { Factory(:supervision) }
+  feedback.user {|f| f.supervision.group.founder }
+  feedback.content "Thanks for the ideas!"
+end
+
+Factory.define(:solution) do |solution|
+  solution.supervision { Factory(:supervision) }
+  solution.user {|s| s.supervision.group.founder }
+  solution.content "Solution"
+end
+
+Factory.define(:solutions_feedback) do |feedback|
+  feedback.supervision { Factory(:supervision) }
+  feedback.user {|q| q.supervision.group.founder }
+  feedback.content "Thanks for the solutions!"
+end
+
+Factory.define(:supervision_feedback) do |feedback|
+  feedback.supervision { Factory(:supervision) }
+  feedback.user { Factory(:user) }
+  feedback.content "Feedback"
 end
 
 Factory.define(:answer) do |answer|

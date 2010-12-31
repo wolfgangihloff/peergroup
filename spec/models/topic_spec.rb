@@ -37,12 +37,6 @@ describe Topic do
       @topic.attributes = { :supervision => @another_supervision }
       @topic.supervision.should be == @supervision
     end
-
-    it "should touch referenced supervision" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:touch)
-      @topic = Factory(:topic, :supervision => @supervision)
-    end
   end
 
   describe "content attribute" do

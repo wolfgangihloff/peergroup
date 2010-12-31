@@ -15,13 +15,13 @@ class Supervision < ActiveRecord::Base
     event :post_topic_vote do
       transition :topic_vote => :topic_question, :if => :all_topic_votes?
     end
-    event :owner_idea_feedback do
+    event :post_ideas_feedback do
       transition :idea_feedback => :solution
     end
-    event :owner_solution_feedback do
+    event :post_solutions_feedback do
       transition :solution_feedback => :supervision_feedback
     end
-    event :general_feedback do
+    event :post_supervision_feedback do
       transition :supervision_feedback => :finished, :if => :can_move_to_finished_state?
     end
     event :post_vote_for_next_step do
@@ -29,15 +29,6 @@ class Supervision < ActiveRecord::Base
       transition :idea => :idea_feedback, :if => :can_move_to_idea_feedback_state?
       transition :solution => :solution_feedback, :if => :can_move_to_solution_feedback_state?
     end
-  end
-
-  def publish_transition_change(transition)
-    # REDIS.publish(...)
-  end
-
-  def post_topic(topic, *args)
-    # REDIS.publish(...)
-    super
   end
 
   has_many :topics, :dependent => :destroy
@@ -55,21 +46,23 @@ class Supervision < ActiveRecord::Base
   belongs_to :topic
   belongs_to :group
 
+  validates :group, :presence => true
+
   scope :finished, :conditions => {:state => "finished"}
   scope :unfinished, :conditions => ["state <> ?", "finished"]
 
   attr_accessible
 
   def all_topics?
-    group.members.all? {|m| topics.where(:user_id => m.id).any? }
+    group.members.all? {|m| topics.exists?(:user_id => m.id) }
   end
 
   def all_topic_votes?
-    group.members.all? {|m| topic_votes.where(:user_id => m.id).present? }
+    group.members.all? {|m| topic_votes.exists?(:user_id => m.id) }
   end
 
   def all_next_step_votes?
-    group.members.all? {|m| problem_owner?(m) || !next_step_votes.where(:user_id => m.id).empty? }
+    group.members.all? {|m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
   end
 
   def can_move_to_idea_state?
@@ -101,7 +94,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def all_supervision_feedbacks?
-    group.members.all? {|m| supervision_feedbacks.count(:conditions => {:user_id => m.id}) > 0 }
+    group.members.all? {|m| supervision_feedbacks.exists?(:user_id => m.id) }
   end
 
   def destroy_next_step_votes
@@ -109,19 +102,19 @@ class Supervision < ActiveRecord::Base
   end
 
   def posted_topic?(user)
-    topics.where(:user_id => user.id).count > 0
+    topics.exists?(:user_id => user.id)
   end
 
   def voted_on_topic?(user)
-    !topic_votes(true).where(:user_id => user.id).empty?
+    topic_votes.exists?(:user_id => user.id)
   end
 
   def voted_on_next_step?(user)
-    !next_step_votes(true).where(:user_id => user.id).empty?
+    next_step_votes.exists?(:user_id => user.id)
   end
 
   def posted_supervision_feedback?(user)
-    supervision_feedbacks.count(:conditions => {:user_id => user.id}) > 0
+    supervision_feedbacks.exists?(:user_id => user.id)
   end
 
   def choose_topic
@@ -129,7 +122,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def problem_owner
-    topic && topic.user
+    topic.user if topic
   end
 
   def problem_owner?(user)
@@ -140,6 +133,49 @@ class Supervision < ActiveRecord::Base
     final_state = STATES.index(step.to_s)
     previous_steps = STATES.to(final_state)
     previous_steps.exclude? state
+  end
+
+  def publish_transition_change(transition)
+    # REDIS.publish(...)
+  end
+
+  # Wrappers for state machine events, lets us publish informations to
+  # Redis when users post topics/questions/answers/votes
+  def post_topic(topic, *args)
+    # REDIS.publish(...)
+    super
+  end
+
+  def post_topic_vote(vote, *args)
+    # REDIS.publish(...)
+    super
+  end
+
+  def post_vote_for_next_step(vote, *args)
+    # REDIS.publis(...)
+    super
+  end
+
+  def post_ideas_feedback(feedback, *args)
+    super
+  end
+
+  def post_solutions_feedback(feedback, *args)
+    # REDIS.publish(...)
+    super
+  end
+
+  def post_supervision_feedback(feedback, *args)
+    super
+  end
+
+  def post_question(question)
+  end
+
+  def post_idea(idea)
+  end
+
+  def post_solution(solution)
   end
 end
 

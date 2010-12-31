@@ -10,10 +10,15 @@
             - :messages: !omap 
                 - :blank: 
                 - :confirmation: 
+                - :inclusion: 
                 - :invalid: 
+                - :not_a_number: 
+                - :not_an_integer: 
                 - :too_long: 
                 - :too_short: 
             - :models: !omap 
+                - :answer: !omap 
+                    - :blank: 
                 - :chat_message: !omap 
                     - :blank: 
                 - :chat_room: !omap 
@@ -31,16 +36,28 @@
                     - :blank: 
                     - :taken: 
                     - :too_long: 
+                - :idea: !omap 
+                    - :blank: 
+                    - :inclusion: 
+                    - :not_a_number: 
+                    - :not_an_integer: 
+                - :ideas_feedback: !omap 
+                    - :blank: 
                 - :question: !omap 
                     - :blank: 
                 - :relationship: !omap 
                     - :blank: 
                 - :solution: !omap 
                     - :blank: 
+                    - :inclusion: 
+                    - :not_a_number: 
+                    - :not_an_integer: 
                 - :solutions_feedback: !omap 
                     - :blank: 
                 - :supervision: !omap 
                     - :invalid_transition: 
+                - :supervision_feedback: !omap 
+                    - :blank: 
                 - :topic: !omap 
                     - :blank: 
                 - :user: !omap 
@@ -61,6 +78,10 @@
                 - :owner_feedback: 
                 - :owner_idea_feedback: 
                 - :owner_solution_feedback: 
+                - :owner_solutions_feedback: 
+                - :post_ideas_feedback: 
+                - :post_solutions_feedback: 
+                - :post_supervision_feedback: 
                 - :post_topic: 
                 - :post_topic_vote: 
                 - :post_vote_for_next_step: 
@@ -71,6 +92,10 @@
                     - :owner_feedback: 
                     - :owner_idea_feedback: 
                     - :owner_solution_feedback: 
+                    - :owner_solutions_feedback: 
+                    - :post_ideas_feedback: 
+                    - :post_solutions_feedback: 
+                    - :post_supervision_feedback: 
                     - :post_topic: 
                     - :post_topic_vote: 
                     - :post_vote_for_next_step: 
@@ -88,7 +113,10 @@
         - :passcode: 
         - :password: 
         - :password_confirmation: 
+        - :question: 
+        - :rating: 
         - :state: 
+        - :statement: 
         - :supervision: 
         - :user: 
     - :chat_rooms: !omap 
@@ -136,6 +164,14 @@
                 - :confirmation: 
                 - :too_long: 
                 - :too_short: 
+            - :question: !omap 
+                - :blank: 
+            - :rating: !omap 
+                - :inclusion: 
+                - :not_a_number: 
+                - :not_an_integer: 
+            - :statement: !omap 
+                - :blank: 
             - :supervision: !omap 
                 - :blank: 
             - :user: !omap 

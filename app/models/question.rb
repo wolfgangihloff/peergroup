@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
   belongs_to :user
-  belongs_to :supervision, :touch => true
+  belongs_to :supervision
 
   has_one :answer, :dependent => :destroy
 
@@ -11,5 +11,9 @@ class Question < ActiveRecord::Base
   attr_accessible :content
 
   scope :unanswered, where('(SELECT count(*) FROM answers WHERE answers.question_id = questions.id) = 0')
+
+  after_create do |question|
+    question.supervision.post_question(question)
+  end
 end
 

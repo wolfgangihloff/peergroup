@@ -1,6 +1,6 @@
 class Topic < ActiveRecord::Base
   belongs_to :user
-  belongs_to :supervision, :touch => true
+  belongs_to :supervision
 
   has_many :votes, :as => :statement, :dependent => :destroy
 
