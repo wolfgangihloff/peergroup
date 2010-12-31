@@ -47,9 +47,8 @@ describe SupervisionsController do
 
     context "when no current supervision" do
       before do
-        mock_current_supervision_with(nil)
         post :create, :group_id => @group.id
-        @current_supervision = @group.supervisions.first
+        @current_supervision = @group.current_supervision
       end
 
       specify { @current_supervision.should_not be_nil }
