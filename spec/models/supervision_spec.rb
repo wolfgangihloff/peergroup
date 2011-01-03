@@ -11,7 +11,7 @@ describe Supervision do
       @supervision = Factory.build(:supervision, :state => "topic")
 
       @supervision.should_receive(:all_topics?).and_return(true)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.post_topic!(@topic)
       @supervision.state.should be == "topic_vote"
     end
@@ -21,7 +21,7 @@ describe Supervision do
 
       @supervision.should_receive(:all_topic_votes?).and_return(true)
       @supervision.should_receive(:choose_topic)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.post_topic_vote!(Vote.new)
       @supervision.state.should be == "topic_question"
     end
@@ -32,7 +32,7 @@ describe Supervision do
 
       @supervision.should_receive(:all_answers?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
       @supervision.state.should be == "idea"
@@ -43,7 +43,7 @@ describe Supervision do
 
       @supervision.should_receive(:all_idea_ratings?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
       @supervision.state.should be == "idea_feedback"
@@ -61,7 +61,7 @@ describe Supervision do
 
       @supervision.should_receive(:all_solution_ratings?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
       @supervision.state.should be == "solution_feedback"
@@ -70,7 +70,7 @@ describe Supervision do
     it "should change from solution_feedback to supervision_feedback" do
       @supervision = Factory.build(:supervision, :state => "solution_feedback")
 
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.post_solutions_feedback!(SolutionsFeedback.new)
       @supervision.state.should be == "supervision_feedback"
     end
@@ -79,7 +79,7 @@ describe Supervision do
       @supervision = Factory.build(:supervision, :state => "supervision_feedback")
 
       @supervision.should_receive(:all_supervision_feedbacks?).and_return(true)
-      @supervision.should_receive(:publish_transition_change)
+      @supervision.should_receive(:publish_to_redis)
       @supervision.post_supervision_feedback!(SupervisionFeedback.new)
       @supervision.state.should be == "finished"
     end
@@ -121,12 +121,14 @@ describe Supervision do
     end
 
     it "should be true when all answers provided" do
+      REDIS.stub(:publish)
       @questions.each {|q| Factory(:answer, :question => q) }
 
       @supervision.all_answers?.should be_true
     end
 
     it "should be false when some answers are missing" do
+      REDIS.stub(:publish)
       Factory(:answer, :question => @questions.first)
 
       @supervision.all_answers?.should be_false
@@ -532,26 +534,16 @@ describe Supervision do
     end
   end
 
-  describe "#publish_transition_change" do
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Supervision.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
   end
 
-  describe "#post_topic" do
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Supervision.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :state, :topic_id]}
+    end
   end
-
-  describe "#post_topic_vote" do
-  end
-
-  describe "#post_vote_for_next_step" do
-  end
-
-  describe "#post_ideas_feedback" do
-  end
-
-  describe "#post_solutions_feedback" do
-  end
-
-  describe "#post_general_feedback" do
-  end
-
 end
 

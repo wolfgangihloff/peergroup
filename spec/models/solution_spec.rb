@@ -90,10 +90,9 @@ describe Solution do
   end
 
   describe "after create" do
-    it "should notify supervision with #post_solution" do
-      @supervision = Factory(:supervision)
-      @solution = Factory.build(:solution, :supervision => @supervision)
-      @supervision.should_receive(:post_solution).with(@solution)
+    it "should publish solution to Redis channel" do
+      @solution = Factory.build(:solution)
+      @solution.should_receive(:publish_to_redis)
       @solution.save!
     end
   end
@@ -102,8 +101,26 @@ describe Solution do
     it "should notify supervision with #post_vote_for_next_step" do
       @supervision = Factory(:supervision)
       @solution = Factory(:solution, :supervision => @supervision)
-      @supervision.should_receive(:post_vote_for_next_step).with(@solution)
-      @solution.update_attributes!({:rating => 5})
+      @supervision.should_receive(:post_vote_for_next_step)
+      @solution.update_attributes!(:rating => 5)
+    end
+
+    it "should publish rated solution to Redis channel" do
+      @solution = Factory(:solution)
+      @solution.should_receive(:publish_to_redis)
+      @solution.update_attributes!(:rating => 5)
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Solution.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Solution.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :rating, :user_id]}
     end
   end
 end

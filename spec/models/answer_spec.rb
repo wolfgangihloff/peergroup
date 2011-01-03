@@ -65,10 +65,27 @@ describe Answer do
   describe "after create" do
     it "should notify supervision with #post_vote_for_next_step" do
       @supervision = Factory(:supervision)
+      @supervision.should_receive(:post_vote_for_next_step)
       @question = Factory(:question, :supervision => @supervision)
-      @answer = Factory.build(:answer, :question => @question)
-      @supervision.should_receive(:post_vote_for_next_step).with(@answer)
+      @answer = Factory(:answer, :question => @question)
+    end
+
+    it "should publish answer to Redis channel" do
+      @answer = Factory.build(:answer)
+      @answer.should_receive(:publish_to_redis)
       @answer.save!
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Answer.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Answer.new
+      @answer.supervision_publish_attributes.should be == ({:only => [:id, :content, :question_id, :user_id]})
     end
   end
 end

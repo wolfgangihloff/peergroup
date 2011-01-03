@@ -55,9 +55,26 @@ describe Topic do
   describe "after create" do
     it "should fire #post_topic event on supervision" do
       @supervision = Factory(:supervision)
-      @topic = Factory.build(:topic, :supervision => @supervision)
-      @supervision.should_receive(:post_topic).with(@topic)
+      @supervision.should_receive(:post_topic)
+      @topic = Factory(:topic, :supervision => @supervision)
+    end
+
+    it "should publish topic to Redis channel" do
+      @topic = Factory.build(:topic)
+      @topic.should_receive(:publish_to_redis)
       @topic.save!
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Topic.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Topic.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :user_id]}
     end
   end
 

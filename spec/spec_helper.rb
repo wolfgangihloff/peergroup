@@ -42,6 +42,13 @@ RSpec.configure do |config|
   RSpec::Mocks::setup(self)
   REDIS = double(Object.new)
 
+  # We have to stub publish, as it's run with callbacks for some models,
+  # and we don't want to specify this stub in every test which checks
+  # this callbacks
+  config.before do
+    REDIS.stub(:publish)
+  end
+
   def test_sign_in(user)
     controller.current_user = user
   end

@@ -42,16 +42,38 @@ describe Vote do
   describe "after create" do
     it "should notify supervision with #post_topic_vote" do
       @topic = Factory(:topic)
-      @vote = Factory.build(:vote, :statement => @topic)
-      @topic.supervision.should_receive(:post_topic_vote).with(@vote)
-      @vote.save!
+      @topic.supervision.should_receive(:post_topic_vote)
+      @vote = Factory(:vote, :statement => @topic)
     end
 
     it "should notify spervision with #post_vote_for_next_step" do
       @supervision = Factory(:supervision)
-      @vote = Factory.build(:supervision_vote, :statement => @supervision)
-      @supervision.should_receive(:post_vote_for_next_step).with(@vote)
+      @supervision.should_receive(:post_vote_for_next_step)
+      @vote = Factory(:supervision_vote, :statement => @supervision)
+    end
+
+    it "should publish vote to Redis channel" do
+      @vote = Factory.build(:vote)
+      @vote.should_receive(:publish_to_redis)
       @vote.save!
+    end
+
+    it "should publish vote to Redis channel" do
+      @vote = Factory.build(:supervision_vote)
+      @vote.should_receive(:publish_to_redis)
+      @vote.save!
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Vote.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Vote.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :statement_type, :statement_id, :user_id]}
     end
   end
 

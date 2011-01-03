@@ -1,4 +1,6 @@
 class Topic < ActiveRecord::Base
+  include SupervisionRedisPublisher
+
   belongs_to :user
   belongs_to :supervision
 
@@ -10,7 +12,12 @@ class Topic < ActiveRecord::Base
   attr_accessible :content
 
   after_create do |topic|
-    topic.supervision.post_topic(topic)
+    topic.supervision.post_topic
+    topic.publish_to_redis
+  end
+
+  def supervision_publish_attributes
+    {:only => [:id, :content, :user_id]}
   end
 end
 

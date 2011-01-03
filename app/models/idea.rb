@@ -1,4 +1,6 @@
 class Idea < ActiveRecord::Base
+  include SupervisionRedisPublisher
+
   belongs_to :user
   belongs_to :supervision
 
@@ -13,11 +15,16 @@ class Idea < ActiveRecord::Base
   scope :not_rated, :conditions => "rating IS NULL"
 
   after_create do |idea|
-    idea.supervision.post_idea(idea)
+    idea.publish_to_redis
   end
 
   after_update do |idea|
-    idea.supervision.post_vote_for_next_step(idea)
+    idea.supervision.post_vote_for_next_step
+    idea.publish_to_redis
+  end
+
+  def supervision_publish_attributes
+    {:only => [:id, :content, :rating, :user_id]}
   end
 end
 

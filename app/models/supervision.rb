@@ -1,4 +1,6 @@
 class Supervision < ActiveRecord::Base
+  include SupervisionRedisPublisher
+  def supervision_id; id; end # aliasing doesn't work, don't know why yet
 
   STATES = %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
 
@@ -7,7 +9,7 @@ class Supervision < ActiveRecord::Base
   # to generate diagram how this state machine changes states
   state_machine :state, :initial => :topic do
     after_transition :topic_vote => :topic_question, :do => :choose_topic
-    after_transition all => all, :do => [ :destroy_next_step_votes, :publish_transition_change ]
+    after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
 
     event :post_topic do
       transition :topic => :topic_vote, :if => :all_topics?
@@ -135,47 +137,9 @@ class Supervision < ActiveRecord::Base
     previous_steps.exclude? state
   end
 
-  def publish_transition_change(transition)
-    # REDIS.publish(...)
+  def supervision_publish_attributes
+    {:only => [:id, :state, :topic_id]}
   end
 
-  # Wrappers for state machine events, lets us publish informations to
-  # Redis when users post topics/questions/answers/votes
-  def post_topic(topic, *args)
-    # REDIS.publish(...)
-    super
-  end
-
-  def post_topic_vote(vote, *args)
-    # REDIS.publish(...)
-    super
-  end
-
-  def post_vote_for_next_step(vote, *args)
-    # REDIS.publis(...)
-    super
-  end
-
-  def post_ideas_feedback(feedback, *args)
-    super
-  end
-
-  def post_solutions_feedback(feedback, *args)
-    # REDIS.publish(...)
-    super
-  end
-
-  def post_supervision_feedback(feedback, *args)
-    super
-  end
-
-  def post_question(question)
-  end
-
-  def post_idea(idea)
-  end
-
-  def post_solution(solution)
-  end
 end
 

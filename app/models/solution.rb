@@ -1,4 +1,6 @@
 class Solution < ActiveRecord::Base
+  include SupervisionRedisPublisher
+
   belongs_to :user
   belongs_to :supervision
 
@@ -13,11 +15,16 @@ class Solution < ActiveRecord::Base
   scope :not_rated, :conditions => "rating IS NULL"
 
   after_create do |solution|
-    solution.supervision.post_solution(solution)
+    solution.publish_to_redis
   end
 
   after_update do |solution|
-    solution.supervision.post_vote_for_next_step(solution)
+    solution.supervision.post_vote_for_next_step
+    solution.publish_to_redis
+  end
+
+  def supervision_publish_attributes
+    {:only => [:id, :content, :rating, :user_id]}
   end
 end
 

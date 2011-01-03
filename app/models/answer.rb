@@ -1,4 +1,8 @@
+require "supervision_redis_publisher"
+
 class Answer < ActiveRecord::Base
+  include SupervisionRedisPublisher
+
   belongs_to :user
   belongs_to :question
 
@@ -9,9 +13,14 @@ class Answer < ActiveRecord::Base
   attr_accessible :content
 
   after_create do |answer|
-    answer.supervision.post_vote_for_next_step(answer)
+    answer.supervision.post_vote_for_next_step
+    answer.publish_to_redis
   end
 
-  delegate :supervision, :to => :question
+  delegate :supervision, :supervision_id, :to => :question
+
+  def supervision_publish_attributes
+    {:only => [:id, :content, :question_id, :user_id]}
+  end
 end
 

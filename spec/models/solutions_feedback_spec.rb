@@ -42,9 +42,26 @@ describe SolutionsFeedback do
   describe "after create" do
     it "should notify supervision with #post_solutions_feedback" do
       @supervision = Factory(:supervision)
-      @feedback = Factory.build(:solutions_feedback, :supervision => @supervision)
-      @supervision.should_receive(:post_solutions_feedback).with(@feedback)
+      @supervision.should_receive(:post_solutions_feedback)
+      @feedback = Factory(:solutions_feedback, :supervision => @supervision)
+    end
+
+    it "should publish feedback to Redis channel" do
+      @feedback = Factory.build(:solutions_feedback)
+      @feedback.should_receive(:publish_to_redis)
       @feedback.save!
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = SolutionsFeedback.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = SolutionsFeedback.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :user_id]}
     end
   end
 end

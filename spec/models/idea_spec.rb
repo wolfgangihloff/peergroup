@@ -90,10 +90,9 @@ describe Idea do
   end
 
   describe "after create" do
-    it "should notify supervision with #post_idea" do
-      @supervision = Factory(:supervision)
-      @idea = Factory.build(:idea, :supervision => @supervision)
-      @supervision.should_receive(:post_idea).with(@idea)
+    it "should publish idea to Redis channel" do
+      @idea = Factory.build(:idea)
+      @idea.should_receive(:publish_to_redis)
       @idea.save!
     end
   end
@@ -102,8 +101,26 @@ describe Idea do
     it "should notify supervision with #post_vote_for_next_step" do
       @supervision = Factory(:supervision)
       @idea = Factory(:idea, :supervision => @supervision)
-      @supervision.should_receive(:post_vote_for_next_step).with(@idea)
-      @idea.update_attributes!({:rating => 5})
+      @supervision.should_receive(:post_vote_for_next_step)
+      @idea.update_attributes!(:rating => 5)
+    end
+
+    it "should publish rated idea to to Redis channel" do
+      @idea = Factory.build(:idea)
+      @idea.should_receive(:publish_to_redis)
+      @idea.update_attributes!(:rating => 5)
+    end
+  end
+
+  it "should include SupervisionRedisPublisher module" do
+    included_modules = Idea.send :included_modules
+    included_modules.should include(SupervisionRedisPublisher)
+  end
+
+  describe "#supervision_publish_attributed" do
+    it "should have only known options" do
+      @answer = Idea.new
+      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :rating, :user_id]}
     end
   end
 end
