@@ -20,6 +20,29 @@ console.log("Server started on port " + port);
 
 var socket = io.listen(server);
 
+var eachSession = function(key, callback) {
+    var sessionsKey = key + ":sessions";
+    redisClient.smembers(sessionsKey, function(err, replies) {
+        if (replies.forEach) {
+            replies.forEach(function(sessionId) {
+                var client = socket.clients[sessionId];
+                if (client) {
+                    callback.call(client, client);
+                } else {
+                    redisClient.srem(sessionsKey, sessionId);
+                }
+            });
+        } else {
+            console.log("!replies.forEach: " + util.inspect(replies));
+        }
+    });
+};
+var firstKey = function(obj) {
+    for (var k in obj) {
+        if (obj.hasOwnProperty(k)) { return k; }
+    }
+};
+
 /**
  * CHAT
  */
@@ -72,27 +95,6 @@ socket.on('connection', function(client) {
  */
 subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
     if (pattern.search("^chat:") === 0) {
-
-        var eachSession = function(chatId, callback) {
-            var chatKey = "chat:" + chatId + ":sessions";
-            redisClient.smembers(chatKey, function(err, replies) {
-                // this should not return false, but it does
-                if (replies.forEach) {
-                    replies.forEach(function(sessionId) {
-                        var client = socket.clients[sessionId];
-                        if (client) {
-                            callback.call({}, client, sessionId);
-                        } else {
-                            // Cleanup obsolate session in chat
-                            redisClient.srem(chatKey, sessionId);
-                        }
-                    });
-                } else {
-                    console.log("!replies.forEach: " + util.inspect(replies));
-                }
-            });
-        };
-
         var chatId = channel.split(":")[1];
 
         // on presence
@@ -104,7 +106,7 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
                     action = presence[2];
 
                 console.log("Presence: user " + userId + " " + action + " chat " + chatId);
-                eachSession(chatId, function(client, sessionId) {
+                eachSession("chat:" + chatId, function(client) {
                     client.send({ type: "chat.presence", action: action, user: userId });
                 });
             })();
@@ -118,7 +120,7 @@ subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
                     messageText = message[4];
 
                 console.log("Message from user " + userId + " on chat " + chatId);
-                eachSession(chatId, function(client, sessionId) {
+                eachSession("chat:" + chatId, function(client) {
                     client.send({ type: "chat.message", user: userId, timestamp: time, id: messageId, content: messageText });
                 });
             })();
@@ -167,4 +169,15 @@ socket.on("connection", function(client) {
         }
     });
 });
+subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
+    if (pattern === "supervision:*") {
+        var supervisionId = pattern.split(":")[1];
+        var decodedMessage = JSON.parse(pmessage);
+        decodedMessage.type = "supervision." + firstKey(decodedMessage);
+        eachSession("supervision:" + supervisionId, function(client) {
+            client.send(decodedMessage);
+        });
+    }
+});
+subscribeRedisClient.psubscribe("supervision:*");
 
