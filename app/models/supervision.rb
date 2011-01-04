@@ -1,3 +1,5 @@
+require "supervision_redis_publisher"
+
 class Supervision < ActiveRecord::Base
   include SupervisionRedisPublisher
   def supervision_id; id; end # aliasing doesn't work, don't know why yet
