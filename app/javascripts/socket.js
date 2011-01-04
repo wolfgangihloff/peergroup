@@ -1,4 +1,5 @@
 //= require "chat_room"
+//= require "supervision"
 //= require "s"
 
 jQuery(function($) {
@@ -64,6 +65,7 @@ jQuery(function($) {
 
     $("#supervisions_show .supervision").each(function(i, element) {
         var $supervision = $(this);
+        $supervision.supervisionRoom();
 
         var supervisionToken = $supervision.data("token");
         var supervisionId = $supervision.attr("id").replace("supervision_", "");
@@ -78,6 +80,12 @@ jQuery(function($) {
         });
         s.onConnect(function() {
             this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
+        });
+        s.on("topic", function(type, message) {
+            $supervision.trigger("newTopic", message.topic);
+        });
+        s.on("supervision", function(type, message) {
+            console.log(message);
         });
     });
 

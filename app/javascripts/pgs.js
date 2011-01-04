@@ -5,6 +5,16 @@
         var p = "/" + pathComponents.join("/");
         if (options.format) {
             p = p + "." + options.format;
+            delete options.format;
+        }
+        var params = [];
+        for (var k in options) {
+            if (options.hasOwnProperty(k)) {
+                params.push([k, encodeURIComponent(options[k])].join("="));
+            }
+        }
+        if (params.length) {
+            p = p + "?" + params.join("&");
         }
         return p;
     };
@@ -25,6 +35,10 @@
                     
         userPath: function(userId, options) {
             return path(["users", userId], options);
+        },
+
+        supervisionTopicPath: function(supervisionId, topicId, options) {
+            return path(["supervisions", supervisionId, "topics", topicId], options);
         },
 
         getSocket: function() {

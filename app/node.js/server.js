@@ -21,6 +21,7 @@ console.log("Server started on port " + port);
 var socket = io.listen(server);
 
 var eachSession = function(key, callback) {
+console.log(key);
     var sessionsKey = key + ":sessions";
     redisClient.smembers(sessionsKey, function(err, replies) {
         if (replies.forEach) {
@@ -171,10 +172,11 @@ socket.on("connection", function(client) {
 });
 subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
     if (pattern === "supervision:*") {
-        var supervisionId = pattern.split(":")[1];
         var decodedMessage = JSON.parse(pmessage);
         decodedMessage.type = "supervision." + firstKey(decodedMessage);
-        eachSession("supervision:" + supervisionId, function(client) {
+        console.log("pmessage: " + decodedMessage.type);
+        eachSession(channel, function(client) {
+            console.log("sending message to client " + client.sessionId);
             client.send(decodedMessage);
         });
     }

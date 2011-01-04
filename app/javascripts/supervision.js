@@ -1,3 +1,52 @@
+(function($){
+    $.fn.supervisionRoom = function() {
+        return this.each(function() {
+            var $this = $(this);
+            var supervisionState = $this.data("supervision-state");
+            var supervisionId = $this.attr("id").replace("supervision_", "");
+            var $topics = $this.find(".topics");
+
+            var onTopicState = function() {
+                var $newTopicForm = $topics.find("#new_topic");
+
+                if ($newTopicForm.length) {
+                    $newTopicForm.attr("action", $newTopicForm.attr("action") + ".js");
+                    $newTopicForm.live("submit", function(event) {
+                        $(this).callRemote();
+                        event.preventDefault();
+                    });
+                    $newTopicForm.bind({
+                        "ajax:loading": function(){ $newTopicForm.find("input[type=submit]").attr("disabled", "disabled"); },
+                        "ajax:success": function(){ $newTopicForm.remove(); }
+                    });
+                }
+
+                console.log("onTopicState");
+            };
+
+            var stateChangeCallbacks = {
+                "topic": onTopicState
+            };
+            var onNewTopic = function(event, message) {
+                var url = PGS.supervisionTopicPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var newTopic = $(data);
+                    $topics.append(newTopic);
+                    newTopic.hide();
+                    newTopic.show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
+
+            $this.bind({
+                "newTopic": onNewTopic
+            });
+
+            stateChangeCallbacks[supervisionState]();
+        });
+    };
+})(jQuery);
+if (0) {
 jQuery(document).ready(function($) {
 
   function setupNotifications(selector, resource) {
@@ -24,27 +73,10 @@ jQuery(document).ready(function($) {
         }
 
         var currentStep = $('#current_step', $(data));
-        if(document.pgs.supervision_step != currentStep.attr('data-step'))
-          window.location.reload(true);
-
-        setTimeout(updateList, 1000);
       });
     }
 
-    setTimeout(updateList, 1000);
-  }
-
-  if(document.pgs.controller == 'TopicQuestionsController') {
-    setupNotifications('#topic_questions', 'question');
-  }
-
-  if(document.pgs.controller == 'IdeasController') {
-    setupNotifications('#ideas', 'idea');
-  }
-
-  if(document.pgs.controller == 'SolutionsController') {
-    setupNotifications('#solutions', 'solution');
   }
 
 });
-
+}
