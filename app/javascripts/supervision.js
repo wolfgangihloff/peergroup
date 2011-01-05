@@ -4,14 +4,12 @@
             var $this = $(this);
             var supervisionState = $this.data("supervision-state");
             var supervisionId = $this.attr("id").replace("supervision_", "");
-            var $topics, $topicsVotes;
 
-            var updateReferences = function() {
-                $topics = $this.find(".topics");
+            var $topics = $this.find(".topics"),
                 $topicsVotes = $this.find(".topics_votes");
-            };
+
             var onTopicState = function() {
-                var $newTopicForm = $this.find("#new_topic");
+                var $newTopicForm = $topics.find("#new_topic");
 
                 if ($newTopicForm.length) {
                     $newTopicForm.attr("action", $newTopicForm.attr("action") + ".js");
@@ -24,19 +22,31 @@
                         "ajax:success": function(){ $newTopicForm.hide("fast", function(){ $newTopicForm.remove() }); }
                     });
                 }
-                updateReferences();
             };
             var onTopicVoteState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionTopicsVotesPath(supervisionId, { partial: 1 });
                     var onSuccess = function(data, status, xhr) {
-                        var $topicsVotes = $(data);
+                        $topicsVotes = $(data);
                         $topics.after($topicsVotes);
                         $topics.remove();
+                        onTopicVoteState(false);
                     };
                     $.get(url, [], onSuccess);
+                } else {
+                    $newTopicVoteForm = $topicsVotes.find("form.new_vote");
+
+                    if ($newTopicVoteForm.length) {
+                        $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
+                        $newTopicVoteForm.live("submit", function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        });
+                        $newTopicVoteForm.bind({
+                            "ajax:loading": function() { $newTopicVoteForm.each(function() { $(this).find("input[type=submit]").attr("disabled", "disabled"); }) }
+                        });
+                    }
                 }
-                updateReferences();
             };
 
             var stateChangeCallbacks = {
