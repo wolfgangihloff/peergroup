@@ -26,6 +26,13 @@ class SupervisionsController < ApplicationController
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
+  def topics_votes
+    @supervision = Supervision.find(params[:id])
+    if params[:partial] == "1"
+      render :partial => "supervision_topic_vote", :layout => false
+    end
+  end
+
   protected
 
   def check_current_supervision

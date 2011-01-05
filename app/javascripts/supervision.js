@@ -4,10 +4,14 @@
             var $this = $(this);
             var supervisionState = $this.data("supervision-state");
             var supervisionId = $this.attr("id").replace("supervision_", "");
-            var $topics = $this.find(".topics");
+            var $topics, $topicsVotes;
 
+            var updateReferences = function() {
+                $topics = $this.find(".topics");
+                $topicsVotes = $this.find(".topics_votes");
+            };
             var onTopicState = function() {
-                var $newTopicForm = $topics.find("#new_topic");
+                var $newTopicForm = $this.find("#new_topic");
 
                 if ($newTopicForm.length) {
                     $newTopicForm.attr("action", $newTopicForm.attr("action") + ".js");
@@ -20,11 +24,19 @@
                         "ajax:success": function(){ $newTopicForm.hide("fast", function(){ $newTopicForm.remove() }); }
                     });
                 }
-
-                console.log("onTopicState");
+                updateReferences();
             };
-            var onTopicVoteState = function() {
-                console.log("onTopicVoteState");
+            var onTopicVoteState = function(dynamicChange) {
+                if (dynamicChange) {
+                    var url = PGS.supervisionTopicsVotesPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $topicsVotes = $(data);
+                        $topics.after($topicsVotes);
+                        $topics.remove();
+                    };
+                    $.get(url, [], onSuccess);
+                }
+                updateReferences();
             };
 
             var stateChangeCallbacks = {
@@ -33,8 +45,9 @@
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
-                    stateChangeCallbacks[supervisionState]();
-                    console.log("state changed");
+                    supervisionState = message.state;
+                    $this.find(".waiting").hide("fast", function() { $(this).remove(); });
+                    stateChangeCallbacks[supervisionState](true);
                 }
             };
             var onNewTopic = function(event, message) {
@@ -53,7 +66,7 @@
                 "newTopic": onNewTopic
             });
 
-            stateChangeCallbacks[supervisionState]();
+            stateChangeCallbacks[supervisionState](false);
         });
     };
 })(jQuery);

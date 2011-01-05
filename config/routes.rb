@@ -12,6 +12,10 @@ Peergroupsupervision::Application.routes.draw do
   resource :relationships, :only => [:create, :destroy]
 
   resources :supervisions, :only => [:show, :index] do
+    member do
+      get :topics_votes # I know it sucks, I don't yet have idea where to put this
+    end
+
     resources :topics, :only => [:create, :show] do
       resources :votes, :only => :create, :controller => :topic_votes
     end
