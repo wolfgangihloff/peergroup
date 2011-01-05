@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def self.require_supervision_step(*steps)
+    options = steps.extract_options!
     filter_name = :"require_supervision_#{steps.join("_or_")}_step"
 
     define_method filter_name do
@@ -26,7 +27,7 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    before_filter filter_name
+    before_filter filter_name, options
   end
 end
 

@@ -85,7 +85,7 @@ jQuery(function($) {
             $supervision.trigger("newTopic", message.topic);
         });
         s.on("supervision", function(type, message) {
-            console.log(message);
+            $supervision.trigger("supervisionUpdate", message.supervision);
         });
     });
 

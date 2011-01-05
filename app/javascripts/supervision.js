@@ -17,15 +17,25 @@
                     });
                     $newTopicForm.bind({
                         "ajax:loading": function(){ $newTopicForm.find("input[type=submit]").attr("disabled", "disabled"); },
-                        "ajax:success": function(){ $newTopicForm.remove(); }
+                        "ajax:success": function(){ $newTopicForm.hide("fast", function(){ $newTopicForm.remove() }); }
                     });
                 }
 
                 console.log("onTopicState");
             };
+            var onTopicVoteState = function() {
+                console.log("onTopicVoteState");
+            };
 
             var stateChangeCallbacks = {
-                "topic": onTopicState
+                "topic": onTopicState,
+                "topic_vote": onTopicVoteState
+            };
+            var onSupervisionUpdate = function(event, message) {
+                if (supervisionState !== message.state) {
+                    stateChangeCallbacks[supervisionState]();
+                    console.log("state changed");
+                }
             };
             var onNewTopic = function(event, message) {
                 var url = PGS.supervisionTopicPath(supervisionId, message.id, { partial: 1 });
@@ -39,6 +49,7 @@
             };
 
             $this.bind({
+                "supervisionUpdate": onSupervisionUpdate,
                 "newTopic": onNewTopic
             });
 
