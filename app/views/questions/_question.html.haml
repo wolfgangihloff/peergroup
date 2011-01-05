@@ -2,4 +2,13 @@
   = render question.user
   .content
     %p= question.content
-    = render question.answer if question.answer
+    - if question.answer
+      = render question.answer
+    - elsif question.supervision.problem_owner?(current_user)
+      .answer
+        .head
+          %p= t(".post_answer", :default => "Your answer")
+        = semantic_form_for(Answer.new, :url => supervision_question_answer_path(question.supervision, question)) do |f|
+          = f.inputs do
+            = f.input :content
+          = f.buttons :commit

@@ -6,20 +6,25 @@
             var supervisionId = $this.attr("id").replace("supervision_", "");
 
             var $topics = $this.find(".topics"),
-                $topicsVotes = $this.find(".topics_votes");
+                $topicsVotes = $this.find(".topics_votes"),
+                $questions = $this.find(".questions");
 
             var onTopicState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
 
                 if ($newTopicForm.length) {
-                    $newTopicForm.attr("action", $newTopicForm.attr("action") + ".js");
-                    $newTopicForm.live("submit", function(event) {
-                        $(this).callRemote();
-                        event.preventDefault();
-                    });
-                    $newTopicForm.bind({
-                        "ajax:loading": function(){ $newTopicForm.find("input[type=submit]").attr("disabled", "disabled"); },
-                        "ajax:success": function(){ $newTopicForm.hide("fast", function(){ $newTopicForm.remove() }); }
+                    $newTopicForm.attr("action", function(i,a){ return a+".js"; });
+                    $newTopicForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function() {
+                            $newTopicForm.find("input[type=submit]").attr("disabled", "disabled");
+                        },
+                        "ajax:success": function() {
+                            $newTopicForm.hide("fast", function(){ $(this).remove(); });
+                        }
                     });
                 }
             };
@@ -34,24 +39,75 @@
                     };
                     $.get(url, [], onSuccess);
                 } else {
-                    $newTopicVoteForm = $topicsVotes.find("form.new_vote");
-
-                    if ($newTopicVoteForm.length) {
-                        $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
-                        $newTopicVoteForm.live("submit", function(event) {
+                    var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
+                    $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
+                    $newTopicVoteForm.live({
+                        "submit": function(event) {
                             $(this).callRemote();
                             event.preventDefault();
-                        });
-                        $newTopicVoteForm.bind({
-                            "ajax:loading": function() { $newTopicVoteForm.each(function() { $(this).find("input[type=submit]").attr("disabled", "disabled"); }) }
-                        });
-                    }
+                        },
+                        "ajax:loading": function() {
+                            $newTopicVoteForm.find("input[type=submit]").attr("disabled", "disabled");
+                        }
+                    });
+                }
+            };
+            var onTopicQuestionState = function(dynamicChange) {
+                if (dynamicChange) {
+                    alert("Please reload the page...\nNot yet implemented");
+                    console.debug("implement");
+                } else {
+                    var $newQuestionForm = $questions.find("#new_question");
+                    $newQuestionForm.attr("action", function(i,a){ return a+".js"; });
+                    $newQuestionForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function() {
+                            $(this).find("#question_content").text("");
+                        }
+                    });
+
+                    var $voteNextStepLink = $questions.find("#new_question a");
+                    //$voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
+                    // TODO this does not work properly, because rails.js creates form and
+                    // submits it with normal method, not 
+                    $voteNextStepLink.live({
+                        "click": function() {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function() {
+                            $newQuestionForm.hide("fast", function() { $(this).remove(); });
+                        }
+                    });
+
+                    var $newAnswerForm = $questions.find("form.answer");
+                    $newAnswerForm.attr("action", function(i,a){ return a+".js"; });
+                    $newAnswerForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function() {
+                            $(this).find("input[type=submit]").attr("disabled", "disabled");
+                        },
+                        "ajax:failure": function() {
+                            $(this).find("input[type=submit]").removeAttr("disabled");
+                        },
+                        "ajax:success": function() {
+                            var $answer = $(this).closest("div.answer");
+                            $answer.hide("fast", function(){ $(this).remove(); });
+                        }
+                    });
                 }
             };
 
             var stateChangeCallbacks = {
                 "topic": onTopicState,
-                "topic_vote": onTopicVoteState
+                "topic_vote": onTopicVoteState,
+                "topic_question": onTopicQuestionState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
@@ -65,52 +121,37 @@
                 var onSuccess = function(data, status, xhr) {
                     var newTopic = $(data);
                     $topics.append(newTopic);
-                    newTopic.hide();
-                    newTopic.show("fast");
+                    newTopic.hide().show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
+            var onNewQuestion = function(event, message) {
+                var url = PGS.supervisionQuestionPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var newQuestion = $(data);
+                    $questions.append(newQuestion);
+                    newQuestion.hide().show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
+            var onNewAnswer = function(event, message) {
+                var url = PGS.supervisionQuestionAnswerPath(supervisionId, message.question_id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var newAnswer = $(data);
+                    $questions.find("#question_" + message.question_id + " .content").append(newAnswer);
+                    newAnswer.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);
             };
 
             $this.bind({
                 "supervisionUpdate": onSupervisionUpdate,
-                "newTopic": onNewTopic
+                "newTopic": onNewTopic,
+                "newQuestion": onNewQuestion,
+                "newAnswer": onNewAnswer
             });
 
             stateChangeCallbacks[supervisionState](false);
         });
     };
 })(jQuery);
-if (0) {
-jQuery(document).ready(function($) {
-
-  function setupNotifications(selector, resource) {
-
-    if($(selector).length == 0) return false;
-
-    function updateList() {
-      $.get(document.location + '?partial=true', function(data) {
-
-        if($('form#new_' + resource).length == 0) {
-          // Problem owner scenario
-          $('li.' + resource, $(data)).each(function() {
-            $('.no_' + resource).remove();
-            if($('#' + $(this).attr('id')).length == 0) {
-              $(selector).append(this);
-              $('input[type=radio].star').rating();
-              $('#' + $(this).attr('id')).hide().fadeIn();
-            }
-          });
-        } else {
-          // Non problem owner scenario
-          $(selector).replaceWith(data);
-          $('input[type=radio].star').rating();
-        }
-
-        var currentStep = $('#current_step', $(data));
-      });
-    }
-
-  }
-
-});
-}

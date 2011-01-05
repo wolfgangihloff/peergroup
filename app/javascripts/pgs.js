@@ -45,6 +45,14 @@
             return path(["supervisions", supervisionId, "topics_votes"], options);
         },
 
+        supervisionQuestionPath: function(supervisionId, questionId, options) {
+            return path(["supervisions", supervisionId, "questions", questionId], options);
+        },
+
+        supervisionQuestionAnswerPath: function(supervisionId, questionId, options) {
+            return path(["supervisions", supervisionId, "questions", questionId, "answer"], options);
+        },
+
         getSocket: function() {
             if (typeof socket === "undefined") {
                 socket = new io.Socket(null, { port: 8080 });

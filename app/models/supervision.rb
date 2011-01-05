@@ -10,7 +10,7 @@ class Supervision < ActiveRecord::Base
   #     rake state_machine:draw CLASS=Supervision
   # to generate diagram how this state machine changes states
   state_machine :state, :initial => :topic do
-    after_transition :topic_vote => :topic_question, :do => :choose_topic
+    before_transition :topic_vote => :topic_question, :do => :choose_topic
     after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
 
     event :post_topic do

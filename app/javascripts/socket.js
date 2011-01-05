@@ -84,6 +84,12 @@ jQuery(function($) {
         s.on("topic", function(type, message) {
             $supervision.trigger("newTopic", message.topic);
         });
+        s.on("question", function(type, message) {
+            $supervision.trigger("newQuestion", message.question);
+        });
+        s.on("answer", function(type, message) {
+            $supervision.trigger("newAnswer", message.answer);
+        });
         s.on("supervision", function(type, message) {
             $supervision.trigger("supervisionUpdate", message.supervision);
         });

@@ -5,11 +5,18 @@ class VotesController < ApplicationController
   require_supervision_step :topic_question, :idea, :solution
 
   def create
-    vote = @supervision.next_step_votes.build do |vote|
-      vote.user = current_user
+    respond_to do |format|
+      @vote = @supervision.next_step_votes.build do |vote|
+        vote.user = current_user
+      end
+      if @vote.save
+        format.js { head :created }
+        format.html { redirect_to supervision_path(@supervision) }
+      else
+        format.js { head :bad_request }
+        format.html { redirect_to supervision_path(@supervision) }
+      end
     end
-    vote.save
-    redirect_to supervision_path(@supervision)
   end
 
 end

@@ -14,15 +14,15 @@
     = render :partial => 'supervision_topic_vote'
 
   - if @supervision.step_finished?(:topic_vote)
-    %h2= t(".topic", :default => "Topic")
     .topics
+      %h2= t(".topic", :default => "Topic")
       = render @supervision.topic
 
   - if @supervision.topic_question?
     = render :partial => 'supervision_topic_question'
   - elsif @supervision.step_finished?(:topic_question)
-    %h2= t(".questions", :default => "Questions")
     .questions
+      %h2= t(".questions", :default => "Questions")
       = render @supervision.topic_questions
 
   - if @supervision.idea?

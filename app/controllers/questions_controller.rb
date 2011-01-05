@@ -2,18 +2,34 @@ class QuestionsController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :topic_question
+  require_supervision_step :topic_question, :only => :create
 
   def create
-    question = @supervision.topic_questions.build(params[:question]) do |question|
-      question.user = current_user
+    respond_to do |format|
+      @question = @supervision.topic_questions.build(params[:question]) do |question|
+        question.user = current_user
+      end
+      if @question.save
+        format.js { head :created }
+        format.html {
+          successful_flash("Question asked")
+          redirect_to supervision_path(@supervision)
+        }
+      else
+        format.js { head :bad_request }
+        format.html {
+          error_flash("You must provide your question")
+          redirect_to supervision_path(@supervision)
+        }
+      end
     end
-    if question.save
-      successful_flash("Question asked")
-    else
-      error_flash("You must provide your question")
+  end
+
+  def show
+    @question = @supervision.questions.find(params[:id])
+    if params[:partial] == "1"
+      render :partial => "question", :layout => false, :locals => { :question => @question }
     end
-    redirect_to supervision_path(@supervision)
   end
 
 end
