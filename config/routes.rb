@@ -13,7 +13,9 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :supervisions, :only => [:show, :index] do
     member do
-      get :topics_votes # I know it sucks, I don't yet have idea where to put this
+      # I know it sucks, I don't yet have idea where to put this
+      get :topics_votes_view
+      get :topic_questions_view
     end
 
     resources :topics, :only => [:create, :show] do

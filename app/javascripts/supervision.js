@@ -30,15 +30,16 @@
             };
             var onTopicVoteState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionTopicsVotesPath(supervisionId, { partial: 1 });
+                    var url = PGS.supervisionTopicsVotesViewPath(supervisionId, { partial: 1 });
                     var onSuccess = function(data, status, xhr) {
-                        $topicsVotes = $(data);
-                        $topics.after($topicsVotes);
+                        var $topicsVotes = $(data);
                         $topics.remove();
-                        onTopicVoteState(false);
+                        $this.append($topicsVotes);
+                        onTopicVoteState();
                     };
                     $.get(url, [], onSuccess);
                 } else {
+                    $topicsVotes = $this.find(".topics_votes");
                     var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
                     $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
                     $newTopicVoteForm.live({
@@ -54,10 +55,17 @@
             };
             var onTopicQuestionState = function(dynamicChange) {
                 if (dynamicChange) {
-                    alert("Please reload the page...\nNot yet implemented");
-                    console.debug("implement");
+                    var url = PGS.supervisionTopicQuestionsViewPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $questions = $(data);
+                        $this.append($questions);
+                        $topicsVotes.remove();
+                        onTopicQuestionState();
+                    };
+                    $.get(url, [], onSuccess);
                 } else {
-                    var $newQuestionForm = $questions.find("#new_question");
+                    $questions = $this.find(".questions");
+                    var $newQuestionForm = $questions.find("form#new_question");
                     $newQuestionForm.attr("action", function(i,a){ return a+".js"; });
                     $newQuestionForm.live({
                         "submit": function(event) {
@@ -70,14 +78,9 @@
                     });
 
                     var $voteNextStepLink = $questions.find("#new_question a");
-                    //$voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
-                    // TODO this does not work properly, because rails.js creates form and
-                    // submits it with normal method, not 
+                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
+                    $voteNextStepLink.attr("data-remote", "data-remote");
                     $voteNextStepLink.live({
-                        "click": function() {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
                         "ajax:loading": function() {
                             $newQuestionForm.hide("fast", function() { $(this).remove(); });
                         }
@@ -103,11 +106,15 @@
                     });
                 }
             };
+            var onIdeaState = function(dynamicChange) {
+                console.log("onIdeaState");
+            };
 
             var stateChangeCallbacks = {
                 "topic": onTopicState,
                 "topic_vote": onTopicVoteState,
-                "topic_question": onTopicQuestionState
+                "topic_question": onTopicQuestionState,
+                "idea": onIdeaState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {

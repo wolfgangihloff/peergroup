@@ -41,16 +41,21 @@
             return path(["supervisions", supervisionId, "topics", topicId], options);
         },
 
-        supervisionTopicsVotesPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "topics_votes"], options);
-        },
-
         supervisionQuestionPath: function(supervisionId, questionId, options) {
             return path(["supervisions", supervisionId, "questions", questionId], options);
         },
 
         supervisionQuestionAnswerPath: function(supervisionId, questionId, options) {
             return path(["supervisions", supervisionId, "questions", questionId, "answer"], options);
+        },
+                                       
+        // Partials for supervison
+        supervisionTopicsVotesViewPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "topics_votes_view"], options);
+        },
+
+        supervisionTopicQuestionsViewPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "topic_questions_view"], options);
         },
 
         getSocket: function() {
