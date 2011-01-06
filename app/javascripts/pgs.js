@@ -48,6 +48,10 @@
         supervisionQuestionAnswerPath: function(supervisionId, questionId, options) {
             return path(["supervisions", supervisionId, "questions", questionId, "answer"], options);
         },
+
+        supervisionIdeaPath: function(supervisionId, ideaId, options) {
+            return path(["supervisions", supervisionId, "ideas", ideaId], options);
+        },
                                        
         // Partials for supervison
         supervisionTopicsVotesViewPath: function(supervisionId, options) {
@@ -56,6 +60,10 @@
 
         supervisionTopicQuestionsViewPath: function(supervisionId, options) {
             return path(["supervisions", supervisionId, "topic_questions_view"], options);
+        },
+
+        supervisionIdeaViewPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "ideas_view"], options);
         },
 
         getSocket: function() {

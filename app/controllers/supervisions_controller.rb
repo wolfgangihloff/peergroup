@@ -28,15 +28,15 @@ class SupervisionsController < ApplicationController
 
   def topics_votes_view
     @supervision = Supervision.find(params[:id])
-    if params[:partial]
-      render :partial => "supervision_topic_vote", :layout => false
-    end
+    render :partial => "supervision_topic_vote", :layout => false if params[:partial]
   end
   def topic_questions_view
     @supervision = Supervision.find(params[:id])
-    if params[:partial]
-      render :partial => "supervision_topic_question", :layout => false
-    end
+    render :partial => "supervision_topic_question", :layout => false if params[:partial]
+  end
+  def ideas_view
+    @supervision = Supervision.find(params[:id])
+    render :partial => "supervision_idea", :layout => false if params[:partial]
   end
 
   protected

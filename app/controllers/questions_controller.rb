@@ -27,9 +27,7 @@ class QuestionsController < ApplicationController
 
   def show
     @question = @supervision.questions.find(params[:id])
-    if params[:partial] == "1"
-      render :partial => "question", :layout => false, :locals => { :question => @question }
-    end
+    render :partial => "question", :layout => false, :locals => { :question => @question } if params[:partial]
   end
 
 end

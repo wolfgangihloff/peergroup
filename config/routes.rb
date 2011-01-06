@@ -16,6 +16,7 @@ Peergroupsupervision::Application.routes.draw do
       # I know it sucks, I don't yet have idea where to put this
       get :topics_votes_view
       get :topic_questions_view
+      get :ideas_view
     end
 
     resources :topics, :only => [:create, :show] do
@@ -24,7 +25,7 @@ Peergroupsupervision::Application.routes.draw do
     resources :questions, :only => [:create, :show] do
       resource :answer, :only => [:create, :show]
     end
-    resources :ideas, :only => [:create, :update]
+    resources :ideas, :only => [:create, :update, :show]
     resources :ideas_feedbacks, :only => :create
     resources :solutions, :only => [:create, :update]
     resources :solutions_feedbacks, :only => :create

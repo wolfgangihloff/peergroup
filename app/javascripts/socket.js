@@ -81,6 +81,9 @@ jQuery(function($) {
         s.onConnect(function() {
             this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
         });
+        s.on("supervision", function(type, message) {
+            $supervision.trigger("supervisionUpdate", message.supervision);
+        });
         s.on("topic", function(type, message) {
             $supervision.trigger("newTopic", message.topic);
         });
@@ -90,8 +93,8 @@ jQuery(function($) {
         s.on("answer", function(type, message) {
             $supervision.trigger("newAnswer", message.answer);
         });
-        s.on("supervision", function(type, message) {
-            $supervision.trigger("supervisionUpdate", message.supervision);
+        s.on("idea", function(type, message) {
+            $supervision.trigger("newIdea", message.idea);
         });
     });
 

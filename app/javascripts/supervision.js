@@ -7,7 +7,8 @@
 
             var $topics = $this.find(".topics"),
                 $topicsVotes = $this.find(".topics_votes"),
-                $questions = $this.find(".questions");
+                $questions = $this.find(".questions"),
+                $ideas = $this.find(".ideas");
 
             var onTopicState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
@@ -77,7 +78,7 @@
                         }
                     });
 
-                    var $voteNextStepLink = $questions.find("#new_question a");
+                    var $voteNextStepLink = $newQuestionForm.find("a");
                     $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
                     $voteNextStepLink.attr("data-remote", "data-remote");
                     $voteNextStepLink.live({
@@ -107,14 +108,56 @@
                 }
             };
             var onIdeaState = function(dynamicChange) {
-                console.log("onIdeaState");
+                if (dynamicChange) {
+                    var url = PGS.supervisionIdeaViewPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $ideas = $(data);
+                        $this.append($ideas);
+                        onIdeaState();
+                    };
+                    $.get(url, [], onSuccess);
+                } else {
+                    $ideas = $this.find(".ideas");
+                    var $newIdeaForm = $ideas.find("form#new_idea");
+                    $newIdeaForm.attr("action", function(i,a){ return a+".js"; });
+                    $newIdeaForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function(event) {
+                            $(this).find("#idea_content").text("");
+                        }
+                    });
+
+                    var $voteNextStepLink = $newIdeaForm.find("a");
+                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
+                    $voteNextStepLink.attr("data-remote", "data-remote");
+                    $voteNextStepLink.live({
+                        "ajax:loading": function() {
+                            $newIdeaForm.hide("fast", function() { $(this).remove(); });
+                        }
+                    });
+
+                    var $rateIdeaForm = $ideas.find("form.edit_idea");
+                    $rateIdeaForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        }
+                    });
+                }
+            };
+            var onIdeaFeedbackState = function(dynamicChange) {
+                console.log("onIdeaFeedbackState");
             };
 
             var stateChangeCallbacks = {
                 "topic": onTopicState,
                 "topic_vote": onTopicVoteState,
                 "topic_question": onTopicQuestionState,
-                "idea": onIdeaState
+                "idea": onIdeaState,
+                "idea_feedback": onIdeaFeedbackState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
@@ -135,8 +178,8 @@
             var onNewQuestion = function(event, message) {
                 var url = PGS.supervisionQuestionPath(supervisionId, message.id, { partial: 1 });
                 var onSuccess = function(data, status, xhr) {
-                    var newQuestion = $(data);
-                    $questions.append(newQuestion);
+                    var $newQuestion = $(data);
+                    $questions.append($newQuestion);
                     newQuestion.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);
@@ -144,21 +187,37 @@
             var onNewAnswer = function(event, message) {
                 var url = PGS.supervisionQuestionAnswerPath(supervisionId, message.question_id, { partial: 1 });
                 var onSuccess = function(data, status, xhr) {
-                    var newAnswer = $(data);
-                    $questions.find("#question_" + message.question_id + " .content").append(newAnswer);
+                    var $newAnswer = $(data);
+                    $questions.find("#question_" + message.question_id + " .content").append($newAnswer);
                     newAnswer.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);
             };
+            var onNewIdea = function(event, message) {
+                var url = PGS.supervisionIdeaPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var $newIdea = $(data);
+                    var $existingIdea = $ideas.find("#idea_" + message.id);
+                    if ($existingIdea.length) {
+                        $existingIdea.replaceWith($newIdea);
+                    } else {
+                        $ideas.append($newIdea);
+                        $newIdea.hide().show("fast");
+                    }
+                    $newIdea.find("input[type=radio].star").rating();
+                };
+                $.get(url, [], onSuccess);
+            };
+
+            stateChangeCallbacks[supervisionState](false);
 
             $this.bind({
                 "supervisionUpdate": onSupervisionUpdate,
                 "newTopic": onNewTopic,
                 "newQuestion": onNewQuestion,
-                "newAnswer": onNewAnswer
+                "newAnswer": onNewAnswer,
+                "newIdea": onNewIdea
             });
-
-            stateChangeCallbacks[supervisionState](false);
         });
     };
 })(jQuery);
