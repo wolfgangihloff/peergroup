@@ -19,12 +19,8 @@
   - if @supervision.step_finished?(:topic_question)
     = render :partial => 'supervision_idea'
 
-  - if @supervision.idea_feedback?
+  - if @supervision.step_finished?(:idea)
     = render :partial => 'supervision_idea_feedback'
-  - elsif @supervision.step_finished?(:idea_feedback)
-    %h2= t(".ideas_feedback", :default => "Feedback on ideas")
-    .ideas_feedbacks
-      = render @supervision.ideas_feedback
 
   - if @supervision.solution?
     = render :partial => 'supervision_solution'

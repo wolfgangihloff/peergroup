@@ -1,4 +1,4 @@
-.topics
+.topics_part
   %h2= t(".topics", :default => "Topics")
 
   %p.waiting= t(".waiting", :default => "Waiting for topics from all participants")
@@ -8,4 +8,5 @@
         = f.input :content, :hint => t(".topic_content_hint", :default => "Enter your problem or leave this blank if you do not have any")
       = f.buttons :commit
 
-  = render @supervision.topics
+  - if @supervision.topics
+    = render @supervision.topics

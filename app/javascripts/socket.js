@@ -96,6 +96,9 @@ jQuery(function($) {
         s.on("idea", function(type, message) {
             $supervision.trigger("newIdea", message.idea);
         });
+        s.on("ideas_feedback", function(type, message) {
+            $supervision.trigger("newIdeasFeedback", message.ideas_feedback);
+        });
     });
 
 });

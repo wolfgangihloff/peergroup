@@ -5,10 +5,10 @@
             var supervisionState = $this.data("supervision-state");
             var supervisionId = $this.attr("id").replace("supervision_", "");
 
-            var $topics = $this.find(".topics"),
-                $topicsVotes = $this.find(".topics_votes"),
-                $questions = $this.find(".questions"),
-                $ideas = $this.find(".ideas");
+            var $topics = $this.find(".topics_part"),
+                $topicsVotes = $this.find(".topics_votes_part"),
+                $questions = $this.find(".questions_part"),
+                $ideas = $this.find(".ideas_part");
 
             var onTopicState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
@@ -40,7 +40,7 @@
                     };
                     $.get(url, [], onSuccess);
                 } else {
-                    $topicsVotes = $this.find(".topics_votes");
+                    $topicsVotes = $this.find(".topics_votes_part");
                     var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
                     $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
                     $newTopicVoteForm.live({
@@ -65,7 +65,8 @@
                     };
                     $.get(url, [], onSuccess);
                 } else {
-                    $questions = $this.find(".questions");
+                    $topics = $this.find(".topics_part");
+                    $questions = $this.find(".questions_part");
                     var $newQuestionForm = $questions.find("form#new_question");
                     $newQuestionForm.attr("action", function(i,a){ return a+".js"; });
                     $newQuestionForm.live({
@@ -117,7 +118,7 @@
                     };
                     $.get(url, [], onSuccess);
                 } else {
-                    $ideas = $this.find(".ideas");
+                    $ideas = $this.find(".ideas_part");
                     var $newIdeaForm = $ideas.find("form#new_idea");
                     $newIdeaForm.attr("action", function(i,a){ return a+".js"; });
                     $newIdeaForm.live({
@@ -149,7 +150,30 @@
                 }
             };
             var onIdeaFeedbackState = function(dynamicChange) {
-                console.log("onIdeaFeedbackState");
+                if (dynamicChange) {
+                    var url = PGS.supervisionIdeasFeedbackViewPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $ideasFeedback = $(data);
+                        $this.append($ideasFeedback);
+                        onIdeaFeedbackState();
+                    };
+                    $.get(url, [], onSuccess);
+                } else {
+                    $ideasFeedback = $this.find(".ideas_feedback_part");
+                    var $newIdeasFeedback = $ideasFeedback.find("form#new_ideas_feedback");
+                    $newIdeasFeedback.attr("action", function(i,a){ return a+".js"; });
+                    $newIdeasFeedback.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function(event) {
+                            $newIdeasFeedback.hide("fast", function() { $(this).remove(); });
+                        }
+                    });
+                }
+            };
+            var onSolutionState = function(dynamicChange) {
             };
 
             var stateChangeCallbacks = {
@@ -157,7 +181,8 @@
                 "topic_vote": onTopicVoteState,
                 "topic_question": onTopicQuestionState,
                 "idea": onIdeaState,
-                "idea_feedback": onIdeaFeedbackState
+                "idea_feedback": onIdeaFeedbackState,
+                "solution": onSolutionState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
@@ -208,7 +233,15 @@
                 };
                 $.get(url, [], onSuccess);
             };
-
+            var onNewIdeasFeedback = function(event, message) {
+                var url = PGS.supervisionIdeasFeedbackPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var $newIdeasFeedback = $(data);
+                    $ideasFeedback.append($newIdeasFeedback);
+                    $newIdeasFeedback.hide().show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
             stateChangeCallbacks[supervisionState](false);
 
             $this.bind({
@@ -216,7 +249,8 @@
                 "newTopic": onNewTopic,
                 "newQuestion": onNewQuestion,
                 "newAnswer": onNewAnswer,
-                "newIdea": onNewIdea
+                "newIdea": onNewIdea,
+                "newIdeasFeedback": onNewIdeasFeedback
             });
         });
     };
