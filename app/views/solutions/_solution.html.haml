@@ -1,11 +1,16 @@
 %div[solution]
-  =render solution.user
+  = render solution.user
   .content
     %p= solution.content
-    - if solution.rating
+    - if solution.rating || @supervision.problem_owner?(current_user)
       .rating
         .head
           %p= t(".rating", :default => "Rating")
-        = form_tag "#" do
-          - 1.upto(5) do |i|
-            = radio_button_tag :solution, :rating, i, { :disabled => true, :class => "star" }
+        = form_for([@supervision, solution]) do |f|
+          - if @supervision.problem_owner?(current_user) && !solution.rating
+            - 1.upto(5) do |i|
+              = f.radio_button :rating, i, { :class => "star" }
+            = f.submit t(".submit_rate", :default => "Rate")
+          - else
+            - 1.upto(5) do |i|
+              = f.radio_button :rating, i, { :disabled => true, :class => "star" }

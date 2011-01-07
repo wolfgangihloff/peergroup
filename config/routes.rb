@@ -18,6 +18,8 @@ Peergroupsupervision::Application.routes.draw do
       get :topic_questions_view
       get :ideas_view
       get :ideas_feedback_view
+      get :solutions_view
+      get :solutions_feedback_view
     end
 
     resources :topics, :only => [:create, :show] do
@@ -28,8 +30,8 @@ Peergroupsupervision::Application.routes.draw do
     end
     resources :ideas, :only => [:create, :update, :show]
     resources :ideas_feedbacks, :only => [:create, :show]
-    resources :solutions, :only => [:create, :update]
-    resources :solutions_feedbacks, :only => :create
+    resources :solutions, :only => [:create, :update, :show]
+    resources :solutions_feedbacks, :only => [:create, :show]
     resources :supervision_feedbacks, :only => :create
     resources :votes, :only => :create
   end

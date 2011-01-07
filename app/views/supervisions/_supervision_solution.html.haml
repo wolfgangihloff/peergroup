@@ -1,30 +1,18 @@
-.solutions
+.solutions_part
   %h2= t(".solutions", :default => "Solutions")
-  - if @supervision.problem_owner?(current_user)
-    - if @supervision.solutions.any?
-      - @supervision.solutions.each do |solution|
-        %div[solution]
-          = render solution.user
-          .content
-            %p= solution.content
-            .rating
-              .head
-                %p= t(".solution_rating", :default => "Rating")
-              = form_for([@supervision, solution]) do |f|
-                - 1.upto(5) do |i|
-                  = f.radio_button :rating, i, { :disabled => solution.rating.present?, :class => "star" }
-                = f.submit t(".submit_rate", :default => "Rate") unless solution.rating
+  - if @supervision.solution?
+    - if @supervision.problem_owner?(current_user)
+      %p.waiting= t(".waiting_for_solutions", :default => "Waiting for solutions")
     - else
-      %p= t(".waiting_for_solutions", :default => "Waiting for solutions")
-  - else
-    = render @supervision.solutions
+      %p.waiting= t(".waiting", :default => "Waiting for others")
 
-    - if @supervision.voted_on_next_step?(current_user)
-      %p= t(".waiting", :default => "Waiting for others")
-    - else
+    - if !@supervision.problem_owner?(current_user) && !@supervision.voted_on_next_step?(current_user)
       = semantic_form_for([@supervision, Solution.new]) do |f|
-        = f.inputs t(".post_solution", :default => "Your solution") do
+        = f.inputs do
           = f.input :content, :hint => t(".solution_content_hint", :default => "Enter your solution")
         = f.buttons do
           = f.commit_button
           %li= link_to(t(".no_more_solutions", :default => "I have no more solutions"), supervision_votes_path(@supervision), :method => :post)
+
+  - if @supervision.solutions
+    = render @supervision.solutions

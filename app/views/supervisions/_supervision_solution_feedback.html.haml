@@ -1,9 +1,14 @@
 .solutions_feedbacks
   %h2= t(".solutions_feedback", :default => "Feedback on solutions")
-  - if @supervision.problem_owner?(current_user)
-    = semantic_form_for([@supervision, SolutionsFeedback.new]) do |f|
-      = f.inputs do
-        = f.input :content, :hint => t(".solutions_feedback_content_hint", :default => "Provide feedback on solutions")
-      = f.buttons :commit
-  - else
-    %p= t(".waiting_for_feedback", :default => "Waiting for problem owner feedback")
+
+  - unless @supervision.solutions_feedback
+    - if @supervision.problem_owner?(current_user)
+      = semantic_form_for([@supervision, SolutionsFeedback.new]) do |f|
+        = f.inputs do
+          = f.input :content, :hint => t(".solutions_feedback_content_hint", :default => "Provide feedback on solutions")
+        = f.buttons :commit
+    - else
+      %p.waiting= t(".waiting_for_feedback", :default => "Waiting for problem owner feedback")
+
+  - if @supervision.solutions_feedback
+    = render @supervision.solutions_feedback
