@@ -8,7 +8,8 @@
             var $topics = $this.find(".topics_part"),
                 $topicsVotes = $this.find(".topics_votes_part"),
                 $questions = $this.find(".questions_part"),
-                $ideas = $this.find(".ideas_part");
+                $ideas = $this.find(".ideas_part"),
+                $solutionsFeedback = $this.find(".solutions_feedback_part");
 
             var onTopicState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
@@ -174,6 +175,69 @@
                 }
             };
             var onSolutionState = function(dynamicChange) {
+                if (dynamicChange) {
+                    var url = PGS.supervisionSolutionViewPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $solutions = $(data);
+                        $this.append($solutions);
+                        onSolutionState();
+                    };
+                    $.get(url, [], onSuccess);
+                } else {
+                    $solutions = $this.find(".solutions_part");
+                    var $newSolutionForm = $solutions.find("form#new_solution");
+                    $newSolutionForm.attr("action", function(i,a){ return a+".js"; });
+                    $newSolutionForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function(event) {
+                            $(this).find("#solution_content").text("");
+                        }
+                    });
+
+                    var $voteNextStepLink = $newSolutionForm.find("a");
+                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
+                    $voteNextStepLink.attr("data-remote", "data-remote");
+                    $voteNextStepLink.live({
+                        "ajax:loading": function() {
+                            $newSolutionForm.hide("fast", function() { $(this).remove(); });
+                        }
+                    });
+
+                    var $rateSolutionForm = $solutions.find("form.edit_solution");
+                    $rateSolutionForm.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        }
+                    });
+                }
+            };
+            var onSolutionFeedbackState = function(dynamicChange) {
+                if (dynamicChange) {
+                    var url = PGS.supervisionSolutionsFeedbackViewPath(supervisionId, { partial: 1 });
+                    var onSuccess = function(data, status, xhr) {
+                        var $solutionsFeedback = $(data);
+                        $this.append($solutionsFeedback);
+                        onSolutionFeedbackState();
+                    };
+                    $.get(url, [], onSuccess);
+                } else {
+                    $solutionsFeedback = $this.find(".solutions_feedback_part");
+                    var $newSolutionsFeedback = $solutionsFeedback.find("form#new_solutions_feedback");
+                    $newSolutionsFeedback.attr("action", function(i,a){ return a+".js"; });
+                    $newSolutionsFeedback.live({
+                        "submit": function(event) {
+                            $(this).callRemote();
+                            event.preventDefault();
+                        },
+                        "ajax:loading": function(event) {
+                            $newSolutionsFeedback.hide("fast", function() { $(this).remove(); });
+                        }
+                    });
+                }
             };
 
             var stateChangeCallbacks = {
@@ -182,7 +246,8 @@
                 "topic_question": onTopicQuestionState,
                 "idea": onIdeaState,
                 "idea_feedback": onIdeaFeedbackState,
-                "solution": onSolutionState
+                "solution": onSolutionState,
+                "solution_feedback": onSolutionFeedbackState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
@@ -242,6 +307,30 @@
                 };
                 $.get(url, [], onSuccess);
             };
+            var onNewSolution = function(event, message) {
+                var url = PGS.supervisionSolutionPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var $newSolution = $(data);
+                    var $existingSolution = $solutions.find("#solution_" + message.id);
+                    if ($existingSolution.length) {
+                        $existingSolution.replaceWith($newSolution);
+                    } else {
+                        $solutions.append($newSolution);
+                        $newSolution.hide().show("fast");
+                    }
+                    $newSolution.find("input[type=radio].star").rating();
+                };
+                $.get(url, [], onSuccess);
+            };
+            var onNewSolutionsFeedback = function(event, message) {
+                var url = PGS.supervisionSolutionsFeedbackPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var $newSolutionsFeedback = $(data);
+                    $solutionsFeedback.append($newSolutionsFeedback);
+                    $newSolutionsFeedback.hide().show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
             stateChangeCallbacks[supervisionState](false);
 
             $this.bind({
@@ -250,7 +339,9 @@
                 "newQuestion": onNewQuestion,
                 "newAnswer": onNewAnswer,
                 "newIdea": onNewIdea,
-                "newIdeasFeedback": onNewIdeasFeedback
+                "newIdeasFeedback": onNewIdeasFeedback,
+                "newSolution": onNewSolution,
+                "newSolutionsFeedback": onNewSolutionsFeedback
             });
         });
     };

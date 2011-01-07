@@ -42,6 +42,14 @@ class SupervisionsController < ApplicationController
     @supervision = Supervision.find(params[:id])
     render :partial => "supervision_idea_feedback", :layout => false if params[:partial]
   end
+  def solutions_view
+    @supervision = Supervision.find(params[:id])
+    render :partial => "supervision_solution", :layout => false if params[:partial]
+  end
+  def solutions_feedback_view
+    @supervision = Supervision.find(params[:id])
+    render :partial => "supervision_solution_feedback", :layout => false if params[:partial]
+  end
 
   protected
 

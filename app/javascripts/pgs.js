@@ -52,11 +52,19 @@
         supervisionIdeaPath: function(supervisionId, ideaId, options) {
             return path(["supervisions", supervisionId, "ideas", ideaId], options);
         },
-                                       
+
         supervisionIdeasFeedbackPath: function(supervisionId, ideaFeedbackId, options) {
             return path(["supervisions", supervisionId, "ideas_feedbacks", ideaFeedbackId], options);
         },
-                                       
+
+        supervisionSolutionPath: function(supervisionId, solutionId, options) {
+            return path(["supervisions", supervisionId, "solutions", solutionId], options);
+        },
+
+        supervisionSolutionsFeedbackPath: function(supervisionId, solutionFeedbackId, options) {
+            return path(["supervisions", supervisionId, "solutions_feedbacks", solutionFeedbackId], options);
+        },
+
         // Partials for supervison
         supervisionTopicsVotesViewPath: function(supervisionId, options) {
             return path(["supervisions", supervisionId, "topics_votes_view"], options);
@@ -72,6 +80,14 @@
 
         supervisionIdeasFeedbackViewPath: function(supervisionId, options) {
             return path(["supervisions", supervisionId, "ideas_feedback_view"], options);
+        },
+
+        supervisionSolutionViewPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "solutions_view"], options);
+        },
+
+        supervisionSolutionsFeedbackViewPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "solutions_feedback_view"], options);
         },
 
         getSocket: function() {

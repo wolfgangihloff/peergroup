@@ -99,6 +99,12 @@ jQuery(function($) {
         s.on("ideas_feedback", function(type, message) {
             $supervision.trigger("newIdeasFeedback", message.ideas_feedback);
         });
+        s.on("solution", function(type, message) {
+            $supervision.trigger("newSolution", message.solution);
+        });
+        s.on("solutions_feedback", function(type, message) {
+            $supervision.trigger("newSolutionsFeedback", message.solutions_feedback);
+        });
     });
 
 });
