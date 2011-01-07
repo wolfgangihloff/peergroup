@@ -10,7 +10,7 @@ jQuery(function($) {
 
         var $form = $chatRoom.find("#new_chat_message");
         $form.bind({
-            "ajax:loading": function(event) { $form.find("textarea").val(""); }
+            "ajax:loading": function(event) { $form.find("#chat_message_content").val(""); }
         });
 
         var onUserEnters = function(event, user) {
