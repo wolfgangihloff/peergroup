@@ -390,6 +390,7 @@
             - :post_topic: Your topic
             - :topic_content_hint: Enter your problem or leave this blank if you do not have any
             - :topics: Topics
+            - :waiting: Waiting for topics from all participants
     - :topic_answers: !omap 
         - :create: !omap 
             - :flash: !omap 

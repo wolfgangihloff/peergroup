@@ -9,20 +9,6 @@ class ChatRoomsController < ApplicationController
     REDIS.setex("chat:#{@chat_room.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
-  #def select_leader
-    #@user = @chat_room.group.users.find(params[:user_id])
-    #@chat_room.leader = @user
-    #@chat_room.save!
-    #render :nothing => true
-  #end
-
-  #def select_problem_owner
-    #@user = @chat_room.group.users.find(params[:user_id])
-    #@chat_room.problem_owner = @user
-    #@chat_room.save!
-    #render :nothing => true
-  #end
-
   protected
 
   def fetch_group

@@ -10,6 +10,6 @@
           \:
           %span.content= chat_message.content
     = form_for(ChatMessage.new, :url => group_chat_room_chat_messages_path(@group), :remote => true) do |f|
-      = f.text_area :content, :rows => 2
+      = f.text_field :content
       = submit_tag t(".submit", :default => "Submit")
 
