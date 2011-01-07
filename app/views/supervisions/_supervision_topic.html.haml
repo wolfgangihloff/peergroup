@@ -1,12 +1,13 @@
 .topics_part
   %h2= t(".topics", :default => "Topics")
 
-  %p.waiting= t(".waiting", :default => "Waiting for topics from all participants")
-  - unless @supervision.posted_topic?(current_user)
-    = semantic_form_for([@supervision, Topic.new]) do |f|
-      = f.inputs t(".post_topic", :default => "Your topic") do
-        = f.input :content, :hint => t(".topic_content_hint", :default => "Enter your problem or leave this blank if you do not have any")
-      = f.buttons :commit
+  - if @supervision.topic?
+    %p.waiting= t(".waiting", :default => "Waiting for topics from all participants")
 
-  - if @supervision.topics
-    = render @supervision.topics
+    - unless @supervision.posted_topic?(current_user)
+      = semantic_form_for([@supervision, Topic.new]) do |f|
+        = f.inputs t(".post_topic", :default => "Your topic") do
+          = f.input :content, :hint => t(".topic_content_hint", :default => "Enter your problem or leave this blank if you do not have any")
+        = f.buttons :commit
+
+  = render @supervision.topics

@@ -105,6 +105,9 @@ jQuery(function($) {
         s.on("solutions_feedback", function(type, message) {
             $supervision.trigger("newSolutionsFeedback", message.solutions_feedback);
         });
+        s.on("supervision_feedback", function(type, message) {
+            $supervision.trigger("newSupervisionFeedback", message.supervision_feedback);
+        });
     });
 
 });

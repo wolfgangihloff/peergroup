@@ -1,5 +1,6 @@
 .solutions_part
   %h2= t(".solutions", :default => "Solutions")
+
   - if @supervision.solution?
     - if @supervision.problem_owner?(current_user)
       %p.waiting= t(".waiting_for_solutions", :default => "Waiting for solutions")
@@ -14,5 +15,4 @@
           = f.commit_button
           %li= link_to(t(".no_more_solutions", :default => "I have no more solutions"), supervision_votes_path(@supervision), :method => :post)
 
-  - if @supervision.solutions
-    = render @supervision.solutions
+  = render @supervision.solutions

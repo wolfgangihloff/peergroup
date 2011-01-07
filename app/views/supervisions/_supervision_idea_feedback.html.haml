@@ -1,7 +1,7 @@
 .ideas_feedback_part
   %h2= t(".ideas_feedback", :default => "Feedback on ideas")
 
-  - unless @supervision.ideas_feedback
+  - if @supervision.idea_feedback?
     - if @supervision.problem_owner?(current_user)
       = semantic_form_for([@supervision, IdeasFeedback.new]) do |f|
         = f.inputs do
@@ -10,5 +10,5 @@
     - else
       %p.waiting= t(".waiting_for_feedback", :default => "Waiting for problem owner feedback")
 
-  - if @supervision.ideas_feedback
+  - else
     = render @supervision.ideas_feedback

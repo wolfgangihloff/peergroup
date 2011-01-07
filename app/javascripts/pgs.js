@@ -37,16 +37,16 @@
             return path(["users", userId], options);
         },
 
+        supervisionPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId], options);
+        },
+
         supervisionTopicPath: function(supervisionId, topicId, options) {
             return path(["supervisions", supervisionId, "topics", topicId], options);
         },
 
         supervisionQuestionPath: function(supervisionId, questionId, options) {
             return path(["supervisions", supervisionId, "questions", questionId], options);
-        },
-
-        supervisionQuestionAnswerPath: function(supervisionId, questionId, options) {
-            return path(["supervisions", supervisionId, "questions", questionId, "answer"], options);
         },
 
         supervisionIdeaPath: function(supervisionId, ideaId, options) {
@@ -65,29 +65,8 @@
             return path(["supervisions", supervisionId, "solutions_feedbacks", solutionFeedbackId], options);
         },
 
-        // Partials for supervison
-        supervisionTopicsVotesViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "topics_votes_view"], options);
-        },
-
-        supervisionTopicQuestionsViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "topic_questions_view"], options);
-        },
-
-        supervisionIdeaViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "ideas_view"], options);
-        },
-
-        supervisionIdeasFeedbackViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "ideas_feedback_view"], options);
-        },
-
-        supervisionSolutionViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "solutions_view"], options);
-        },
-
-        supervisionSolutionsFeedbackViewPath: function(supervisionId, options) {
-            return path(["supervisions", supervisionId, "solutions_feedback_view"], options);
+        supervisionSupervisionFeedbackPath: function(supervisionId, supervisionFeedbackId, options) {
+            return path(["supervisions", supervisionId, "supervision_feedbacks", supervisionFeedbackId], options);
         },
 
         getSocket: function() {

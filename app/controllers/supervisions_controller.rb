@@ -6,6 +6,10 @@ class SupervisionsController < ApplicationController
   before_filter :require_parent_group, :only => [:new, :create]
   before_filter :check_current_supervision, :only => [:new, :create]
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
+  before_filter :fetch_supervision, :only => [
+    :topic_votes_view, :topic_questions_view, :ideas_view, :ideas_feedback_view,
+    :ideas_feedback_view, :solutions_view, :solutions_feedback_view, :supervision_feedback_view
+  ]
 
   def index
     @finished_supervisions = Supervision.finished.where(:group_id => current_user.group_ids).paginate :per_page => 10, :page => params[:page], :order => "created_at DESC"
@@ -22,36 +26,31 @@ class SupervisionsController < ApplicationController
 
   def show
     @supervision = Supervision.find(params[:id])
-    @token = SecureRandom.hex
-    REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
-  end
-
-  def topics_votes_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_topic_vote", :layout => false if params[:partial]
-  end
-  def topic_questions_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_topic_question", :layout => false if params[:partial]
-  end
-  def ideas_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_idea", :layout => false if params[:partial]
-  end
-  def ideas_feedback_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_idea_feedback", :layout => false if params[:partial]
-  end
-  def solutions_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_solution", :layout => false if params[:partial]
-  end
-  def solutions_feedback_view
-    @supervision = Supervision.find(params[:id])
-    render :partial => "supervision_solution_feedback", :layout => false if params[:partial]
+    if params[:partial]
+      partial_name = PARTIAL_NAMES[params[:partial]]
+      render :partial => partial_name, :layout => false
+    else
+      @token = SecureRandom.hex
+      REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    end
   end
 
   protected
+
+  PARTIAL_NAMES = {
+    "topics_votes" => "supervision_topic_vote",
+    "questions" => "supervision_topic_question",
+    "ideas" => "supervision_idea",
+    "ideas_feedback" => "supervision_idea_feedback",
+    "solutions" => "supervision_solution",
+    "solutions_feedback" => "supervision_solution_feedback",
+    "supervision_feedbacks" => "supervision_supervision_feedback",
+    "finished" => "supervision_finished"
+  }
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:id])
+  end
 
   def check_current_supervision
     @supervision = @group.current_supervision

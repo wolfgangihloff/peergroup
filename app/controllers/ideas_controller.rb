@@ -44,7 +44,11 @@ class IdeasController < ApplicationController
 
   def show
     @idea = @supervision.ideas.find(params[:id])
-    render :partial => "idea", :layout => false, :locals => { :idea => @idea } if params[:partial]
+    render(
+      :partial => "idea",
+      :layout => false,
+      :locals => { :idea => @idea }
+    ) if params[:partial]
   end
 end
 

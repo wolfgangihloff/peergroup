@@ -1,242 +1,257 @@
 (function($){
     $.fn.supervisionRoom = function() {
         return this.each(function() {
-            var $this = $(this);
-            var supervisionState = $this.data("supervision-state");
-            var supervisionId = $this.attr("id").replace("supervision_", "");
+            var $this                 = $(this),
+                $header               = $this.find("header"),
+                $footer               = $this.find("footer"),
+                $topics               = $this.find(".topics_part"),
+                $topicsVotes          = $this.find(".topics_votes_part"),
+                $questions            = $this.find(".questions_part"),
+                $ideas                = $this.find(".ideas_part"),
+                $ideasFeedback        = $this.find(".ideas_feedback_part"),
+                $solutions            = $this.find(".solutions_part"),
+                $solutionsFeedback    = $this.find(".solutions_feedback_part"),
+                $supervisionFeedbacks = $this.find(".supervision_feedbacks_part"),
+                supervisionState      = $this.data("supervision-state"),
+                supervisionId         = $this.attr("id").replace("supervision_", "");
 
-            var $topics = $this.find(".topics_part"),
-                $topicsVotes = $this.find(".topics_votes_part"),
-                $questions = $this.find(".questions_part"),
-                $ideas = $this.find(".ideas_part"),
-                $solutionsFeedback = $this.find(".solutions_feedback_part");
+
+            var asyncSubmit = function() {
+                return function(event) {
+                    $(this).callRemote();
+                    event.preventDefault();
+                };
+            };
+            var disableSubmit = function(element) {
+                return function(event) {
+                    $(element || this).find("input[type=submit]").attr("disabled", "disabled");
+                };
+            };
+            var enableSubmit = function(element) {
+                return function(event) {
+                    $(element || this).find("input[type=submit]").removeAttr("disabled");
+                };
+            };
+            var removeElement = function(element) {
+                return function(event) {
+                    $(element || this).hide("fast", function(){ $(this).remove(); });
+                };
+            };
+            var clearText = function(selector) {
+                return function(event) {
+                    $(this).find(selector).val("");
+                };
+            };
+            var eachAppend = function(sufix) {
+                return function(index, text) {
+                    return text + sufix;
+                };
+            };
+            var eachAppendJs = eachAppend(".js");
+
+            var dynamicStateChangeSuccess = function(elementToRemove) {
+                var caller = arguments.callee.caller;
+                return function(data, status, xhr) {
+                    $(elementToRemove).remove();
+                    $this.find("footer").before($(data));
+                    caller.call();
+                };
+            };
 
             var onTopicState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
 
-                if ($newTopicForm.length) {
-                    $newTopicForm.attr("action", function(i,a){ return a+".js"; });
-                    $newTopicForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function() {
-                            $newTopicForm.find("input[type=submit]").attr("disabled", "disabled");
-                        },
-                        "ajax:success": function() {
-                            $newTopicForm.hide("fast", function(){ $(this).remove(); });
-                        }
+                $newTopicForm
+                    .attr("action", eachAppendJs)
+                    .live({
+                        "submit": asyncSubmit(),
+                        "ajax:loading": disableSubmit($newTopicForm),
+                        "ajax:success": removeElement($newTopicForm)
                     });
-                }
             };
             var onTopicVoteState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionTopicsVotesViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $topicsVotes = $(data);
-                        $topics.remove();
-                        $this.append($topicsVotes);
-                        onTopicVoteState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "topics_votes" });
+                    $.get(url, [], dynamicStateChangeSuccess($topics));
                 } else {
                     $topicsVotes = $this.find(".topics_votes_part");
+
                     var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
-                    $newTopicVoteForm.attr("action", function(i,a){ return a+".js"; });
-                    $newTopicVoteForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function() {
-                            $newTopicVoteForm.find("input[type=submit]").attr("disabled", "disabled");
-                        }
-                    });
+                    $newTopicVoteForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": disableSubmit($newTopicVoteForm),
+                            "ajax:failure": enableSubmit($newTopicVoteForm)
+                        });
                 }
             };
             var onTopicQuestionState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionTopicQuestionsViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $questions = $(data);
-                        $this.append($questions);
-                        $topicsVotes.remove();
-                        onTopicQuestionState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "questions" });
+                    $.get(url, [], dynamicStateChangeSuccess($topicsVotes));
                 } else {
                     $topics = $this.find(".topics_part");
                     $questions = $this.find(".questions_part");
+
                     var $newQuestionForm = $questions.find("form#new_question");
-                    $newQuestionForm.attr("action", function(i,a){ return a+".js"; });
-                    $newQuestionForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function() {
-                            $(this).find("#question_content").text("");
-                        }
-                    });
+                    $newQuestionForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": clearText("#question_content")
+                        });
 
                     var $voteNextStepLink = $newQuestionForm.find("a");
-                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
-                    $voteNextStepLink.attr("data-remote", "data-remote");
-                    $voteNextStepLink.live({
-                        "ajax:loading": function() {
-                            $newQuestionForm.hide("fast", function() { $(this).remove(); });
-                        }
-                    });
+                    $voteNextStepLink
+                        .attr({
+                            "href": eachAppendJs,
+                            "data-remote": "data-remote"
+                        })
+                        .live({
+                            "ajax:loading": removeElement($newQuestionForm)
+                        });
 
                     var $newAnswerForm = $questions.find("form.answer");
-                    $newAnswerForm.attr("action", function(i,a){ return a+".js"; });
-                    $newAnswerForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function() {
-                            $(this).find("input[type=submit]").attr("disabled", "disabled");
-                        },
-                        "ajax:failure": function() {
-                            $(this).find("input[type=submit]").removeAttr("disabled");
-                        },
-                        "ajax:success": function() {
-                            var $answer = $(this).closest("div.answer");
-                            $answer.hide("fast", function(){ $(this).remove(); });
-                        }
-                    });
+                    $newAnswerForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": disableSubmit(),
+                            "ajax:failure": enableSubmit(),
+                            "ajax:success": function() {
+                                var $answer = $(this).closest("div.answer");
+                                removeElement($answer)();
+                            }
+                        });
                 }
             };
             var onIdeaState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionIdeaViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $ideas = $(data);
-                        $this.append($ideas);
-                        onIdeaState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "ideas" });
+                    $.get(url, [], dynamicStateChangeSuccess());
                 } else {
                     $ideas = $this.find(".ideas_part");
+
                     var $newIdeaForm = $ideas.find("form#new_idea");
-                    $newIdeaForm.attr("action", function(i,a){ return a+".js"; });
-                    $newIdeaForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function(event) {
-                            $(this).find("#idea_content").text("");
-                        }
-                    });
+                    $newIdeaForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": clearText("#idea_content")
+                        });
 
                     var $voteNextStepLink = $newIdeaForm.find("a");
-                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
-                    $voteNextStepLink.attr("data-remote", "data-remote");
-                    $voteNextStepLink.live({
-                        "ajax:loading": function() {
-                            $newIdeaForm.hide("fast", function() { $(this).remove(); });
-                        }
-                    });
+                    $voteNextStepLink
+                        .attr({
+                            "href": eachAppendJs,
+                            "data-remote": "data-remote"
+                        })
+                        .live({
+                            "ajax:loading": removeElement($newIdeaForm)
+                        });
 
                     var $rateIdeaForm = $ideas.find("form.edit_idea");
-                    $rateIdeaForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        }
-                    });
+                    $rateIdeaForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": removeElement()
+                        });
                 }
             };
             var onIdeaFeedbackState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionIdeasFeedbackViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $ideasFeedback = $(data);
-                        $this.append($ideasFeedback);
-                        onIdeaFeedbackState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "ideas_feedback" });
+                    $.get(url, [], dynamicStateChangeSuccess());
                 } else {
                     $ideasFeedback = $this.find(".ideas_feedback_part");
-                    var $newIdeasFeedback = $ideasFeedback.find("form#new_ideas_feedback");
-                    $newIdeasFeedback.attr("action", function(i,a){ return a+".js"; });
-                    $newIdeasFeedback.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function(event) {
-                            $newIdeasFeedback.hide("fast", function() { $(this).remove(); });
-                        }
-                    });
+
+                    var $newIdeasFeedbackForm = $ideasFeedback.find("form#new_ideas_feedback");
+                    $newIdeasFeedbackForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": removeElement($newIdeasFeedbackForm)
+                        });
                 }
             };
             var onSolutionState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionSolutionViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $solutions = $(data);
-                        $this.append($solutions);
-                        onSolutionState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "solutions" });
+                    $.get(url, [], dynamicStateChangeSuccess());
                 } else {
                     $solutions = $this.find(".solutions_part");
+
                     var $newSolutionForm = $solutions.find("form#new_solution");
-                    $newSolutionForm.attr("action", function(i,a){ return a+".js"; });
-                    $newSolutionForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function(event) {
-                            $(this).find("#solution_content").text("");
-                        }
-                    });
+                    $newSolutionForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": clearText("#solution_content")
+                        });
 
                     var $voteNextStepLink = $newSolutionForm.find("a");
-                    $voteNextStepLink.attr("href", function(i,a){ return a+".js"; });
-                    $voteNextStepLink.attr("data-remote", "data-remote");
-                    $voteNextStepLink.live({
-                        "ajax:loading": function() {
-                            $newSolutionForm.hide("fast", function() { $(this).remove(); });
-                        }
-                    });
+                    $voteNextStepLink
+                        .attr({
+                            "href": eachAppendJs,
+                            "data-remote": "data-remote"
+                        })
+                        .live({
+                            "ajax:loading": removeElement($newSolutionForm)
+                        });
 
                     var $rateSolutionForm = $solutions.find("form.edit_solution");
-                    $rateSolutionForm.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        }
-                    });
+                    $rateSolutionForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": removeElement()
+                        });
                 }
             };
             var onSolutionFeedbackState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionSolutionsFeedbackViewPath(supervisionId, { partial: 1 });
-                    var onSuccess = function(data, status, xhr) {
-                        var $solutionsFeedback = $(data);
-                        $this.append($solutionsFeedback);
-                        onSolutionFeedbackState();
-                    };
-                    $.get(url, [], onSuccess);
+                    var url = PGS.supervisionPath(supervisionId, { partial: "solutions_feedback" });
+                    $.get(url, [], dynamicStateChangeSuccess());
                 } else {
                     $solutionsFeedback = $this.find(".solutions_feedback_part");
-                    var $newSolutionsFeedback = $solutionsFeedback.find("form#new_solutions_feedback");
-                    $newSolutionsFeedback.attr("action", function(i,a){ return a+".js"; });
-                    $newSolutionsFeedback.live({
-                        "submit": function(event) {
-                            $(this).callRemote();
-                            event.preventDefault();
-                        },
-                        "ajax:loading": function(event) {
-                            $newSolutionsFeedback.hide("fast", function() { $(this).remove(); });
-                        }
-                    });
+
+                    var $newSolutionsFeedbackForm = $solutionsFeedback.find("form#new_solutions_feedback");
+                    $newSolutionsFeedbackForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": removeElement()
+                        });
+                }
+            };
+            var onSupervisionFeedbackState = function(dynamicChange) {
+                if (dynamicChange) {
+                    var url = PGS.supervisionPath(supervisionId, { partial: "supervision_feedbacks" });
+                    $.get(url, [], dynamicStateChangeSuccess());
+                } else {
+                    $supervisionFeedbacks = $this.find(".supervision_feedbacks_part");
+
+                    var $newSupervisionFeedbackForm = $supervisionFeedbacks.find("form#new_supervision_feedback");
+                    $newSupervisionFeedbackForm
+                        .attr("action", eachAppendJs)
+                        .live({
+                            "submit": asyncSubmit(),
+                            "ajax:loading": removeElement()
+                        });
+                }
+            };
+            var onFinishedState = function(dynamicChange) {
+                if (dynamicChange) {
+                    var url = PGS.supervisionPath(supervisionId, { partial: "finished" });
+                    var onSuccess = function(data, status, xhr) {
+                        var $notice = $(data);
+                        $this.find("header,footer").append($notice);
+                        $notice.hide().show("fast");
+                        onFinishedState();
+                    };
+                    $.get(url, [], onSuccess);
                 }
             };
 
@@ -247,7 +262,9 @@
                 "idea": onIdeaState,
                 "idea_feedback": onIdeaFeedbackState,
                 "solution": onSolutionState,
-                "solution_feedback": onSolutionFeedbackState
+                "solution_feedback": onSolutionFeedbackState,
+                "supervision_feedback": onSupervisionFeedbackState,
+                "finished": onFinishedState
             };
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
@@ -270,16 +287,16 @@
                 var onSuccess = function(data, status, xhr) {
                     var $newQuestion = $(data);
                     $questions.append($newQuestion);
-                    newQuestion.hide().show("fast");
+                    $newQuestion.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);
             };
             var onNewAnswer = function(event, message) {
-                var url = PGS.supervisionQuestionAnswerPath(supervisionId, message.question_id, { partial: 1 });
+                var url = PGS.supervisionQuestionPath(supervisionId, message.question_id, { partial: 1 });
                 var onSuccess = function(data, status, xhr) {
-                    var $newAnswer = $(data);
-                    $questions.find("#question_" + message.question_id + " .content").append($newAnswer);
-                    newAnswer.hide().show("fast");
+                    var $newQuestion = $(data);
+                    $questions.find("#question_" + message.question_id).replaceWith($newQuestion);
+                    $newQuestion.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);
             };
@@ -331,6 +348,15 @@
                 };
                 $.get(url, [], onSuccess);
             };
+            var onNewSupervisionFeedback = function(event, message) {
+                var url = PGS.supervisionSupervisionFeedbackPath(supervisionId, message.id, { partial: 1 });
+                var onSuccess = function(data, status, xhr) {
+                    var $newSupervisionFeedback = $(data);
+                    $supervisionFeedbacks.append($newSupervisionFeedback);
+                    $newSupervisionFeedback.hide().show("fast");
+                };
+                $.get(url, [], onSuccess);
+            };
             stateChangeCallbacks[supervisionState](false);
 
             $this.bind({
@@ -341,7 +367,8 @@
                 "newIdea": onNewIdea,
                 "newIdeasFeedback": onNewIdeasFeedback,
                 "newSolution": onNewSolution,
-                "newSolutionsFeedback": onNewSolutionsFeedback
+                "newSolutionsFeedback": onNewSolutionsFeedback,
+                "newSupervisionFeedback": onNewSupervisionFeedback
             });
         });
     };

@@ -45,7 +45,11 @@ class SolutionsController < ApplicationController
 
   def show
     @solution = @supervision.solutions.find(params[:id])
-    render :partial => "solution", :layout => false, :locals => { :solution => @solution } if params[:partial]
+    render(
+      :partial => "solution",
+      :layout => false,
+      :locals => { :solution => @solution }
+    ) if params[:partial]
   end
 end
 

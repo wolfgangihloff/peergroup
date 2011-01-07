@@ -12,27 +12,17 @@ Peergroupsupervision::Application.routes.draw do
   resource :relationships, :only => [:create, :destroy]
 
   resources :supervisions, :only => [:show, :index] do
-    member do
-      # I know it sucks, I don't yet have idea where to put this
-      get :topics_votes_view
-      get :topic_questions_view
-      get :ideas_view
-      get :ideas_feedback_view
-      get :solutions_view
-      get :solutions_feedback_view
-    end
-
     resources :topics, :only => [:create, :show] do
       resources :votes, :only => :create, :controller => :topic_votes
     end
     resources :questions, :only => [:create, :show] do
-      resource :answer, :only => [:create, :show]
+      resource :answer, :only => :create
     end
     resources :ideas, :only => [:create, :update, :show]
     resources :ideas_feedbacks, :only => [:create, :show]
     resources :solutions, :only => [:create, :update, :show]
     resources :solutions_feedbacks, :only => [:create, :show]
-    resources :supervision_feedbacks, :only => :create
+    resources :supervision_feedbacks, :only => [:create, :show]
     resources :votes, :only => :create
   end
 

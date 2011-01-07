@@ -26,7 +26,11 @@ class IdeasFeedbacksController < ApplicationController
 
   def show
     @ideas_feedback = @supervision.ideas_feedback
-    render :partial => "ideas_feedback", :layout => false, :locals => { :ideas_feedback => @ideas_feedback } if params[:partial]
+    render(
+      :partial => "ideas_feedback",
+      :layout => false,
+      :locals => { :ideas_feedback => @ideas_feedback }
+    ) if params[:partial]
   end
 end
 

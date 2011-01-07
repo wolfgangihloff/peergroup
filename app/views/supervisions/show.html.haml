@@ -5,49 +5,32 @@
     %h1= t(".heading", :default => "Supervision feedback")
 
     - if @supervision.finished?
-      = render :partial => 'supervision_finished'
+      = render :partial => "supervision_finished"
 
   - if @supervision.topic?
-    = render :partial => 'supervision_topic'
+    = render :partial => "supervision_topic"
 
   - if @supervision.topic_vote?
-    = render :partial => 'supervision_topic_vote'
+    = render :partial => "supervision_topic_vote"
 
   - if @supervision.step_finished?(:topic_vote)
-    = render :partial => 'supervision_topic_question'
+    = render :partial => "supervision_topic_question"
 
   - if @supervision.step_finished?(:topic_question)
-    = render :partial => 'supervision_idea'
+    = render :partial => "supervision_idea"
 
   - if @supervision.step_finished?(:idea)
-    = render :partial => 'supervision_idea_feedback'
+    = render :partial => "supervision_idea_feedback"
 
-  - if @supervision.solution?
-    = render :partial => 'supervision_solution'
-  - elsif @supervision.step_finished?(:solution)
-    %h2= t(".solutions", :default => "Solutions")
-    .solutions
-      = render @supervision.solutions
+  - if @supervision.step_finished?(:idea_feedback)
+    = render :partial => "supervision_solution"
 
-  - if @supervision.solution_feedback?
-    = render :partial => 'supervision_solution_feedback'
-  - elsif @supervision.step_finished?(:solution_feedback)
-    %h2= t(".solutions_feedback", :default => "Feedback on solutions")
-    .solutions_feedbacks
-      = render @supervision.solutions_feedback
+  - if @supervision.step_finished?(:solution)
+    = render :partial => "supervision_solution_feedback"
 
-  - if @supervision.supervision_feedback?
-    = render :partial => 'supervision_supervision_feedback'
-  - elsif @supervision.step_finished?(:supervision_feedback)
-    %h2= t(".supervision_feedback", :default => "General feedback on supervision")
-    .supervision_feedbacks
-      = render @supervision.supervision_feedbacks
+  - if @supervision.step_finished?(:solution_feedback)
+    = render :partial => "supervision_supervision_feedback"
 
   %footer
     - if @supervision.finished?
-      %p
-        = t(".supervision_finished", :default => "This supervision is finished.")
-        - if @supervision.group.current_supervision.present?
-          = link_to(t(".go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
-        - else
-          = link_to(t(".create_new", :default => "Create new?"), new_group_supervision_path(@supervision.group))
+      = render :partial => "supervision_finished"

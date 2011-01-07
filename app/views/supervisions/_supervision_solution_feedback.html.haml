@@ -1,7 +1,7 @@
-.solutions_feedbacks
+.solutions_feedback_part
   %h2= t(".solutions_feedback", :default => "Feedback on solutions")
 
-  - unless @supervision.solutions_feedback
+  - if @supervision.solution_feedback?
     - if @supervision.problem_owner?(current_user)
       = semantic_form_for([@supervision, SolutionsFeedback.new]) do |f|
         = f.inputs do
@@ -10,5 +10,6 @@
     - else
       %p.waiting= t(".waiting_for_feedback", :default => "Waiting for problem owner feedback")
 
-  - if @supervision.solutions_feedback
+  - else
     = render @supervision.solutions_feedback
+

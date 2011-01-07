@@ -1,5 +1,6 @@
 .ideas_part
   %h2= t(".ideas", :default => "Ideas")
+
   - if @supervision.idea?
     - if @supervision.problem_owner?(current_user)
       %p.waiting= t(".waiting_for_ideas", :default => "Waiting for ideas")
@@ -14,5 +15,4 @@
           = f.commit_button
           %li= link_to(t(".no_more_ideas", :default => "I have no more ideas"), supervision_votes_path(@supervision), :method => :post)
 
-  - if @supervision.ideas
-    = render @supervision.ideas
+  = render @supervision.ideas
