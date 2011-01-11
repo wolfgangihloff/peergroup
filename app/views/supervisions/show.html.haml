@@ -2,7 +2,11 @@
 
 %article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
   %header
-    %h1= t(".heading", :default => "Supervision feedback")
+    %h1= t(".heading", :default => "Supervision")
+
+    %ul.supervision_statusbar
+      - Supervision::STATES.each do |state|
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state" }= t(".supervision_state.#{state}", :default => state.humanize)
 
     - if @supervision.finished?
       = render :partial => "supervision_finished"

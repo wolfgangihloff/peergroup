@@ -4,6 +4,7 @@
             var $this                 = $(this),
                 $header               = $this.find("header"),
                 $footer               = $this.find("footer"),
+                $statusbar            = $header.find(".supervision_statusbar"),
                 $topics               = $this.find(".topics_part"),
                 $topicsVotes          = $this.find(".topics_votes_part"),
                 $questions            = $this.find(".questions_part"),
@@ -270,6 +271,8 @@
                 if (supervisionState !== message.state) {
                     supervisionState = message.state;
                     $this.find(".waiting").hide("fast", function() { $(this).remove(); });
+                    $statusbar.find(".current_state").removeClass("current_state");
+                    $statusbar.find("[data-state-name="+supervisionState+"]").addClass("current_state");
                     stateChangeCallbacks[supervisionState](true);
                 }
             };
