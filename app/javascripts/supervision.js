@@ -373,6 +373,24 @@
                 "newSolutionsFeedback": onNewSolutionsFeedback,
                 "newSupervisionFeedback": onNewSupervisionFeedback
             });
+            $statusbar.tooltip({
+                open: function() {
+                    var tooltip = $(this).tooltip("widget");
+                    $(document).mousemove(function(event) {
+                        tooltip.position({
+                            my: "left center",
+                            at: "right center",
+                            offset: "25 25",
+                            of: event
+                        });
+                    })
+                    // trigger once to override element-relative positioning
+                    .mousemove();
+                },
+                close: function() {
+                    $(document).unbind("mousemove");
+                }
+            });
         });
     };
 })(jQuery);

@@ -6,7 +6,7 @@
 
     %ul.supervision_statusbar
       - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state" }= t(".supervision_state.#{state}", :default => state.humanize)
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state", :title => t(".supervision_state.title_#{state}", :default => state.humanize) }= t(".supervision_state.#{state}", :default => state.humanize)
 
     - if @supervision.finished?
       = render :partial => "supervision_finished"
