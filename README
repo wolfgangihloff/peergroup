@@ -22,7 +22,7 @@ This is the first version, heavy alpha.
 
   rails server
 
-5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.2
+5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.4
 
   node app/node.js/server.js
 

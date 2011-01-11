@@ -1,5 +1,26 @@
 $content-columns: $blueprint-grid-columns - 2 - 6
 #supervisions_show
+  .supervision_statusbar
+    +reset_box_model
+    +reset_list_style
+    +horizontal_list
+    li
+      +reset_box_model
+      border-right: 1px solid black
+      border-top: 1px solid black
+      border-bottom: 1px solid black
+      &.state
+        padding: 0.5em 0.75em
+        background-color: #e0e0ee
+      &.current_state
+        background-color: #f0f0ff
+    li:first-child
+      +border-left-radius(5px)
+      border-left: 1px solid black
+      padding-left: 1em
+    li:last-child
+      +border-right-radius(5px)
+      padding-right: 1em
   .topic, .question, .idea, .ideas_feedback, .solution, .solutions_feedback, .supervision_feedback
     overflow: hidden
     +append-bottom
