@@ -4,34 +4,44 @@ class Supervision < ActiveRecord::Base
   include SupervisionRedisPublisher
   def supervision_id; id; end # aliasing doesn't work, don't know why yet
 
-  STATES = %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
+  STATES = [
+    "gathering_topics",
+    "voting_on_topics",
+    "asking_questions",
+    "providing_ideas",
+    "giving_ideas_feedback",
+    "providing_solutions",
+    "giving_solutions_feedback",
+    "giving_supervision_feedbacks",
+    "finished"
+  ]
 
   # Run:
   #     rake state_machine:draw CLASS=Supervision
   # to generate diagram how this state machine changes states
-  state_machine :state, :initial => :topic do
-    before_transition :topic_vote => :topic_question, :do => :choose_topic
+  state_machine :state, :initial => :gathering_topics do
+    before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
 
     event :post_topic do
-      transition :topic => :topic_vote, :if => :all_topics?
+      transition :gathering_topics => :voting_on_topics, :if => :all_topics?
     end
     event :post_topic_vote do
-      transition :topic_vote => :topic_question, :if => :all_topic_votes?
+      transition :voting_on_topics => :asking_questions, :if => :all_topic_votes?
     end
     event :post_ideas_feedback do
-      transition :idea_feedback => :solution
+      transition :giving_ideas_feedback => :providing_solutions
     end
     event :post_solutions_feedback do
-      transition :solution_feedback => :supervision_feedback
+      transition :giving_solutions_feedback => :giving_supervision_feedbacks
     end
     event :post_supervision_feedback do
-      transition :supervision_feedback => :finished, :if => :can_move_to_finished_state?
+      transition :giving_supervision_feedbacks => :finished, :if => :can_move_to_finished_state?
     end
     event :post_vote_for_next_step do
-      transition :topic_question => :idea, :if => :can_move_to_idea_state?
-      transition :idea => :idea_feedback, :if => :can_move_to_idea_feedback_state?
-      transition :solution => :solution_feedback, :if => :can_move_to_solution_feedback_state?
+      transition :asking_questions => :providing_ideas, :if => :can_move_to_idea_state?
+      transition :providing_ideas => :giving_ideas_feedback, :if => :can_move_to_idea_feedback_state?
+      transition :providing_solutions => :giving_solutions_feedback, :if => :can_move_to_solution_feedback_state?
     end
   end
 

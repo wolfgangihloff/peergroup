@@ -2,7 +2,7 @@ class SolutionsFeedbacksController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :solution_feedback, :only => :create
+  require_supervision_step :giving_solutions_feedback, :only => :create
 
   def create
     respond_to do |format|

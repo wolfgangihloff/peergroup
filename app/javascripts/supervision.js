@@ -59,7 +59,7 @@
                 };
             };
 
-            var onTopicState = function() {
+            var onGatheringTopicsState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
 
                 $newTopicForm
@@ -70,12 +70,12 @@
                         "ajax:success": removeElement($newTopicForm)
                     });
             };
-            var onTopicVoteState = function(dynamicChange) {
+            var onVotingOnTopicsState = function(dynamicChange) {
                 if (dynamicChange) {
-                    var url = PGS.supervisionPath(supervisionId, { partial: "topics_votes" });
+                    var url = PGS.supervisionPath(supervisionId, { partial: "topic_votes" });
                     $.get(url, [], dynamicStateChangeSuccess($topics));
                 } else {
-                    $topicsVotes = $this.find(".topics_votes_part");
+                    $topicsVotes = $this.find(".topic_votes_part");
 
                     var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
                     $newTopicVoteForm
@@ -87,7 +87,7 @@
                         });
                 }
             };
-            var onTopicQuestionState = function(dynamicChange) {
+            var onAskingQuestionsState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "questions" });
                     $.get(url, [], dynamicStateChangeSuccess($topicsVotes));
@@ -127,7 +127,7 @@
                         });
                 }
             };
-            var onIdeaState = function(dynamicChange) {
+            var onProvidingIdeasState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "ideas" });
                     $.get(url, [], dynamicStateChangeSuccess());
@@ -161,7 +161,7 @@
                         });
                 }
             };
-            var onIdeaFeedbackState = function(dynamicChange) {
+            var onGivingIdeasFeedbackState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "ideas_feedback" });
                     $.get(url, [], dynamicStateChangeSuccess());
@@ -177,7 +177,7 @@
                         });
                 }
             };
-            var onSolutionState = function(dynamicChange) {
+            var onProvidingSolutionsState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "solutions" });
                     $.get(url, [], dynamicStateChangeSuccess());
@@ -211,7 +211,7 @@
                         });
                 }
             };
-            var onSolutionFeedbackState = function(dynamicChange) {
+            var onGivingSolutionsFeedbackState = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "solutions_feedback" });
                     $.get(url, [], dynamicStateChangeSuccess());
@@ -227,7 +227,7 @@
                         });
                 }
             };
-            var onSupervisionFeedbackState = function(dynamicChange) {
+            var onGivingSupervisionFeedbackStates = function(dynamicChange) {
                 if (dynamicChange) {
                     var url = PGS.supervisionPath(supervisionId, { partial: "supervision_feedbacks" });
                     $.get(url, [], dynamicStateChangeSuccess());
@@ -257,14 +257,14 @@
             };
 
             var stateChangeCallbacks = {
-                "topic": onTopicState,
-                "topic_vote": onTopicVoteState,
-                "topic_question": onTopicQuestionState,
-                "idea": onIdeaState,
-                "idea_feedback": onIdeaFeedbackState,
-                "solution": onSolutionState,
-                "solution_feedback": onSolutionFeedbackState,
-                "supervision_feedback": onSupervisionFeedbackState,
+                "gathering_topics": onGatheringTopicsState,
+                "voting_on_topics": onVotingOnTopicsState,
+                "asking_questions": onAskingQuestionsState,
+                "providing_ideas": onProvidingIdeasState,
+                "giving_ideas_feedback": onGivingIdeasFeedbackState,
+                "providing_solutions": onProvidingSolutionsState,
+                "giving_solutions_feedback": onGivingSolutionsFeedbackState,
+                "giving_supervision_feedbacks": onGivingSupervisionFeedbackStates,
                 "finished": onFinishedState
             };
             var onSupervisionUpdate = function(event, message) {

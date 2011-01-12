@@ -2,7 +2,7 @@ class TopicVotesController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :topic_vote
+  require_supervision_step :voting_on_topics
 
   def create
     respond_to do |format|

@@ -1,0 +1,18 @@
+.solutions_part
+  %h2= t("supervisions.show.solutions", :default => "Solutions")
+
+  - if @supervision.providing_solutions?
+    - if @supervision.problem_owner?(current_user)
+      %p.waiting= t("supervisions.show.problem_owner_solutions_waiting", :default => "Waiting for solutions")
+    - else
+      %p.waiting= t("supervisions.show.solutions_waiting", :default => "Waiting for others")
+
+    - if !@supervision.problem_owner?(current_user) && !@supervision.voted_on_next_step?(current_user)
+      = semantic_form_for([@supervision, Solution.new]) do |f|
+        = f.inputs do
+          = f.input :content, :hint => t("supervisions.show.solution_content_hint", :default => "Enter your solution")
+        = f.buttons do
+          = f.commit_button
+          %li= link_to(t("supervisions.show.no_more_solutions", :default => "I have no more solutions"), supervision_votes_path(@supervision), :method => :post)
+
+  = render @supervision.solutions

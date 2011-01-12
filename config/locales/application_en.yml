@@ -378,15 +378,46 @@
             - :heading: Supervision feedback
             - :ideas: Ideas
             - :ideas_feedback: Feedback on ideas
+            - :post_topic: Your topic
             - :questions: Questions
             - :solutions: Solutions
             - :solutions_feedback: Feedback on solutions
             - :supervision_feedback: General feedback on supervision
             - :supervision_finished: This supervision is finished.
+            - :supervision_state: !omap 
+                - :asking_questions: Questions
+                - :finished: Finished
+                - :gathering_topics: Topics
+                - :giving_ideas_feedback: Ideas feedback
+                - :giving_solutions_feedback: Solutions feedback
+                - :giving_supervision_feedbacks: Supervision feedbacks
+                - :providing_ideas: Ideas
+                - :providing_solutions: Solutions
+                - :voting_on_topics: Topic votes
+            - :supervision_state_title: !omap 
+                - :asking_questions: Asking questions
+                - :finished: Finished
+                - :gathering_topics: Gathering topics
+                - :giving_ideas_feedback: Giving ideas feedback
+                - :giving_solutions_feedback: Giving solutions feedback
+                - :giving_supervision_feedbacks: Giving supervision feedbacks
+                - :providing_ideas: Providing ideas
+                - :providing_solutions: Providing solutions
+                - :voting_on_topics: Voting on topics
             - :title: Supervision
             - :topic: Topic
+            - :topic_content_hint: Enter your problem or leave this blank if you do not have any
+            - :topics: Topics
+            - :topics_waiting: Waiting for topics from all participants
         - :supervision_topic: !omap 
             - :new_topic: New Topic
+            - :post_topic: Your topic
+            - :topic_content_hint: Enter your problem or leave this blank if you do not have any
+            - :topics: Topics
+            - :waiting: Waiting for topics from all participants
+        - :supervision_topic_votes: !omap 
+            - :topic_votes: Topic votes
+        - :supervision_topics: !omap 
             - :post_topic: Your topic
             - :topic_content_hint: Enter your problem or leave this blank if you do not have any
             - :topics: Topics

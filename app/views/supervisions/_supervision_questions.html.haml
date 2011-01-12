@@ -1,0 +1,19 @@
+.topics_part
+  %h2= t("supervisions.show.topic", :default => "Topic")
+  = render @supervision.topic
+.questions_part
+  %h2= t("supervisions.show.questions", :default => "Questions")
+
+  - if @supervision.asking_questions?
+    %p.waiting= t("supervisions.show.questions_waiting", :default => "Waiting for others")
+
+    - if !@supervision.problem_owner?(current_user) && !@supervision.voted_on_next_step?(current_user)
+      = semantic_form_for([@supervision, Question.new]) do |f|
+        = f.inputs do
+          = f.input :content, :hint => t("supervisions.show.question_content_hint", :default => "Enter your questions regarding the topic")
+        = f.buttons do
+          = f.commit_button
+          %li= link_to(t("supervisions.show.no_more_questions", :default => "I have no more questions"), supervision_votes_path(@supervision), :method => :post)
+
+  = render @supervision.topic_questions
+

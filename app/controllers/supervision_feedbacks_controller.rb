@@ -2,7 +2,7 @@ class SupervisionFeedbacksController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :supervision_feedback, :only => :create
+  require_supervision_step :giving_supervision_feedbacks, :only => :create
 
   def create
     respond_to do |format|

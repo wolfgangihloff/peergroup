@@ -1,39 +1,39 @@
-- @title = t(".title", :default => "Supervision")
+- @title = t("supervisions.show.title", :default => "Supervision")
 
 %article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
   %header
-    %h1= t(".heading", :default => "Supervision")
+    %h1= t("supervisions.show.heading", :default => "Supervision")
 
     %ul.supervision_statusbar
       - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state", :title => t(".supervision_state.title_#{state}", :default => state.humanize) }= t(".supervision_state.#{state}", :default => state.humanize)
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state", :title => t("supervisions.show.supervision_state_title.#{state}", :default => state.humanize) }= t("supervisions.show.supervision_state.#{state}", :default => state.humanize)
 
     - if @supervision.finished?
       = render :partial => "supervision_finished"
 
-  - if @supervision.topic?
-    = render :partial => "supervision_topic"
+  - if @supervision.gathering_topics?
+    = render :partial => "supervision_topics"
 
-  - if @supervision.topic_vote?
-    = render :partial => "supervision_topic_vote"
+  - if @supervision.voting_on_topics?
+    = render :partial => "supervision_topic_votes"
 
-  - if @supervision.step_finished?(:topic_vote)
-    = render :partial => "supervision_topic_question"
+  - if @supervision.step_finished?(:voting_on_topics)
+    = render :partial => "supervision_questions"
 
-  - if @supervision.step_finished?(:topic_question)
-    = render :partial => "supervision_idea"
+  - if @supervision.step_finished?(:asking_questions)
+    = render :partial => "supervision_ideas"
 
-  - if @supervision.step_finished?(:idea)
-    = render :partial => "supervision_idea_feedback"
+  - if @supervision.step_finished?(:providing_ideas)
+    = render :partial => "supervision_ideas_feedback"
 
-  - if @supervision.step_finished?(:idea_feedback)
-    = render :partial => "supervision_solution"
+  - if @supervision.step_finished?(:giving_ideas_feedback)
+    = render :partial => "supervision_solutions"
 
-  - if @supervision.step_finished?(:solution)
-    = render :partial => "supervision_solution_feedback"
+  - if @supervision.step_finished?(:providing_solutions)
+    = render :partial => "supervision_solutions_feedback"
 
-  - if @supervision.step_finished?(:solution_feedback)
-    = render :partial => "supervision_supervision_feedback"
+  - if @supervision.step_finished?(:giving_solutions_feedback)
+    = render :partial => "supervision_supervision_feedbacks"
 
   %footer
     - if @supervision.finished?

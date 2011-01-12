@@ -2,86 +2,105 @@ require 'spec_helper'
 
 describe Supervision do
   describe "state machine" do
-    it "should be in topic state after create" do
-      Supervision.new.state.should == "topic"
+    it "should be in gathering_topics state after create" do
+      @supervision = Supervision.new
+
+      @supervision.state.should == "gathering_topics"
+      @supervision.gathering_topics?.should be_true
     end
 
-    it "should change from topic to topic_vote" do
+    it "should change from gathering_topics to voting_on_topics" do
       @topic = Factory.build(:topic)
-      @supervision = Factory.build(:supervision, :state => "topic")
+      @supervision = Factory.build(:supervision, :state => "gathering_topics")
 
       @supervision.should_receive(:all_topics?).and_return(true)
       @supervision.should_receive(:publish_to_redis)
       @supervision.post_topic!(@topic)
-      @supervision.state.should be == "topic_vote"
+
+      @supervision.state.should be == "voting_on_topics"
+      @supervision.voting_on_topics?.should be_true
     end
 
-    it "should change from topic_vote to topic_question" do
-      @supervision = Factory.build(:supervision, :state => "topic_vote")
+    it "should change from voting_on_topics to asking_questions" do
+      @supervision = Factory.build(:supervision, :state => "voting_on_topics")
 
       @supervision.should_receive(:all_topic_votes?).and_return(true)
       @supervision.should_receive(:choose_topic)
       @supervision.should_receive(:publish_to_redis)
       @supervision.post_topic_vote!(Vote.new)
-      @supervision.state.should be == "topic_question"
+
+      @supervision.state.should be == "asking_questions"
+      @supervision.asking_questions?.should be_true
     end
 
 
-    it "should change from topic_question to idea" do
-      @supervision = Factory.build(:supervision, :state => "topic_question")
+    it "should change from asking_questions to providing_ideas" do
+      @supervision = Factory.build(:supervision, :state => "asking_questions")
 
       @supervision.should_receive(:all_answers?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
       @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
-      @supervision.state.should be == "idea"
+
+      @supervision.state.should be == "providing_ideas"
+      @supervision.providing_ideas?.should be_true
     end
 
-    it "should change from idea to idea_feedback" do
-      @supervision = Factory.build(:supervision, :state => "idea")
+    it "should change from providing_ideas to giving_ideas_feedback" do
+      @supervision = Factory.build(:supervision, :state => "providing_ideas")
 
       @supervision.should_receive(:all_idea_ratings?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
       @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
-      @supervision.state.should be == "idea_feedback"
+
+      @supervision.state.should be == "giving_ideas_feedback"
+      @supervision.giving_ideas_feedback?.should be_true
     end
 
-    it "should change from idea_feedback to solution" do
-      @supervision = Factory.build(:supervision, :state => "idea_feedback")
+    it "should change from giving_ideas_feedback to providing_solutions" do
+      @supervision = Factory.build(:supervision, :state => "giving_ideas_feedback")
 
       @supervision.post_ideas_feedback!(IdeasFeedback.new)
-      @supervision.state.should be == "solution"
+
+      @supervision.state.should be == "providing_solutions"
+      @supervision.providing_solutions?.should be_true
     end
 
-    it "should change from solution to solution_feedback" do
-      @supervision = Factory.build(:supervision, :state => "solution")
+    it "should change from providing_solutions to giving_solutions_feedback" do
+      @supervision = Factory.build(:supervision, :state => "providing_solutions")
 
       @supervision.should_receive(:all_solution_ratings?).and_return(true)
       @supervision.should_receive(:all_next_step_votes?).and_return(true)
       @supervision.should_receive(:publish_to_redis)
       @supervision.should_receive(:destroy_next_step_votes)
       @supervision.post_vote_for_next_step!(Vote.new)
-      @supervision.state.should be == "solution_feedback"
+
+      @supervision.state.should be == "giving_solutions_feedback"
+      @supervision.giving_solutions_feedback?.should be_true
     end
 
-    it "should change from solution_feedback to supervision_feedback" do
-      @supervision = Factory.build(:supervision, :state => "solution_feedback")
+    it "should change from giving_solutions_feedback to giving_supervision_feedbacks" do
+      @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
 
       @supervision.should_receive(:publish_to_redis)
       @supervision.post_solutions_feedback!(SolutionsFeedback.new)
-      @supervision.state.should be == "supervision_feedback"
+
+      @supervision.state.should be == "giving_supervision_feedbacks"
+      @supervision.giving_supervision_feedbacks?.should be_true
     end
 
-    it "should change from supervision_feedback to finished" do
-      @supervision = Factory.build(:supervision, :state => "supervision_feedback")
+    it "should change from giving_supervision_feedbacks to finished" do
+      @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
 
       @supervision.should_receive(:all_supervision_feedbacks?).and_return(true)
       @supervision.should_receive(:publish_to_redis)
       @supervision.post_supervision_feedback!(SupervisionFeedback.new)
+
       @supervision.state.should be == "finished"
+      @supervision.finished?.should be_true
     end
   end
 
@@ -144,123 +163,123 @@ describe Supervision do
       @supervision = Factory.build(:supervision)
     end
     it "should use Supervision::STATES and it should be correct" do
-      Supervision::STATES.should == %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
+      Supervision::STATES.should == %w/ gathering_topics voting_on_topics asking_questions providing_ideas giving_ideas_feedback providing_solutions giving_solutions_feedback giving_supervision_feedbacks finished /
     end
 
-    it "should be correct for :topic state" do
-      @supervision.state = "topic"
-      @supervision.step_finished?("topic").should be_false
-      @supervision.step_finished?("topic_vote").should be_false
-      @supervision.step_finished?("topic_question").should be_false
-      @supervision.step_finished?("idea").should be_false
-      @supervision.step_finished?("idea_feedback").should be_false
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :topics state" do
+      @supervision.state = "gathering_topics"
+      @supervision.step_finished?("gathering_topics").should be_false
+      @supervision.step_finished?("voting_on_topics").should be_false
+      @supervision.step_finished?("asking_questions").should be_false
+      @supervision.step_finished?("providing_ideas").should be_false
+      @supervision.step_finished?("giving_ideas_feedback").should be_false
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :topic_vote state" do
-      @supervision.state = "topic_vote"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_false
-      @supervision.step_finished?("topic_question").should be_false
-      @supervision.step_finished?("idea").should be_false
-      @supervision.step_finished?("idea_feedback").should be_false
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :topic_votes state" do
+      @supervision.state = "voting_on_topics"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_false
+      @supervision.step_finished?("asking_questions").should be_false
+      @supervision.step_finished?("providing_ideas").should be_false
+      @supervision.step_finished?("giving_ideas_feedback").should be_false
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :topic_question state" do
-      @supervision.state = "topic_question"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_false
-      @supervision.step_finished?("idea").should be_false
-      @supervision.step_finished?("idea_feedback").should be_false
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :questions state" do
+      @supervision.state = "asking_questions"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_false
+      @supervision.step_finished?("providing_ideas").should be_false
+      @supervision.step_finished?("giving_ideas_feedback").should be_false
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :idea state" do
-      @supervision.state = "idea"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_false
-      @supervision.step_finished?("idea_feedback").should be_false
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :ideas state" do
+      @supervision.state = "providing_ideas"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_false
+      @supervision.step_finished?("giving_ideas_feedback").should be_false
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :idea_feedback state" do
-      @supervision.state = "idea_feedback"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_true
-      @supervision.step_finished?("idea_feedback").should be_false
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :ideas_feedback state" do
+      @supervision.state = "giving_ideas_feedback"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_false
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :solution state" do
-      @supervision.state = "solution"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_true
-      @supervision.step_finished?("idea_feedback").should be_true
-      @supervision.step_finished?("solution").should be_false
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :solutions state" do
+      @supervision.state = "providing_solutions"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_true
+      @supervision.step_finished?("providing_solutions").should be_false
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :solution_feedback state" do
-      @supervision.state = "solution_feedback"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_true
-      @supervision.step_finished?("idea_feedback").should be_true
-      @supervision.step_finished?("solution").should be_true
-      @supervision.step_finished?("solution_feedback").should be_false
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :solutions_feedback state" do
+      @supervision.state = "giving_solutions_feedback"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_true
+      @supervision.step_finished?("providing_solutions").should be_true
+      @supervision.step_finished?("giving_solutions_feedback").should be_false
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :supervision_feedback state" do
-      @supervision.state = "supervision_feedback"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_true
-      @supervision.step_finished?("idea_feedback").should be_true
-      @supervision.step_finished?("solution").should be_true
-      @supervision.step_finished?("solution_feedback").should be_true
-      @supervision.step_finished?("supervision_feedback").should be_false
+    it "should be correct for :supervision_feedbacks state" do
+      @supervision.state = "giving_supervision_feedbacks"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_true
+      @supervision.step_finished?("providing_solutions").should be_true
+      @supervision.step_finished?("giving_solutions_feedback").should be_true
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_false
       @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :finished state" do
       @supervision.state = "finished"
-      @supervision.step_finished?("topic").should be_true
-      @supervision.step_finished?("topic_vote").should be_true
-      @supervision.step_finished?("topic_question").should be_true
-      @supervision.step_finished?("idea").should be_true
-      @supervision.step_finished?("idea_feedback").should be_true
-      @supervision.step_finished?("solution").should be_true
-      @supervision.step_finished?("solution_feedback").should be_true
-      @supervision.step_finished?("supervision_feedback").should be_true
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_true
+      @supervision.step_finished?("providing_solutions").should be_true
+      @supervision.step_finished?("giving_solutions_feedback").should be_true
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_true
       @supervision.step_finished?("finished").should be_false
     end
   end

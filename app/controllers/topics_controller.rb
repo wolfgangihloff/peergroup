@@ -2,7 +2,7 @@ class TopicsController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :topic, :only => :create
+  require_supervision_step :gathering_topics, :only => :create
 
   def create
     respond_to do |format|
