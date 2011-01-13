@@ -1,5 +1,13 @@
 require "supervision_redis_publisher"
 
+# Run:
+#     rake state_machine:draw CLASS=Supervision
+# to generate diagram how this state machine changes states
+# It's mostly simple one step forward with possibility to step back
+# to arbitrary state, that's why generated diagram is so messed with
+# transitions (you can get back to particular state from all following
+# states)
+
 class Supervision < ActiveRecord::Base
   include SupervisionRedisPublisher
   def supervision_id; id; end # aliasing doesn't work, don't know why yet
@@ -16,9 +24,6 @@ class Supervision < ActiveRecord::Base
     "finished"
   ]
 
-  # Run:
-  #     rake state_machine:draw CLASS=Supervision
-  # to generate diagram how this state machine changes states
   state_machine :state, :initial => :gathering_topics do
     before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
@@ -43,6 +48,46 @@ class Supervision < ActiveRecord::Base
       transition :providing_ideas => :giving_ideas_feedback, :if => :can_move_to_idea_feedback_state?
       transition :providing_solutions => :giving_solutions_feedback, :if => :can_move_to_solution_feedback_state?
     end
+
+    event :step_back_to_asking_questions do
+      transition [
+        :providing_ideas,
+        :giving_ideas_feedback,
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :asking_questions
+    end
+
+    event :step_back_to_providing_ideas do
+      transition [
+        :giving_ideas_feedback,
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :providing_ideas
+    end
+
+    event :step_back_to_giving_ideas_feedback do
+      transition [
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :giving_ideas_feedback
+    end
+
+    event :step_back_to_providing_solutions do
+      transition [
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :providing_solutions
+    end
+
+    event :step_back_to_giving_solutions_feedback do
+      transition [
+        :giving_supervision_feedbacks
+      ] => :giving_solutions_feedback
+    end
   end
 
   has_many :topics, :dependent => :destroy
@@ -62,8 +107,13 @@ class Supervision < ActiveRecord::Base
 
   validates :group, :presence => true
 
-  scope :finished, :conditions => {:state => "finished"}
-  scope :unfinished, :conditions => ["state <> ?", "finished"]
+  def self.finished
+    with_state(:finished)
+  end
+
+  def self.unfinished
+    without_state(:finished)
+  end
 
   attr_accessible
 

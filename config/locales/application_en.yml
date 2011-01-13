@@ -85,6 +85,9 @@
                 - :post_topic: 
                 - :post_topic_vote: 
                 - :post_vote_for_next_step: 
+                - :step_back_to_asking_questions: 
+                - :step_back_to_giving_ideas_feedback: 
+                - :step_back_to_providing_ideas: 
             - :state: !omap 
                 - :events: !omap 
                     - :general_feedback: 
@@ -99,6 +102,9 @@
                     - :post_topic: 
                     - :post_topic_vote: 
                     - :post_vote_for_next_step: 
+                    - :step_back_to_asking_questions: 
+                    - :step_back_to_giving_ideas_feedback: 
+                    - :step_back_to_providing_ideas: 
     - :attributes: !omap 
         - :chat_room: 
         - :conent: 
