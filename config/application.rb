@@ -39,7 +39,7 @@ module Peergroupsupervision
     config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password, :password_confirmation]
+    config.filter_parameters += [:password, :password_confirmation, :passcode]
 
     config.secret_token = 'cae998015ab1b2eda50ee79d7e3a0b2892163b7330aaee63cfe55c83d611050eed84e7b454182c61422877437a76a0c403b1a5e03ac59bed3cc2a6843b3ac262'
   end

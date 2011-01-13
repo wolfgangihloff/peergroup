@@ -6,20 +6,26 @@ Kollegiale Beratung unterstuetzt Kollegen sich gegenseitig zu beraten.
 
 Dies ist die aktuelle Alpha Version
 
-== Tests laufen lassen
+0. Alle Submodule die von node server benoetig werden runterladen und installieren
 
-1. Notwendige gems installieren
+  git submodule update --init
+
+1. Installiere notwendige gems
 
   bundle install
 
-2. mongodb herunterladen http://www.mongodb.org/downloads
+2. Starte redis (download auf http://redis.io/download) - getestet auf 2.0 stable release
 
-3. mongod starten
+4. Starte die App
 
-4. Tests laufen lassen:
+  rails server
 
-  rake spec
-  rake cucumber
+5. Starte node server (download auf http://nodejs.org/#download) - getestet auf v0.3.4
+
+  node app/node.js/server.js
+
+6. Oeffne http://localhost:3000
+
 
 == Übersetzung
 
