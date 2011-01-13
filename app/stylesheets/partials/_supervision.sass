@@ -33,11 +33,14 @@ $content-columns: $blueprint-grid-columns - 2 - 6
     border-right: 2px solid $primary-color-3
     .user
       +push(1)
-      +column(4)
+      +column(2)
       +prepend-top
+      img
+        width: 20px
+        height: 20px
       p
-        font-weight: bold
-        font-size: large
+        font-weight: normal
+        font-size: small
         +ellipsis
     .content
       +prepend-top
