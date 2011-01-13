@@ -29,7 +29,7 @@
         = yield
       = render 'layouts/footer'
 
-    -# Javascripts at end of body, to not slow down dowloading content
+    -# Javascripts at end of body, to not slow down downloading content
     = javascript_include_tag "socket.io.js"
     :javascript
       // This really sucks, but we have no other option to override this setting, or it will point to relative path
