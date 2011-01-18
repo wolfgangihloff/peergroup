@@ -115,7 +115,7 @@ class Supervision < ActiveRecord::Base
     without_state(:finished)
   end
 
-  attr_accessible
+  attr_accessible :state_event
 
   def all_topics?
     group.members.all? {|m| topics.exists?(:user_id => m.id) }

@@ -247,4 +247,12 @@ describe Supervision do
       end
     end
   end
+
+  describe "state_event attribute" do
+    it "should be accessible to mass assignment" do
+      @supervision = Factory(:supervision, :state => "providing_ideas")
+      @supervision.update_attributes({:state_event => "step_back_to_asking_questions"})
+      @supervision.asking_questions?.should be_true
+    end
+  end
 end

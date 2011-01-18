@@ -31,6 +31,19 @@ class SupervisionsController < ApplicationController
     end
   end
 
+  def update
+    @supervision = Supervision.find(params[:id])
+    respond_to do |format|
+      if @supervision.update_attributes!(params[:supervision])
+        format.js { head :created }
+        format.html { redirect_to @supervision }
+      else
+        format.js { head :bad_request }
+        format.html { redirect_to @supervision }
+      end
+    end
+  end
+
   protected
 
   PARTIAL_NAMES = {

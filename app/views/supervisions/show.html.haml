@@ -4,7 +4,11 @@
 
     %ul.supervision_statusbar
       - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state", :title => t("supervisions.show.supervision_state_title.#{state}", :default => state.humanize) }= t("supervisions.show.supervision_state.#{state}", :default => state.humanize)
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+          = form_for @supervision, :remote => true do |f|
+            - if @supervision.respond_to? "step_back_to_#{state}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
+            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
 
     - if @supervision.finished?
       = render :partial => "supervision_finished"

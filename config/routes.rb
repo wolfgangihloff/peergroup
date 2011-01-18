@@ -11,7 +11,7 @@ Peergroupsupervision::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
   resource :relationships, :only => [:create, :destroy]
 
-  resources :supervisions, :only => [:show, :index] do
+  resources :supervisions, :only => [:show, :index, :update] do
     resources :topics, :only => [:create, :show] do
       resources :votes, :only => :create, :controller => :topic_votes
     end

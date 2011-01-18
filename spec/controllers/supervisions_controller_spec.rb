@@ -137,5 +137,25 @@ describe SupervisionsController do
       specify { response.should_not render_template("show") }
     end
   end
+
+  describe "#update" do
+    context "with default format" do
+      before do
+        @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+        put :update, :id => @supervision.id, :supervision => { :state_event => "step_back_to_providing_ideas" }
+      end
+
+      specify { response.should redirect_to(supervision_path(@supervision)) }
+    end
+
+    context "with js format" do
+      before do
+        @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+        put :update, :id => @supervision.id, :supervision => { :state_event => "step_back_to_providing_ideas" }, :format => "js"
+      end
+
+      specify { response.should be_success }
+    end
+  end
 end
 

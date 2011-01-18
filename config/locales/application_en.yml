@@ -55,6 +55,7 @@
                 - :solutions_feedback: !omap 
                     - :blank: 
                 - :supervision: !omap 
+                    - :invalid_event: 
                     - :invalid_transition: 
                 - :supervision_feedback: !omap 
                     - :blank: 
