@@ -1,8 +1,6 @@
-- @title = t("supervisions.show.title", :default => "Supervision")
-
 %article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
   %header
-    %h1= t("supervisions.show.heading", :default => "Supervision")
+    %h1= t("supervisions.show.heading")
 
     %ul.supervision_statusbar
       - Supervision::STATES.each do |state|

@@ -6,7 +6,13 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :setup_title
+
   protected
+
+  def setup_title
+    @title = t("#{controller_name}.#{action_name}.title")
+  end
 
   def require_parent_group
     @group = Group.find(params[:group_id])
