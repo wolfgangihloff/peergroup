@@ -3,6 +3,17 @@ class TopicsController < ApplicationController
   before_filter :authenticate
   before_filter :require_parent_supervision
   require_supervision_step :gathering_topics, :only => :create
+  require_supervision_step :gathering_topics, :voting_on_topics, :only => :index
+
+  def index
+    if params[:partial]
+      partial_name = PARTIAL_NAMES[params[:partial]]
+      render :partial => partial_name, :layout => false
+    else
+      @token = SecureRandom.hex
+      REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    end
+  end
 
   def create
     respond_to do |format|
@@ -31,4 +42,11 @@ class TopicsController < ApplicationController
       render :partial => "topic", :layout => false, :locals => { :topic => @topic }
     end
   end
+
+  protected
+
+  PARTIAL_NAMES = {
+    "topics" => "supervision_topics",
+    "topics_votes" => "supervision_topics_votes"
+  }
 end

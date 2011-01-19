@@ -1,5 +1,6 @@
 //= require "chat_room"
 //= require "supervision"
+//= require "supervision-topics"
 //= require "s"
 
 jQuery(function($) {
@@ -63,9 +64,11 @@ jQuery(function($) {
         });
     });
 
-    $("#supervisions_show .supervision").each(function(i, element) {
+    $("#supervisions_show .supervision,#topics_index .supervision").each(function(i, element) {
         var $supervision = $(this);
-        $supervision.supervisionRoom();
+        $supervision
+            .supervisionRoom()
+            .supervisionTopicsRoom();
 
         var supervisionToken = $supervision.data("token");
         var supervisionId = $supervision.attr("id").replace("supervision_", "");

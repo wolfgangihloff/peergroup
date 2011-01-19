@@ -1,0 +1,20 @@
+%article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
+  %header
+    %h1= t("topics.show.heading")
+
+    %ul.supervision_statusbar
+      - Supervision::STATES.each do |state|
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+          = form_for @supervision, :remote => true do |f|
+            - if @supervision.respond_to? "step_back_to_#{state}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
+            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
+
+
+  - if @supervision.gathering_topics?
+    = render :partial => "supervision_topics"
+
+  - if @supervision.voting_on_topics?
+    = render :partial => "supervision_topics_votes"
+
+  %footer

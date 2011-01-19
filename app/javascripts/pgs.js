@@ -2,6 +2,8 @@
     var root = this;
     var usersCache = {};
     var path = function(pathComponents, options) {
+        options = options || {};
+
         var p = "/" + pathComponents.join("/");
         if (options.format) {
             p = p + "." + options.format;
@@ -39,6 +41,10 @@
 
         supervisionPath: function(supervisionId, options) {
             return path(["supervisions", supervisionId], options);
+        },
+
+        supervisionTopicsPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "topics"], options);
         },
 
         supervisionTopicPath: function(supervisionId, topicId, options) {
