@@ -1,5 +1,5 @@
 .topics_part
-  %h2= t("supervisions.show.topics", :default => "Topics")
+  %h2= t("supervisions.show.topics")
 
   - if @supervision.gathering_topics?
     %p.waiting= t("supervisions.show.topics_waiting", :default => "Waiting for topics from all participants")

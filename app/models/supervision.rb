@@ -51,6 +51,7 @@ class Supervision < ActiveRecord::Base
 
     event :step_back_to_asking_questions do
       transition [
+        :asking_questions,
         :providing_ideas,
         :giving_ideas_feedback,
         :providing_solutions,
@@ -93,14 +94,14 @@ class Supervision < ActiveRecord::Base
   has_many :topics, :dependent => :destroy
   has_many :topic_votes, :through => :topics, :source => :votes
   has_many :next_step_votes, :class_name => "Vote", :as => :statement, :dependent => :destroy
-  has_many :topic_questions, :class_name => "Question", :dependent => :destroy
-  has_many :questions, :dependent => :destroy
-  has_many :ideas, :dependent => :destroy
-  has_many :solutions, :dependent => :destroy
+  has_many :topic_questions, :class_name => "Question", :dependent => :destroy, :order => "created_at DESC"
+  has_many :questions, :dependent => :destroy, :order => "created_at DESC"
+  has_many :ideas, :dependent => :destroy, :order => "created_at DESC"
+  has_many :solutions, :dependent => :destroy, :order => "created_at DESC"
 
-  has_one :ideas_feedback, :dependent => :destroy
-  has_one :solutions_feedback, :dependent => :destroy
-  has_many :supervision_feedbacks, :dependent => :destroy
+  has_one :ideas_feedback, :dependent => :destroy, :order => "created_at DESC"
+  has_one :solutions_feedback, :dependent => :destroy, :order => "created_at DESC"
+  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at DESC"
 
   belongs_to :topic
   belongs_to :group

@@ -19,9 +19,9 @@ Peergroupsupervision::Application.routes.draw do
       resource :answer, :only => :create
     end
     resources :ideas, :only => [:create, :update, :show]
-    resources :ideas_feedbacks, :only => [:create, :show]
+    resource :ideas_feedback, :only => [:create, :show]
     resources :solutions, :only => [:create, :update, :show]
-    resources :solutions_feedbacks, :only => [:create, :show]
+    resource :solutions_feedback, :only => [:create, :show]
     resources :supervision_feedbacks, :only => [:create, :show]
     resources :votes, :only => :create
   end

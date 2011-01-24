@@ -1,6 +1,6 @@
 %p
-  = t("supervisions.show.supervision_finished", :default => "This supervision is finished.")
+  = t("supervisions.show.supervision_finished")
   - if @supervision.group.current_supervision.present?
-    = link_to(t("supervisions.show.go_to_current", :default => "Go to current supervision session"), supervision_step_path(@supervision.group.current_supervision))
+    = link_to(t("supervisions.show.go_to_current"), supervision_step_path(@supervision.group.current_supervision))
   - else
-    = link_to(t("supervisions.show.create_new", :default => "Create new?"), new_group_supervision_path(@supervision.group))
+    = link_to(t("supervisions.show.create_new"), new_group_supervision_path(@supervision.group))

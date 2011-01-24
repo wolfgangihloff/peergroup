@@ -55,6 +55,7 @@
                 - :solutions_feedback: !omap 
                     - :blank: 
                 - :supervision: !omap 
+                    - :invalid: 
                     - :invalid_event: 
                     - :invalid_transition: 
                 - :supervision_feedback: !omap 
@@ -106,6 +107,10 @@
                     - :step_back_to_asking_questions: 
                     - :step_back_to_giving_ideas_feedback: 
                     - :step_back_to_providing_ideas: 
+                - :states: !omap 
+                    - :gathering_topics: 
+            - :states: !omap 
+                - :gathering_topics: 
     - :attributes: !omap 
         - :chat_room: 
         - :conent: 
@@ -123,14 +128,19 @@
         - :question: 
         - :rating: 
         - :state: 
+        - :state_event: 
         - :statement: 
         - :supervision: 
         - :user: 
+    - :chat_messages: !omap 
+        - :create: !omap 
+            - :title: 
     - :chat_rooms: !omap 
         - :show: !omap 
             - :links: !omap 
                 - :new_thread: new thread
             - :submit: Submit
+            - :title: 
     - :chat_updates: !omap 
         - :chat_update: !omap 
             - :links: !omap 
@@ -177,6 +187,8 @@
                 - :inclusion: 
                 - :not_a_number: 
                 - :not_an_integer: 
+            - :state: !omap 
+                - :invalid: 
             - :statement: !omap 
                 - :blank: 
             - :supervision: !omap 
@@ -191,6 +203,7 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Group Create Successfully
+            - :title: 
         - :group_brief: !omap 
             - :confirmations: !omap 
                 - :delete: You sure?
@@ -222,22 +235,6 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Idea successfully submited
-        - :ideas: !omap 
-            - :ideas: Ideas
-        - :index: !omap 
-            - :feedback: !omap 
-                - :info: Provide the feedback on ideas
-            - :heading: Ideas
-            - :idea: !omap 
-                - :no_more: I have no more ideas
-                - :submit: Submit
-            - :ideas_feedback: !omap 
-                - :submit: Submit
-            - :no_ideas: Wait for some ideas
-            - :questions: Questions
-            - :step_description: Any ideas?
-            - :title: Ideas
-            - :topic: Current topic
         - :update: !omap 
             - :flash: !omap 
                 - :successful: Idea rated
@@ -290,9 +287,16 @@
         - :home_member: !omap 
             - :latest_groups: Latest groups
             - :your_groups: Your groups
+    - :relationships: !omap 
+        - :create: !omap 
+            - :title: 
+        - :destroy: !omap 
+            - :title: 
     - :sessions: !omap 
         - :create: !omap 
             - :title: Sign in
+        - :destroy: !omap 
+            - :title: 
         - :new: !omap 
             - :links: !omap 
                 - :signup: Sign up now!
@@ -304,27 +308,6 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Solution submited
-        - :index: !omap 
-            - :heading: Solutions
-            - :ideas: Ideas
-            - :ideas_feedback: !omap 
-                - :heading: "Feedback on ideas:"
-            - :no_solutions: Wait for some solutions
-            - :questions: Questions
-            - :solution: !omap 
-                - :no_more: I have no more solutions
-                - :submit: Submit
-            - :solution_feedback: !omap 
-                - :description: Provide the feedback on solutions
-            - :solutions: Solutions
-            - :solutions_feedback: !omap 
-                - :heading: "Feedback on solutions:"
-                - :submit: Submit
-            - :step_description: Any solutions?
-            - :title: Solutions
-            - :topic: Current topic
-        - :solutions: !omap 
-            - :solutions: Solutions
         - :update: !omap 
             - :flash: !omap 
                 - :successful: Solution rated
@@ -336,38 +319,7 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Feedback submitted
-        - :index: !omap 
-            - :heading: Supervision feedback
-            - :ideas: Ideas
-            - :ideas_feedback: !omap 
-                - :heading: "Feedback on ideas:"
-            - :questions: Questions
-            - :solutions: Solutions
-            - :solutions_feedback: !omap 
-                - :heading: "Feedback on solutions:"
-            - :supervision_feedback: !omap 
-                - :heading: "General feedback on supervision:"
-            - :title: Supervision feedback
-            - :topic: Current topic
     - :supervisions: !omap 
-        - :contentable: !omap 
-            - :answer: !omap 
-                - :submit: Answer
-            - :heading: !omap 
-                - :answer: Answer
-            - :vote: Vote
-        - :contentable_form: !omap 
-            - :idea: !omap 
-                - :no_more: I have no more ideas
-                - :submit: Submit
-            - :ideas_feedback: !omap 
-                - :submit: Submit
-            - :solution: !omap 
-                - :no_more: I have no more solutions
-                - :submit: Submit
-            - :solutions_feedback: !omap 
-                - :submit: Submit
-            - :submit: Submit Topic
         - :new: !omap 
             - :answers: !omap 
                 - :no: "No"
@@ -382,38 +334,8 @@
                 - :rate: Rate
         - :show: !omap 
             - :create_new: Create new?
-            - :heading: Supervision feedback
-            - :ideas: Ideas
-            - :ideas_feedback: Feedback on ideas
+            - :go_to_current: Go to current supervision session
             - :post_topic: Your topic
-            - :questions: Questions
-            - :solutions: Solutions
-            - :solutions_feedback: Feedback on solutions
-            - :supervision_feedback: General feedback on supervision
-            - :supervision_finished: This supervision is finished.
-            - :supervision_state: !omap 
-                - :asking_questions: Questions
-                - :finished: Finished
-                - :gathering_topics: Topics
-                - :giving_ideas_feedback: Ideas feedback
-                - :giving_solutions_feedback: Solutions feedback
-                - :giving_supervision_feedbacks: Supervision feedbacks
-                - :providing_ideas: Ideas
-                - :providing_solutions: Solutions
-                - :voting_on_topics: Topic votes
-            - :supervision_state_title: !omap 
-                - :asking_questions: Asking questions
-                - :finished: Finished
-                - :gathering_topics: Gathering topics
-                - :giving_ideas_feedback: Giving ideas feedback
-                - :giving_solutions_feedback: Giving solutions feedback
-                - :giving_supervision_feedbacks: Giving supervision feedbacks
-                - :providing_ideas: Providing ideas
-                - :providing_solutions: Providing solutions
-                - :voting_on_topics: Voting on topics
-            - :title: Supervision
-            - :topic: Topic
-            - :topic_content_hint: Enter your problem or leave this blank if you do not have any
             - :topics: Topics
             - :topics_waiting: Waiting for topics from all participants
         - :supervision_topic: !omap 
@@ -429,6 +351,8 @@
             - :topic_content_hint: Enter your problem or leave this blank if you do not have any
             - :topics: Topics
             - :waiting: Waiting for topics from all participants
+        - :update: !omap 
+            - :title: 
     - :topic_answers: !omap 
         - :create: !omap 
             - :flash: !omap 
@@ -477,14 +401,22 @@
                 - :hint: Enter your problem or leave this blank if you do not have any.
             - :submit: Submit Topic
             - :title: New Topic
+        - :show: !omap 
+            - :heading: 
     - :users: !omap 
+        - :create: !omap 
+            - :title: 
+        - :destroy: !omap 
+            - :title: 
         - :edit: !omap 
             - :buttons: !omap 
                 - :update: Update
             - :edit_title: Edit user
             - :links: !omap 
                 - :change_gravatar: change
+            - :title: 
         - :index: !omap 
+            - :title: 
             - :users_title: All users
         - :new: !omap 
             - :buttons: !omap 
@@ -493,3 +425,8 @@
                 - :signin: Sign in!
             - :signup: Sign up
             - :signup_title: Sign up
+            - :title: 
+        - :show: !omap 
+            - :title: 
+        - :update: !omap 
+            - :title: 

@@ -1,5 +1,5 @@
 .topic_votes_part
-  %h2= t("supervisions.show.topic_votes", :default => "Topic votes")
+  %h2= t("supervisions.show.topic_votes")
 
   - if @supervision.voting_on_topics?
     %p.waiting= t("supervisions.show.topic_votes_waiting", :default => "Waiting for all votes")
