@@ -1,61 +1,122 @@
 require "supervision_redis_publisher"
 
+# Run:
+#     rake state_machine:draw CLASS=Supervision
+# to generate diagram how this state machine changes states
+# It's mostly simple one step forward with possibility to step back
+# to arbitrary state, that's why generated diagram is so messed with
+# transitions (you can get back to particular state from all following
+# states)
+
 class Supervision < ActiveRecord::Base
   include SupervisionRedisPublisher
   def supervision_id; id; end # aliasing doesn't work, don't know why yet
 
-  STATES = %w/ topic topic_vote topic_question idea idea_feedback solution solution_feedback supervision_feedback finished /
+  STATES = [
+    "gathering_topics",
+    "voting_on_topics",
+    "asking_questions",
+    "providing_ideas",
+    "giving_ideas_feedback",
+    "providing_solutions",
+    "giving_solutions_feedback",
+    "giving_supervision_feedbacks",
+    "finished"
+  ]
 
-  # Run:
-  #     rake state_machine:draw CLASS=Supervision
-  # to generate diagram how this state machine changes states
-  state_machine :state, :initial => :topic do
-    before_transition :topic_vote => :topic_question, :do => :choose_topic
+  state_machine :state, :initial => :gathering_topics do
+    before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
 
     event :post_topic do
-      transition :topic => :topic_vote, :if => :all_topics?
+      transition :gathering_topics => :voting_on_topics, :if => :all_topics?
     end
     event :post_topic_vote do
-      transition :topic_vote => :topic_question, :if => :all_topic_votes?
+      transition :voting_on_topics => :asking_questions, :if => :all_topic_votes?
     end
     event :post_ideas_feedback do
-      transition :idea_feedback => :solution
+      transition :giving_ideas_feedback => :providing_solutions
     end
     event :post_solutions_feedback do
-      transition :solution_feedback => :supervision_feedback
+      transition :giving_solutions_feedback => :giving_supervision_feedbacks
     end
     event :post_supervision_feedback do
-      transition :supervision_feedback => :finished, :if => :can_move_to_finished_state?
+      transition :giving_supervision_feedbacks => :finished, :if => :can_move_to_finished_state?
     end
     event :post_vote_for_next_step do
-      transition :topic_question => :idea, :if => :can_move_to_idea_state?
-      transition :idea => :idea_feedback, :if => :can_move_to_idea_feedback_state?
-      transition :solution => :solution_feedback, :if => :can_move_to_solution_feedback_state?
+      transition :asking_questions => :providing_ideas, :if => :can_move_to_idea_state?
+      transition :providing_ideas => :giving_ideas_feedback, :if => :can_move_to_idea_feedback_state?
+      transition :providing_solutions => :giving_solutions_feedback, :if => :can_move_to_solution_feedback_state?
+    end
+
+    event :step_back_to_asking_questions do
+      transition [
+        :asking_questions,
+        :providing_ideas,
+        :giving_ideas_feedback,
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :asking_questions
+    end
+
+    event :step_back_to_providing_ideas do
+      transition [
+        :giving_ideas_feedback,
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :providing_ideas
+    end
+
+    event :step_back_to_giving_ideas_feedback do
+      transition [
+        :providing_solutions,
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :giving_ideas_feedback
+    end
+
+    event :step_back_to_providing_solutions do
+      transition [
+        :giving_solutions_feedback,
+        :giving_supervision_feedbacks
+      ] => :providing_solutions
+    end
+
+    event :step_back_to_giving_solutions_feedback do
+      transition [
+        :giving_supervision_feedbacks
+      ] => :giving_solutions_feedback
     end
   end
 
   has_many :topics, :dependent => :destroy
   has_many :topic_votes, :through => :topics, :source => :votes
   has_many :next_step_votes, :class_name => "Vote", :as => :statement, :dependent => :destroy
-  has_many :topic_questions, :class_name => "Question", :dependent => :destroy
-  has_many :questions, :dependent => :destroy
-  has_many :ideas, :dependent => :destroy
-  has_many :solutions, :dependent => :destroy
+  has_many :topic_questions, :class_name => "Question", :dependent => :destroy, :order => "created_at DESC"
+  has_many :questions, :dependent => :destroy, :order => "created_at DESC"
+  has_many :ideas, :dependent => :destroy, :order => "created_at DESC"
+  has_many :solutions, :dependent => :destroy, :order => "created_at DESC"
 
-  has_one :ideas_feedback, :dependent => :destroy
-  has_one :solutions_feedback, :dependent => :destroy
-  has_many :supervision_feedbacks, :dependent => :destroy
+  has_one :ideas_feedback, :dependent => :destroy, :order => "created_at DESC"
+  has_one :solutions_feedback, :dependent => :destroy, :order => "created_at DESC"
+  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at DESC"
 
   belongs_to :topic
   belongs_to :group
 
   validates :group, :presence => true
 
-  scope :finished, :conditions => {:state => "finished"}
-  scope :unfinished, :conditions => ["state <> ?", "finished"]
+  def self.finished
+    with_state(:finished)
+  end
 
-  attr_accessible
+  def self.unfinished
+    without_state(:finished)
+  end
+
+  attr_accessible :state_event
 
   def all_topics?
     group.members.all? {|m| topics.exists?(:user_id => m.id) }

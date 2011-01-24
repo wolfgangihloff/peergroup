@@ -1,40 +1,93 @@
-- @title = t(".title", :default => "Supervision")
-
 %article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
   %header
-    %h1= t(".heading", :default => "Supervision")
+    %h1= t("supervisions.show.heading")
 
     %ul.supervision_statusbar
       - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state", :title => t(".supervision_state.title_#{state}", :default => state.humanize) }= t(".supervision_state.#{state}", :default => state.humanize)
+        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+          = form_for @supervision, :remote => true do |f|
+            - if @supervision.respond_to? "step_back_to_#{state}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
+            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
 
-    - if @supervision.finished?
+    %div{:"data-show-in-state" => "finished"}
       = render :partial => "supervision_finished"
 
-  - if @supervision.topic?
-    = render :partial => "supervision_topic"
+  .topics_part
+    %h2= t("supervisions.show.topic")
+    = render @supervision.topic
 
-  - if @supervision.topic_vote?
-    = render :partial => "supervision_topic_vote"
+  .questions_part
+    %h2= t("supervisions.show.questions")
 
-  - if @supervision.step_finished?(:topic_vote)
-    = render :partial => "supervision_topic_question"
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "asking_questions"}
+        %p.waiting= t("supervisions.show.questions_waiting")
+        = render :partial => 'questions/form' unless @supervision.problem_owner?(current_user)
 
-  - if @supervision.step_finished?(:topic_question)
-    = render :partial => "supervision_idea"
+    = render @supervision.topic_questions
 
-  - if @supervision.step_finished?(:idea)
-    = render :partial => "supervision_idea_feedback"
+  .ideas_part
+    %h2= t("supervisions.show.ideas")
 
-  - if @supervision.step_finished?(:idea_feedback)
-    = render :partial => "supervision_solution"
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "providing_ideas"}
+        %p.waiting
+        - if @supervision.problem_owner?(current_user)
+          = t("supervisions.show.problem_owner_ideas_waiting")
+        - else
+          = t("supervisions.show.ideas_waiting")
+        = render :partial => 'ideas/form' unless @supervision.problem_owner?(current_user)
 
-  - if @supervision.step_finished?(:solution)
-    = render :partial => "supervision_solution_feedback"
+    = render @supervision.ideas
 
-  - if @supervision.step_finished?(:solution_feedback)
-    = render :partial => "supervision_supervision_feedback"
+  .ideas_feedback_part
+    %h2= t("supervisions.show.ideas_feedback")
+
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "giving_ideas_feedback"}
+        - if @supervision.problem_owner?(current_user)
+          = render :partial => 'ideas_feedbacks/form'
+        - else
+          %p.waiting= t("supervisions.show.ideas_feedback_waiting")
+
+    = render @supervision.ideas_feedback if @supervision.ideas_feedback
+
+  .solutions_part
+    %h2= t("supervisions.show.solutions")
+
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "providing_solutions"}
+        - if @supervision.problem_owner?(current_user)
+          %p.waiting= t("supervisions.show.problem_owner_solutions_waiting")
+        - else
+          %p.waiting= t("supervisions.show.solutions_waiting")
+        = render :partial => 'solutions/form' unless @supervision.problem_owner?(current_user)
+
+    = render @supervision.solutions
+
+  .solutions_feedback_part
+    %h2= t("supervisions.show.solutions_feedback")
+
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "giving_solutions_feedback"}
+        - if @supervision.problem_owner?(current_user)
+          = render :partial => 'solutions_feedbacks/form'
+        - else
+          %p.waiting= t("supervisions.show.solutions_feedback_waiting")
+
+    = render @supervision.solutions_feedback if @supervision.solutions_feedback
+
+  .supervision_feedbacks_part
+    %h2= t("supervisions.show.supervision_feedbacks")
+
+    - unless @supervision.finished?
+      %div{:"data-show-in-state" => "giving_supervision_feedbacks"}
+        %p.waiting= t("supervisions.show.supervision_feedbacks_waiting")
+        = render :partial => 'supervision_feedbacks/form' unless @supervision.posted_supervision_feedback?(current_user)
+
+    = render @supervision.supervision_feedbacks
 
   %footer
-    - if @supervision.finished?
+    %div{:"data-show-in-state" => "finished"}
       = render :partial => "supervision_finished"

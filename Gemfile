@@ -36,6 +36,7 @@ end
 group :development do
   gem "nifty-generators"
   gem "ruby-graphviz"
+  gem "metric_fu"
 end
 
 group :cucumber do

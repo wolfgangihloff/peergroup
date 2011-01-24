@@ -11,6 +11,5 @@ jQuery.timeago.settings.allowFuture = true;
 //= require "lib/jquery.form"
 //= require "lib/jquery.rating"
 //
-//= require "supervision"
-//= require "socket"
 //= require "pgs"
+//= require "socket"

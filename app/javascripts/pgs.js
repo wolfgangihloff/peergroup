@@ -2,6 +2,8 @@
     var root = this;
     var usersCache = {};
     var path = function(pathComponents, options) {
+        options = options || {};
+
         var p = "/" + pathComponents.join("/");
         if (options.format) {
             p = p + "." + options.format;
@@ -41,6 +43,10 @@
             return path(["supervisions", supervisionId], options);
         },
 
+        supervisionTopicsPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "topics"], options);
+        },
+
         supervisionTopicPath: function(supervisionId, topicId, options) {
             return path(["supervisions", supervisionId, "topics", topicId], options);
         },
@@ -53,16 +59,16 @@
             return path(["supervisions", supervisionId, "ideas", ideaId], options);
         },
 
-        supervisionIdeasFeedbackPath: function(supervisionId, ideaFeedbackId, options) {
-            return path(["supervisions", supervisionId, "ideas_feedbacks", ideaFeedbackId], options);
+        supervisionIdeasFeedbackPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "ideas_feedback"], options);
         },
 
         supervisionSolutionPath: function(supervisionId, solutionId, options) {
             return path(["supervisions", supervisionId, "solutions", solutionId], options);
         },
 
-        supervisionSolutionsFeedbackPath: function(supervisionId, solutionFeedbackId, options) {
-            return path(["supervisions", supervisionId, "solutions_feedbacks", solutionFeedbackId], options);
+        supervisionSolutionsFeedbackPath: function(supervisionId, options) {
+            return path(["supervisions", supervisionId, "solutions_feedback"], options);
         },
 
         supervisionSupervisionFeedbackPath: function(supervisionId, supervisionFeedbackId, options) {
@@ -71,6 +77,7 @@
 
         getSocket: function() {
             if (typeof socket === "undefined") {
+                WEB_SOCKET_SWF_LOCATION = document.location.protocol + "//" + document.location.hostname + ":8080" + WEB_SOCKET_SWF_LOCATION;
                 socket = new io.Socket(null, { port: 8080 });
                 socket.connect();
             }

@@ -1,0 +1,4 @@
+= semantic_form_for(IdeasFeedback.new, :url => supervision_ideas_feedback_path(@supervision)) do |f|
+  = f.inputs do
+    = f.input :content, :hint => t("supervisions.show.ideas_feedback_content_hint")
+  = f.buttons :commit

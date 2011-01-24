@@ -2,4 +2,69 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  topics:
+    index:
+      heading: Supervision Topics
+      title: Supervision Session
+  supervisions:
+    show:
+      heading: Supervision Session
+      title: Supervision Session
+
+      topics: Topics List
+      topic_votes: Topic votes
+      topic: Topic
+      questions: Questions
+      solutions: Solutions
+      ideas: Ideas
+      ideas_feedback: Feedback on ideas
+      solutions: Solutions
+      solutions_feedback: Feedback on solutions
+      supervision_feedbacks: General feedbacks on supervision
+
+      questions_waiting: Waiting for questions from participants
+      question_content_hint: Enter your question here
+      no_more_questions: No more questions
+
+      ideas_waiting: Waiting for ideas from other participants
+      problem_owner_ideas_waiting: Waiting for ideas
+      idea_content_hint: Enter your idea here
+      no_more_ideas: No more ideas
+
+      ideas_feedback_waiting: Waiting for feedback from problem owner
+      ideas_feedback_content_hint: Enter your feedback about provided ideas
+
+      solutions_waiting: Waiting for solutions from other participants
+      problem_owner_solutions_waiting: Waiting for solutions
+      solution_content_hint: Enter your solution here
+      no_more_solutions: No more solutions
+
+      solutions_feedback_waiting: Waiting for feedback from problem owner
+      solutions_feedback_content_hint: Enter your feedback about provided solutions
+
+      supervision_feedbacks_waiting: Waiting for general feedback from all participants
+      supervision_feedback_content_hint: Enter your thoughts about supervision session
+
+      supervision_finished: This supervision is finished.
+
+      supervision_state:
+        asking_questions: Questions
+        finished: Finished
+        gathering_topics: Topics
+        giving_ideas_feedback: Ideas feedback
+        giving_solutions_feedback: Solutions feedback
+        giving_supervision_feedbacks: Supervision feedbacks
+        providing_ideas: Ideas
+        providing_solutions: Solutions
+        voting_on_topics: Topic votes
+
+      supervision_state_title:
+        asking_questions: Asking questions
+        finished: Finished
+        gathering_topics: Gathering topics
+        giving_ideas_feedback: Giving ideas feedback
+        giving_solutions_feedback: Giving solutions feedback
+        giving_supervision_feedbacks: Giving supervision feedbacks
+        providing_ideas: Providing ideas
+        providing_solutions: Providing solutions
+        voting_on_topics: Voting on topics

@@ -2,7 +2,7 @@ class IdeasController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :idea, :only => [:create, :update]
+  require_supervision_step :providing_ideas, :only => [:create, :update]
 
   def create
     respond_to do |format|

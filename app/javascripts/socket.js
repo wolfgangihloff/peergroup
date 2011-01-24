@@ -1,5 +1,6 @@
 //= require "chat_room"
 //= require "supervision"
+//= require "supervision-topics"
 //= require "s"
 
 jQuery(function($) {
@@ -63,9 +64,9 @@ jQuery(function($) {
         });
     });
 
-    $("#supervisions_show .supervision").each(function(i, element) {
+    $("#topics_index .supervision").each(function(i, element) {
         var $supervision = $(this);
-        $supervision.supervisionRoom();
+        $supervision.supervisionTopicsRoom();
 
         var supervisionToken = $supervision.data("token");
         var supervisionId = $supervision.attr("id").replace("supervision_", "");
@@ -86,6 +87,29 @@ jQuery(function($) {
         });
         s.on("topic", function(type, message) {
             $supervision.trigger("newTopic", message.topic);
+        });
+    });
+
+    $("#supervisions_show .supervision").each(function(i, element) {
+        var $supervision = $(this);
+        $supervision.supervisionRoom();
+
+        var supervisionToken = $supervision.data("token");
+        var supervisionId = $supervision.attr("id").replace("supervision_", "");
+
+        var s = S(PGS.getSocket(), "supervision");
+        s.on("authentication", function(type, message) {
+            if (message.status === "OK") {
+                console.log("supervision: Authenticated");
+            } else {
+                console.error(message);
+            }
+        });
+        s.onConnect(function() {
+            this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
+        });
+        s.on("supervision", function(type, message) {
+            $supervision.trigger("supervisionUpdate", message.supervision);
         });
         s.on("question", function(type, message) {
             $supervision.trigger("newQuestion", message.question);
