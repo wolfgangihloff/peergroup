@@ -13,12 +13,14 @@
     %div{:"data-show-in-state" => "finished"}
       = render :partial => "supervision_finished"
 
-  .topics_part
-    %h2= t("supervisions.show.topic")
+  %section.topics_part
+    %header
+      %h1= t("supervisions.show.topic")
     = render @supervision.topic
 
-  .questions_part
-    %h2= t("supervisions.show.questions")
+  %section.questions_part
+    %header
+      %h1= t("supervisions.show.questions")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "asking_questions"}
@@ -27,8 +29,9 @@
 
     = render @supervision.topic_questions
 
-  .ideas_part
-    %h2= t("supervisions.show.ideas")
+  %section.ideas_part
+    %header
+      %h1= t("supervisions.show.ideas")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "providing_ideas"}
@@ -41,8 +44,9 @@
 
     = render @supervision.ideas
 
-  .ideas_feedback_part
-    %h2= t("supervisions.show.ideas_feedback")
+  %section.ideas_feedback_part
+    %header
+      %h1= t("supervisions.show.ideas_feedback")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "giving_ideas_feedback"}
@@ -53,8 +57,9 @@
 
     = render @supervision.ideas_feedback if @supervision.ideas_feedback
 
-  .solutions_part
-    %h2= t("supervisions.show.solutions")
+  %section.solutions_part
+    %header
+      %h1= t("supervisions.show.solutions")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "providing_solutions"}
@@ -66,8 +71,9 @@
 
     = render @supervision.solutions
 
-  .solutions_feedback_part
-    %h2= t("supervisions.show.solutions_feedback")
+  %section.solutions_feedback_part
+    %header
+      %h1= t("supervisions.show.solutions_feedback")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "giving_solutions_feedback"}
@@ -78,8 +84,9 @@
 
     = render @supervision.solutions_feedback if @supervision.solutions_feedback
 
-  .supervision_feedbacks_part
-    %h2= t("supervisions.show.supervision_feedbacks")
+  %section.supervision_feedbacks_part
+    %header
+      %h1= t("supervisions.show.supervision_feedbacks")
 
     - unless @supervision.finished?
       %div{:"data-show-in-state" => "giving_supervision_feedbacks"}

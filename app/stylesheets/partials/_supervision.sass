@@ -1,5 +1,6 @@
 $content-columns: $blueprint-grid-columns - 2 - 6
-#supervisions_show,#topics_index
+
+#supervisions_show
   .supervision_statusbar
     +reset_box_model
     +reset_list_style
@@ -26,52 +27,148 @@ $content-columns: $blueprint-grid-columns - 2 - 6
         background: transparent
         margin: 0
         padding: 0
-  .topic, .question, .idea, .ideas_feedback, .solution, .solutions_feedback, .supervision_feedback
-    textarea
-      height: 4em
-      line-height: 1em
-    overflow: hidden
-    +append-bottom
-    +border-top-left-radius($border-radius)
-    +border-bottom-right-radius($border-radius)
-    background-color: #F4F8F8
-    border-top: 1px solid $primary-color-1
-    border-left: 1px solid $primary-color-1
-    border-bottom: 2px solid $primary-color-3
-    border-right: 2px solid $primary-color-3
-    .user
-      +push(1)
-      +column(2)
-      +prepend-top
-      img
-        width: 20px
-        height: 20px
-      p
-        font-weight: normal
-        font-size: small
-        +ellipsis
+
+  .user
+    +reset_box_model
+    +column(1)
+    img.gravatar
+      margin: 0 auto
+      border: 2px solid transparent
+      width: 26px
+      height: 26px
+    &.problem_owner
+      img.gravatar
+        border-color: #0088FF
+    a
+      display: block
+      +reset_box_model
+    .name
+      display: none
+
+  .topics_part,.questions_part,.ideas_part,.ideas_feedback_part,.solutions_part,.solutions_feedback_part,.supervision_feedbacks_part
+    margin-top: 1.5em
+    header
+      margin: 0
+    h1
+      font-size: 1.5em
     .content
-      +prepend-top
-      overflow: auto
       p
-        +column($content-columns, true)
+        padding-right: 1em
         text-align: justify
-      .answer, .rating
-        +column($content-columns, true)
-        +append-bottom
-        border: 1px solid $primary-color-5
-        .head
-          +reset-box-model
-          font-weight: bold
-          background-color: $primary-color-5
-          color: $primary-color-3
-          overflow: auto
-          p
-            font-style: normal
-            text-align: left
-        p, form
-          +reset-box-model
-          +push(1)
-          +column($content-columns - 2, true)
-          font-style: italic
+        margin-bottom: 0
+      p + p
+        margin-top: 1em
+
+  .topic, .ideas_feedback, .solutions_feedback
+    overflow: auto
+    background-color: #F4F8F8
+    .user
+      +reset_box_model
+      +column(2)
+      img.gravatar
+        border-width: 5px
+        width: 60px
+        height: 60px
+
+    .content
+      +reset_box_model
+      +column(20, true)
+
+  .questions_part, .ideas_part, .solutions_part, .supervision_feedbacks_part
+    overflow: auto
+
+  .question, .idea, .solution, .supervision_feedback
+    width: 270px
+    margin-right: 10px
+    float: left
+    overflow: auto
+    background-color: #FFF8F4
+
+    .content
+      +reset_box_model
+      +column(6, true)
+
+  .answer, .rating
+    margin-top: 1em
+    margin-left: 1em
+    font-style: italic
+    .head
+      display: none
+
+/* 
+  #supervisions_show,#topics_index
+    .supervision_statusbar
+      +reset_box_model
+      +reset_list_style
+      +horizontal_list
+      li
+        +reset_box_model
+        border-right: 1px solid black
+        border-top: 1px solid black
+        border-bottom: 1px solid black
+        &.state
+          padding: 0.5em 0.75em
+          background-color: #e0e0ee
+        &.current_state
+          background-color: #f0f0ff
+        &:first-child
+          +border-left-radius(5px)
+          border-left: 1px solid black
+          padding-left: 1em
+        &:last-child
+          +border-right-radius(5px)
+          padding-right: 1em
+        input[type=submit]
+          border: none
+          background: transparent
+          margin: 0
+          padding: 0
+    .topic, .question, .idea, .ideas_feedback, .solution, .solutions_feedback, .supervision_feedback
+      textarea
+        height: 4em
+        line-height: 1em
+      overflow: hidden
+      +append-bottom
+      +border-top-left-radius($border-radius)
+      +border-bottom-right-radius($border-radius)
+      background-color: #F4F8F8
+      border-top: 1px solid $primary-color-1
+      border-left: 1px solid $primary-color-1
+      border-bottom: 2px solid $primary-color-3
+      border-right: 2px solid $primary-color-3
+      .user
+        +push(1)
+        +column(2)
+        +prepend-top
+        img
+          width: 20px
+          height: 20px
+        p
+          font-weight: normal
+          font-size: small
+          +ellipsis
+      .content
+        +prepend-top
+        overflow: auto
+        p
+          +column($content-columns, true)
           text-align: justify
+        .answer, .rating
+          +column($content-columns, true)
+          +append-bottom
+          border: 1px solid $primary-color-5
+          .head
+            +reset-box-model
+            font-weight: bold
+            background-color: $primary-color-5
+            color: $primary-color-3
+            overflow: auto
+            p
+              font-style: normal
+              text-align: left
+          p, form
+            +reset-box-model
+            +push(1)
+            +column($content-columns - 2, true)
+            font-style: italic
+            text-align: justify
