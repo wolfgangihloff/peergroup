@@ -30,7 +30,8 @@ $content-columns: $blueprint-grid-columns - 2 - 6
 
   .user
     +reset_box_model
-    +column(1)
+    width: 30px
+    float: left
     img.gravatar
       margin: 0 auto
       border: 2px solid transparent
@@ -38,7 +39,7 @@ $content-columns: $blueprint-grid-columns - 2 - 6
       height: 26px
     &.problem_owner
       img.gravatar
-        border-color: #0088FF
+        border-color: $primary-color-5
     a
       display: block
       +reset_box_model
@@ -61,10 +62,14 @@ $content-columns: $blueprint-grid-columns - 2 - 6
 
   .topic, .ideas_feedback, .solutions_feedback
     overflow: auto
-    background-color: #F4F8F8
+    border: 1px solid #808088
+    +border-top-right-radius($border-radius)
+    +box-shadow
     .user
       +reset_box_model
-      +column(2)
+      width: 70px
+      float: left
+
       img.gravatar
         border-width: 5px
         width: 60px
@@ -72,25 +77,39 @@ $content-columns: $blueprint-grid-columns - 2 - 6
 
     .content
       +reset_box_model
-      +column(20, true)
+      padding-left: 80px
+      padding-bottom: 1em
 
   .questions_part, .ideas_part, .solutions_part, .supervision_feedbacks_part
     overflow: auto
 
   .question, .idea, .solution, .supervision_feedback
-    width: 270px
-    margin-right: 10px
+    width: 31.3%
+    border: 1px solid #808088
+    +box-shadow
+    margin-right: 1%
+    margin-left: 1%
+    margin-bottom: 1em
     float: left
     overflow: auto
-    background-color: #FFF8F4
 
     .content
       +reset_box_model
-      +column(6, true)
+      padding-left: 40px
+      padding-bottom: 1em
 
   .answer, .rating
+    +reset_box_model
+    overflow: auto
+    border: 1px solid #84888e
+    border-left-width: 0.5em
+    border-right: none
+    color: #424447
+    background-color: #f0f0f0
     margin-top: 1em
-    margin-left: 1em
+    padding-left: 0.5em
+    padding-top: 0.5em
+    padding-bottom: 0.5em
     font-style: italic
     .head
       display: none
