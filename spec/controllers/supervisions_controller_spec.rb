@@ -69,7 +69,7 @@ describe SupervisionsController do
     render_views
 
     before do
-      @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
+      @supervision = Factory(:supervision, :group => @group, :topic => Factory(:topic), :state => "asking_questions")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :show, :id => @supervision.id
