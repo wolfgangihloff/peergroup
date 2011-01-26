@@ -83,6 +83,7 @@
                 $newResource.appendTo($resourceContainer).hide().show("fast");
             }
             $newResource.find("input[type=radio].star").rating();
+            $newResource.find("[title]").tooltip();
         };
         $.get(url, [], onSuccess);
     };
@@ -111,7 +112,7 @@
     };
 
     var setupQuestionsPart = function($parent, supervisionId) {
-        var $questions = $parent.find(".questions_part");
+        var $questions = $parent.find(".questions_part"),
             $newQuestionForm = $questions.find("form#new_question"),
             $newAnswerForm = $questions.find("form.answer");
         var onNewQuestion = function(event, message) {
@@ -131,7 +132,7 @@
         });
     };
     var setupIdeasPart = function($parent, supervisionId) {
-        var $ideas = $parent.find(".ideas_part");
+        var $ideas = $parent.find(".ideas_part"),
             $newIdeaForm = $ideas.find("form#new_idea"),
             $editIdeaForm = $ideas.find("form.edit_idea");
 
@@ -160,7 +161,7 @@
         });
     };
     var setupSolutionsPart = function($parent, supervisionId) {
-        var $solutions = $parent.find(".solutions_part");
+        var $solutions = $parent.find(".solutions_part"),
             $newSolutionForm = $solutions.find("form#new_solution"),
             $editSolutionForm = $solutions.find("form.edit_solution");
         var onNewSolution = function(event, message) {
@@ -212,7 +213,6 @@
             $statusbar.find("[data-state-name="+message.state+"]").addClass("current_state");
         };
 
-        $statusbar.find("[title]").tooltip();
         $parent.bind({
             "supervisionUpdate": onSupervisionUpdate
         });
@@ -242,6 +242,7 @@
             });
 
             $this.trigger("supervisionUpdate", { state: supervisionState });
+            $this.find("[title]").tooltip();
         });
     };
 })(jQuery);
