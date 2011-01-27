@@ -6,6 +6,11 @@ en:
     index:
       heading: Supervision Topics
       title: Supervision Session
+    form:
+      content_hint: 
+      legend: Your topic proposition
+      content_hint: Enter your problem or leave blank if you don not have any
+      submit: Post your topic
   supervisions:
     new:
       heading: New Supervision Session
@@ -27,6 +32,8 @@ en:
       solutions: Solutions
       solutions_feedback: Feedback on solutions
       supervision_feedbacks: General feedbacks on supervision
+
+      topics_waiting: Waiting for topics from all participants
 
       questions_waiting: Waiting for questions from participants
       question_content_hint: Enter your question here

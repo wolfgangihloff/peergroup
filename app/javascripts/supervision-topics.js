@@ -6,6 +6,7 @@
                 $footer               = $this.find("footer"),
                 $statusbar            = $header.find(".supervision_statusbar"),
                 $topics               = $this.find(".topics_part"),
+                $topicsList           = $topics.find(".list"),
                 $topicsVotes          = $this.find(".topics_votes_part"),
                 supervisionState      = $this.data("supervision-state"),
                 supervisionId         = $this.attr("id").replace("supervision_", "");
@@ -53,7 +54,7 @@
                     .live({
                         "submit": asyncSubmit(),
                         "ajax:loading": disableSubmit($newTopicForm),
-                        "ajax:success": removeElement($newTopicForm)
+                        "ajax:success": removeElement($newTopicForm.closest(".form"))
                     });
             };
             var onVotingOnTopicsState = function(dynamicChange) {
@@ -94,7 +95,7 @@
                 var url = PGS.supervisionTopicPath(supervisionId, message.id, { partial: 1 });
                 var onSuccess = function(data, status, xhr) {
                     var newTopic = $(data);
-                    $topics.append(newTopic);
+                    $topicsList.append(newTopic);
                     newTopic.hide().show("fast");
                 };
                 $.get(url, [], onSuccess);

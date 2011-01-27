@@ -1,6 +1,6 @@
 $content-columns: $blueprint-grid-columns - 2 - 6
 
-#supervisions_show
+#supervisions_show, #topics_index
   .supervision_statusbar
     +reset_box_model
     +reset_list_style
@@ -28,6 +28,90 @@ $content-columns: $blueprint-grid-columns - 2 - 6
         margin: 0
         padding: 0
 
+#topics_index
+  .topics_part
+    margin-top: 1.5em
+    header
+      margin: 0
+    h1
+      font-size: 1.5em
+
+    .form.topic
+      overflow: auto
+      border: 1px solid #808088
+      +border-top-right-radius($border-radius)
+      +box-shadow
+
+      .user
+        +reset_box_model
+        width: 70px
+        float: left
+
+        img.gravatar
+          border: 5px solid transparent
+          width: 60px
+          height: 60px
+        &.problem_owner
+          img.gravatar
+            border-color: $primary-color-5
+        a
+          display: block
+          +reset_box_model
+        .name
+          display: none
+
+      .content
+        +reset_box_model
+        padding-left: 80px
+        padding-bottom: 1em
+        padding-right: 1em
+
+        form.new_topic
+          textarea
+            +reset_box_model
+            margin-top: 5px
+            width: 100%
+            height: 60px
+            line-height: 1em
+            border: 1px solid $primary-color-1
+            &:focus
+              +box_shadow($primary-color-2, 0, 0, 5px)
+          .inline-hints
+            margin-bottom: 0
+
+    .list
+      margin-top: 2em
+      .topic
+
+        width: 31.3%
+        border: 1px solid #808088
+        +box-shadow
+        margin-right: 1%
+        margin-left: 1%
+        margin-bottom: 1em
+        float: left
+        overflow: auto
+
+        .user
+          +reset_box_model
+          width: 30px
+          float: left
+
+          img.gravatar
+            border: 2px solid transparent
+            width: 24px
+            height: 24px
+          &.problem_owner
+            img.gravatar
+              border-color: $primary-color-5
+          a
+            display: block
+            +reset_box_model
+          .name
+            display: none
+
+
+#supervisions_show
   .user
     +reset_box_model
     width: 30px
@@ -101,9 +185,9 @@ $content-columns: $blueprint-grid-columns - 2 - 6
   .answer, .rating
     +reset_box_model
     overflow: auto
-    border: 1px solid #84888e
-    border-left-width: 0.5em
-    border-right: none
+    border-top: 1px solid #84888e
+    border-bottom: 1px solid #84888e
+    border-left: 0.5em solid #84888e
     color: #424447
     background-color: #f0f0f0
     margin-top: 1em

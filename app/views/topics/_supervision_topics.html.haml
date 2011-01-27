@@ -1,13 +1,15 @@
-.topics_part
-  %h2= t("supervisions.show.topics")
+%section.topics_part
+  %header
+    %h1= t("supervisions.show.topics")
 
   - if @supervision.gathering_topics?
-    %p.waiting= t("supervisions.show.topics_waiting", :default => "Waiting for topics from all participants")
+    %p.waiting= t("supervisions.show.topics_waiting")
 
     - unless @supervision.posted_topic?(current_user)
-      = semantic_form_for([@supervision, Topic.new]) do |f|
-        = f.inputs t("supervisions.show.post_topic", :default => "Your topic") do
-          = f.input :content, :hint => t("supervisions.show.topic_content_hint", :default => "Enter your problem or leave this blank if you do not have any")
-        = f.buttons :commit
+      .topic.form
+        = render current_user
+        .content
+          = render :partial => 'topics/form'
 
-  = render @supervision.topics
+  .list
+    = render @supervision.topics
