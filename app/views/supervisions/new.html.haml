@@ -1,13 +1,12 @@
-- @title = t(".title", :default => "New Supervision Session")
+- @title = t("supervisions.new.title")
 
 %article
   %header
-    %h1= t(".heading", :default => "New Supervision Session")
+    %h1= t("supervisions.new.heading")
 
-  %p= t(".question", :default => "Do you want to create new Supervision Session?")
+  %p= t("supervisions.new.question")
 
-  = semantic_form_for([@group,@supervision]) do |f|
-    = f.buttons do
-      = f.commit_button t(".answers.yes", :default => "Yes")
-      %li= link_to(t(".answers.no", :default => "No"), groups_path)
+  = form_for([@group, @supervision]) do |f|
+    = submit_tag t("supervisions.new.create_new")
+    = link_to t("supervisions.new.back_to_groups"), groups_path
 

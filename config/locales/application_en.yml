@@ -315,11 +315,16 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Feedback submitted
+    - :supervision: !omap 
+        - :show: !omap 
+            - :no_more_ideas: 
     - :supervision_feedbacks: !omap 
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Feedback submitted
     - :supervisions: !omap 
+        - :create: !omap 
+            - :title: 
         - :new: !omap 
             - :answers: !omap 
                 - :no: "No"

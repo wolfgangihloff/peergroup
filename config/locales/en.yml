@@ -7,6 +7,12 @@ en:
       heading: Supervision Topics
       title: Supervision Session
   supervisions:
+    new:
+      heading: New Supervision Session
+      title: New Supervision Session
+      question: "Do you want to create new Supervision Session?"
+      create_new: "Yes"
+      back_to_groups: "No, go to groups list"
     show:
       heading: Supervision Session
       title: Supervision Session
