@@ -29,7 +29,7 @@ $content-columns: $blueprint-grid-columns - 2 - 6
         padding: 0
 
 #topics_index
-  .topics_part
+  .topics_part, .topic_votes_part
     margin-top: 1.5em
     header
       margin: 0
@@ -109,6 +109,22 @@ $content-columns: $blueprint-grid-columns - 2 - 6
             +reset_box_model
           .name
             display: none
+
+        .content
+          p
+            text-align: justify
+            margin-bottom: 0
+          p + p
+            margin-top: 1em
+          +reset_box_model
+          padding-left: 40px
+          padding-bottom: 1em
+          padding-right: 1em
+
+        .vote
+          +reset_box_model
+          padding-left: 40px
+
 
 
 #supervisions_show

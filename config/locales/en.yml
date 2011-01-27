@@ -6,6 +6,8 @@ en:
     index:
       heading: Supervision Topics
       title: Supervision Session
+
+      topic_vote: Vote on this topic
     form:
       content_hint: 
       legend: Your topic proposition
@@ -34,6 +36,7 @@ en:
       supervision_feedbacks: General feedbacks on supervision
 
       topics_waiting: Waiting for topics from all participants
+      topic_votes_waiting: Waiting for votes from all participants
 
       questions_waiting: Waiting for questions from participants
       question_content_hint: Enter your question here
