@@ -1,6 +1,4 @@
-= semantic_form_for([@supervision, Idea.new]) do |f|
-  = f.inputs do
-    = f.input :content, :hint => t("supervisions.show.idea_content_hint")
-  = f.buttons do
-    = f.commit_button
-    %li= link_to t("supervision.show.no_more_ideas"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
+= form_for([@supervision, Idea.new]) do |f|
+  = f.text_area :content
+  %p.inline-hints= t("ideas.form.content_hint")
+  = submit_tag t("ideas.form.submit")

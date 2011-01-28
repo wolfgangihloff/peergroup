@@ -2,6 +2,34 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  answers:
+    form:
+      content_hint: Answer the question here
+      submit: Post answer
+  solutions_feedbacks:
+    form:
+      content_hint: Enter your feedback about provided solutions
+      submit: Post feedback
+  ideas_feedbacks:
+    form:
+      content_hint: Enter your feedback about provided ideas
+      submit: Post feedback
+  supervision_feedbacks:
+    form:
+      content_hint: Enter your thoughts about supervision session
+      submit: Post feedback
+  solutions:
+    form:
+      content_hint: Enter your solution here
+      submit: Post solution proposition
+  ideas:
+    form:
+      content_hint: Enter your idea here
+      submit: Post idea
+  questions:
+    form:
+      content_hint: Enter your question here
+      submit: Post question
   topics:
     index:
       heading: Supervision Topics
@@ -39,27 +67,21 @@ en:
       topic_votes_waiting: Waiting for votes from all participants
 
       questions_waiting: Waiting for questions from participants
-      question_content_hint: Enter your question here
       no_more_questions: No more questions
 
       ideas_waiting: Waiting for ideas from other participants
       problem_owner_ideas_waiting: Waiting for ideas
-      idea_content_hint: Enter your idea here
       no_more_ideas: No more ideas
 
       ideas_feedback_waiting: Waiting for feedback from problem owner
-      ideas_feedback_content_hint: Enter your feedback about provided ideas
 
       solutions_waiting: Waiting for solutions from other participants
       problem_owner_solutions_waiting: Waiting for solutions
-      solution_content_hint: Enter your solution here
       no_more_solutions: No more solutions
 
       solutions_feedback_waiting: Waiting for feedback from problem owner
-      solutions_feedback_content_hint: Enter your feedback about provided solutions
 
       supervision_feedbacks_waiting: Waiting for general feedback from all participants
-      supervision_feedback_content_hint: Enter your thoughts about supervision session
 
       supervision_finished: This supervision is finished.
 

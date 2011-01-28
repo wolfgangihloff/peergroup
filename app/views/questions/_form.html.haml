@@ -1,6 +1,4 @@
-= semantic_form_for([@supervision, Question.new], :html => {:"data-show-in-state" => "asking_questions"}) do |f|
-  = f.inputs do
-    = f.input :content, :hint => t("supervisions.show.question_content_hint")
-  = f.buttons do
-    = f.commit_button
-    %li= link_to t("supervisions.show.no_more_questions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
+= form_for([@supervision, Question.new]) do |f|
+  = f.text_area :content
+  %p.inline-hints= t("questions.form.content_hint")
+  = submit_tag t("questions.form.submit")

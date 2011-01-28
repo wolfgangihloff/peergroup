@@ -8,7 +8,4 @@
       .answer
         .head
           %p= t(".post_answer", :default => "Your answer")
-        = semantic_form_for(Answer.new, :url => supervision_question_answer_path(question.supervision, question)) do |f|
-          = f.inputs do
-            = f.input :content
-          = f.buttons :commit
+        = render :partial => "answers/form", :locals => { :question => question }

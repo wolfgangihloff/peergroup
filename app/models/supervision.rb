@@ -91,17 +91,19 @@ class Supervision < ActiveRecord::Base
     end
   end
 
-  has_many :topics, :dependent => :destroy
+  has_many :topics, :dependent => :destroy, :order => "created_at ASC"
   has_many :topic_votes, :through => :topics, :source => :votes
   has_many :next_step_votes, :class_name => "Vote", :as => :statement, :dependent => :destroy
-  has_many :topic_questions, :class_name => "Question", :dependent => :destroy, :order => "created_at DESC"
-  has_many :questions, :dependent => :destroy, :order => "created_at DESC"
-  has_many :ideas, :dependent => :destroy, :order => "created_at DESC"
-  has_many :solutions, :dependent => :destroy, :order => "created_at DESC"
+  has_many :topic_questions, :class_name => "Question", :dependent => :destroy, :order => "created_at ASC"
+  has_many :questions, :dependent => :destroy, :order => "created_at ASC"
+  has_many :ideas, :dependent => :destroy, :order => "created_at ASC"
+  has_many :solutions, :dependent => :destroy, :order => "created_at ASC"
 
+  # these 2 has DESC to show only latest feedback, it's has_one relation
   has_one :ideas_feedback, :dependent => :destroy, :order => "created_at DESC"
   has_one :solutions_feedback, :dependent => :destroy, :order => "created_at DESC"
-  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at DESC"
+
+  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at ASC"
 
   belongs_to :topic
   belongs_to :group

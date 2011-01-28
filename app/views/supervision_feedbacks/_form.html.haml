@@ -1,4 +1,4 @@
-= semantic_form_for([@supervision, SupervisionFeedback.new]) do |f|
-  = f.inputs do
-    = f.input :content, :hint => t("supervisions.show.supervision_feedback_content_hint")
-  = f.buttons :commit
+= form_for([@supervision, SupervisionFeedback.new]) do |f|
+  = f.text_area :content
+  %p.inline-hints= t("supervision_feedbacks.form.content_hint")
+  = submit_tag t("supervision_feedbacks.form.submit")

@@ -89,7 +89,7 @@
     };
 
     var setupForm = function($formElement) {
-        $formElement
+        $formElement.find("form")
             .live({
                 "submit": asyncSubmitCallback,
                 "ajax:loading": disableSubmitCallback,
@@ -113,13 +113,14 @@
 
     var setupQuestionsPart = function($parent, supervisionId) {
         var $questions = $parent.find(".questions_part"),
-            $newQuestionForm = $questions.find("form#new_question"),
-            $newAnswerForm = $questions.find("form.answer");
+            $questionsList = $questions.find(".list"),
+            $newQuestionForm = $questions.find(".form"),
+            $newAnswerForm = $questions.find(".answer:has('.new_answer')");
         var onNewQuestion = function(event, message) {
-            loadResource(supervisionId, message.id, "question", $questions);
+            loadResource(supervisionId, message.id, "question", $questionsList);
         };
         var onNewAnswer = function(event, message) {
-            loadResource(supervisionId, message.question_id, "question", $questions);
+            loadResource(supervisionId, message.question_id, "question", $questionsList);
         };
 
         $newQuestionForm.live("ajax:loading", clearText("#question_content"));
@@ -133,11 +134,12 @@
     };
     var setupIdeasPart = function($parent, supervisionId) {
         var $ideas = $parent.find(".ideas_part"),
-            $newIdeaForm = $ideas.find("form#new_idea"),
-            $editIdeaForm = $ideas.find("form.edit_idea");
+            $ideasList = $ideas.find(".list"),
+            $newIdeaForm = $ideas.find(".form"),
+            $editIdeaForm = $ideas.find(".idea:has('.edit_idea')");
 
         var onNewIdea = function(event, message) {
-            loadResource(supervisionId, message.id, "idea", $ideas);
+            loadResource(supervisionId, message.id, "idea", $ideasList);
         };
 
         $newIdeaForm.live("ajax:loading", clearText("#idea_content"));
@@ -149,12 +151,13 @@
         });
     };
     var setupIdeasFeedbackPart = function($parent, supervisionId) {
-        var $ideasFeedbacks = $parent.find(".ideas_feedback_part");
+        var $ideasFeedbacks = $parent.find(".ideas_feedback_part"),
+            $ideasFeedbacksList = $ideasFeedbacks.find(".list");
         var onNewIdeasFeedback = function(event, message) {
-            loadResource(supervisionId, message.id, "ideas_feedback", $ideasFeedbacks, "single");
+            loadResource(supervisionId, message.id, "ideas_feedback", $ideasFeedbacksList, "single");
         };
 
-        setupForm($ideasFeedbacks.find("form#new_ideas_feedback"));
+        setupForm($ideasFeedbacks.find(".form"));
 
         $parent.bind({
             "newIdeasFeedback": onNewIdeasFeedback
@@ -162,10 +165,11 @@
     };
     var setupSolutionsPart = function($parent, supervisionId) {
         var $solutions = $parent.find(".solutions_part"),
-            $newSolutionForm = $solutions.find("form#new_solution"),
-            $editSolutionForm = $solutions.find("form.edit_solution");
+            $solutionsList = $solutions.find(".list"),
+            $newSolutionForm = $solutions.find(".form"),
+            $editSolutionForm = $solutions.find(".solution:has('.edit_solution')");
         var onNewSolution = function(event, message) {
-            loadResource(supervisionId, message.id, "solution", $solutions);
+            loadResource(supervisionId, message.id, "solution", $solutionsList);
         };
 
         $newSolutionForm.live("ajax:loading", clearText("#solution_content"));
@@ -177,12 +181,13 @@
         });
     };
     var setupSolutionsFeedbackPart = function($parent, supervisionId) {
-        var $solutionsFeedbacks = $parent.find(".solutions_feedback_part");
+        var $solutionsFeedbacks = $parent.find(".solutions_feedback_part"),
+            $solutionsFeedbacksList = $solutionsFeedbacks.find(".list");
         var onNewSolutionsFeedback = function(event, message) {
-            loadResource(supervisionId, message.id, "solutions_feedback", $solutionsFeedbacks, "single");
+            loadResource(supervisionId, message.id, "solutions_feedback", $solutionsFeedbacksList, "single");
         };
 
-        setupForm($solutionsFeedbacks.find("form#new_solutions_feedback"));
+        setupForm($solutionsFeedbacks.find(".form"));
 
         $parent.bind({
             "newSolutionsFeedback": onNewSolutionsFeedback
@@ -190,10 +195,11 @@
     };
     var setupSupervisionFeedbackPart = function($parent, supervisionId) {
         var $supervisionFeedbacks = $parent.find(".supervision_feedbacks_part"),
-            $newSupervisionFeedbackForm = $supervisionFeedbacks.find("form#new_supervision_feedback");
+            $supervisionFeedbacksList = $supervisionFeedbacks.find(".list"),
+            $newSupervisionFeedbackForm = $supervisionFeedbacks.find(".form");
 
         var onNewSupervisionFeedback = function(event, message) {
-            loadResource(supervisionId, message.id, "supervision_feedback", $supervisionFeedbacks);
+            loadResource(supervisionId, message.id, "supervision_feedback", $supervisionFeedbacksList);
         };
 
         $newSupervisionFeedbackForm.live({

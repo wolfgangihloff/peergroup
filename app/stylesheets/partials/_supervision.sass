@@ -1,6 +1,87 @@
 $content-columns: $blueprint-grid-columns - 2 - 6
 
+= supervision-header
+  margin-top: 1.5em
+  header
+    margin: 0
+  h1
+    font-size: 1.5em
+
+= supervision-item
+  overflow: auto
+  border: 1px solid #808088
+  margin-bottom: 1em
+  +box-shadow
+
+= supervision-item-big
+  +supervision-item
+  +user-gravatar-big
+
+= supervision-item-small
+  +supervision-item
+  +user-gravatar-small
+  width: 31.3%
+  margin-right: 1%
+  margin-left: 1%
+  float: left
+
+= user-gravatar
+  .user
+    +reset_box_model
+    float: left
+    img.gravatar
+      border-color: transparent
+      border-style: solid
+    &.problem_owner
+      img.gravatar
+        border-color: $primary-color-5
+    a
+      +reset_box_model
+      display: block
+    .name
+      display: none
+
+= user-gravatar-small
+  +user-gravatar
+  .user
+    width: 30px
+    img.gravatar
+      border-width: 2px
+      width: 24px
+      height: 24px
+  .content
+    margin-top: 2px
+    padding-left: 40px
+= user-gravatar-big
+  +user-gravatar
+  .user
+    width: 70px
+    img.gravatar
+      border-width: 5px
+      width: 60px
+      height: 60px
+  .content
+    margin-top: 5px
+    padding-left: 80px
+
 #supervisions_show, #topics_index
+  .content
+    padding-bottom: 1em
+    padding-right: 1em
+
+    p
+      text-align: justify
+      margin-bottom: 0
+    p + p
+      margin-top: 1em
+
+    textarea
+      +reset_box_model
+      width: 100%
+      border: 1px solid $primary-color-1
+      &:focus
+        +box_shadow($primary-color-2, 0, 0, 5px)
+
   .supervision_statusbar
     +reset_box_model
     +reset_list_style
@@ -28,178 +109,35 @@ $content-columns: $blueprint-grid-columns - 2 - 6
         margin: 0
         padding: 0
 
-#topics_index
-  .topics_part, .topic_votes_part
-    margin-top: 1.5em
-    header
-      margin: 0
-    h1
-      font-size: 1.5em
+.supervision
+  footer
+    clear: both
 
-    .form.topic
-      overflow: auto
-      border: 1px solid #808088
-      +border-top-right-radius($border-radius)
-      +box-shadow
+  .topics_part, .topic_votes_part, .questions_part, .ideas_part, .ideas_feedback_part, .solutions_part, .solutions_feedback_part, .supervision_feedbacks_part
+    +supervision-header
+    overflow: visible
+    clear: both
 
-      .user
-        +reset_box_model
-        width: 70px
-        float: left
-
-        img.gravatar
-          border: 5px solid transparent
-          width: 60px
-          height: 60px
-        &.problem_owner
-          img.gravatar
-            border-color: $primary-color-5
-        a
-          display: block
-          +reset_box_model
-        .name
-          display: none
-
-      .content
-        +reset_box_model
-        padding-left: 80px
-        padding-bottom: 1em
-        padding-right: 1em
-
-        form.new_topic
-          textarea
-            +reset_box_model
-            margin-top: 5px
-            width: 100%
-            height: 60px
-            line-height: 1em
-            border: 1px solid $primary-color-1
-            &:focus
-              +box_shadow($primary-color-2, 0, 0, 5px)
-          .inline-hints
-            margin-bottom: 0
-
-    .list
-      margin-top: 2em
-      .topic
-
-        width: 31.3%
-        border: 1px solid #808088
-        +box-shadow
-        margin-right: 1%
-        margin-left: 1%
-        margin-bottom: 1em
-        float: left
-        overflow: auto
-
-        .user
-          +reset_box_model
-          width: 30px
-          float: left
-
-          img.gravatar
-            border: 2px solid transparent
-            width: 24px
-            height: 24px
-          &.problem_owner
-            img.gravatar
-              border-color: $primary-color-5
-          a
-            display: block
-            +reset_box_model
-          .name
-            display: none
-
-        .content
-          p
-            text-align: justify
-            margin-bottom: 0
-          p + p
-            margin-top: 1em
-          +reset_box_model
-          padding-left: 40px
-          padding-bottom: 1em
-          padding-right: 1em
-
-        .vote
-          +reset_box_model
-          padding-left: 40px
-
-
-
-#supervisions_show
-  .user
-    +reset_box_model
-    width: 30px
-    float: left
-    img.gravatar
-      margin: 0 auto
-      border: 2px solid transparent
-      width: 26px
-      height: 26px
-    &.problem_owner
-      img.gravatar
-        border-color: $primary-color-5
-    a
-      display: block
-      +reset_box_model
-    .name
-      display: none
-
-  .topics_part,.questions_part,.ideas_part,.ideas_feedback_part,.solutions_part,.solutions_feedback_part,.supervision_feedbacks_part
-    margin-top: 1.5em
-    header
-      margin: 0
-    h1
-      font-size: 1.5em
-    .content
-      p
-        padding-right: 1em
-        text-align: justify
-        margin-bottom: 0
-      p + p
-        margin-top: 1em
-
-  .topic, .ideas_feedback, .solutions_feedback
-    overflow: auto
-    border: 1px solid #808088
+  .form
+    +supervision-item-big
     +border-top-right-radius($border-radius)
-    +box-shadow
-    .user
-      +reset_box_model
-      width: 70px
-      float: left
+    margin-bottom: 2em
+  textarea
+    height: 60px
+  a.discard
+    display: block
+    font-weight: bold
 
-      img.gravatar
-        border-width: 5px
-        width: 60px
-        height: 60px
-
-    .content
-      +reset_box_model
-      padding-left: 80px
-      padding-bottom: 1em
-
-  .questions_part, .ideas_part, .solutions_part, .supervision_feedbacks_part
+  .list
     overflow: auto
+    .topic, .ideas_feedback, .solutions_feedback
+      +supervision-item-big
+      +border-top-right-radius($border-radius)
 
-  .question, .idea, .solution, .supervision_feedback
-    width: 31.3%
-    border: 1px solid #808088
-    +box-shadow
-    margin-right: 1%
-    margin-left: 1%
-    margin-bottom: 1em
-    float: left
-    overflow: auto
-
-    .content
-      +reset_box_model
-      padding-left: 40px
-      padding-bottom: 1em
+    .question, .idea, .solution, .supervision_feedback
+      +supervision-item-small
 
   .answer, .rating
-    +reset_box_model
     overflow: auto
     border-top: 1px solid #84888e
     border-bottom: 1px solid #84888e
@@ -207,87 +145,13 @@ $content-columns: $blueprint-grid-columns - 2 - 6
     color: #424447
     background-color: #f0f0f0
     margin-top: 1em
-    padding-left: 0.5em
-    padding-top: 0.5em
-    padding-bottom: 0.5em
+    padding: 0.5em
     font-style: italic
     .head
       display: none
 
-/* 
-  #supervisions_show,#topics_index
-    .supervision_statusbar
-      +reset_box_model
-      +reset_list_style
-      +horizontal_list
-      li
-        +reset_box_model
-        border-right: 1px solid black
-        border-top: 1px solid black
-        border-bottom: 1px solid black
-        &.state
-          padding: 0.5em 0.75em
-          background-color: #e0e0ee
-        &.current_state
-          background-color: #f0f0ff
-        &:first-child
-          +border-left-radius(5px)
-          border-left: 1px solid black
-          padding-left: 1em
-        &:last-child
-          +border-right-radius(5px)
-          padding-right: 1em
-        input[type=submit]
-          border: none
-          background: transparent
-          margin: 0
-          padding: 0
-    .topic, .question, .idea, .ideas_feedback, .solution, .solutions_feedback, .supervision_feedback
-      textarea
-        height: 4em
-        line-height: 1em
-      overflow: hidden
-      +append-bottom
-      +border-top-left-radius($border-radius)
-      +border-bottom-right-radius($border-radius)
-      background-color: #F4F8F8
-      border-top: 1px solid $primary-color-1
-      border-left: 1px solid $primary-color-1
-      border-bottom: 2px solid $primary-color-3
-      border-right: 2px solid $primary-color-3
-      .user
-        +push(1)
-        +column(2)
-        +prepend-top
-        img
-          width: 20px
-          height: 20px
-        p
-          font-weight: normal
-          font-size: small
-          +ellipsis
-      .content
-        +prepend-top
-        overflow: auto
-        p
-          +column($content-columns, true)
-          text-align: justify
-        .answer, .rating
-          +column($content-columns, true)
-          +append-bottom
-          border: 1px solid $primary-color-5
-          .head
-            +reset-box-model
-            font-weight: bold
-            background-color: $primary-color-5
-            color: $primary-color-3
-            overflow: auto
-            p
-              font-style: normal
-              text-align: left
-          p, form
-            +reset-box-model
-            +push(1)
-            +column($content-columns - 2, true)
-            font-style: italic
-            text-align: justify
+#topics_index
+  .list
+    .topic
+      +supervision-item-small
+
