@@ -33,13 +33,8 @@ class SupervisionsController < ApplicationController
   end
 
   def show
-    if params[:partial]
-      partial_name = PARTIAL_NAMES[params[:partial]]
-      render :partial => partial_name, :layout => false
-    else
-      @token = SecureRandom.hex
-      REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
-    end
+    @token = SecureRandom.hex
+    REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   def update
@@ -55,16 +50,6 @@ class SupervisionsController < ApplicationController
   end
 
   protected
-
-  PARTIAL_NAMES = {
-    "questions"             => "supervision_questions",
-    "ideas"                 => "supervision_ideas",
-    "ideas_feedback"        => "supervision_ideas_feedback",
-    "solutions"             => "supervision_solutions",
-    "solutions_feedback"    => "supervision_solutions_feedback",
-    "supervision_feedbacks" => "supervision_supervision_feedbacks",
-    "finished"              => "supervision_finished"
-  }
 
   def check_current_supervision
     @supervision = @group.current_supervision
