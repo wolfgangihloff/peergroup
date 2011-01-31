@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def title
-    base_title = "Peer Supervision Groups"
+    base_title = t(".base_title", :default => "peergroup")
     if @title.nil?
       base_title
     else

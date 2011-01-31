@@ -63,12 +63,20 @@
       :links: 
         :back_to_list: Zurück zur Liste
       :title: Neue Regel
-  :layouts: 
+  :layouts:
+    :application:
+      :base_title: Kollegiale Beratung
+      :title: Kollegiale Beratung
     :footer: 
       :links: 
         :about: Über
         :contact: Kontakt
-    :header: 
+    :header:
+      :title:
+        :peergroup: Kollegiale Beratung
+        :welcome: Willkommen
+        :base_title: Kollegiale Beratung
+        :title: Kollegiale Beratung
       :links: 
         :signout: Abmelden
         :users: Benutzer
@@ -91,6 +99,7 @@
         :signup: Jetzt anmelden.
       :about_title: Über Kollegiale Beratung
     :home: 
+      :Peergroup: Kollegiale Beratung
       :title: Start
     :about: 
       :title: Über uns
@@ -221,7 +230,10 @@
       :solutions_feedback: 
         :submit: Submit
       :submit: Submit Topic
-    :new: 
+    :new:
+      :heading: Neue Beratung
+      :create_new: Sitzung starten
+      :back_to_groups: zurueck zur Gruppe
       :answers: 
         :no: "Nein"
         :yes: "Ja"
@@ -232,6 +244,52 @@
         :rating: Bewertung
       :rate: 
         :rate: Werte
+    :show:
+      :heading: Kollegiale Beratung
+      :title: Beratungssitzung
+      :topic: Thema
+      :topics: Themensammlung
+      :topics_waiting: Geben Sie ein berufliches Thema fuer die Beratung ein ueber welches dann in der Gruppe beraten werden kann.
+      :topic_votes: Abstimmung des Themas
+      :topic_votes_waiting: Geben Sie Ihre Stimme zum Thema ab, dass Sie meinen am besten in der Gruppe bearbeitet werden kann.
+      :supervision_state_title:
+          :gathering_topics: Themen
+          :voting_on_topics: Abstimmung
+          :asking_questions: Fragen
+          :providing_ideas: Ideen
+          :giving_ideas_feedback: Feedback
+          :providing_solutions: Loesungen
+          :giving_solutions_feedback: Feedback
+          :giving_supervision_feedbacks: Resume
+          :finished: Ende
+      :supervision_state:
+        :gathering_topics: Themen
+        :voting_on_topics: Abstimmung
+        :asking_questions: Fragen
+        :providing_ideas: Ideen
+        :giving_ideas_feedback: Feedback
+        :providing_solutions: Loesungen
+        :giving_solutions_feedback: Feedback
+        :giving_supervision_feedbacks: Resume
+        :finished: Ende
+      :questions: Fragen
+      :no_more_questions: Ich habe keine weiteren Fragen mehr.
+      :questions_waiting: Wir warten auf weitere Fragen.
+      :ideas: Ideen
+      :no_more_ideas: Ich habe keine Ideen mehr.
+      :ideas_feedback: Feedback zu den Ideen
+      :ideas_feedback_waiting: Warten auf das finale Feedback des Themengebers.
+      :solutions: Loesungen
+      :solutions_waiting: Wir warten auf weitere Loesungen ...
+      :no_more_solutions: Ich habe keine weiteren.
+      :problem_owner_solutions_waiting: Warten Sie auf weitere Ideen, wieder ist ihre Meinung dazu wichtig. Lassen Sie die Loesungen auf sich wirken.
+      :solutions_feedback: Feedback
+      :solutions_feedback_waiting: Warten Sie auf das Feedback des Themengebers.
+      :supervision_feedbacks: Resume
+      :supervision_feedbacks_waiting: Sehen sie die Rueckmeldungen ihrer Kollegen ...
+      :supervision_finished: Die Beratung zu einem Thema ist nun zu Ende, wollen Sie ein weiteres Thema beraten?
+      :go_to_current: Aktuelle Beratung
+      :create_new: Weitere/Neue Beratung starten
   :topic_answers: 
     :create: 
       :flash: 
@@ -284,6 +342,7 @@
     :index: 
       :heading: Liste der bereits eingestellten Themen
       :title: Abgesandte Themen
+      :topic_vote: Auswaehlen
     :list: 
       :vote: Abstimmung
     :new: 
@@ -293,3 +352,35 @@
       :title: Neues Thema
     :topic: 
       :vote: Abstimmen
+    :form:
+      :content_hint: Schreiben Sie hier los, es sollte verstaendlich und zugaenglich auch fuer Neulinge sein.
+      :submit: Senden
+  :questions:
+    :form:
+      :content_hint: Geben Sie Fragen ein, die Ihnen und der Gruppe helfen das Thema zu bearbeiten.
+      :submit: absenden
+  :answers:
+    :form:
+      :content_hint: Antworten Sie kurz und praezise.
+      :submit: Antworten
+  :ideas:
+    :form:
+      :content_hint: Ideen sind nun gefragt, nehmen Sie keine Loesungen vorweg!
+      :submit: Idee abgeben
+  :ideas_feedbacks:
+    :form:
+      :content_hint: Geben sie Ihre Meinung zu den Ideen kund und erklaeren Sie in welche Richtung die Loesung am liebsten nach Ihrer Meinung gehen sollte.
+      :submit: Absenden
+  :solutions:
+    :form:
+      :content_hint: Nun ist die Zeit fuer ausfuehrliche Loesungsvorschlaege, die komplett darstellen, wie ein gutes Verhalten in der gestellten Problemsituation ausschaut.
+      :submit: Absenden
+  :solutions_feedbacks:
+    :form:
+      :content_hint: Geben Sie ein Feeback fuer die Gruppe ab, als auch fuer die Verwendbarkeit. Dieses Feedback dient um Ihre Freude oder Enttaeuschung ueber die Sitzung Luft zu machen.
+      :submit: Absenden
+  :supervision_feedbacks:
+    :form:
+      :content_hint: Allgemeine Anregungen an die Gruppenmitglieder, Gefallen, Verbesserungsvorschlaege sind nun gefragt, aber auch positives Resume ist natuerlich in Ordnung.
+      :submit: Senden
+      
