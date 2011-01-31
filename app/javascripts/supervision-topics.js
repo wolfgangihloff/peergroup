@@ -42,7 +42,7 @@
                 var caller = arguments.callee.caller;
                 return function(data, status, xhr) {
                     $(elementToRemove).remove();
-                    $this.find("footer").before($(data));
+                    $this.find(".supervision-content").append($(data));
                     caller.call();
                 };
             };

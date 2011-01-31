@@ -29,6 +29,7 @@ describe TopicsController do
       @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :index, :supervision_id => @supervision.id
     end
 
@@ -66,6 +67,7 @@ describe TopicsController do
       @supervision = Factory(:supervision, :state => "gathering_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :index, :supervision_id => @supervision.id
     end
 
@@ -77,6 +79,7 @@ describe TopicsController do
       @supervision = Factory(:supervision, :state => "voting_on_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :index, :supervision_id => @supervision.id
     end
 

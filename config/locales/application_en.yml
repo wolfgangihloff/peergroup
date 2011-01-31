@@ -341,6 +341,7 @@
             - :create_new: Create new?
             - :go_to_current: Go to current supervision session
             - :post_topic: Your topic
+            - :submit: Submit
             - :topics: Topics
             - :topics_waiting: Waiting for topics from all participants
         - :supervision_topic: !omap 
@@ -400,6 +401,7 @@
                 - :successful: Topic was submitted successfully.
         - :index: !omap 
             - :heading: List of already submitted topics
+            - :submit: Submit
             - :title: Submitted topics
         - :new: !omap 
             - :content: !omap 

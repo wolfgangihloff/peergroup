@@ -35,6 +35,7 @@ class SupervisionsController < ApplicationController
   def show
     @token = SecureRandom.hex
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    REDIS.setex("chat:#{@supervision.chat_room.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   def update

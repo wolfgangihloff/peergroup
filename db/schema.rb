@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110112155117) do
+ActiveRecord::Schema.define(:version => 20110128150531) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20110112155117) do
     t.integer  "leader_id"
     t.integer  "problem_owner_id"
     t.integer  "current_rule_id"
+    t.integer  "supervision_id"
   end
 
   create_table "feedbacks", :force => true do |t|

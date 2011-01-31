@@ -26,7 +26,7 @@ class ChatMessagesController < ApplicationController
   end
 
   def fetch_chat_room
-    @chat_room = @group.chat_room
+    @chat_room = @group.chat_rooms.find(params[:chat_room_id])
   end
 
 end

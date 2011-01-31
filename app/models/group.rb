@@ -12,7 +12,8 @@ class Group < ActiveRecord::Base
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_many :rules, :order => "position", :dependent => :destroy
   has_many :supervisions, :dependent => :destroy
-  has_one :chat_room, :dependent => :destroy
+  has_many :chat_rooms, :dependent => :destroy
+  has_one :chat_room, :conditions => { :supervision_id => nil }
 
   has_friendly_id :name, :use_slug => true
 

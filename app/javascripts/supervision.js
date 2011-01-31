@@ -242,7 +242,7 @@
                 "supervisionUpdate": function(event, message) {
                     $this.find("[data-show-in-state]").hide();
                     $this.find("[data-show-in-state~=" + message.state + "]").show("fast")
-                        .find("form").show();
+                        .find(".form").show();
                     supervisionState = message.state;
                 }
             });

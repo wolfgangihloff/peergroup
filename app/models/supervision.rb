@@ -105,6 +105,9 @@ class Supervision < ActiveRecord::Base
 
   has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at ASC"
 
+  has_one :chat_room, :dependent => :destroy
+  after_create :create_chat_room
+
   belongs_to :topic
   belongs_to :group
 

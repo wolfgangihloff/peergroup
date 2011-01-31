@@ -13,11 +13,11 @@
                     content = message.content || "";
 
                 var newMessage = $("<li>", { "class": "chat_message", id: id }).
-                    append($("<span>", { "class": "user", text: user })).
+                    append($("<span>", { "class": "message-user", text: user })).
                     append(" ").
                     append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
                     append(" : ").
-                    append($("<span>", { "class": "content", text: content }));
+                    append($("<span>", { "class": "message-content", text: content }));
                 $messages.append(newMessage);
             };
             var onSystemMessage = function(event, message) {
@@ -27,7 +27,7 @@
                 var newMessage = $("<li>", { "class": "system_chat_message" }).
                     append($("<time>", { datetime: date.toISOString() }).append(date).timeago()).
                     append(" ").
-                    append($("<span>", { "class": "content", text: text }));
+                    append($("<span>", { "class": "message-content", text: text }));
                 $messages.append(newMessage);
             };
 
