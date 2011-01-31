@@ -44,9 +44,13 @@ jQuery(function($) {
         var s = S(PGS.getSocket(), "chat");
         s.on("authentication", function(type, message) {
             if (message.status === "OK") {
-                console.log("chat: Authenticated");
+                if (window.console && window.console.log) {
+                    console.log("chat: Authenticated");
+                }
             } else {
-                console.error(message);
+                if (window.console && window.console.error) {
+                    console.error(message);
+                }
             }
         });
         s.on("presence", function(type, message) {
@@ -74,9 +78,13 @@ jQuery(function($) {
         var s = S(PGS.getSocket(), "supervision");
         s.on("authentication", function(type, message) {
             if (message.status === "OK") {
-                console.log("supervision: Authenticated");
+                if (window.console && window.console.log) {
+                    console.log("supervision: Authenticated");
+                }
             } else {
-                console.error(message);
+                if (window.console && window.console.error) {
+                    console.error(message);
+                }
             }
         });
         s.onConnect(function() {
@@ -100,9 +108,13 @@ jQuery(function($) {
         var s = S(PGS.getSocket(), "supervision");
         s.on("authentication", function(type, message) {
             if (message.status === "OK") {
-                console.log("supervision: Authenticated");
+                if (window.console && window.console.log) {
+                    console.log("supervision: Authenticated");
+                }
             } else {
-                console.error(message);
+                if (window.console && window.console.error) {
+                    console.error(message);
+                }
             }
         });
         s.onConnect(function() {
