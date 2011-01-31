@@ -29,6 +29,9 @@
       :signup: Registieren
       :buttons: 
         :signup: Registieren
+      :flash:
+        :success: Willkommen neuer Benutzer!
+        :successful: Willkommen neuer Benutzer!
   :sessions: 
     :create: 
       :title: Anmelden
@@ -94,6 +97,7 @@
         :reply:
   :pages: 
     :home_guest: 
+      :title: Kollegiale Beratung nach dem Heilsbronner Modell
       :description: Das hier ist die testseite fuer das Patongo Project, mehr Informationen auf der <a http://www.patongo.de/'>Projektseite</a>.
       :links: 
         :signup: Jetzt anmelden.
