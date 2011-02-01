@@ -1,0 +1,26 @@
+.chat_room_part
+  overflow: auto
+  .chat_room
+  .messages_part
+    border: 1px solid $primary-color-1
+    height: 25em
+    overflow-y: scroll
+  .messages
+    +reset-list-style
+    +reset-box-model
+  .chat_message
+    .message-user
+      font-weight: bold
+    time
+      color: #888
+    &:nth-child(even)
+      background-color: #eee
+    &:nth-child(odd)
+      background-color: #ddd
+  #chat_message_content
+    +reset-box-model
+    border: 1px solid $primary-color-1
+    width: 80%
+    &:focus
+      +box_shadow($primary-color-2, 0, 0, 5px)
+
