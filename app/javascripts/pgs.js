@@ -11,7 +11,7 @@
         }
         var params = [];
         for (var k in options) {
-            if (options.hasOwnProperty(k)) {
+            if (Object.hasOwnProperty.call(options, k)) {
                 params.push([k, encodeURIComponent(options[k])].join("="));
             }
         }
