@@ -2,39 +2,51 @@ require "spec_helper"
 require "rspec/mocks"
 
 describe ChatMessagesController do
+  before do
+    @user = Factory(:user)
+    @group = Factory(:group, :founder => @user)
+    @chat_room = @group.chat_room
+
+    test_sign_in(@user)
+  end
+
   describe "#create" do
     before do
-      @user = Factory(:user)
-      @group = Factory(:group, :founder => @user)
-
-      test_sign_in(@user)
+      REDIS.should_receive(:publish)
+      post :create,
+        :group_id => @group.id,
+        :chat_room_id => @chat_room.id,
+        :chat_message => { :content => "Hi there" }
     end
 
-    context "with js format" do
-      it "should respond with :created status" do
+    specify { subject.should redirect_to(group_chat_room_path(@group)) }
+  end
+
+  describe "#create.js" do
+    describe "with valid data" do
+      before do
         REDIS.should_receive(:publish)
-        post :create, :group_id => @group.id, :chat_message => { :content => "Hi there JS" }, :format => "js"
-
-        response.status.should be == 201
+        post :create,
+          :group_id => @group.id,
+          :chat_room_id => @chat_room.id,
+          :chat_message => { :content => "Hi there JS" },
+          :format => "js"
       end
 
-      it "should respond with :bad_request status with invalid data" do
-        post :create, :group_id => @group.id, :format => "js"
-
-        response.status.should be == 400
-      end
+      specify { response.should be_success }
     end
 
-    context "with html format" do
-      subject do
-        post :create, :group_id => @group.id, :chat_message => { :content => "Hi there" }
+    describe "with invalid data" do
+      before do
+        post :create,
+          :group_id => @group.id,
+          :chat_room_id => @chat_room.id,
+          :chat_message => {},
+          :format => "js"
       end
 
-      it "should redirect to group_chat_room" do
-        ::REDIS.should_receive(:publish)
-
-        subject.should redirect_to(group_chat_room_path(@group))
-      end
+      specify { response.should_not be_success }
     end
+
   end
 end
