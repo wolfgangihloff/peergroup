@@ -111,6 +111,9 @@
                     - :gathering_topics: 
             - :states: !omap 
                 - :gathering_topics: 
+    - :answers: !omap 
+        - :create: !omap 
+            - :title: 
     - :attributes: !omap 
         - :chat_room: 
         - :conent: 
@@ -141,18 +144,6 @@
                 - :new_thread: new thread
             - :submit: Submit
             - :title: 
-    - :chat_updates: !omap 
-        - :chat_update: !omap 
-            - :links: !omap 
-                - :reply: reply
-    - :chat_users: !omap 
-        - :chat_users: !omap 
-            - :captions: !omap 
-                - :leader: Leader
-                - :problem_owner: Problem owner
-            - :links: !omap 
-                - :leader: Leader
-                - :problem_owner: Problem owner
     - :errors: !omap 
         - :attributes: !omap 
             - :chat_room: !omap 
@@ -233,16 +224,19 @@
                 - :password: ""
     - :ideas: !omap 
         - :create: !omap 
-            - :flash: !omap 
-                - :successful: Idea successfully submited
+            - :title: 
+        - :show: !omap 
+            - :title: 
         - :update: !omap 
-            - :flash: !omap 
-                - :successful: Idea rated
+            - :title: 
     - :ideas_feedbacks: !omap 
         - :create: !omap 
-            - :flash: !omap 
-                - :successful: Feedback submitted
+            - :title: 
+        - :show: !omap 
+            - :title: 
     - :layouts: !omap 
+        - :application: !omap 
+            - :title: peergroup
         - :footer: !omap 
             - :links: !omap 
                 - :about: About
@@ -260,6 +254,8 @@
                 - :signout: Sign out
                 - :supervisions: Supervisions
                 - :users: Users
+            - :title: !omap 
+                - :peergroup: peergroup
     - :other: !omap 
         - :controller: !omap 
             - :action: !omap 
@@ -287,6 +283,11 @@
         - :home_member: !omap 
             - :latest_groups: Latest groups
             - :your_groups: Your groups
+    - :questions: !omap 
+        - :create: !omap 
+            - :title: 
+        - :show: !omap 
+            - :title: 
     - :relationships: !omap 
         - :create: !omap 
             - :title: 
@@ -306,22 +307,21 @@
             - :title: Sign in
     - :solutions: !omap 
         - :create: !omap 
-            - :flash: !omap 
-                - :successful: Solution submited
+            - :title: 
+        - :show: !omap 
+            - :title: 
         - :update: !omap 
-            - :flash: !omap 
-                - :successful: Solution rated
+            - :title: 
     - :solutions_feedbacks: !omap 
         - :create: !omap 
-            - :flash: !omap 
-                - :successful: Feedback submitted
-    - :supervision: !omap 
+            - :title: 
         - :show: !omap 
-            - :no_more_ideas: 
+            - :title: 
     - :supervision_feedbacks: !omap 
         - :create: !omap 
-            - :flash: !omap 
-                - :successful: Feedback submitted
+            - :title: 
+        - :show: !omap 
+            - :title: 
     - :supervisions: !omap 
         - :create: !omap 
             - :title: 
@@ -359,34 +359,12 @@
             - :waiting: Waiting for topics from all participants
         - :update: !omap 
             - :title: 
-    - :topic_answers: !omap 
-        - :create: !omap 
-            - :flash: !omap 
-                - :successful: Question answered
-    - :topic_questions: !omap 
-        - :create: !omap 
-            - :flash: !omap 
-                - :error: You must provide your question
-                - :successful: Question asked
-        - :new: !omap 
-            - :heading: Questions to the topic
-            - :question: !omap 
-                - :no_more: I have no more questions
-                - :submit: Ask
-            - :step_description: Do you have any question regarding the topic?
-            - :title: Questions to the topic
-            - :topic: Current topic
-            - :waiting_for_others: Wait for other questions and answers.
-        - :questions: !omap 
-            - :notice: !omap 
-                - :no_questions: There are no questions... Be the first!
-            - :problem_owner: !omap 
-                - :no_questions: Wait for some questions.
-            - :questions: Questions
     - :topic_votes: !omap 
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Thank you for voting.
+            - :notice: 
+            - :title: 
         - :index: !omap 
             - :heading: All submitted topics
             - :step_description: Waiting for others to vote.
@@ -399,6 +377,8 @@
         - :create: !omap 
             - :flash: !omap 
                 - :successful: Topic was submitted successfully.
+            - :notice: 
+            - :title: 
         - :index: !omap 
             - :heading: List of already submitted topics
             - :submit: Submit
@@ -410,6 +390,7 @@
             - :title: New Topic
         - :show: !omap 
             - :heading: 
+            - :title: 
     - :users: !omap 
         - :create: !omap 
             - :title: 
@@ -436,4 +417,7 @@
         - :show: !omap 
             - :title: 
         - :update: !omap 
+            - :title: 
+    - :votes: !omap 
+        - :create: !omap 
             - :title: 

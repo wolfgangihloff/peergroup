@@ -24,7 +24,7 @@ jQuery(function($) {
     var flash = $(".flash-messages").flashnotifications({animate: true});
     $(document).bind({
         "flash:notice": function(event, message) { flash.flashnotifications("notice", message); },
-        "flash:error": function(event, message) { flash.flashnotifications("error", message); }
+        "flash:alert": function(event, message) { flash.flashnotifications("alert", message); }
     });
 
     $(".chat_room").each(function(i, element) {

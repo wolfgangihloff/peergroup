@@ -1,29 +1,25 @@
 class TopicVotesController < ApplicationController
+  self.responder = SupervisionPartResponder
 
   before_filter :authenticate
   before_filter :require_parent_supervision
+  before_filter :fetch_topic
   require_supervision_step :voting_on_topics
 
+  respond_to :html, :json
+
   def create
-    respond_to do |format|
-      @topic = @supervision.topics.find(params[:topic_id])
-      @vote = @topic.votes.build(params[:vote]) do |vote|
-        vote.user = current_user
-      end
-      if @vote.save
-        format.js { head :created }
-        format.html {
-          successful_flash("Thank you for voting")
-          redirect_to supervision_path(@supervision)
-        }
-      else
-        logger.info(@vote.errors.full_messages)
-        format.js { head :bad_request }
-        format.html {
-          redirect_to supervision_path(@supervision)
-        }
-      end
+    @vote = @topic.votes.build do |vote|
+      vote.user = current_user
     end
+    @vote.save
+    respond_with(@vote, :location => supervision_topics_path(@supervision))
+  end
+
+  protected
+
+  def fetch_topic
+    @topic = @supervision.topics.find(params[:topic_id])
   end
 end
 

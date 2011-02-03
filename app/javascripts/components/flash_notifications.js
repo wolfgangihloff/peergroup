@@ -29,8 +29,8 @@ $.widget("ui.flashnotifications", {
         this._showMessage("notice", message);
         return this;
     },
-    error: function(message) {
-        this._showMessage("error", message);
+    alert: function(message) {
+        this._showMessage("alert", message);
         return this;
     },
     _showMessage: function(severity, message) {

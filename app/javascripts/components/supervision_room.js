@@ -27,7 +27,7 @@
         }
 
         $.ajax({
-            url: url + ".js",
+            url: url + ".json",
             data: data,
             dataType: dataType,
             type: method || "GET",
@@ -40,11 +40,19 @@
             success: function(data, status, xhr) {
                 $this.trigger("ajax:success", [data, status, xhr]);
             },
-            complete: function (xhr, status) {
-                $this.trigger('ajax:complete', [xhr, status]);
-            },
             error: function (xhr, status, error) {
                 $this.trigger('ajax:failure', [xhr, status, error]);
+            },
+            complete: function (xhr, status) {
+                $this.trigger('ajax:complete', [xhr, status]);
+
+                // try parse response as JSON and extract flash-es
+                var json = $.parseJSON(xhr.response);
+                if (json && json.flash) {
+                    _.each(json.flash, function(message, severity) {
+                        $this.trigger("flash:" + severity, message);
+                    });
+                }
             }
         });
 

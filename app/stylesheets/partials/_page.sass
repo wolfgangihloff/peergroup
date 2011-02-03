@@ -97,22 +97,14 @@ a
     header
       +append-bottom
 
-  .flash
+  .flash-messages
     +prepend-top
     +push(1)
     +column($blueprint-grid-columns - 2, true)
-    &.success
-      color: $success-color
-      background-color: $success-bg-color
-      border: 2px solid $success-border-color
-    &.notice
-      color: $notice-color
-      background-color: $notice-bg-color
-      border: 2px solid $notice-border-color
-    &.error
-      color: $error-color
-      background-color: $error-bg-color
-      border: 2px solid $error-border-color
+    .notice
+      +success
+    .alert
+      +error
 
 .navigation
   clear: both

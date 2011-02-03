@@ -3,34 +3,63 @@
 
 en:
   answers:
+    create:
+      notice: Your answer was successfully added
+      alert: You must answer question before posting it
     form:
       content_hint: Answer the question here
       submit: Post answer
   solutions_feedbacks:
+    create:
+      notice: Your feedback was successfully added
+      alert: You must type your feedback about solutions before posting
     form:
       content_hint: Enter your feedback about provided solutions
       submit: Post feedback
   ideas_feedbacks:
+    create:
+      notice: Your feedback was successfully added
+      alert: You must type your feedback about ideas before posting
     form:
       content_hint: Enter your feedback about provided ideas
       submit: Post feedback
   supervision_feedbacks:
+    create:
+      notice: Your feedback was successfully added
+      alert: You must type your feedback before posting
     form:
       content_hint: Enter your thoughts about supervision session
       submit: Post feedback
   solutions:
+    create:
+      notice: Your solution was successfully added
+      alert: "You must type you solution or click \"No more solutions\" link"
+    update:
+      notice: Your rating was succesfully saved
+      alert: You must rate solution before posting
     form:
       content_hint: Enter your solution here
       submit: Post solution proposition
   ideas:
+    create:
+      notice: Your idea was successfully added
+      alert: "You must type your idea or click \"No more ideas\" link"
+    update:
+      notice: Your rating was successfully saved
+      alert: You must rate idea before posting
     form:
       content_hint: Enter your idea here
       submit: Post idea
   questions:
+    create:
+      notice: Your question was successfully added
+      alert: "You must type your question before posting, or click \"No more questions\" link"
     form:
       content_hint: Enter your question here
       submit: Post question
   topics:
+    create:
+      notice: Your topic was successfully added
     index:
       heading: Supervision Topics
       title: Supervision Session
@@ -41,6 +70,9 @@ en:
       legend: Your topic proposition
       content_hint: Enter your problem or leave blank if you don not have any
       submit: Post your topic
+  topic_votes:
+    create:
+      notice: Your vote was successfully added
   supervisions:
     new:
       heading: New Supervision Session

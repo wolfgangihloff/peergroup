@@ -1,9 +1,12 @@
 class TopicsController < ApplicationController
+  self.responder = SupervisionPartResponder
 
   before_filter :authenticate
   before_filter :require_parent_supervision
   require_supervision_step :gathering_topics, :only => :create
   require_supervision_step :gathering_topics, :voting_on_topics, :only => :index
+
+  respond_to :html, :json
 
   def index
     if params[:partial]
@@ -17,31 +20,16 @@ class TopicsController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      @topic = @supervision.topics.build(params[:topic]) do |topic|
-        topic.user = current_user
-      end
-      if @topic.save
-        format.js { head :created }
-        format.html {
-          successful_flash("Topic was submitted successfully")
-          redirect_to supervision_path(@supervision)
-        }
-      else
-        format.js { head :bad_request }
-        format.html {
-          error_flash("You must provide topic")
-          redirect_to supervision_path(@supervision)
-        }
-      end
+    @topic = @supervision.topics.build(params[:topic]) do |topic|
+      topic.user = current_user
     end
+    @topic.save
+    respond_with(@topic, :location => @supervision)
   end
 
   def show
     @topic = @supervision.topics.find(params[:id])
-    if params[:partial] == "1"
-      render :partial => "topic", :layout => false, :locals => { :topic => @topic }
-    end
+    respond_with(@topic)
   end
 
   protected

@@ -7,26 +7,54 @@ describe TopicsController do
     @group = Factory(:group)
     @user = @group.founder
     test_sign_in(@user)
+    @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
   end
 
-  def mock_current_supervision_with(supervision)
-    Group.should_receive(:find).with(@group.id).and_return(@group)
-    @group.should_receive(:current_supervision).and_return(supervision)
+  describe "#show with partial=1 param" do
+    before do
+      @topic = Factory(:topic, :supervision => @supervision)
+      get :show,
+        :supervision_id => @supervision.id,
+        :id => @topic.id,
+        :partial => 1
+    end
+
+    specify { response.should be_success }
+    specify { response.should render_template("topic") }
+    specify { response.should_not render_template("show") }
   end
 
   describe "#create" do
-    # TODO
+    before do
+      post :create,
+        :supervision_id => @supervision.id,
+        :topic => { :content => "Topic content" }
+    end
+
+    specify { response.should redirect_to(supervision_path(@supervision)) }
+    specify { flash[:notice].should be_present }
   end
 
-  describe "#show" do
-    # TODO
+  describe "#create.json" do
+    before do
+      post :create,
+        :format => :json,
+        :supervision_id => @supervision.id,
+        :topic => { :content => "Topic content" }
+    end
+
+    specify { response.should be_success }
+    specify do
+      json = JSON.restore(response.body)
+      json["flash"].should be_present
+      json["flash"]["notice"].should be_present
+    end
   end
 
   describe "#index" do
     render_views
 
     before do
-      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
       ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")

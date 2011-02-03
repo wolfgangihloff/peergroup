@@ -1,3 +1,8 @@
+// This is extracted part from supervision_room.js, created when the later was responsible
+// for handling all supervision process in one page. I think that topics should belong
+// to group instead of supervision, so topic selection would be rewriten anyway,
+// and I haven't refatored this part to better suid actual state of process, as it should
+// change soon.
 (function($){
     $.fn.supervisionTopicsRoom = function() {
         return this.each(function() {
@@ -50,6 +55,9 @@
             var onGatheringTopicsState = function() {
                 var $newTopicForm = $topics.find("#new_topic");
 
+                $newTopicForm.attr("action", function(i, attr) {
+                    return attr.match(/\.json$/) ? attr : attr + ".json";
+                });
                 $newTopicForm
                     .live({
                         "submit": asyncSubmit(),
@@ -65,6 +73,9 @@
                     $topicsVotes = $this.find(".topic_votes_part");
 
                     var $newTopicVoteForm = $topicsVotes.find("form.new_vote");
+                    $newTopicVoteForm.attr("action", function(i, attr) {
+                        return attr.match(/\.json$/) ? attr : attr + ".json";
+                    });
                     $newTopicVoteForm
                         .live({
                             "submit": asyncSubmit(),
@@ -87,7 +98,7 @@
                     if (stateChangeCallbacks[supervisionState]) {
                         stateChangeCallbacks[supervisionState](true);
                     } else {
-                      document.location = PGS.supervisionPath(supervisionId);
+                        document.location = PGS.supervisionPath(supervisionId);
                     }
                 }
             };
@@ -101,16 +112,26 @@
                 $.get(url, [], onSuccess);
             };
 
+            var onAjaxComplete = function(event, xhr, status) {
+                var json = $.parseJSON(xhr.response);
+                if (json && json.flash) {
+                    _.each(json.flash, function(message, severity) {
+                        $this.trigger("flash:" + severity, message);
+                    });
+                }
+            };
+
             if (stateChangeCallbacks[supervisionState]) {
                 stateChangeCallbacks[supervisionState](false);
-
-                $this.bind({
-                    "supervisionUpdate": onSupervisionUpdate,
-                    "newTopic": onNewTopic
-                });
-                $this.trigger("supervisionUpdate", { state: supervisionState });
-                $statusbar.find("[title]").tooltip();
             }
+
+            $this.bind({
+                "supervisionUpdate": onSupervisionUpdate,
+                "newTopic": onNewTopic,
+                "ajax:complete": onAjaxComplete
+            });
+            $this.trigger("supervisionUpdate", { state: supervisionState });
+            $statusbar.find("[title]").tooltip();
         });
     };
 })(jQuery);
