@@ -17,8 +17,15 @@ jQuery.timeago.settings.allowFuture = true;
 //= require "components/chat_room"
 //= require "components/supervision_room"
 //= require "components/supervision_topics_room"
+//= require "components/flash_notifications"
 
 jQuery(function($) {
+
+    var flash = $(".flash-messages").flashnotifications({animate: true});
+    $(document).bind({
+        "flash:notice": function(event, message) { flash.flashnotifications("notice", message); },
+        "flash:error": function(event, message) { flash.flashnotifications("error", message); }
+    });
 
     $(".chat_room").each(function(i, element) {
         var $chatRoom = $(this);

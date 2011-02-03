@@ -24,8 +24,9 @@
       = render 'layouts/header'
 
       #content
-        - flash.each do |severity, message|
-          %div{:class => "flash #{severity}"}= message
+        .flash-messages
+          - flash.each do |severity, message|
+            %div{:class => "flash #{severity}"}= message
         = yield
       = render 'layouts/footer'
 
