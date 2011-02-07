@@ -77,7 +77,6 @@
 
         getSocket: function() {
             if (typeof socket === "undefined") {
-                WEB_SOCKET_SWF_LOCATION = document.location.protocol + "//" + document.location.hostname + ":8080" + WEB_SOCKET_SWF_LOCATION;
                 socket = new io.Socket(null, { port: 8080 });
                 socket.connect();
             }
