@@ -1,4 +1,9 @@
 %div[solutions_feedback]
-  = render solutions_feedback.user
+  - user_classes = ["problem-owner"]
+  - user_classes << "you" if solutions_feedback.user == current_user
+  .user{ :class => user_classes.join(" ") }
+    = link_to solutions_feedback.user, :title => solutions_feedback.user do
+      = gravatar_for(solutions_feedback.user)
+      .name= solutions_feedback.user
   .content
     %p= solutions_feedback.content

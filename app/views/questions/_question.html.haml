@@ -1,5 +1,8 @@
 %div[question]
-  = render question.user
+  .user{ :class => ("you" if question.user == current_user) }
+    = link_to question.user, :title => question.user do
+      = gravatar_for(question.user)
+      .name= question.user
   .content
     %p= question.content
     - if question.answer

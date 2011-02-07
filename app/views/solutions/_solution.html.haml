@@ -1,5 +1,8 @@
 %div[solution]
-  = render solution.user
+  .user{ :class => ("you" if solution.user == current_user) }
+    = link_to solution.user, :title => solution.user do
+      = gravatar_for(solution.user)
+      .name= solution.user
   .content
     %p= solution.content
     - if solution.rating || @supervision.problem_owner?(current_user)

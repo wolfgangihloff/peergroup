@@ -1,5 +1,8 @@
 %div[idea]
-  = render idea.user
+  .user{ :class => ("you" if idea.user == current_user) }
+    = link_to idea.user, :title => idea.user do
+      = gravatar_for(idea.user)
+      .name= idea.user
   .content
     %p= idea.content
     - if idea.rating || @supervision.problem_owner?(current_user)

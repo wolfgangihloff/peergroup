@@ -1,5 +1,11 @@
 %div[topic]
-  = render topic.user
+  - user_classes = []
+  - user_classes << "problem-owner" if @supervision.problem_owner?(topic.user)
+  - user_classes << "you" if topic.user == current_user
+  .user{ :class => user_classes.join(" ") }
+    = link_to topic.user, :title => topic.user do
+      = gravatar_for(topic.user)
+      .name= topic.user
   .content
     %p= topic_content(topic)
 

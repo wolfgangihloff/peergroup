@@ -8,7 +8,10 @@
     .list
       - @supervision.topics.each do |topic|
         %div[topic]
-          = render topic.user
+          .user{ :class => ("you" if topic.user == current_user) }
+            = link_to topic.user, :title => topic.user do
+              = gravatar_for(topic.user)
+              .name= topic.user
           .content
             %p= topic_content(topic)
             = form_for([@supervision, topic, Vote.new]) do |f|
