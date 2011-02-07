@@ -21,6 +21,23 @@ jQuery.timeago.settings.allowFuture = true;
 
 jQuery(function($) {
 
+    $(".supervision").each(function(i,el) {
+        $supervision = $(this);
+        $chatRoom = $supervision.find(".chat_room");
+        $supervisionContent = $supervision.find(".supervision-content");
+
+        var $pusher = $("<div style=height:0;margin:0;padding:0>");
+        $chatRoom.before($pusher);
+        var scrollCallback = function() {
+            var y = $(this).scrollTop();
+            var top = $pusher.offset().top - 15;
+            var maxTop = $supervisionContent.height() - $chatRoom.height();
+            var pushAmount = Math.max(0, Math.min(y-top, maxTop))
+            $pusher.animate({height: pushAmount + "px"}, 500);
+        };
+        $(window).scroll(_.throttle(scrollCallback, 100));
+    });
+
     var flash = $(".flash-messages").flashnotifications({animate: true});
     $(document).bind({
         "flash:notice": function(event, message) { flash.flashnotifications("notice", message); },
