@@ -280,6 +280,8 @@
       :no_more_questions: Ich habe keine weiteren Fragen mehr.
       :questions_waiting: Wir warten auf weitere Fragen.
       :ideas: Ideen
+      :ideas_waiting: Nun ist die Zeit Ideen einzugeben, geben Sie ihre Ideen ein und sehen sie was andere vorschlagen.
+      :problem_owner_ideas_waiting: Warten Sie auf Vorschlaege und Ideen der Teilnehmer ...
       :no_more_ideas: Ich habe keine Ideen mehr.
       :ideas_feedback: Feedback zu den Ideen
       :ideas_feedback_waiting: Warten auf das finale Feedback des Themengebers.
