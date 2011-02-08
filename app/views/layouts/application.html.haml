@@ -30,16 +30,5 @@
         = yield
       = render 'layouts/footer'
 
-    :javascript
-        (function() {
-          var script = document.createElement('script');
-          script.async = false;
-          script.type = 'text/javascript';
-          script.src = document.location.protocol + "//" + document.location.hostname + ":8080/socket.io/socket.io.js";
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(script, s);
-        })();
     = javascript_include_tag :defaults
-    :javascript
-      WEB_SOCKET_SWF_LOCATION = document.location.protocol + "//" + document.location.hostname + ":8080" + WEB_SOCKET_SWF_LOCATION;
 
