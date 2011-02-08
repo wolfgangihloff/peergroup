@@ -4,7 +4,6 @@
     %h2= @title
   %nav
     = t(".title.welcome", :default => "Welcome %{user_name}", :user_name => current_user.name) if signed_in? 
-    = t(".title.username", :default => "%{user_name}", :user_name => current_user.name) if signed_in?
     %ul
       %li= link_to t(".links.home", :default => "Home"), root_path
       - if signed_in?
