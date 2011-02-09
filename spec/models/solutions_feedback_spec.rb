@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe SolutionsFeedback do
   it "should crate a new instance given valid attributes" do
-    Factory.build(:solutions_feedback).valid?.should be_true
+    Factory.build(:solutions_feedback).should be_valid
   end
 
   describe "user attribute" do
     it "should be required" do
       @feedback = Factory.build(:solutions_feedback, :user => nil)
-      @feedback.valid?.should be_false
+      @feedback.should_not be_valid
       @feedback.should have(1).error_on(:user)
     end
 
@@ -25,7 +25,7 @@ describe SolutionsFeedback do
   describe "supervision attribute" do
     it "should be required" do
       @feedback = Factory.build(:solutions_feedback, :supervision => nil, :user => Factory.build(:user))
-      @feedback.valid?.should be_false
+      @feedback.should_not be_valid
       @feedback.should have(1).error_on(:supervision)
     end
 

@@ -33,7 +33,7 @@ describe Group do
     it "should be required" do
       @group = Factory.build(:group, :name => nil)
 
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:name)
     end
 
@@ -41,18 +41,18 @@ describe Group do
       @other_group = Factory(:group, :name => "group")
       @group = Factory.build(:group, :name => "group")
 
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:name)
     end
 
     it "should be limited in length" do
       @group = Factory.build(:group)
       @group.name = "a" * 256
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:name)
 
       @group.name = "a" * 255
-      @group.valid?.should be_true
+      @group.should be_valid
       @group.should have(:no).errors_on(:name)
     end
 
@@ -67,18 +67,18 @@ describe Group do
     it "should be required" do
       @group = Factory.build(:group, :description => nil)
 
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:description)
     end
 
     it "should be limited in length" do
       @group = Factory.build(:group)
       @group.description = "a" * 256
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:description)
 
       @group.description = "a" * 255
-      @group.valid?.should be_true
+      @group.should be_valid
       @group.should have(:no).errors_on(:description)
     end
 
@@ -94,10 +94,10 @@ describe Group do
       @group = Factory(:group)
       @user = Factory(:user)
 
-      @group.members.include?(@user).should be_false
+      @group.members.should_not include(@user)
 
       @group.add_member!(@user)
-      @group.members.include?(@user).should be_true
+      @group.members.should include(@user)
     end
   end
 
@@ -118,7 +118,7 @@ describe Group do
   describe "founder attribute" do
     it "should be required" do
       @group = Factory.build(:group, :founder => nil)
-      @group.valid?.should be_false
+      @group.should_not be_valid
       @group.should have(1).error_on(:founder)
     end
 

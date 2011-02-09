@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe Vote do
   it "should create a new instance given valid attributes" do
-    Factory.build(:vote).valid?.should be_true
+    Factory.build(:vote).should be_valid
   end
 
   describe "user attribute" do
     it "should be required" do
       @vote = Factory.build(:vote, :user => nil)
-      @vote.valid?.should be_false
+      @vote.should_not be_valid
       @vote.should have(1).error_on(:user)
     end
 
@@ -26,7 +26,7 @@ describe Vote do
     it "should be required" do
       # I had to add :user, or factory would fail
       @vote = Factory.build(:vote, :statement => nil, :user => Factory(:user))
-      @vote.valid?.should be_false
+      @vote.should_not be_valid
     end
 
     it "should be protected agains mass assignment" do

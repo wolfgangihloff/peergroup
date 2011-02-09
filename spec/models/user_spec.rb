@@ -214,7 +214,7 @@ describe User do
 
     it "should include the followed user in the following array" do
       @user.follow!(@followed)
-      @user.following.include?(@followed).should be_true
+      @user.following.should include(@followed)
     end
 
     it "should have an unfollow! method" do
@@ -237,7 +237,7 @@ describe User do
 
     it "should include the follower in the followers array" do
       @user.follow!(@followed)
-      @followed.followers.include?(@user).should be_true
+      @followed.followers.should include(@user)
     end
   end
 

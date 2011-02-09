@@ -8,7 +8,7 @@ describe Topic do
   describe "user attribute" do
     it "should be required" do
       @topic = Factory.build(:topic, :user => nil)
-      @topic.valid?.should be_false
+      @topic.should_not be_valid
       @topic.should have(1).error_on(:user)
     end
 
@@ -26,7 +26,7 @@ describe Topic do
     it "should be required" do
       # I had to add :user, or factory would fail
       @topic = Factory.build(:topic, :supervision => nil, :user => Factory(:user))
-      @topic.valid?.should be_false
+      @topic.should_not be_valid
     end
 
     it "should be protected agains mass assignment" do
@@ -42,7 +42,7 @@ describe Topic do
   describe "content attribute" do
     it "should not be required" do
       @topic = Factory.build(:topic, :content => nil)
-      @topic.valid?.should be_true
+      @topic.should be_valid
     end
 
     it "should be accessible to mass assignment" do
