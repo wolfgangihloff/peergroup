@@ -236,6 +236,7 @@
             - :title: 
     - :layouts: !omap 
         - :application: !omap 
+            - :base_title: peergroup
             - :title: peergroup
         - :footer: !omap 
             - :links: !omap 
