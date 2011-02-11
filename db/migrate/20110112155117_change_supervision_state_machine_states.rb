@@ -11,14 +11,18 @@ class ChangeSupervisionStateMachineStates < ActiveRecord::Migration
     "finished"             => "finished"
   }
   def self.up
-    STATES.each do |old_state,new_state|
-      Supervision.update_all(["state = ?", new_state], ["state = ?", old_state])
+    say_with_time("Updating states in existing supervisions") do
+      STATES.each do |old_state,new_state|
+        Supervision.update_all(["state = ?", new_state], ["state = ?", old_state])
+      end
     end
   end
 
   def self.down
-    STATES.each do |old_state,new_state|
-      Supervision.update_all(["state = ?", old_state], ["state = ?", new_state])
+    say_with_time("Reverting updating states in existing supervisions") do
+      STATES.each do |old_state,new_state|
+        Supervision.update_all(["state = ?", old_state], ["state = ?", new_state])
+      end
     end
   end
 end
