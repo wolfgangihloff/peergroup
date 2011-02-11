@@ -14,7 +14,6 @@ describe TopicVotesController do
   describe "#create" do
     before do
       post :create,
-        :supervision_id => @supervision.id,
         :topic_id => @topic.id
     end
 
@@ -26,7 +25,6 @@ describe TopicVotesController do
     before do
       post :create,
         :format => :json,
-        :supervision_id => @supervision.id,
         :topic_id => @topic.id
     end
 

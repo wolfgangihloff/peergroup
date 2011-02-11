@@ -15,7 +15,6 @@ describe AnswersController do
     describe "with valid data" do
       before do
         post :create,
-          :supervision_id => @supervision.id,
           :question_id => @question.id,
           :answer => { :content => "Answer content" }
       end
@@ -27,7 +26,6 @@ describe AnswersController do
     describe "with invalid data" do
       before do
         post :create,
-          :supervision_id => @supervision.id,
           :question_id => @question.id,
           :answer => {}
       end
@@ -42,7 +40,6 @@ describe AnswersController do
       before do
         post :create,
           :format => :json,
-          :supervision_id => @supervision.id,
           :question_id => @question.id,
           :answer => { :content => "Answer content" }
       end
@@ -59,7 +56,6 @@ describe AnswersController do
       before do
         post :create,
           :format => :json,
-          :supervision_id => @supervision.id,
           :question_id => @question.id,
           :answer => {}
       end

@@ -14,7 +14,6 @@ describe SupervisionFeedbacksController do
     before do
       @supervision_feedback = Factory(:supervision_feedback, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @supervision_feedback.id,
         :partial => 1
     end

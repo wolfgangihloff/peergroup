@@ -2,7 +2,7 @@ class TopicsController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
+  before_filter :fetch_supervision, :only => [:index, :create]
   require_supervision_step :gathering_topics, :only => :create
   require_supervision_step :gathering_topics, :voting_on_topics, :only => :index
 
@@ -28,11 +28,16 @@ class TopicsController < ApplicationController
   end
 
   def show
-    @topic = @supervision.topics.find(params[:id])
+    @topic = Topic.find(params[:id])
+    @supervision = @topic.supervision
     respond_with(@topic)
   end
 
   protected
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:supervision_id])
+  end
 
   PARTIAL_NAMES = {
     "topics" => "supervision_topics",

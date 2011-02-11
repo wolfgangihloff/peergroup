@@ -80,15 +80,15 @@
         },
 
         supervisionTopicPath: function(supervisionId, topicId, options) {
-            return this.path(["supervisions", supervisionId, "topics", topicId], options);
+            return this.path(["topics", topicId], options);
         },
 
         supervisionQuestionPath: function(supervisionId, questionId, options) {
-            return this.path(["supervisions", supervisionId, "questions", questionId], options);
+            return this.path(["questions", questionId], options);
         },
 
         supervisionIdeaPath: function(supervisionId, ideaId, options) {
-            return this.path(["supervisions", supervisionId, "ideas", ideaId], options);
+            return this.path(["ideas", ideaId], options);
         },
 
         supervisionIdeasFeedbackPath: function(supervisionId, options) {
@@ -96,7 +96,7 @@
         },
 
         supervisionSolutionPath: function(supervisionId, solutionId, options) {
-            return this.path(["supervisions", supervisionId, "solutions", solutionId], options);
+            return this.path(["solutions", solutionId], options);
         },
 
         supervisionSolutionsFeedbackPath: function(supervisionId, options) {
@@ -104,7 +104,7 @@
         },
 
         supervisionSupervisionFeedbackPath: function(supervisionId, supervisionFeedbackId, options) {
-            return this.path(["supervisions", supervisionId, "supervision_feedbacks", supervisionFeedbackId], options);
+            return this.path(["supervision_feedbacks", supervisionFeedbackId], options);
         }
 
     };

@@ -22,16 +22,6 @@ class SupervisionsController < ApplicationController
     redirect_to @group.supervisions.create!
   end
 
-  def fetch_supervision
-    @supervision = Supervision.find(params[:id])
-  end
-
-  def redirect_to_topics
-    unless @supervision.step_finished?(:voting_on_topics)
-      redirect_to supervision_topics_path(@supervision)
-    end
-  end
-
   def show
     @token = SecureRandom.hex
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
@@ -62,5 +52,16 @@ class SupervisionsController < ApplicationController
     redirect_to @supervision
     return false
   end
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:id])
+  end
+
+  def redirect_to_topics
+    unless @supervision.step_finished?(:voting_on_topics)
+      redirect_to supervision_topics_path(@supervision)
+    end
+  end
+
 end
 

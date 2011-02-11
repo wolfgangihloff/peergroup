@@ -14,7 +14,6 @@ describe TopicsController do
     before do
       @topic = Factory(:topic, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @topic.id,
         :partial => 1
     end

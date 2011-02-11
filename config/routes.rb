@@ -11,18 +11,24 @@ Peergroupsupervision::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
   resource :relationships, :only => [:create, :destroy]
 
+  resources :topics, :only => :show do
+    resources :votes, :only => :create, :controller => :topic_votes
+  end
+  resources :questions, :only => :show do
+    resources :answers, :only => :create
+  end
+  resources :ideas, :only => [:update, :show]
+  resources :solutions, :only => [:update, :show]
+  resources :supervision_feedbacks, :only => :show
+
   resources :supervisions, :only => [:show, :index, :update] do
-    resources :topics, :only => [:create, :show, :index] do
-      resources :votes, :only => :create, :controller => :topic_votes
-    end
-    resources :questions, :only => [:create, :show] do
-      resource :answer, :only => :create
-    end
-    resources :ideas, :only => [:create, :update, :show]
+    resources :topics, :only => [:create, :index]
+    resources :questions, :only => :create
+    resources :ideas, :only => :create
     resource :ideas_feedback, :only => [:create, :show]
-    resources :solutions, :only => [:create, :update, :show]
+    resources :solutions, :only => :create
     resource :solutions_feedback, :only => [:create, :show]
-    resources :supervision_feedbacks, :only => [:create, :show]
+    resources :supervision_feedbacks, :only => :create
     resources :votes, :only => :create
   end
 

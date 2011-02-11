@@ -14,7 +14,6 @@ describe QuestionsController do
     before do
       @question = Factory(:question, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @question.id,
         :partial => 1
     end

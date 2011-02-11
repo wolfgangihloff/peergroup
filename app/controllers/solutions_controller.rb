@@ -2,7 +2,8 @@ class SolutionsController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
+  before_filter :fetch_solution, :only => [:update, :show]
+  before_filter :fetch_supervision, :only => :create
   require_supervision_step :providing_solutions, :only => [:create, :update]
 
   respond_to :html, :json
@@ -16,14 +17,23 @@ class SolutionsController < ApplicationController
   end
 
   def update
-    @solution = @supervision.solutions.find(params[:id])
     @solution.update_attributes(params[:solution])
     respond_with(@solution, :location => @supervision)
   end
 
   def show
-    @solution = @supervision.solutions.find(params[:id])
     respond_with(@solution)
+  end
+
+  protected
+
+  def fetch_solution
+    @solution = Solution.find(params[:id])
+    @supervision = @solution.supervision
+  end
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:supervision_id])
   end
 end
 
