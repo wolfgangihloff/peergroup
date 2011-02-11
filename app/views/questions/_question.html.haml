@@ -11,4 +11,4 @@
       .answer
         .head
           %p= t(".post_answer", :default => "Your answer")
-        = render :partial => "answers/form", :locals => { :question => question }
+        = render "answers/form", :question => question

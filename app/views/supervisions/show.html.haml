@@ -11,7 +11,7 @@
             = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
 
     %div{:"data-show-in-state" => "finished"}
-      = render :partial => "supervision_finished"
+      = render "supervision_finished"
 
   %aside.chat_room_part
     %div[@supervision.chat_room]{ :data => { :token => @token } }
@@ -48,7 +48,7 @@
               .user
                 = render current_user
               .content
-                = render :partial => "questions/form"
+                = render "questions/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_questions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
@@ -68,11 +68,11 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'ideas/form'
+                = render "ideas/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_ideas"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.ideas
+        = render @supervision.ideas, :supervision => @supervision
 
     %section.ideas_feedback_part
       %header
@@ -85,7 +85,7 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'ideas_feedbacks/form'
+                = render "ideas_feedbacks/form"
           - else
             %p.waiting= t("supervisions.show.ideas_feedback_waiting")
 
@@ -106,11 +106,11 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'solutions/form'
+                = render "solutions/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.solutions
+        = render @supervision.solutions, :supervision => @supervision
 
     %section.solutions_feedback_part
       %header
@@ -123,7 +123,7 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'solutions_feedbacks/form'
+                = render "solutions_feedbacks/form", :supervision => @supervision
           - else
             %p.waiting= t("supervisions.show.solutions_feedback_waiting")
 
@@ -141,11 +141,12 @@
             .user
               = render current_user
             .content
-              = render :partial => 'supervision_feedbacks/form' unless @supervision.posted_supervision_feedback?(current_user)
+              - unless @supervision.posted_supervision_feedback?(current_user)
+                = render "supervision_feedbacks/form", :supervision => @supervision
 
       .list
-        = render @supervision.supervision_feedbacks
+        = render @supervision.supervision_feedbacks, :supervision => @supervision
 
   %footer
     %div{:"data-show-in-state" => "finished"}
-      = render :partial => "supervision_finished"
+      = render "supervision_finished"

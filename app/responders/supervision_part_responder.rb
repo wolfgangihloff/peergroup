@@ -5,7 +5,10 @@ class SupervisionPartResponder < ActionController::Responder
         resource_class_name = resource.class.to_s.underscore
         render :partial => resource_class_name,
           :layout => false,
-          :locals => { resource_class_name.to_sym => resource }
+          :locals => {
+            resource_class_name.to_sym => resource,
+            :supervision => controller.instance_variable_get("@supervision")
+          }
       end
     else # create action
       if has_errors?
