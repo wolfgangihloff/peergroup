@@ -49,7 +49,7 @@ RSpec.configure do |config|
     REDIS.stub(:publish)
   end
 
-  def test_sign_in(user)
+  def sign_in(user = Factory(:user))
     controller.current_user = user
   end
 end

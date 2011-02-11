@@ -6,7 +6,7 @@ describe ChatRoomsController do
   before do
     @user = Factory(:user, :id => 1)
     @group = Factory(:group, :founder => @user)
-    test_sign_in(@user)
+    sign_in(@user)
   end
 
   describe "#show" do

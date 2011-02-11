@@ -7,7 +7,7 @@ describe ChatMessagesController do
     @group = Factory(:group, :founder => @user)
     @chat_room = @group.chat_room
 
-    test_sign_in(@user)
+    sign_in(@user)
   end
 
   describe "#create" do

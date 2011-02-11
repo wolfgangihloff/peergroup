@@ -5,7 +5,7 @@ describe SupervisionsController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
   end
 
   def mock_current_supervision_with(supervision)
