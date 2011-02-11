@@ -15,7 +15,8 @@ describe ChatRoomsController do
     before do
       @chat_room = @group.chat_room
       SecureRandom.should_receive(:hex).and_return("asdfb")
-      REDIS.should_receive(:setex).with("chat:#{@chat_room.id}:users:1:token:asdfb", 60, "1")
+      redis_key = "chat:#{@chat_room.id}:users:#{@user.id}:token:asdfb"
+      REDIS.should_receive(:setex).with(redis_key, 60, "1")
       get :show, :group_id => @group.id, :id => @chat_room
     end
 

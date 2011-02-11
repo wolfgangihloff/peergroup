@@ -1,7 +1,6 @@
 class ChatMessagesController < ApplicationController
 
   before_filter :authenticate
-  before_filter :fetch_group
   before_filter :fetch_chat_room
 
   def create
@@ -21,12 +20,9 @@ class ChatMessagesController < ApplicationController
 
   protected
 
-  def fetch_group
-    @group = current_user.groups.find(params[:group_id])
-  end
-
   def fetch_chat_room
-    @chat_room = @group.chat_rooms.find(params[:chat_room_id])
+    @chat_room = ChatRoom.find(params[:chat_room_id])
+    @group = @chat_room.group
   end
 
 end

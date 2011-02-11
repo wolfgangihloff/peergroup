@@ -31,9 +31,10 @@ Peergroupsupervision::Application.routes.draw do
     resources :memberships
     resources :rules
     resource :chat_room, :only => :show
-    resources :chat_rooms, :only => [] do
-      resources :chat_messages, :only => :create
-    end
+  end
+
+  resources :chat_room, :only => [] do
+    resources :chat_messages, :only => :create
   end
 
   match '/signin' => 'sessions#new', :as => 'signin'
