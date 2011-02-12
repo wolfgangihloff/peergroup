@@ -11,8 +11,8 @@
         - @finished_supervisions.each do |supervision|
           %li
             = link_to supervision_path(supervision) do
-              = t(".supervision", :default => "group: %{group} - %{date}", :group => supervision.group.name, :date => l(supervision.updated_at, :format => :short))
-            = supervision.topic.content
+              = t(".supervision", :default => "group: %{group} - %{date}", :group => supervision.group_name, :date => l(supervision.updated_at, :format => :short))
+            = supervision.topic_content
 
   - if @current_supervisions.any?
     %h2= t(".current_supervisions", :default => "Current supervisions")
@@ -20,5 +20,5 @@
       - @current_supervisions.each do |supervision|
         %li
           = link_to supervision_step_path(supervision) do
-            = t(".supervision", :default => "group: %{group} - %{date}", :group => supervision.group.name, :date => l(supervision.updated_at, :format => :short))
-          = supervision.topic.content if supervision.topic.present?
+            = t(".supervision", :default => "group: %{group} - %{date}", :group => supervision.group_name, :date => l(supervision.updated_at, :format => :short))
+          = supervision.topic_content

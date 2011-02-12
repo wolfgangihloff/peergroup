@@ -15,7 +15,7 @@
     %div[@supervision.chat_room]{ :data => { :token => @token } }
       %div.messages_part
         %ul.messages
-          - @supervision.chat_room.chat_messages.limit(25).reverse_each do |chat_message|
+          - @chat_messages.reverse_each do |chat_message|
             %li[chat_message]
               %span.message-user= chat_message.user
               %time{ :datetime => chat_message.created_at.getutc.iso8601 }= chat_message.created_at.to_s

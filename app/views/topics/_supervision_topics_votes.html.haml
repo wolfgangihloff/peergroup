@@ -8,7 +8,7 @@
     .list
       - supervision.topics.each do |topic|
         %div[topic]
-          .user{ :class => ("you" if topic.user == current_user) }
+          .user{ :class => ("you" if current_user?(topic.user)) }
             = link_to topic.user, :title => topic.user do
               = gravatar_for(topic.user)
               .name= topic.user

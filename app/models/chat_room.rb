@@ -18,4 +18,8 @@ class ChatRoom < ActiveRecord::Base
     self.group = supervision.group if supervision.present?
   end
 
+  def last_messages
+    chat_messages.limit(25)
+  end
+
 end

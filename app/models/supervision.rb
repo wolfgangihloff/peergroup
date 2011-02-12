@@ -113,6 +113,10 @@ class Supervision < ActiveRecord::Base
 
   validates :group, :presence => true
 
+  delegate :name, :to => :group, :prefix => true
+  delegate :content, :to => :topic, :prefix => true, :allow_nil => true
+  delegate :id, :to => :chat_room, :prefix => true
+
   def self.finished
     with_state(:finished)
   end

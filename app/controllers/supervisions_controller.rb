@@ -23,9 +23,11 @@ class SupervisionsController < ApplicationController
   end
 
   def show
+    @chat_room = @supervision.chat_room
+    @chat_messages = @chat_room.last_messages
     @token = SecureRandom.hex
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
-    REDIS.setex("chat:#{@supervision.chat_room.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    REDIS.setex("chat:#{@supervision.chat_room_id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   def update

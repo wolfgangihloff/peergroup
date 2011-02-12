@@ -14,13 +14,13 @@ class Solution < ActiveRecord::Base
 
   scope :not_rated, :conditions => "rating IS NULL"
 
-  after_create do |solution|
-    solution.publish_to_redis
+  after_create do
+    publish_to_redis
   end
 
-  after_update do |solution|
-    solution.supervision.post_vote_for_next_step
-    solution.publish_to_redis
+  after_update do
+    supervision.post_vote_for_next_step
+    publish_to_redis
   end
 
   def supervision_publish_attributes
