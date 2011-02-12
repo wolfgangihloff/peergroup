@@ -11,7 +11,7 @@
             = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
 
     %div{:"data-show-in-state" => "finished"}
-      = render "supervision_finished"
+      = render "supervision_finished", :supervision => @supervision
 
   %aside.chat_room_part
     %div[@supervision.chat_room]{ :data => { :token => @token } }
@@ -33,7 +33,7 @@
         %h1= t("supervisions.show.topic")
 
       .list
-        = render @supervision.topic
+        = render @supervision.topic, :supervision => @supervision
 
     %section.questions_part
       %header
@@ -52,7 +52,7 @@
                 = link_to t("supervisions.show.no_more_questions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.topic_questions
+        = render @supervision.topic_questions, :supervision => @supervision
 
     %section.ideas_part
       %header
@@ -149,4 +149,4 @@
 
   %footer
     %div{:"data-show-in-state" => "finished"}
-      = render "supervision_finished"
+      = render "supervision_finished", :supervision => @supervision

@@ -2,14 +2,14 @@
   %header
     %h1= t("supervisions.show.topics")
 
-  - if @supervision.gathering_topics?
+  - if supervision.gathering_topics?
     %p.waiting= t("supervisions.show.topics_waiting")
 
-    - unless @supervision.posted_topic?(current_user)
+    - unless supervision.posted_topic?(current_user)
       .topic.form
         = render current_user
         .content
-          = render :partial => 'topics/form'
+          = render "topics/form", :supervision => supervision
 
   .list
-    = render @supervision.topics
+    = render supervision.topics, :supervision => supervision

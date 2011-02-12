@@ -21,14 +21,14 @@
 
   %body{ :id => id_for_body }
     %section#page
-      = render 'layouts/header'
+      = render "layouts/header", :title => @title
 
       #content
         .flash-messages
           - flash.each do |severity, message|
             %div{:class => "flash #{severity}"}= message
         = yield
-      = render 'layouts/footer'
+      = render "layouts/footer"
 
     = javascript_include_tag :defaults
 

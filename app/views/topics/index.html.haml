@@ -29,9 +29,9 @@
   %div.supervision-content{ :style => "width:66%;float:left" }
 
     - if @supervision.gathering_topics?
-      = render :partial => "supervision_topics"
+      = render "supervision_topics", :supervision => @supervision
 
     - if @supervision.voting_on_topics?
-      = render :partial => "supervision_topics_votes"
+      = render "supervision_topics_votes", :supervision => @supervision
 
   %footer

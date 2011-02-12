@@ -11,7 +11,7 @@ class TopicsController < ApplicationController
   def index
     if params[:partial]
       partial_name = PARTIAL_NAMES[params[:partial]]
-      render :partial => partial_name, :layout => false
+      render :partial => partial_name, :layout => false, :locals => { :supervision => @supervision }
     else
       @token = SecureRandom.hex
       REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
