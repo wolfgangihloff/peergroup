@@ -37,6 +37,7 @@ group :development do
   gem "nifty-generators"
   gem "ruby-graphviz"
   gem "metric_fu"
+  gem "rspec-rails", ">=2.0.0.rc"
 end
 
 group :cucumber do
