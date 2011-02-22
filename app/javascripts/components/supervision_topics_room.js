@@ -1,20 +1,20 @@
 // This is extracted part from supervision_room.js, created when the later was responsible
 // for handling all supervision process in one page. I think that topics should belong
 // to group instead of supervision, so topic selection would be rewriten anyway,
-// and I haven't refatored this part to better suid actual state of process, as it should
+// and I haven't refatored this part to better suit actual state of process, as it should
 // change soon.
 (function($){
     $.fn.supervisionTopicsRoom = function() {
         return this.each(function() {
-            var $this                 = $(this),
-                $header               = $this.find("header"),
-                $footer               = $this.find("footer"),
-                $statusbar            = $header.find(".supervision_statusbar"),
-                $topics               = $this.find(".topics_part"),
-                $topicsList           = $topics.find(".list"),
-                $topicsVotes          = $this.find(".topics_votes_part"),
-                supervisionState      = $this.data("supervision-state"),
-                supervisionId         = $this.attr("id").replace("supervision_", "");
+            var $this            = $(this),
+                $header          = $this.find("header"),
+                $footer          = $this.find("footer"),
+                $statusbar       = $header.find(".supervision_statusbar"),
+                $topics          = $this.find(".topics_part"),
+                $topicsList      = $topics.find(".list"),
+                $topicsVotes     = $this.find(".topics_votes_part"),
+                supervisionState = $this.data("supervision-state"),
+                supervisionId    = $this.attr("id").replace("supervision_", "");
 
             var asyncSubmit = function() {
                 return function(event) {

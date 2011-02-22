@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_question, :only => :show
   before_filter :fetch_supervision, :only => :create
-  require_supervision_step :asking_questions, :only => :create
+  require_supervision_state :asking_questions, :only => :create
 
   respond_to :html, :json
 

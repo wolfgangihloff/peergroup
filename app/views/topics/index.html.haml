@@ -3,12 +3,12 @@
     %h1= t("topics.index.heading")
 
     %ul.supervision_statusbar
-      - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+      - Supervision::STEPS.each do |step|
+        %li{ :"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
           = form_for @supervision, :remote => true do |f|
-            - if @supervision.respond_to? "step_back_to_#{state}"
-              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
-            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
+            - if @supervision.respond_to? "step_back_to_#{step}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{step}"
+            = submit_tag t("supervisions.show.supervision_state.#{step}"),  :title => t("supervisions.show.supervision_state_title.#{step}")
 
 
   %aside.chat_room_part

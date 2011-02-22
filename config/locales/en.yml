@@ -83,6 +83,7 @@ en:
     show:
       heading: Supervision Session
       title: Supervision Session
+      leave_supervision: Leave session
 
       topics: Topics List
       topic_votes: Topic votes
@@ -138,3 +139,9 @@ en:
         providing_ideas: Providing ideas
         providing_solutions: Providing solutions
         voting_on_topics: Voting on topics
+  supervision_memberships:
+    new:
+      title: Join session
+      heading: Join session
+      join_supervision: Join session
+      message: "You're not currently member of this supervision. Would you like to join this supervision session?"

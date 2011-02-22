@@ -43,6 +43,8 @@
                     - :not_an_integer: 
                 - :ideas_feedback: !omap 
                     - :blank: 
+                - :membership: !omap 
+                    - :taken: 
                 - :question: !omap 
                     - :blank: 
                 - :relationship: !omap 
@@ -60,6 +62,8 @@
                     - :invalid_transition: 
                 - :supervision_feedback: !omap 
                     - :blank: 
+                - :supervision_membership: !omap 
+                    - :taken: 
                 - :topic: !omap 
                     - :blank: 
                 - :user: !omap 
@@ -76,6 +80,7 @@
         - :state_machines: !omap 
             - :events: !omap 
                 - :general_feedback: 
+                - :join_member: 
                 - :next_step: 
                 - :owner_feedback: 
                 - :owner_idea_feedback: 
@@ -89,10 +94,13 @@
                 - :post_vote_for_next_step: 
                 - :step_back_to_asking_questions: 
                 - :step_back_to_giving_ideas_feedback: 
+                - :step_back_to_giving_solutions_feedback: 
                 - :step_back_to_providing_ideas: 
+                - :step_back_to_providing_solutions: 
             - :state: !omap 
                 - :events: !omap 
                     - :general_feedback: 
+                    - :join_member: 
                     - :next_step: 
                     - :owner_feedback: 
                     - :owner_idea_feedback: 
@@ -111,6 +119,19 @@
                     - :gathering_topics: 
             - :states: !omap 
                 - :gathering_topics: 
+            - :step: !omap 
+                - :events: !omap 
+                    - :post_ideas_feedback: 
+                    - :post_solutions_feedback: 
+                    - :post_supervision_feedback: 
+                    - :post_topic: 
+                    - :post_topic_vote: 
+                    - :post_vote_for_next_step: 
+                    - :step_back_to_asking_questions: 
+                    - :step_back_to_giving_ideas_feedback: 
+                    - :step_back_to_giving_solutions_feedback: 
+                    - :step_back_to_providing_ideas: 
+                    - :step_back_to_providing_solutions: 
     - :answers: !omap 
         - :create: !omap 
             - :title: 
@@ -133,8 +154,10 @@
         - :state: 
         - :state_event: 
         - :statement: 
+        - :step: 
         - :supervision: 
         - :user: 
+        - :user_id: 
     - :chat_messages: !omap 
         - :create: !omap 
             - :title: 
@@ -180,8 +203,12 @@
                 - :not_an_integer: 
             - :state: !omap 
                 - :invalid: 
+            - :state_event: !omap 
+                - :invalid: 
             - :statement: !omap 
                 - :blank: 
+            - :step: !omap 
+                - :invalid: 
             - :supervision: !omap 
                 - :blank: 
             - :user: !omap 
@@ -323,6 +350,11 @@
             - :title: 
         - :show: !omap 
             - :title: 
+    - :supervision_memberships: !omap 
+        - :create: !omap 
+            - :title: 
+        - :destroy: !omap 
+            - :title: 
     - :supervisions: !omap 
         - :create: !omap 
             - :title: 
@@ -343,6 +375,24 @@
             - :go_to_current: Go to current supervision session
             - :post_topic: Your topic
             - :submit: Submit
+            - :supervision_step: !omap 
+                - :asking_questions: 
+                - :gathering_topics: 
+                - :giving_ideas_feedback: 
+                - :giving_solutions_feedback: 
+                - :giving_supervision_feedbacks: 
+                - :providing_ideas: 
+                - :providing_solutions: 
+                - :voting_on_topics: 
+            - :supervision_step_title: !omap 
+                - :asking_questions: 
+                - :gathering_topics: 
+                - :giving_ideas_feedback: 
+                - :giving_solutions_feedback: 
+                - :giving_supervision_feedbacks: 
+                - :providing_ideas: 
+                - :providing_solutions: 
+                - :voting_on_topics: 
             - :topics: Topics
             - :topics_waiting: Waiting for topics from all participants
         - :supervision_topic: !omap 

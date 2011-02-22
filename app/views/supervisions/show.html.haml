@@ -3,12 +3,15 @@
     %h1= t("supervisions.show.heading")
 
     %ul.supervision_statusbar
-      - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+      - Supervision::STEPS.each do |step|
+        %li{ :"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
           = form_for @supervision, :remote => true do |f|
-            - if @supervision.respond_to? "step_back_to_#{state}"
-              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
-            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
+            - if @supervision.respond_to? "step_back_to_#{step}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{step}"
+            = submit_tag t("supervisions.show.supervision_state.#{step}"),  :title => t("supervisions.show.supervision_state_title.#{step}")
+
+    = form_tag supervision_membership_path(@supervision), :method => :delete do
+      = submit_tag t("supervisions.show.leave_supervision")
 
     %div{:"data-show-in-state" => "finished"}
       = render "supervision_finished", :supervision => @supervision
@@ -85,7 +88,7 @@
               .user
                 = render current_user
               .content
-                = render "ideas_feedbacks/form"
+                = render "ideas_feedbacks/form", :supervision => @supervision
           - else
             %p.waiting= t("supervisions.show.ideas_feedback_waiting")
 

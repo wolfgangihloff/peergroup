@@ -3,7 +3,7 @@ class SolutionsFeedbacksController < ApplicationController
 
   before_filter :authenticate
   before_filter :fetch_supervision
-  require_supervision_step :giving_solutions_feedback, :only => :create
+  require_supervision_state :giving_solutions_feedback, :only => :create
 
   respond_to :html, :json
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110211234727) do
+ActiveRecord::Schema.define(:version => 20110214150308) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -154,6 +154,14 @@ ActiveRecord::Schema.define(:version => 20110211234727) do
 
   add_index "solutions", ["supervision_id"], :name => "index_solutions_on_supervision_id"
   add_index "solutions", ["user_id"], :name => "index_solutions_on_user_id"
+
+  create_table "supervision_memberships", :force => true do |t|
+    t.integer "supervision_id"
+    t.integer "user_id"
+  end
+
+  add_index "supervision_memberships", ["supervision_id"], :name => "index_supervision_memberships_on_supervision_id"
+  add_index "supervision_memberships", ["user_id"], :name => "index_supervision_memberships_on_user_id"
 
   create_table "supervisions", :force => true do |t|
     t.integer  "group_id"

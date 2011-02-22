@@ -3,7 +3,7 @@ class TopicVotesController < ApplicationController
 
   before_filter :authenticate
   before_filter :fetch_topic
-  require_supervision_step :voting_on_topics
+  require_supervision_state :voting_on_topics
 
   respond_to :html, :json
 

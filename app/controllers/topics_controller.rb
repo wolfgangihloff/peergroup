@@ -3,8 +3,8 @@ class TopicsController < ApplicationController
 
   before_filter :authenticate
   before_filter :fetch_supervision, :only => [:index, :create]
-  require_supervision_step :gathering_topics, :only => :create
-  require_supervision_step :gathering_topics, :voting_on_topics, :only => :index
+  require_supervision_state :gathering_topics, :only => :create
+  require_supervision_state :gathering_topics, :voting_on_topics, :only => :index
 
   respond_to :html, :json
 

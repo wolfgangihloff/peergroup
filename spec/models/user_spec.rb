@@ -265,5 +265,36 @@ describe User do
       @user.to_s.should be == @user.name
     end
   end
+
+  describe "#join_supervision" do
+    it "should add user to supervision members" do
+      @user = Factory(:user)
+      @supervision = Factory(:supervision)
+      @user.join_supervision(@supervision)
+      @supervision.reload
+      @supervision.members.should include(@user)
+    end
+  end
+  describe "#leave_supervision" do
+    it "should remove user's membership in supervision" do
+      @user = Factory(:user)
+      @supervision = Factory(:supervision)
+      @user.join_supervision(@supervision)
+      @user.leave_supervision(@supervision)
+      @supervision.reload
+      @supervision.members.should_not include(@user)
+    end
+  end
+
+  describe "#join_group" do
+    it "should add user to group members" do
+      @user = Factory(:user)
+      @group = Factory(:group)
+      @user.join_group(@group)
+      @group.reload
+      @group.members.should include(@user)
+      @user.member_of?(@group).should be_true
+    end
+  end
 end
 

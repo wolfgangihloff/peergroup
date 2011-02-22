@@ -4,7 +4,7 @@ class SupervisionFeedbacksController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_supervision_feedback, :only => :show
   before_filter :fetch_supervision, :only => :create
-  require_supervision_step :giving_supervision_feedbacks, :only => :create
+  require_supervision_state :giving_supervision_feedbacks, :only => :create
 
   respond_to :html, :json
 

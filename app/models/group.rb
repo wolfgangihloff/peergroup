@@ -42,7 +42,7 @@ class Group < ActiveRecord::Base
   end
 
   def current_supervision
-    supervisions.unfinished.first
+    supervisions.in_progress.first
   end
 
   def to_s

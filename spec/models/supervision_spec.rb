@@ -1,25 +1,35 @@
-$:.unshift File.dirname(__FILE__)
 $:.unshift File.join(File.dirname(__FILE__), "..")
 require 'spec_helper'
-require "supervision/state_machine_spec"
 
 describe Supervision do
   context "class" do
     describe "#finished" do
       it "should return only finished supervisions" do
-        @supervision = Factory(:supervision, :state => "finished")
-        @unfinished_supervision = Factory(:supervision, :state => "providing_ideas")
+        @supervision = Factory(:supervision)
+        @finished_supervision = Factory(:supervision, :state => "finished")
+        @cancelled_supervision = Factory(:supervision, :state => "cancelled")
 
-        Supervision.finished.all.should be == [@supervision]
+        Supervision.finished.all.should be == [@finished_supervision]
       end
     end
 
-    describe "#unfinished" do
+    describe "#in_progress" do
       it "should return only unfinished supervisions" do
-        @supervision = Factory(:supervision, :state => "finished")
-        @unfinished_supervision = Factory(:supervision, :state => "providing_ideas")
+        @supervision = Factory(:supervision)
+        @finished_supervision = Factory(:supervision, :state => "finished")
+        @cancelled_supervision = Factory(:supervision, :state => "cancelled")
 
-        Supervision.unfinished.all.should be == [@unfinished_supervision]
+        Supervision.in_progress.all.should be == [@supervision]
+      end
+    end
+
+    describe "#cancelled" do
+      it "should return only cancelled supervisions" do
+        @supervision = Factory(:supervision)
+        @finished_supervision = Factory(:supervision, :state => "finished")
+        @cancelled_supervision = Factory(:supervision, :state => "cancelled")
+
+        Supervision.cancelled.all.should be == [@cancelled_supervision]
       end
     end
   end
@@ -42,48 +52,21 @@ describe Supervision do
     end
   end
 
-  describe "#choose_topic" do
-    it "should choose topic with the most votes" do
-      @supervision = Factory(:supervision)
-      @topic = Factory(:topic, :supervision => @supervision)
-      @second_topic = Factory(:topic, :supervision => @supervision)
-      Factory(:vote, :statement => @topic)
-      @supervision.choose_topic
-      @supervision.topic.should be == @topic
-    end
-  end
-
-  describe "#all_answers?" do
-    before do
-      @supervision = Factory(:supervision)
-      @questions = Array.new(2) { Factory(:question, :supervision => @supervision) }
-    end
-
-    it "should be true when all answers provided" do
-      REDIS.stub(:publish)
-      @questions.each {|q| Factory(:answer, :question => q) }
-
-      @supervision.all_answers?.should be_true
-    end
-
-    it "should be false when some answers are missing" do
-      REDIS.stub(:publish)
-      Factory(:answer, :question => @questions.first)
-
-      @supervision.all_answers?.should be_false
-    end
-  end
-
-  describe "#destroy_next_step_votes" do
-
-  end
-
   describe "#step_finished?" do
     before do
       @supervision = Factory.build(:supervision)
     end
-    it "should use Supervision::STATES and it should be correct" do
-      Supervision::STATES.should == %w/ gathering_topics voting_on_topics asking_questions providing_ideas giving_ideas_feedback providing_solutions giving_solutions_feedback giving_supervision_feedbacks finished /
+    it "should use Supervision::STEPS and it should be correct" do
+      Supervision::STEPS.should == %w[
+         gathering_topics
+         voting_on_topics
+         asking_questions
+         providing_ideas
+         giving_ideas_feedback
+         providing_solutions
+         giving_solutions_feedback
+         giving_supervision_feedbacks
+       ]
     end
 
     it "should be correct for :topics state" do
@@ -96,7 +79,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :topic_votes state" do
@@ -109,7 +91,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :questions state" do
@@ -122,7 +103,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :ideas state" do
@@ -135,7 +115,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :ideas_feedback state" do
@@ -148,7 +127,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :solutions state" do
@@ -161,7 +139,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_false
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :solutions_feedback state" do
@@ -174,7 +151,6 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_true
       @supervision.step_finished?("giving_solutions_feedback").should be_false
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
     it "should be correct for :supervision_feedbacks state" do
@@ -187,10 +163,9 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_true
       @supervision.step_finished?("giving_solutions_feedback").should be_true
       @supervision.step_finished?("giving_supervision_feedbacks").should be_false
-      @supervision.step_finished?("finished").should be_false
     end
 
-    it "should be correct for :finished state" do
+    it "should always be true for :finished state" do
       @supervision.state = "finished"
       @supervision.step_finished?("gathering_topics").should be_true
       @supervision.step_finished?("voting_on_topics").should be_true
@@ -200,120 +175,18 @@ describe Supervision do
       @supervision.step_finished?("providing_solutions").should be_true
       @supervision.step_finished?("giving_solutions_feedback").should be_true
       @supervision.step_finished?("giving_supervision_feedbacks").should be_true
-      @supervision.step_finished?("finished").should be_false
-    end
-  end
-
-  describe "#can_move_to_idea_state?" do
-    it "should check all next step votes and all answers" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_answers?).and_return(true)
-      @supervision.can_move_to_idea_state?.should be_true
     end
 
-    it "should be false when not all next step voted" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(false)
-      @supervision.should_not_receive(:all_answers?)
-      @supervision.can_move_to_idea_state?.should be_false
-    end
-
-    it "should be false when no all answers" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_answers?).and_return(false)
-      @supervision.can_move_to_idea_state?.should be_false
-    end
-  end
-
-  describe "#can_move_to_idea_feedback_state?" do
-    it "should check all next step votes and all idea ratings" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_idea_ratings?).and_return(true)
-      @supervision.can_move_to_idea_feedback_state?.should be_true
-    end
-
-    it "should be false if not all next step votes" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(false)
-      @supervision.should_not_receive(:all_idea_ratings?)
-      @supervision.can_move_to_idea_feedback_state?.should be_false
-    end
-
-    it "should be false if not all idea retings" do
-      @supervision = Factory.build(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_idea_ratings?).and_return(false)
-      @supervision.can_move_to_idea_feedback_state?.should be_false
-    end
-  end
-
-  describe "#can_move_to_solution_feedback_state?" do
-    it "should check all next step votes and all solution ratings" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_solution_ratings?).and_return(true)
-      @supervision.can_move_to_solution_feedback_state?.should be_true
-    end
-
-    it "should be false if not all next step votes" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(false)
-      @supervision.should_not_receive(:all_solution_ratings?)
-      @supervision.can_move_to_solution_feedback_state?.should be_false
-    end
-
-    it "should be false if not all solution ratings" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:all_next_step_votes?).and_return(true)
-      @supervision.should_receive(:all_solution_ratings?).and_return(false)
-      @supervision.can_move_to_solution_feedback_state?.should be_false
-    end
-  end
-
-  describe "#can_move_to_finished_state?" do
-    it "should check all supervision feedbacks" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:all_supervision_feedbacks?).and_return(true)
-      @supervision.can_move_to_finished_state?.should be_true
-    end
-
-    it "should be false if not all supervision feedbacks" do
-      @supervision = Factory(:supervision)
-      @supervision.should_receive(:all_supervision_feedbacks?).and_return(false)
-      @supervision.can_move_to_finished_state?.should be_false
-    end
-  end
-
-  describe "#all_topics?" do
-  end
-
-  describe "#all_topic_votes?" do
-  end
-
-  describe "#all_next_step_votes?" do
-  end
-
-  describe "#all_answers?" do
-  end
-
-  describe "#all_idea_ratings?" do
-  end
-
-  describe "#all_solution_ratings?" do
-  end
-
-  describe "#all_supervision_feedbacks?" do
-  end
-
-  describe "#destroy_next_step_votes" do
-    it "should delete all next step voted" do
-      @supervision = Factory(:supervision)
-      @supervision.next_step_votes.create! { |v| v.user = Factory(:user) }
-      @supervision.destroy_next_step_votes
-      @supervision.next_step_votes.count.should be == 0
+    it "should always be false for :cancelled state" do
+      @supervision.state = "cancelled"
+      @supervision.step_finished?("gathering_topics").should be_true
+      @supervision.step_finished?("voting_on_topics").should be_true
+      @supervision.step_finished?("asking_questions").should be_true
+      @supervision.step_finished?("providing_ideas").should be_true
+      @supervision.step_finished?("giving_ideas_feedback").should be_true
+      @supervision.step_finished?("providing_solutions").should be_true
+      @supervision.step_finished?("giving_solutions_feedback").should be_true
+      @supervision.step_finished?("giving_supervision_feedbacks").should be_true
     end
   end
 
@@ -364,20 +237,20 @@ describe Supervision do
   end
 
   describe "#voted_on_next_step?" do
-    it "should be false if no next step votes present" do
+    it "should be false if no next state votes present" do
       @supervision = Factory(:supervision)
       @user = Factory(:user)
       @supervision.voted_on_next_step?(@user).should be_false
     end
 
-    it "should be false if user haven't voted on next step" do
+    it "should be false if user haven't voted on next state" do
       @supervision = Factory(:supervision)
       @user = Factory(:user)
       @supervision.next_step_votes.create { |v| v.user = Factory(:user) }
       @supervision.voted_on_next_step?(@user).should be_false
     end
 
-    it "should be true if user voted on next step" do
+    it "should be true if user voted on next state" do
       @supervision = Factory(:supervision)
       @user = Factory(:user)
       @supervision.next_step_votes.create { |v| v.user = @user }
@@ -404,27 +277,6 @@ describe Supervision do
       @user = Factory(:user)
       @feedback = Factory(:supervision_feedback, :supervision => @supervision, :user => @user)
       @supervision.posted_supervision_feedback?(@user).should be_true
-    end
-  end
-
-  describe "#choose_topic" do
-    it "should assign topic with most votes" do
-      @supervision = Factory(:supervision)
-      @topic = Factory(:topic, :supervision => @supervision)
-      @another_topic = Factory(:topic, :supervision => @supervision)
-      @topic.votes.create { |v| v.user = Factory(:user) }
-      @topic.votes.create { |v| v.user = Factory(:user) }
-      @another_topic.votes { |v| v.user = Factory(:user) }
-
-      @supervision.choose_topic
-      @supervision.topic.should be == @topic
-    end
-
-    it "should assign only topic even if it has no votes" do
-      @supervision = Factory(:supervision)
-      @topic = Factory(:topic, :supervision => @supervision)
-      @supervision.choose_topic
-      @supervision.topic.should be == @topic
     end
   end
 
@@ -480,8 +332,394 @@ describe Supervision do
 
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
-      @answer = Supervision.new
-      @answer.supervision_publish_attributes.should be == {:only => [:id, :state, :topic_id]}
+      @supervision = Supervision.new
+      @supervision.send(:supervision_publish_attributes).should be == {:only => [:id, :state, :topic_id]}
+    end
+  end
+
+  describe "state machine" do
+    before do
+      @alice = Factory(:user)
+      @bob = Factory(:user)
+      @cindy = Factory(:user)
+
+      @group = Factory(:group, :founder => @alice)
+      @bob.join_group(@group)
+      @cindy.join_group(@group)
+    end
+
+    it "should be in gathering_topics state after create" do
+      @supervision = Supervision.new
+
+      @supervision.gathering_topics?.should be_true
+    end
+
+    it "should change from gathering_topics to voting_on_topics" do
+      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+
+      Factory(:topic, :user => @alice, :supervision => @supervision)
+      Factory(:topic, :user => @bob, :supervision => @supervision)
+      @supervision.reload
+      @supervision.gathering_topics?.should be_true
+
+      Factory(:topic, :user => @cindy, :supervision => @supervision)
+      @supervision.reload
+      @supervision.gathering_topics?.should be_false
+      @supervision.voting_on_topics?.should be_true
+    end
+
+    it "should change from voting_on_topics to asking_questions" do
+      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @alices_topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      Factory(:topic, :user => @bob, :supervision => @supervision)
+      Factory(:topic, :user => @cindy, :supervision => @supervision)
+      # in this place supervision.voting_on_topics? should be true
+
+      Factory(:vote, :statement => @alices_topic, :user => @alice)
+      Factory(:vote, :statement => @alices_topic, :user => @bob)
+      @supervision.reload
+      @supervision.voting_on_topics?.should be_true
+
+      Factory(:vote, :statement => @alices_topic, :user => @cindy)
+      @supervision.reload
+      @supervision.voting_on_topics?.should be_false
+      @supervision.asking_questions?.should be_true
+      @supervision.topic.should be == @alices_topic
+    end
+
+    it "should change from asking_questions to providing_ideas" do
+      @supervision = Factory.build(:supervision, :state => "asking_questions")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      @bobs_question = Factory(:question, :user => @bob, :supervision => @supervision)
+      @cindys_question = Factory(:question, :user => @cindy, :supervision => @supervision)
+      Factory(:answer, :question => @bobs_question, :user => @alice)
+
+      Factory(:supervision_vote, :statement => @supervision, :user => @bob)
+      Factory(:supervision_vote, :statement => @supervision, :user => @cindy)
+      @supervision.reload
+      @supervision.asking_questions?.should be_true
+
+      Factory(:answer, :question => @cindys_question, :user => @alice)
+      @supervision.reload
+      @supervision.asking_questions?.should be_false
+      @supervision.providing_ideas?.should be_true
+    end
+
+    it "should change from providing_ideas to giving_ideas_feedback" do
+      @supervision = Factory.build(:supervision, :state => "providing_ideas")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      @bobs_idea = Factory(:idea, :user => @bob, :supervision => @supervision)
+      @cindys_idea = Factory(:idea, :user => @cindy, :supervision => @supervision)
+      @bobs_idea.update_attributes({ :rating => 5 })
+
+      Factory(:supervision_vote, :statement => @supervision, :user => @bob)
+      Factory(:supervision_vote, :statement => @supervision, :user => @cindy)
+      @supervision.reload
+      @supervision.providing_ideas?.should be_true
+
+      @cindys_idea.update_attributes({ :rating => 3 })
+      @supervision.reload
+      @supervision.providing_ideas?.should be_false
+      @supervision.giving_ideas_feedback?.should be_true
+    end
+
+    it "should change from giving_ideas_feedback to providing_solutions" do
+      @supervision = Factory.build(:supervision, :state => "giving_ideas_feedback")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      Factory(:ideas_feedback, :user => @alice, :supervision => @supervision)
+      @supervision.reload
+      @supervision.providing_solutions?.should be_true
+    end
+
+    it "should change from providing_solutions to giving_solutions_feedback" do
+      @supervision = Factory.build(:supervision, :state => "providing_solutions")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      @bobs_solution = Factory(:solution, :user => @bob, :supervision => @supervision)
+      @cindys_solution = Factory(:solution, :user => @cindy, :supervision => @supervision)
+      @bobs_solution.update_attributes({ :rating => 5 })
+
+      Factory(:supervision_vote, :statement => @supervision, :user => @bob)
+      Factory(:supervision_vote, :statement => @supervision, :user => @cindy)
+      @supervision.reload
+      @supervision.providing_solutions?.should be_true
+
+      @cindys_solution.update_attributes({ :rating => 3 })
+      @supervision.reload
+      @supervision.providing_solutions?.should be_false
+      @supervision.giving_solutions_feedback?.should be_true
+    end
+
+    it "should change from giving_solutions_feedback to giving_supervision_feedbacks" do
+      @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      Factory(:solutions_feedback, :user => @alice, :supervision => @supervision)
+      @supervision.reload
+      @supervision.giving_supervision_feedbacks?.should be_true
+    end
+
+    it "should change from giving_supervision_feedbacks to finished" do
+      @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+      @supervision.topic = Factory(:topic, :user => @alice, :supervision => @supervision)
+      @supervision.save
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      Factory(:supervision_feedback, :user => @alice, :supervision => @supervision)
+      Factory(:supervision_feedback, :user => @bob, :supervision => @supervision)
+      @supervision.reload
+      @supervision.giving_supervision_feedbacks?.should be_true
+
+      Factory(:supervision_feedback, :user => @cindy, :supervision => @supervision)
+      @supervision.reload
+      @supervision.giving_supervision_feedbacks?.should be_false
+      @supervision.finished?.should be_true
+    end
+
+    describe "step back to asking_questions" do
+      it "should be allowed from providing_ideas" do
+        @supervision = Factory.build(:supervision, :state => "providing_ideas")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_asking_questions!
+
+        @supervision.asking_questions?.should be_true
+      end
+
+      it "should be allowed from giving_ideas_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_ideas_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_asking_questions!
+
+        @supervision.asking_questions?.should be_true
+      end
+
+      it "should be allowed from providing_solutions" do
+        @supervision = Factory.build(:supervision, :state => "providing_solutions")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_asking_questions!
+
+        @supervision.asking_questions?.should be_true
+      end
+
+      it "should be allowed from giving_solutions_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_asking_questions!
+
+        @supervision.asking_questions?.should be_true
+      end
+
+      it "should be allowed from giving_supervision_feedbacks" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_asking_questions!
+
+        @supervision.asking_questions?.should be_true
+      end
+    end
+
+    describe "step back to providing_ideas" do
+      it "should be allowed from giving_ideas_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_ideas_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_ideas!
+
+        @supervision.providing_ideas?.should be_true
+      end
+
+      it "should be allowed from providing_solutions" do
+        @supervision = Factory.build(:supervision, :state => "providing_solutions")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_ideas!
+
+        @supervision.providing_ideas?.should be_true
+      end
+
+      it "should be allowed from giving_solutions_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_ideas!
+
+        @supervision.providing_ideas?.should be_true
+      end
+
+      it "should be allowed from giving_supervision_feedbacks" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_ideas!
+
+        @supervision.providing_ideas?.should be_true
+      end
+    end
+
+    describe "step back to giving_ideas_feedback" do
+      it "should be allowed from providing_solutions" do
+        @supervision = Factory.build(:supervision, :state => "providing_solutions")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_giving_ideas_feedback!
+
+        @supervision.giving_ideas_feedback?.should be_true
+      end
+
+      it "should be allowed from giving_solutions_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_giving_ideas_feedback!
+
+        @supervision.giving_ideas_feedback?.should be_true
+      end
+
+      it "should be allowed from giving_supervision_feedbacks" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_giving_ideas_feedback!
+
+        @supervision.giving_ideas_feedback?.should be_true
+      end
+    end
+
+    describe "step back to providing_solutions" do
+      it "should be allowed from giving_solutions_feedback" do
+        @supervision = Factory.build(:supervision, :state => "giving_solutions_feedback")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_solutions!
+
+        @supervision.providing_solutions?.should be_true
+      end
+
+      it "should be allowed from giving_supervision_feedbacks" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_providing_solutions!
+
+        @supervision.providing_solutions?.should be_true
+      end
+    end
+
+    describe "step back to giving_solutions_feedback" do
+      it "should be allowed from giving_supervision_feedbacks" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.step_back_to_giving_solutions_feedback!
+
+        @supervision.giving_solutions_feedback?.should be_true
+      end
+    end
+
+    describe "#join_member" do
+      it "should not change state" do
+        @supervision = Factory.build(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.should_receive(:publish_to_redis)
+        @supervision.join_member!
+
+        @supervision.giving_supervision_feedbacks?.should be_true
+      end
+    end
+
+    describe "#remove_member" do
+      before do
+        @alice = Factory(:user)
+        @bob = Factory(:user)
+        @cindy = Factory(:user)
+      end
+
+      it "should not change state if it's not needed" do
+        @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
+        @bob.join_supervision(@supervision)
+        @cindy.join_supervision(@supervision)
+
+        @bob.leave_supervision(@supervision)
+
+        @supervision.reload
+        @supervision.giving_supervision_feedbacks?.should be_true
+      end
+
+      it "should change to cancelled state if there is only topic owner left" do
+        @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
+        @bob.join_supervision(@supervision)
+
+        @bob.leave_supervision(@supervision)
+
+        @supervision.reload
+        @supervision.cancelled?.should be_true
+      end
+
+      it "should change to cancelled state if topic owner leaves" do
+        @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
+        @bob.join_supervision(@supervision)
+        @cindy.join_supervision(@supervision)
+
+        @alice.leave_supervision(@supervision)
+
+        @supervision.reload
+        @supervision.cancelled?.should be_true
+      end
+
+      it "should change to next state if last member leaves" do
+        @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
+        @bob.join_supervision(@supervision)
+        @cindy.join_supervision(@supervision)
+
+        @supervision.supervision_feedbacks << Factory(:supervision_feedback, :supervision => @supervision, :user => @alice)
+        @supervision.supervision_feedbacks << Factory(:supervision_feedback, :supervision => @supervision, :user => @bob)
+        @cindy.leave_supervision(@supervision)
+
+        @supervision.reload
+        @supervision.finished?.should be_true
+      end
+    end
+  end
+
+  describe "state_event attribute" do
+    it "should be accessible to mass assignment" do
+      @supervision = Factory(:supervision, :state => "providing_ideas")
+      @supervision.update_attributes({:state_event => "step_back_to_asking_questions"})
+      @supervision.state.should be == "asking_questions"
+      @supervision.asking_questions?.should be_true
     end
   end
 end
