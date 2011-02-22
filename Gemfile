@@ -15,6 +15,7 @@ gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
 gem "SystemTimer" # for redis
+gem "concerned_with"
 
 group :staging do
 #  gem "pg"
