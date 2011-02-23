@@ -1,3 +1,5 @@
+require "digest/md5"
+
 class User < ActiveRecord::Base
   concerned_with :authentication
 
@@ -61,6 +63,19 @@ class User < ActiveRecord::Base
 
   def join_group(group)
     groups << group
+  end
+
+  # TODO throw away gravatar gem, it's not as hard to implement it by ourselves,
+  # and with our own implementation we can use this url in other parts, not only
+  # in views
+  def avatar_url(options = {})
+    base_url = if options[:ssl]
+                 "https://secure.gravatar.com/avatar/"
+               else
+                 "http://www.gravatar.com/avatar/"
+               end
+    email_digest = Digest::MD5.hexdigest(email)
+    "#{base_url}#{email_digest}"
   end
 
 end

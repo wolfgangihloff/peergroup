@@ -108,9 +108,34 @@
         padding: 0
 
 .supervision
-  .chat_room_part
+  > aside
     float: right
-    width: 30%
+    width: 33%
+    margin: 0
+    padding: 0
+  .supervision-content
+    width: 66%
+    float: left
+    margin: 0
+    padding: 0
+    padding-right: 5px
+
+  .members-part
+    float: right
+    width: 50px
+
+    .members-list
+      +reset_box_model
+      +reset_list_style
+
+      .supervision-member
+        .gravatar
+          display: block
+        .name
+          +ellipsis
+
+  .chat-room-part
+    width: 80%
 
   footer
     clear: both

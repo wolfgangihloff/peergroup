@@ -13,6 +13,7 @@
                 $topics          = $this.find(".topics_part"),
                 $topicsList      = $topics.find(".list"),
                 $topicsVotes     = $this.find(".topics_votes_part"),
+                $membershipsList = $this.find(".members-part .members-list"),
                 supervisionState = $this.data("supervision-state"),
                 supervisionId    = $this.attr("id").replace("supervision_", "");
 
@@ -89,6 +90,18 @@
                 "gathering_topics": onGatheringTopicsState,
                 "voting_on_topics": onVotingOnTopicsState
             };
+
+            var onSupervisionMembership = function(event, message) {
+                if (message.status === "created") {
+                    var newMember = $("<li>", { "class": "user supervision-member", id: "user_" + message.user.id });
+                    newMember.append($("<img>", { "class": "gravatar", width: "50", height: "50", src: message.user.avatar_url + "?rating=PG&size=50" }));
+                    newMember.append($("<span>", { "class": "name", text: message.user.name }));
+                    $membershipsList.append(newMember);
+                } else if (message.status === "destroyed") {
+                    $membershipsList.find("#user_" + message.user.id).remove();
+                }
+            };
+
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
                     supervisionState = message.state;
@@ -126,6 +139,7 @@
             }
 
             $this.bind({
+                "supervisionMembership": onSupervisionMembership,
                 "supervisionUpdate": onSupervisionUpdate,
                 "newTopic": onNewTopic,
                 "ajax:complete": onAjaxComplete

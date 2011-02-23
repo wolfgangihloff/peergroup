@@ -24,7 +24,7 @@ describe SupervisionMembershipsController do
       delete :destroy, :supervision_id => @supervision.id
     end
 
-    specify { response.should redirect_to(group_path(@group)) }
+    specify { response.should redirect_to(supervisions_path) }
     specify { @supervision.members.should_not include(@user) }
   end
 

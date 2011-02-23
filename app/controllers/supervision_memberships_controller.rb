@@ -15,7 +15,7 @@ class SupervisionMembershipsController < ApplicationController
 
   def destroy
     current_user.leave_supervision(@supervision)
-    redirect_to group_path(@supervision.group)
+    redirect_to supervisions_path
   end
 
   protected
