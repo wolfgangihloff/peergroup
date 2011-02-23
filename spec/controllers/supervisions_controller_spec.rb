@@ -88,7 +88,7 @@ describe SupervisionsController do
       get :show, :id => @supervision.id
     end
 
-    specify { response.should redirect_to(root_path) }
+    specify { response.should redirect_to(new_supervision_membership_path(@supervision)) }
   end
 
   describe "#update" do

@@ -5,6 +5,9 @@ class SupervisionMembershipsController < ApplicationController
 
   respond_to :html, :json
 
+  def new
+  end
+
   def create
     current_user.join_supervision(@supervision)
     redirect_to @supervision

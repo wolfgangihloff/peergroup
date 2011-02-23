@@ -68,7 +68,7 @@ class SupervisionsController < ApplicationController
 
   def require_supervision_membership
     unless @supervision.members.exists?(current_user)
-      render "supervision_memberships/new"
+      redirect_to new_supervision_membership_path(@supervision)
     end
   end
 

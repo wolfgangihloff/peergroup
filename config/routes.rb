@@ -31,7 +31,7 @@ Peergroupsupervision::Application.routes.draw do
     resources :supervision_feedbacks, :only => :create
     resources :votes, :only => :create
 
-    resource :membership, :controller => :supervision_memberships, :only => [:create,:destroy]
+    resource :membership, :controller => :supervision_memberships, :only => [:new, :create, :destroy]
   end
 
   resources :groups do
