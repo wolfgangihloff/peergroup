@@ -1,4 +1,4 @@
-= form_for(Answer.new, :url => supervision_question_answer_path(question.supervision, question)) do |f|
+= form_for([question, Answer.new]) do |f|
   = f.text_area :content
   %p.inline-hints= t("answers.form.content_hint")
   = submit_tag t("answers.form.submit")

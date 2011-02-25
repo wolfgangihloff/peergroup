@@ -3,37 +3,48 @@
     %h1= t("supervisions.show.heading")
 
     %ul.supervision_statusbar
-      - Supervision::STATES.each do |state|
-        %li{ :"data-state-name" => state, :class => @supervision.state == state ? "state current_state" : "state"}
+      - Supervision::STEPS.each do |step|
+        %li{ :"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
           = form_for @supervision, :remote => true do |f|
-            - if @supervision.respond_to? "step_back_to_#{state}"
-              = f.hidden_field :state_event, :value => "step_back_to_#{state}"
-            = submit_tag t("supervisions.show.supervision_state.#{state}"),  :title => t("supervisions.show.supervision_state_title.#{state}")
+            - if @supervision.respond_to? "step_back_to_#{step}"
+              = f.hidden_field :state_event, :value => "step_back_to_#{step}"
+            = submit_tag t("supervisions.show.supervision_state.#{step}"),  :title => t("supervisions.show.supervision_state_title.#{step}")
+
+    = form_tag supervision_membership_path(@supervision), :method => :delete do
+      = submit_tag t("supervisions.show.leave_supervision")
 
     %div{:"data-show-in-state" => "finished"}
-      = render :partial => "supervision_finished"
+      = render "supervision_finished", :supervision => @supervision
 
-  %aside.chat_room_part
-    %div[@supervision.chat_room]{ :data => { :token => @token } }
-      %div.messages_part
-        %ul.messages
-          - @supervision.chat_room.chat_messages.limit(25).reverse_each do |chat_message|
-            %li[chat_message]
-              %span.message-user= chat_message.user
-              %time{ :datetime => chat_message.created_at.getutc.iso8601 }= chat_message.created_at.to_s
-              \:
-              %span.message-content= chat_message.content
-      = form_for(ChatMessage.new, :url => group_chat_room_chat_messages_path(@supervision.group, @supervision.chat_room), :remote => true) do |f|
-        = f.text_field :content
-        = submit_tag ">>"
+  %aside
+    .members-part
+      %ul.members-list
+        - @supervision.members.each do |user|
+          %li[user]{:class => "supervision-member"}
+            = gravatar_for(user)
+            %span.name= user
 
-  %div.supervision-content{:style => "width: 66%;float:left" }
+    .chat-room-part
+      %div[@supervision.chat_room]{ :data => { :token => @token } }
+        .messages_part
+          %ul.messages
+            - @chat_messages.reverse_each do |chat_message|
+              %li[chat_message]
+                %span.message-user= chat_message.user
+                %time{ :datetime => chat_message.created_at.getutc.iso8601 }= chat_message.created_at.to_s
+                \:
+                %span.message-content= chat_message.content
+        = form_for([@supervision.chat_room, ChatMessage.new], :remote => true) do |f|
+          = f.text_field :content
+          = submit_tag ">>"
+
+  %div.supervision-content
     %section.topics_part
       %header
         %h1= t("supervisions.show.topic")
 
       .list
-        = render @supervision.topic
+        = render @supervision.topic, :supervision => @supervision
 
     %section.questions_part
       %header
@@ -48,11 +59,11 @@
               .user
                 = render current_user
               .content
-                = render :partial => "questions/form"
+                = render "questions/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_questions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.topic_questions
+        = render @supervision.topic_questions, :supervision => @supervision
 
     %section.ideas_part
       %header
@@ -68,11 +79,11 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'ideas/form'
+                = render "ideas/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_ideas"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.ideas
+        = render @supervision.ideas, :supervision => @supervision
 
     %section.ideas_feedback_part
       %header
@@ -85,7 +96,7 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'ideas_feedbacks/form'
+                = render "ideas_feedbacks/form", :supervision => @supervision
           - else
             %p.waiting= t("supervisions.show.ideas_feedback_waiting")
 
@@ -106,11 +117,11 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'solutions/form'
+                = render "solutions/form", :supervision => @supervision
                 = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
-        = render @supervision.solutions
+        = render @supervision.solutions, :supervision => @supervision
 
     %section.solutions_feedback_part
       %header
@@ -123,7 +134,7 @@
               .user
                 = render current_user
               .content
-                = render :partial => 'solutions_feedbacks/form'
+                = render "solutions_feedbacks/form", :supervision => @supervision
           - else
             %p.waiting= t("supervisions.show.solutions_feedback_waiting")
 
@@ -141,11 +152,12 @@
             .user
               = render current_user
             .content
-              = render :partial => 'supervision_feedbacks/form' unless @supervision.posted_supervision_feedback?(current_user)
+              - unless @supervision.posted_supervision_feedback?(current_user)
+                = render "supervision_feedbacks/form", :supervision => @supervision
 
       .list
-        = render @supervision.supervision_feedbacks
+        = render @supervision.supervision_feedbacks, :supervision => @supervision
 
   %footer
     %div{:"data-show-in-state" => "finished"}
-      = render :partial => "supervision_finished"
+      = render "supervision_finished", :supervision => @supervision

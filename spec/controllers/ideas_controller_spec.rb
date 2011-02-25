@@ -5,7 +5,7 @@ describe IdeasController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "providing_ideas")
   end
@@ -14,7 +14,6 @@ describe IdeasController do
     before do
       @idea = Factory(:idea, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @idea.id,
         :partial => 1
     end
@@ -87,7 +86,6 @@ describe IdeasController do
       before do
         @idea = Factory(:idea, :supervision => @supervision)
         put :update,
-          :supervision_id => @supervision.id,
           :id => @idea.id,
           :idea => { :ratign => "3" }
       end
@@ -100,7 +98,6 @@ describe IdeasController do
       before do
         @idea = Factory(:idea, :supervision => @supervision)
         put :update,
-          :supervision_id => @supervision.id,
           :id => @idea.id,
           :idea => { :rating => "none" }
       end
@@ -116,7 +113,6 @@ describe IdeasController do
         @idea = Factory(:idea, :supervision => @supervision)
         put :update,
           :format => :json,
-          :supervision_id => @supervision.id,
           :id => @idea.id,
           :idea => { :rating => "3" }
       end
@@ -132,9 +128,8 @@ describe IdeasController do
     describe "with invalid data" do
       before do
         @idea = Factory(:idea, :supervision => @supervision)
-        post :create,
+        post :update,
           :format => :json,
-          :supervision_id => @supervision.id,
           :id => @idea.id,
           :idea => { :rating => "none" }
       end

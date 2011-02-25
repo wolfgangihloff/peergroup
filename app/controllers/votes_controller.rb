@@ -3,7 +3,7 @@ class VotesController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_parent_supervision
-  require_supervision_step :asking_questions, :providing_ideas, :providing_solutions, :only => :create
+  require_supervision_state :asking_questions, :providing_ideas, :providing_solutions, :only => :create
 
   respond_to :html, :json
 

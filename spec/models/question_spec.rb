@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe Question do
   it "should crate a new instance given valid attributes" do
-    Factory.build(:question).valid?.should be_true
+    Factory.build(:question).should be_valid
   end
 
   describe "user attribute" do
     it "should be required" do
       @question = Factory.build(:question, :user => nil)
-      @question.valid?.should be_false
+      @question.should_not be_valid
       @question.should have(1).error_on(:user)
     end
 
@@ -25,7 +25,7 @@ describe Question do
   describe "supervision attribute" do
     it "should be required" do
       @question = Factory.build(:question, :supervision => nil, :user => Factory.build(:user))
-      @question.valid?.should be_false
+      @question.should_not be_valid
       @question.should have(1).error_on(:supervision)
     end
 
@@ -42,7 +42,7 @@ describe Question do
   describe "content attribute" do
     it "should be required" do
       @question = Factory.build(:question, :content => nil)
-      @question.valid?.should be_false
+      @question.should_not be_valid
       @question.should have(1).error_on(:content)
     end
 

@@ -5,12 +5,12 @@
       .name= idea.user
   .content
     %p= idea.content
-    - if idea.rating || @supervision.problem_owner?(current_user)
+    - if idea.rating || supervision.problem_owner?(current_user)
       .rating
         .head
           %p= t(".rating", :default => "Rating")
-        = form_for([@supervision, idea]) do |f|
-          - if @supervision.problem_owner?(current_user) and !@supervision.finished?
+        = form_for(idea) do |f|
+          - if supervision.problem_owner?(current_user) and !supervision.finished?
             - 1.upto(5) do |i|
               = f.radio_button :rating, i, { :class => "star" }
             = f.submit t(".submit_rate", :default => "Rate")

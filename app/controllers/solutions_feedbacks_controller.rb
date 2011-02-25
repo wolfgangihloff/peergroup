@@ -2,8 +2,8 @@ class SolutionsFeedbacksController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
-  require_supervision_step :giving_solutions_feedback, :only => :create
+  before_filter :fetch_supervision
+  require_supervision_state :giving_solutions_feedback, :only => :create
 
   respond_to :html, :json
 
@@ -17,6 +17,12 @@ class SolutionsFeedbacksController < ApplicationController
   def show
     @solutions_feedback = @supervision.solutions_feedback
     respond_with(@solutions_feedback)
+  end
+
+  protected
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:supervision_id])
   end
 end
 

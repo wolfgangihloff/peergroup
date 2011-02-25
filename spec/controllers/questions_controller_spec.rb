@@ -5,7 +5,7 @@ describe QuestionsController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
   end
@@ -14,7 +14,6 @@ describe QuestionsController do
     before do
       @question = Factory(:question, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @question.id,
         :partial => 1
     end

@@ -2,9 +2,8 @@ class TopicVotesController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
   before_filter :fetch_topic
-  require_supervision_step :voting_on_topics
+  require_supervision_state :voting_on_topics
 
   respond_to :html, :json
 
@@ -19,7 +18,8 @@ class TopicVotesController < ApplicationController
   protected
 
   def fetch_topic
-    @topic = @supervision.topics.find(params[:topic_id])
+    @topic = Topic.find(params[:topic_id])
+    @supervision = @topic.supervision
   end
 end
 

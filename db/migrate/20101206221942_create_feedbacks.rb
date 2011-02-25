@@ -20,20 +20,25 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.timestamps
     end
 
-    IdeasFeedback.all.each do |f|
-      feedback = Feedback.new(:content => f.content,
-                              :supervision_id => f.supervision_id,
-                              :user_id => f.user_id)
-      feedback.type = "IdeasFeedback"
-      feedback.save!
+    say_with_time("Converting IdeasFeedback to Feedback with type") do
+      IdeasFeedback.all.each do |f|
+        feedback = Feedback.new(:content => f.content,
+                                :supervision_id => f.supervision_id,
+                                :user_id => f.user_id)
+        feedback.type = "IdeasFeedback"
+        feedback.save!
+      end
     end
     drop_table :ideas_feedbacks
-    SolutionsFeedback.all.each do |f|
-      feedback = Feedback.new(:content => f.content,
-                              :supervision_id => f.supervision_id,
-                              :user_id => f.user_id)
-      feedback.type = "SolutionsFeedback"
-      feedback.save!
+
+    say_with_time("Converting SolutionsFeedback to Feedback with type") do
+      SolutionsFeedback.all.each do |f|
+        feedback = Feedback.new(:content => f.content,
+                                :supervision_id => f.supervision_id,
+                                :user_id => f.user_id)
+        feedback.type = "SolutionsFeedback"
+        feedback.save!
+      end
     end
     drop_table :solutions_feedbacks
   end
@@ -51,13 +56,15 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.references :user
     end
     SolutionsFeedback.reset_column_information
-    Feedback.all.each do |f|
-      klass = "::CreateFeedbacks::#{f.type.to_s}".constantize
-      if [IdeasFeedback,SolutionsFeedback].include?(klass)
-        feedback = klass.new(:content => f.content,
-                             :supervision_id => f.supervision_id,
-                             :user_id => f.user_id)
-        feedback.save!(false)
+    say_with_time("Creating specific feedback instances from Feedbacks") do
+      Feedback.all.each do |f|
+        klass = "::CreateFeedbacks::#{f.type.to_s}".constantize
+        if [IdeasFeedback,SolutionsFeedback].include?(klass)
+          feedback = klass.new(:content => f.content,
+                               :supervision_id => f.supervision_id,
+                               :user_id => f.user_id)
+          feedback.save!(false)
+        end
       end
     end
     drop_table :feedbacks

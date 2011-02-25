@@ -147,6 +147,9 @@ jQuery(function($) {
             s.on("topic", function(type, message) {
                 $supervision.trigger("newTopic", message.topic);
             });
+            s.on("supervision_membership", function(type, message) {
+                $supervision.trigger("supervisionMembership", message.supervision_membership);
+            });
         });
     });
 
@@ -195,6 +198,9 @@ jQuery(function($) {
             });
             s.on("supervision_feedback", function(type, message) {
                 $supervision.trigger("newSupervisionFeedback", message.supervision_feedback);
+            });
+            s.on("supervision_membership", function(type, message) {
+                $supervision.trigger("supervisionMembership", message.supervision_membership);
             });
         });
     });

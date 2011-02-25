@@ -1,7 +1,7 @@
 %header
   %hgroup
     %h1= link_to t(".title.peergroup", :default => "peergroup"), root_path
-    %h2= @title
+    %h2= title
   %nav
     = t(".title.welcome", :default => "Welcome %{user_name}", :user_name => current_user.name) if signed_in? 
     %ul

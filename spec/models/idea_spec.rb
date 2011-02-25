@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe Idea do
   it "should crate a new instance given valid attributes" do
-    Factory.build(:idea).valid?.should be_true
+    Factory.build(:idea).should be_valid
   end
 
   describe "user attribute" do
     it "should be required" do
       @idea = Factory.build(:idea, :user => nil)
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:user)
     end
 
@@ -25,7 +25,7 @@ describe Idea do
   describe "superivion attribute" do
     it "should be required" do
       @idea = Factory.build(:idea, :supervision => nil, :user => Factory.build(:user))
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:supervision)
     end
 
@@ -42,7 +42,7 @@ describe Idea do
   describe "content attribute" do
     it "should be required" do
       @idea = Factory.build(:idea, :content => nil)
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:content)
     end
 
@@ -56,35 +56,35 @@ describe Idea do
   describe "rating attribute" do
     it "should allow nil" do
       @idea = Factory.build(:idea, :rating => nil)
-      @idea.valid?.should be_true
+      @idea.should be_valid
     end
 
     it "should be numerical" do
       @idea = Factory.build(:idea, :rating => 5)
-      @idea.valid?.should be_true
+      @idea.should be_valid
     end
 
     it "should not allow for non numerical values" do
       @idea = Factory.build(:idea, :rating => "text")
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(2).error_on(:rating)
     end
 
     it "should not allow for not integer values" do
       @idea = Factory.build(:idea, :rating => 1.1)
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:rating)
     end
 
     it "should not allow values less than 1" do
       @idea = Factory.build(:idea, :rating => 0)
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:rating)
     end
 
     it "should not allow values greater than 5" do
       @idea = Factory.build(:idea, :rating => 6)
-      @idea.valid?.should be_false
+      @idea.should_not be_valid
       @idea.should have(1).error_on(:rating)
     end
   end

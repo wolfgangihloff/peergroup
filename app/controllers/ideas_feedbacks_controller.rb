@@ -2,8 +2,8 @@ class IdeasFeedbacksController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
-  require_supervision_step :giving_ideas_feedback, :only => :create
+  before_filter :fetch_supervision
+  require_supervision_state :giving_ideas_feedback, :only => :create
 
   respond_to :html, :json
 
@@ -17,6 +17,12 @@ class IdeasFeedbacksController < ApplicationController
   def show
     @ideas_feedback = @supervision.ideas_feedback
     respond_with(@ideas_feedback)
+  end
+
+  protected
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:supervision_id])
   end
 end
 

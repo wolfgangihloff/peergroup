@@ -1,6 +1,6 @@
 %div[supervision_feedback]
   - user_classes = []
-  - user_classes << "problem-owner" if @supervision.problem_owner?(supervision_feedback.user)
+  - user_classes << "problem-owner" if supervision.problem_owner?(supervision_feedback.user)
   - user_classes << "you" if supervision_feedback.user == current_user
   .user{ :class => user_classes.join(" ") }
     = link_to supervision_feedback.user, :title => supervision_feedback.user do

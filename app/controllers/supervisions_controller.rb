@@ -8,10 +8,11 @@ class SupervisionsController < ApplicationController
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
   before_filter :fetch_supervision, :only => [:show,:update]
   before_filter :redirect_to_topics, :only => [:show]
+  before_filter :require_supervision_membership, :only => [:show, :update]
 
   def index
     @finished_supervisions = Supervision.finished.where(:group_id => current_user.group_ids).paginate :per_page => 10, :page => params[:page], :order => "created_at DESC"
-    @current_supervisions = Supervision.unfinished.where(:group_id => current_user.group_ids)
+    @current_supervisions = Supervision.in_progress.where(:group_id => current_user.group_ids)
   end
 
   def new
@@ -22,20 +23,12 @@ class SupervisionsController < ApplicationController
     redirect_to @group.supervisions.create!
   end
 
-  def fetch_supervision
-    @supervision = Supervision.find(params[:id])
-  end
-
-  def redirect_to_topics
-    unless @supervision.step_finished?(:voting_on_topics)
-      redirect_to supervision_topics_path(@supervision)
-    end
-  end
-
   def show
+    @chat_room = @supervision.chat_room
+    @chat_messages = @chat_room.last_messages
     @token = SecureRandom.hex
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
-    REDIS.setex("chat:#{@supervision.chat_room.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    REDIS.setex("chat:#{@supervision.chat_room_id}:users:#{current_user.id}:token:#{@token}", 60, "1")
   end
 
   def update
@@ -62,5 +55,22 @@ class SupervisionsController < ApplicationController
     redirect_to @supervision
     return false
   end
+
+  def fetch_supervision
+    @supervision = Supervision.find(params[:id])
+  end
+
+  def redirect_to_topics
+    unless @supervision.step_finished?(:voting_on_topics)
+      redirect_to supervision_topics_path(@supervision)
+    end
+  end
+
+  def require_supervision_membership
+    unless @supervision.members.exists?(current_user)
+      redirect_to new_supervision_membership_path(@supervision)
+    end
+  end
+
 end
 

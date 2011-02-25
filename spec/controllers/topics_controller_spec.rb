@@ -6,7 +6,7 @@ describe TopicsController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
     @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
   end
 
@@ -14,7 +14,6 @@ describe TopicsController do
     before do
       @topic = Factory(:topic, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @topic.id,
         :partial => 1
     end

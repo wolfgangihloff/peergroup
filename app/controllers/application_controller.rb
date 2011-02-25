@@ -22,12 +22,12 @@ class ApplicationController < ActionController::Base
     @supervision = Supervision.find(params[:supervision_id])
   end
 
-  def self.require_supervision_step(*steps)
-    options = steps.extract_options!
-    filter_name = :"require_supervision_#{steps.join("_or_")}_step"
+  def self.require_supervision_state(*args)
+    options = args.extract_options!
+    filter_name = :"require_supervision_#{args.join("_or_")}_state"
 
     define_method filter_name do
-      unless steps.map(&:to_s).include?(@supervision.state)
+      unless args.map(&:to_s).include?(@supervision.state)
         redirect_to supervision_path(@supervision)
         false
       end

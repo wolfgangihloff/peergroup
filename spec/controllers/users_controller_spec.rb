@@ -16,7 +16,7 @@ describe UsersController do
     describe "for signed-in users" do
 
       before do
-        @user = test_sign_in(Factory(:user))
+        @user = sign_in
         second = Factory(:user, :email => "another@example.com")
         third  = Factory(:user, :email => "another@example.net")
 
@@ -54,8 +54,7 @@ describe UsersController do
   describe "GET 'show'" do
 
     before(:each) do
-      @user = Factory(:user)
-      test_sign_in(@user)
+      @user = sign_in
     end
 
     it "should be successful" do
@@ -131,8 +130,7 @@ describe UsersController do
   describe "GET 'edit'" do
 
     before(:each) do
-      @user = Factory(:user)
-      test_sign_in(@user)
+      @user = sign_in
     end
 
     it "should be successful" do
@@ -150,8 +148,7 @@ describe UsersController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @user = Factory(:user)
-      test_sign_in(@user)
+      @user = sign_in
       User.should_receive(:find).with(@user).and_return(@user)
     end
 
@@ -209,7 +206,7 @@ describe UsersController do
     describe "for signed-in users" do
       before(:each) do
         wrong_user = Factory(:user, :email => "user@example.net")
-        test_sign_in(wrong_user)
+        sign_in(wrong_user)
       end
 
       it "should require matching users for 'edit'" do
@@ -239,7 +236,7 @@ describe UsersController do
 
     describe "as a non-admin user" do
       it "should protect the page" do
-        test_sign_in(@user)
+        sign_in(@user)
         delete :destroy, :id => @user
         response.should redirect_to(root_path)
       end
@@ -249,7 +246,7 @@ describe UsersController do
 
       before(:each) do
         admin = Factory(:user, :email => "admin@example.com", :admin => true)
-        test_sign_in(admin)
+        sign_in(admin)
         User.should_receive(:find).with(@user).and_return(@user)
         @user.should_receive(:destroy).and_return(@user)
       end

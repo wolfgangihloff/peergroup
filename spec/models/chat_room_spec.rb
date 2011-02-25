@@ -4,7 +4,7 @@ describe ChatRoom do
   describe "group attribute" do
     it "should be required" do
       @chat_room = Factory.build(:chat_room, :group => nil)
-      @chat_room.valid?.should be_false
+      @chat_room.should_not be_valid
       @chat_room.should have(1).error_on(:group)
     end
 

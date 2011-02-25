@@ -9,15 +9,15 @@ class Vote < ActiveRecord::Base
 
   attr_accessible
 
-  after_create do |vote|
-    case vote.statement
+  after_create do
+    case statement
     when Topic
-      vote.statement.supervision.post_topic_vote
+      statement.post_topic_vote
     when Supervision
-      vote.statement.post_vote_for_next_step
+      statement.post_vote_for_next_step
     end
 
-    vote.publish_to_redis
+    publish_to_redis
   end
 
   def supervision_id
@@ -28,6 +28,7 @@ class Vote < ActiveRecord::Base
       statement_id
     end
   end
+
   def supervision_publish_attributes
     {:only => [:id, :statement_type, :statement_id, :user_id]}
   end

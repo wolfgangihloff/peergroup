@@ -5,7 +5,7 @@ describe SupervisionFeedbacksController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "giving_supervision_feedbacks")
   end
@@ -14,7 +14,6 @@ describe SupervisionFeedbacksController do
     before do
       @supervision_feedback = Factory(:supervision_feedback, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @supervision_feedback.id,
         :partial => 1
     end

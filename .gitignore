@@ -9,3 +9,4 @@ db/*.sqlite3-journal
 capybara-*.html
 public/stylesheets/compiled/
 
+vendor/ruby

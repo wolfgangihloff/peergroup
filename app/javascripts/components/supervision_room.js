@@ -232,6 +232,24 @@
         });
     };
 
+    var setupMembershipsPart = function($parent) {
+        var $membershipsList = $parent.find(".members-part .members-list");
+        var onSupervisionMembership = function(event, message) {
+            if (message.status === "created") {
+                var newMember = $("<li>", { "class": "user supervision-member", id: "user_" + message.user.id });
+                newMember.append($("<img>", { "class": "gravatar", width: "50", height: "50", src: message.user.avatar_url + "?rating=PG&size=50" }));
+                newMember.append($("<span>", { "class": "name", text: message.user.name }));
+                $membershipsList.append(newMember);
+            } else if (message.status === "destroyed") {
+                $membershipsList.find("#user_" + message.user.id).remove();
+            }
+        };
+
+        $parent.bind({
+            "supervisionMembership": onSupervisionMembership
+        });
+    };
+
     $.fn.supervisionRoom = function() {
         return this.each(function() {
             var $this = $(this),
@@ -245,6 +263,7 @@
             setupSolutionsFeedbackPart($this, supervisionId);
             setupSupervisionFeedbackPart($this, supervisionId);
             setupStatusbar($this);
+            setupMembershipsPart($this);
 
             $this.bind({
                 "supervisionUpdate": function(event, message) {

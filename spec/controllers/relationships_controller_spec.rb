@@ -17,7 +17,7 @@ describe RelationshipsController do
   describe "POST 'create'" do
 
     before(:each) do
-      @user = test_sign_in(Factory(:user))
+      @user = sign_in
       @followed = Factory(:user)
 
       @user.should_receive(:follow!).with(@followed)
@@ -38,7 +38,7 @@ describe RelationshipsController do
   describe "DELETE 'destroy'" do
 
     before(:each) do
-      @user = test_sign_in(Factory(:user))
+      @user = sign_in
       @followed = Factory(:user)
 
       @user.should_receive(:unfollow!).with(@followed)

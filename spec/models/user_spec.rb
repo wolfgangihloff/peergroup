@@ -214,7 +214,7 @@ describe User do
 
     it "should include the followed user in the following array" do
       @user.follow!(@followed)
-      @user.following.include?(@followed).should be_true
+      @user.following.should include(@followed)
     end
 
     it "should have an unfollow! method" do
@@ -237,7 +237,7 @@ describe User do
 
     it "should include the follower in the followers array" do
       @user.follow!(@followed)
-      @followed.followers.include?(@user).should be_true
+      @followed.followers.should include(@user)
     end
   end
 
@@ -263,6 +263,37 @@ describe User do
       @user = Factory(:user, :name => "John Smith")
 
       @user.to_s.should be == @user.name
+    end
+  end
+
+  describe "#join_supervision" do
+    it "should add user to supervision members" do
+      @user = Factory(:user)
+      @supervision = Factory(:supervision)
+      @user.join_supervision(@supervision)
+      @supervision.reload
+      @supervision.members.should include(@user)
+    end
+  end
+  describe "#leave_supervision" do
+    it "should remove user's membership in supervision" do
+      @user = Factory(:user)
+      @supervision = Factory(:supervision)
+      @user.join_supervision(@supervision)
+      @user.leave_supervision(@supervision)
+      @supervision.reload
+      @supervision.members.should_not include(@user)
+    end
+  end
+
+  describe "#join_group" do
+    it "should add user to group members" do
+      @user = Factory(:user)
+      @group = Factory(:group)
+      @user.join_group(@group)
+      @group.reload
+      @group.members.should include(@user)
+      @user.member_of?(@group).should be_true
     end
   end
 end

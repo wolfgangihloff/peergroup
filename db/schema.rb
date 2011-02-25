@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110128150531) do
+ActiveRecord::Schema.define(:version => 20110214150308) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "updated_at"
   end
 
+  add_index "answers", ["question_id"], :name => "index_answers_on_question_id"
+  add_index "answers", ["user_id"], :name => "index_answers_on_user_id"
+
   create_table "chat_messages", :force => true do |t|
     t.text     "content"
     t.integer  "user_id"
@@ -27,6 +30,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "chat_messages", ["chat_room_id"], :name => "index_chat_messages_on_chat_room_id"
+  add_index "chat_messages", ["user_id"], :name => "index_chat_messages_on_user_id"
 
   create_table "chat_rooms", :force => true do |t|
     t.integer  "group_id"
@@ -38,6 +44,12 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.integer  "supervision_id"
   end
 
+  add_index "chat_rooms", ["current_rule_id"], :name => "index_chat_rooms_on_current_rule_id"
+  add_index "chat_rooms", ["group_id"], :name => "index_chat_rooms_on_group_id"
+  add_index "chat_rooms", ["leader_id"], :name => "index_chat_rooms_on_leader_id"
+  add_index "chat_rooms", ["problem_owner_id"], :name => "index_chat_rooms_on_problem_owner_id"
+  add_index "chat_rooms", ["supervision_id"], :name => "index_chat_rooms_on_supervision_id"
+
   create_table "feedbacks", :force => true do |t|
     t.string   "type"
     t.text     "content"
@@ -46,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "feedbacks", ["supervision_id"], :name => "index_feedbacks_on_supervision_id"
+  add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -57,6 +72,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.string   "cached_slug"
   end
 
+  add_index "groups", ["founder_id"], :name => "index_groups_on_founder_id"
+  add_index "groups", ["user_id"], :name => "index_groups_on_user_id"
+
   create_table "ideas", :force => true do |t|
     t.integer  "supervision_id"
     t.integer  "user_id"
@@ -66,12 +84,18 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.integer  "rating"
   end
 
+  add_index "ideas", ["supervision_id"], :name => "index_ideas_on_supervision_id"
+  add_index "ideas", ["user_id"], :name => "index_ideas_on_user_id"
+
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "memberships", ["group_id"], :name => "index_memberships_on_group_id"
+  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
 
   create_table "questions", :force => true do |t|
     t.text     "content"
@@ -80,6 +104,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "questions", ["supervision_id"], :name => "index_questions_on_supervision_id"
+  add_index "questions", ["user_id"], :name => "index_questions_on_user_id"
 
   create_table "relationships", :force => true do |t|
     t.integer  "follower_id"
@@ -101,6 +128,8 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "updated_at"
   end
 
+  add_index "rules", ["group_id"], :name => "index_rules_on_group_id"
+
   create_table "slugs", :force => true do |t|
     t.string   "name"
     t.integer  "sluggable_id"
@@ -111,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
   end
 
   add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], :name => "index_slugs_on_n_s_s_and_s", :unique => true
+  add_index "slugs", ["sluggable_id", "sluggable_type"], :name => "index_slugs_on_sluggable_id_and_sluggable_type"
   add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
 
   create_table "solutions", :force => true do |t|
@@ -122,6 +152,17 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "updated_at"
   end
 
+  add_index "solutions", ["supervision_id"], :name => "index_solutions_on_supervision_id"
+  add_index "solutions", ["user_id"], :name => "index_solutions_on_user_id"
+
+  create_table "supervision_memberships", :force => true do |t|
+    t.integer "supervision_id"
+    t.integer "user_id"
+  end
+
+  add_index "supervision_memberships", ["supervision_id"], :name => "index_supervision_memberships_on_supervision_id"
+  add_index "supervision_memberships", ["user_id"], :name => "index_supervision_memberships_on_user_id"
+
   create_table "supervisions", :force => true do |t|
     t.integer  "group_id"
     t.string   "state"
@@ -130,6 +171,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.integer  "topic_id"
   end
 
+  add_index "supervisions", ["group_id"], :name => "index_supervisions_on_group_id"
+  add_index "supervisions", ["topic_id"], :name => "index_supervisions_on_topic_id"
+
   create_table "topics", :force => true do |t|
     t.integer  "supervision_id"
     t.text     "content"
@@ -137,6 +181,9 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "updated_at"
     t.integer  "user_id"
   end
+
+  add_index "topics", ["supervision_id"], :name => "index_topics_on_supervision_id"
+  add_index "topics", ["user_id"], :name => "index_topics_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -159,5 +206,8 @@ ActiveRecord::Schema.define(:version => 20110128150531) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "votes", ["statement_id", "statement_type"], :name => "index_votes_on_statement_id_and_statement_type"
+  add_index "votes", ["user_id"], :name => "index_votes_on_user_id"
 
 end

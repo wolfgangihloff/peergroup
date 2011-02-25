@@ -1,11 +1,11 @@
+require "digest/md5"
+
 class User < ActiveRecord::Base
-  attr_accessor :password
-  attr_accessor :passcode
+  concerned_with :authentication
+
   attr_accessible :name, :email, :password, :password_confirmation
 
-
-  has_many :relationships, :foreign_key => "follower_id",
-    :dependent => :destroy
+  has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
   has_many :following, :through => :relationships, :source => :followed
   has_many :reverse_relationships, :foreign_key => "followed_id",
     :class_name => "Relationship",
@@ -19,36 +19,15 @@ class User < ActiveRecord::Base
 
   has_many :votes
 
+  has_many :supervision_memberships
+  has_many :supervisions, :through => :supervision_memberships
+
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates_presence_of :name, :email
   validates_length_of   :name, :maximum => 50
   validates_format_of   :email, :with => EmailRegex
   validates_uniqueness_of :email, :case_sensitive => false
-
-  # Automatically create the virtual attribute 'password_confirmation'.
-  validates_confirmation_of :password
-
-  # Password validations.
-  validates_presence_of :password
-  validates_length_of   :password, :within => 6..40
-
-  before_save :encrypt_password
-
-  # Return true if the user's password matches the submitted password.
-  def has_password?(submitted_password)
-    encrypted_password == encrypt(submitted_password)
-  end
-
-  def remember_me!
-    update_attribute(:remember_token, encrypt("#{salt}--#{id}--#{Time.now.utc}"))
-  end
-
-  def self.authenticate(email, submitted_password)
-    user = find_by_email(email)
-    return nil  if user.nil?
-    return user if user.has_password?(submitted_password)
-  end
 
   def following?(followed)
     relationships.find_by_followed_id(followed)
@@ -70,24 +49,33 @@ class User < ActiveRecord::Base
     groups.exists?(group.id)
   end
 
-  private
-
-  def encrypt_password
-    unless password.nil?
-      self.salt = make_salt
-      self.encrypted_password = encrypt(password)
-    end
+  def join_supervision(supervision)
+    supervisions << supervision
   end
 
-  def encrypt(string)
-    secure_hash("#{salt}#{string}")
+  def leave_supervision(supervision)
+    supervision_memberships.where(:supervision_id => supervision.id).destroy_all
   end
 
-  def make_salt
-    secure_hash("#{Time.now.utc}#{password}")
+  def member_of_supervision?(supervision)
+    supervisions.exists?(supervision.id)
   end
 
-  def secure_hash(string)
-    Digest::SHA2.hexdigest(string)
+  def join_group(group)
+    groups << group
   end
+
+  # TODO throw away gravatar gem, it's not as hard to implement it by ourselves,
+  # and with our own implementation we can use this url in other parts, not only
+  # in views
+  def avatar_url(options = {})
+    base_url = if options[:ssl]
+                 "https://secure.gravatar.com/avatar/"
+               else
+                 "http://www.gravatar.com/avatar/"
+               end
+    email_digest = Digest::MD5.hexdigest(email)
+    "#{base_url}#{email_digest}"
+  end
+
 end

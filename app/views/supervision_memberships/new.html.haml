@@ -1,0 +1,10 @@
+- @title = t("supervision_memberships.new.title")
+
+%article
+  %header
+    %h1= t("supervision_memberships.new.heading")
+
+  = t("supervision_memberships.new.message")
+
+  = form_tag supervision_membership_path(@supervision), :method => :post do
+    = submit_tag t("supervision_memberships.new.join_supervision")

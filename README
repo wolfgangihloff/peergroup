@@ -12,9 +12,9 @@ This is the first version, heavy alpha.
 
   git submodule update --init
 
-1. Install required gems
+1. Install required gems into vendor/ruby/ subdirectory (for easier maintain)
 
-  bundle install
+  bundle install --path vendor/
 
 2. Run redis (download from http://redis.io/download) - tested on 2.0 stable release
 
@@ -22,7 +22,7 @@ This is the first version, heavy alpha.
 
   rails server
 
-5. Run node server (download from http://nodejs.org/#download) - tested on v0.3.4
+5. Run node server (download from http://nodejs.org/#download) - tested on v4.0.0
 
   node app/node.js/server.js
 
@@ -30,13 +30,13 @@ This is the first version, heavy alpha.
 
 == Running tests
 
-1. Install required gems
+1. Install required gems into vendor/ruby/ subdirectory (for easier maintain)
 
-  bundle install
+  bundle install --path vendor/
 
 2. Run tests:
 
-  rspec spec/ && cucumber
+  rake spec
 
 == Translations
 

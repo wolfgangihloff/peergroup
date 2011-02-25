@@ -4,7 +4,7 @@ describe ChatMessage do
   describe "user attribute" do
     it "should be required" do
       @chat_message = Factory.build(:chat_message, :user => nil)
-      @chat_message.valid?.should be_false
+      @chat_message.should_not be_valid
       @chat_message.should have(1).error_on(:user)
     end
 
@@ -21,7 +21,7 @@ describe ChatMessage do
   describe "chat_room attribute" do
     it "should be required" do
       @chat_message = Factory.build(:chat_message, :chat_room => nil)
-      @chat_message.valid?.should be_false
+      @chat_message.should_not be_valid
       @chat_message.should have(1).error_on(:chat_room)
     end
 
@@ -38,7 +38,7 @@ describe ChatMessage do
   describe "content attribute" do
     it "should be required" do
       @chat_message = Factory.build(:chat_message, :content => nil)
-      @chat_message.valid?.should be_false
+      @chat_message.should_not be_valid
       @chat_message.should have(1).error_on(:content)
     end
 

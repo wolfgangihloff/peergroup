@@ -5,7 +5,7 @@ describe TopicVotesController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "voting_on_topics")
     @topic = Factory(:topic, :supervision => @supervision)
@@ -14,7 +14,6 @@ describe TopicVotesController do
   describe "#create" do
     before do
       post :create,
-        :supervision_id => @supervision.id,
         :topic_id => @topic.id
     end
 
@@ -26,7 +25,6 @@ describe TopicVotesController do
     before do
       post :create,
         :format => :json,
-        :supervision_id => @supervision.id,
         :topic_id => @topic.id
     end
 

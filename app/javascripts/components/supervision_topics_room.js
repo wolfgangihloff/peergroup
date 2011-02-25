@@ -1,20 +1,21 @@
 // This is extracted part from supervision_room.js, created when the later was responsible
 // for handling all supervision process in one page. I think that topics should belong
 // to group instead of supervision, so topic selection would be rewriten anyway,
-// and I haven't refatored this part to better suid actual state of process, as it should
+// and I haven't refatored this part to better suit actual state of process, as it should
 // change soon.
 (function($){
     $.fn.supervisionTopicsRoom = function() {
         return this.each(function() {
-            var $this                 = $(this),
-                $header               = $this.find("header"),
-                $footer               = $this.find("footer"),
-                $statusbar            = $header.find(".supervision_statusbar"),
-                $topics               = $this.find(".topics_part"),
-                $topicsList           = $topics.find(".list"),
-                $topicsVotes          = $this.find(".topics_votes_part"),
-                supervisionState      = $this.data("supervision-state"),
-                supervisionId         = $this.attr("id").replace("supervision_", "");
+            var $this            = $(this),
+                $header          = $this.find("header"),
+                $footer          = $this.find("footer"),
+                $statusbar       = $header.find(".supervision_statusbar"),
+                $topics          = $this.find(".topics_part"),
+                $topicsList      = $topics.find(".list"),
+                $topicsVotes     = $this.find(".topics_votes_part"),
+                $membershipsList = $this.find(".members-part .members-list"),
+                supervisionState = $this.data("supervision-state"),
+                supervisionId    = $this.attr("id").replace("supervision_", "");
 
             var asyncSubmit = function() {
                 return function(event) {
@@ -89,6 +90,18 @@
                 "gathering_topics": onGatheringTopicsState,
                 "voting_on_topics": onVotingOnTopicsState
             };
+
+            var onSupervisionMembership = function(event, message) {
+                if (message.status === "created") {
+                    var newMember = $("<li>", { "class": "user supervision-member", id: "user_" + message.user.id });
+                    newMember.append($("<img>", { "class": "gravatar", width: "50", height: "50", src: message.user.avatar_url + "?rating=PG&size=50" }));
+                    newMember.append($("<span>", { "class": "name", text: message.user.name }));
+                    $membershipsList.append(newMember);
+                } else if (message.status === "destroyed") {
+                    $membershipsList.find("#user_" + message.user.id).remove();
+                }
+            };
+
             var onSupervisionUpdate = function(event, message) {
                 if (supervisionState !== message.state) {
                     supervisionState = message.state;
@@ -126,6 +139,7 @@
             }
 
             $this.bind({
+                "supervisionMembership": onSupervisionMembership,
                 "supervisionUpdate": onSupervisionUpdate,
                 "newTopic": onNewTopic,
                 "ajax:complete": onAjaxComplete

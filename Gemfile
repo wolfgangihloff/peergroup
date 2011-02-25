@@ -1,6 +1,6 @@
 source :gemcutter
 
-gem "rails", "=3.0.3"
+gem "rails", "=3.0.4"
 gem "sqlite3-ruby", :require => "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "bson_ext"
@@ -15,6 +15,7 @@ gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
 gem "SystemTimer" # for redis
+gem "concerned_with"
 
 group :staging do
 #  gem "pg"
@@ -37,6 +38,7 @@ group :development do
   gem "nifty-generators"
   gem "ruby-graphviz"
   gem "metric_fu"
+  gem "rspec-rails", ">=2.0.0.rc"
 end
 
 group :cucumber do

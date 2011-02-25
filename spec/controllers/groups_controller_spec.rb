@@ -3,8 +3,7 @@ require 'spec_helper'
 describe GroupsController do
   describe "create" do
     before do
-      @user = Factory(:user)
-      test_sign_in @user
+      @user = sign_in
     end
 
     context "when given valid parameters" do

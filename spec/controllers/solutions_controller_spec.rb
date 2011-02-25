@@ -5,7 +5,7 @@ describe SolutionsController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    test_sign_in(@user)
+    sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
   end
@@ -14,7 +14,6 @@ describe SolutionsController do
     before do
       @solution = Factory(:solution, :supervision => @supervision)
       get :show,
-        :supervision_id => @supervision.id,
         :id => @solution.id,
         :partial => 1
     end
@@ -87,7 +86,6 @@ describe SolutionsController do
       before do
         @solution = Factory(:solution, :supervision => @supervision)
         put :update,
-          :supervision_id => @supervision.id,
           :id => @solution.id,
           :solution => { :ratign => "3" }
       end
@@ -100,7 +98,6 @@ describe SolutionsController do
       before do
         @solution = Factory(:solution, :supervision => @supervision)
         put :update,
-          :supervision_id => @supervision.id,
           :id => @solution.id,
           :solution => { :rating => "none" }
       end
@@ -116,7 +113,6 @@ describe SolutionsController do
         @solution = Factory(:solution, :supervision => @supervision)
         put :update,
           :format => :json,
-          :supervision_id => @supervision.id,
           :id => @solution.id,
           :solution => { :rating => "3" }
       end
@@ -132,9 +128,8 @@ describe SolutionsController do
     describe "with invalid data" do
       before do
         @solution = Factory(:solution, :supervision => @supervision)
-        post :create,
+        post :update,
           :format => :json,
-          :supervision_id => @supervision.id,
           :id => @solution.id,
           :solution => { :rating => "none" }
       end

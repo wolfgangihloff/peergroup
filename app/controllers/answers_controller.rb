@@ -2,9 +2,8 @@ class AnswersController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :require_parent_supervision
   before_filter :fetch_question
-  require_supervision_step :asking_questions, :only => :create
+  require_supervision_state :asking_questions, :only => :create
 
   respond_to :html, :json
 
@@ -18,7 +17,8 @@ class AnswersController < ApplicationController
   protected
 
   def fetch_question
-    @question = @supervision.questions.find(params[:question_id])
+    @question = Question.find(params[:question_id])
+    @supervision = @question.supervision
   end
 
 end

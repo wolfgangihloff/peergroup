@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe Solution do
   it "should crate a new instance given valid attributes" do
-    Factory.build(:solution).valid?.should be_true
+    Factory.build(:solution).should be_valid
   end
 
   describe "user attribute" do
     it "should be required" do
       @solution = Factory.build(:solution, :user => nil)
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:user)
     end
 
@@ -25,7 +25,7 @@ describe Solution do
   describe "superivion attribute" do
     it "should be required" do
       @solution = Factory.build(:solution, :supervision => nil, :user => Factory.build(:user))
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:supervision)
     end
 
@@ -42,7 +42,7 @@ describe Solution do
   describe "content attribute" do
     it "should be required" do
       @solution = Factory.build(:solution, :content => nil)
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:content)
     end
 
@@ -56,35 +56,35 @@ describe Solution do
   describe "rating attribute" do
     it "should allow nil" do
       @solution = Factory.build(:solution, :rating => nil)
-      @solution.valid?.should be_true
+      @solution.should be_valid
     end
 
     it "should be numerical" do
       @solution = Factory.build(:solution, :rating => 5)
-      @solution.valid?.should be_true
+      @solution.should be_valid
     end
 
     it "should not allow for non numerical values" do
       @solution = Factory.build(:solution, :rating => "text")
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(2).error_on(:rating)
     end
 
     it "should not allow for not integer values" do
       @solution = Factory.build(:solution, :rating => 1.1)
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:rating)
     end
 
     it "should not allow values less than 1" do
       @solution = Factory.build(:solution, :rating => 0)
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:rating)
     end
 
     it "should not allow values greater than 5" do
       @solution = Factory.build(:solution, :rating => 6)
-      @solution.valid?.should be_false
+      @solution.should_not be_valid
       @solution.should have(1).error_on(:rating)
     end
   end

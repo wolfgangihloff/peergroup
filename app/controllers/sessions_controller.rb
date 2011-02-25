@@ -1,4 +1,8 @@
 class SessionsController < ApplicationController
+  # NOTE
+  # If this application ever uses "remember me" functionality, read
+  # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails
+
   def new
   end
 
