@@ -16,6 +16,8 @@
           :blank: leer
           :not_a_number: keine Zahl
   :users: 
+    :index:
+      :users_title: Alle Benutzer
     :edit: 
       :links: 
         :change_gravatar: ändern
@@ -25,6 +27,8 @@
       :captions: 
         :url: URL
         :name: Name
+    :show:
+      :group_list_title: Meine Gruppen
     :new: 
       :signup: Registieren
       :buttons: 
@@ -249,6 +253,7 @@
       :rate: 
         :rate: Werte
     :show:
+      :leave_supervision: Beratung verlassen
       :heading: Kollegiale Beratung
       :title: Beratungssitzung
       :topic: Thema
@@ -294,7 +299,7 @@
       :supervision_feedbacks: Resume
       :supervision_feedbacks_waiting: Sehen sie die Rueckmeldungen ihrer Kollegen ...
       :supervision_finished: Die Beratung zu einem Thema ist nun zu Ende, wollen Sie ein weiteres Thema beraten?
-      :go_to_current: Aktuelle Beratung
+      :go_to_current:
       :create_new: Weitere/Neue Beratung starten
   :topic_answers: 
     :create: 

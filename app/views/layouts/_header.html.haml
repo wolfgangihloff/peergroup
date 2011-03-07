@@ -3,7 +3,8 @@
     %h1= link_to t(".title.peergroup", :default => "peergroup"), root_path
     %h2= title
   %nav
-    = t(".title.welcome", :default => "Welcome %{user_name}", :user_name => current_user.name) if signed_in? 
+    = t(".title.welcome", :default => "Welcome ") if signed_in? 
+    = t(".title.user_name", :default => "%{user_name}", :user_name => current_user.name) if signed_in? 
     %ul
       %li= link_to t(".links.home", :default => "Home"), root_path
       - if signed_in?

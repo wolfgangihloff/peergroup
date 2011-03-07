@@ -5,7 +5,7 @@ describe PagesController do
     #
     # Define @base_title here.
     #
-    @base_title = "Peer Supervision Groups"
+    @base_title = "peergroup"
   end
 
   describe "GET 'contact'" do

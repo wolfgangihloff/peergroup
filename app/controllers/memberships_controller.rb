@@ -4,7 +4,7 @@ class MembershipsController < ApplicationController
 
   def create
     @group.add_member!(current_user)
-    successful_flash("You are now the member of the group %{group_name}", :group_name => @group.name)
+    successful_flash("You are now a member of the group %{group_name}", :group_name => @group.name)
     redirect_to @group
   end
 
