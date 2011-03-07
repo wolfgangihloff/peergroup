@@ -266,6 +266,7 @@
             var $this = $(this),
                 supervisionState = $this.data("supervision-state");
                 supervisionId = $this.attr("id").replace("supervision_", "");
+            var messages = $this.data("supervision-state-transitions");
 
             setupRating($this);
             setupQuestionsPart($this, supervisionId);
@@ -279,10 +280,17 @@
 
             $this.bind({
                 "supervisionUpdate": function(event, message) {
+                    var oldState = supervisionState,
+                        newState = message.state;
                     $this.find("[data-show-in-state]").hide();
-                    $this.find("[data-show-in-state~=" + message.state + "]").show("fast")
+                    $this.find("[data-show-in-state~=" + newState + "]").show("fast")
                         .find(".form").show();
-                    supervisionState = message.state;
+
+                    if (messages[oldState] && messages[oldState][newState]) {
+                        $this.trigger("flash:notice", messages[oldState][newState]);
+                    }
+
+                    supervisionState = newState;
                 }
             });
 

@@ -1,4 +1,4 @@
-%article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token}}
+%article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token, :"supervision-state-transitions" => t("supervisions.show.supervision_state_transition").to_json}}
   %header
     %h1= t("supervisions.show.heading")
 

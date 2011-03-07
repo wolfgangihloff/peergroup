@@ -139,6 +139,35 @@ en:
         providing_ideas: Providing ideas
         providing_solutions: Providing solutions
         voting_on_topics: Voting on topics
+
+      supervision_state_transition:
+        asking_questions:
+          providing_ideas: Advanced to "Ideas" state
+        providing_ideas:
+          giving_ideas_feedback: Advanced to "Ideas feedback" state
+          asking_questions: Go back to "Questions" state
+        giving_ideas_feedback:
+          providing_solutions: Advanced to "Solutions" state
+          providing_ideas: Go back to "Ideas" state
+          asking_questions: Go back to "Questions" state
+        providing_solutions:
+          giving_solutions_feedback: Advanced to "Solutions feedback" state
+          giving_ideas_feedback: Go back to "Ideas feedback" state
+          providing_ideas: Go back to "Ideas" state
+          asking_questions: Go back to "Questions" state
+        giving_solutions_feedback:
+          giving_supervision_feedbacks: Advanced to "Supervision feedbacks" state
+          providing_solutions: Go back to "Solutions" state
+          giving_ideas_feedback: Go back to "Ideas feedback" state
+          providing_ideas: Go back to "Ideas" state
+          asking_questions: Go back to "Questions" state
+        giving_supervision_feedbacks:
+          finished: Finished session
+          giving_solutions_feedback: Go back to "Solutions feedback" state
+          providing_solutions: Go back to "Solutions" state
+          giving_ideas_feedback: Go back to "Ideas feedback" state
+          providing_ideas: Go back to "Ideas" state
+          asking_questions: Go back to "Questions" state
   supervision_memberships:
     new:
       title: Join session
