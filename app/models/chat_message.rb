@@ -6,9 +6,16 @@ class ChatMessage < ActiveRecord::Base
 
   attr_accessible :content
 
+  def publish_to_redis
+    channel = "chat:#{chat_room_id}"
+    json_string = to_json({
+      :only => [:id, :content, :created_at],
+      :include => { :user => { :only => [:id, :name], :methods => :avatar_url} }
+    })
+    REDIS.publish(channel, json_string)
+  end
+
   after_create do |chat_message|
-    redis_channel = "chat:#{chat_message.chat_room_id}:message"
-    redis_message = "#{chat_message.user_id}:#{chat_message.created_at.to_i}:#{chat_message.id}:#{chat_message.content}"
-    REDIS.publish(redis_channel, redis_message)
+    publish_to_redis
   end
 end

@@ -17,4 +17,29 @@ describe ChatRoom do
       @chat_room.group.should be == @group
     end
   end
+
+  describe "#set_redis_access_token_for_user" do
+    it "should set access token in Redis" do
+      @chat_room = Factory.build(:chat_room, :id => 21)
+      @user = Factory.build(:user, :id => 23)
+      @generated_token = SecureRandom.hex
+      SecureRandom.should_receive(:hex).and_return(@generated_token)
+      REDIS.should_receive(:setex).with("chat:21:token:#{@generated_token}", 60, 23)
+
+      @token = @chat_room.set_redis_access_token_for_user(@user)
+      @token.should be == @generated_token
+      @chat_room.token.should be == @generated_token
+    end
+
+    it "should use provided token if present" do
+      @chat_room = Factory.build(:chat_room, :id => 21)
+      @user = Factory.build(:user, :id => 23)
+      SecureRandom.should_not_receive(:hex)
+      REDIS.should_receive(:setex).with("chat:21:token:asdfb", 60, 23)
+
+      @token = @chat_room.set_redis_access_token_for_user(@user, "asdfb")
+      @token.should be == "asdfb"
+      @chat_room.token.should be == "asdfb"
+    end
+  end
 end

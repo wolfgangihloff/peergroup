@@ -70,11 +70,14 @@ describe SupervisionsController do
     render_views
 
     before do
-      @supervision = Factory(:supervision, :group => @group, :topic => Factory(:topic), :state => "asking_questions")
+      @chat_room = Factory.build(:chat_room, :id => 5)
+      @supervision = Factory(:supervision, :group => @group, :topic => Factory(:topic), :state => "asking_questions", :chat_room => @chat_room)
       @user.join_supervision(@supervision)
+
       SecureRandom.should_receive(:hex).and_return("asdfb")
-      ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      REDIS.should_receive(:setex).with("chat:#{@chat_room.id}:token:asdfb", 60, 1)
+      REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
+
       get :show, :id => @supervision.id
     end
 

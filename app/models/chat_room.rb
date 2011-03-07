@@ -12,6 +12,12 @@ class ChatRoom < ActiveRecord::Base
 
   attr_accessible
 
+  attr_reader :token
+  def set_redis_access_token_for_user(user, token = SecureRandom.hex)
+    REDIS.setex("chat:#{id}:token:#{token}", 60, user.id)
+    @token = token
+  end
+
   protected
 
   def assign_group_from_supervision

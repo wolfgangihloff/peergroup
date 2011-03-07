@@ -103,18 +103,18 @@ jQuery(function($) {
                     }
                 }
             });
-            s.on("presence", function(type, message) {
-                if (message.action === "enter") {
-                    $chatRoom.trigger("userEnters", { id: message.user });
-                } else if (message.action === "exit") {
-                    $chatRoom.trigger("userExits", { id: message.user });
-                }
+            s.on("chat_membership", function(type, message) {
+                PGS.withUserInfo(message.chat_membership.user_id, function(userId, userData) {
+                    var chatMembership = message.chat_membership;
+                    chatMembership.user = userData;
+                    $chatRoom.trigger("chat:presence", chatMembership);
+                });
             });
-            s.on("message", function(type, message) {
-                $chatRoom.trigger("newMessage", message);
+            s.on("chat_message", function(type, message) {
+                $chatRoom.trigger("chat:message", message.chat_message);
             });
             s.onConnect(function() {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoom: chatRoomId });
+                this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoomId: chatRoomId });
             });
         });
     });
@@ -139,7 +139,7 @@ jQuery(function($) {
                 }
             });
             s.onConnect(function() {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
+                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervisionId: supervisionId });
             });
             s.on("supervision", function(type, message) {
                 $supervision.trigger("supervisionUpdate", message.supervision);

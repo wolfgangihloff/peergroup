@@ -44,114 +44,80 @@ var firstKey = function(obj) {
     }
 };
 
+var ChatMembershipMessage = {
+    enter:  function(userId) {
+                return { chat_membership: { status: "enter", user_id: userId } }
+            },
+    exit:   function(userId) {
+                return { chat_membership: { status: "exit", user_id: userId } }
+            }
+};
+var Chat = {
+    authenticationResponse: {
+        ok:     { type: "chat.authentication", status: "OK" },
+        fail:   { type: "chat.authentication", status: "error", text: "Invalid ID or token"}
+    },
+    userAuthenticationKey: function(chatRoomId, token) { return "chat:"+chatRoomId+":token:"+token; },
+    sessionsKey: function(chatRoomId) { return "chat:"+chatRoomId+":sessions"; }
+};
+var Channels = {
+    chat: function(chatRoomId) { return "chat:"+chatRoomId; }
+};
+    
+
 /**
  * CHAT
+ *  - authenticate
+ *    message format: { type: "chat.authenticate", chatRoomId: <id>, userId: <userId>, token: <token> }
  */
 /*
- * Connect to events from client
- *
- * Events:
+ * SUPERVISION SESSION
  *  - authenticate
- *    message format: { type: "chat.authenticate", chatRoom: <id>, userId: <userId>, token: <token> }
+ *    message format: { type: "supervision.authenticate", supervision: <id>, userId: <userId>, token: <token> }
  */
 socket.on('connection', function(client) {
     client.on("message", function(message) {
-        if (message.type.search("^chat\\.") === 0) {
+        if (message.type.search(/^chat\./) === 0) {
             // on authenticate
             if (message.type === "chat.authenticate") {
-                var chatRoom = message.data.chatRoom,
-                    userId = message.data.userId,
+                var chatRoomId = message.data.chatRoomId,
                     token = message.data.token;
-                var userAuthenticationKey = "chat:" + chatRoom + ":users:" + userId + ":token:" + token,
-                    chatSessionsKey = "chat:" + chatRoom + ":sessions",
-                    chatPresenceChannel = "chat:" + chatRoom + ":presence";
-                redisClient.exists(userAuthenticationKey, function(err, resp) {
-                    if (resp) {
-                        console.log("User authenticated for chat: " + userId + " sessionId: " + client.sessionId);
-                        client.send({ type: "chat.authentication", status: "OK" });
-                        redisClient.sadd(chatSessionsKey, client.sessionId);
-                        redisClient.publish(chatPresenceChannel, userId + ":enter");
+
+                redisClient.get(Chat.userAuthenticationKey(chatRoomId, token), function(err, resp) {
+                    var chatSessionsKey = Chat.sessionsKey(chatRoomId),
+                        chatChannel = Channels.chat(chatRoomId),
+                        userId = resp;
+
+                    if (userId) {
+                        console.log("User:"+userId+" authenticated for chat:"+chatRoomId+" sessionId:"+client.sessionId);
+                        client.send(Chat.authenticationResponse.ok);
+
+                        // Add user to chat subscribers
+                        redisClient.sadd(chatSessionsKey, client.sessionId, function(err, resp) {
+                            redisClient.publish(chatChannel, JSON.stringify(ChatMembershipMessage.enter(userId)));
+                        });
 
                         client.on("disconnect", function() {
-                            redisClient.srem(chatSessionsKey, client.sessionId);
-                            redisClient.publish(chatPresenceChannel, userId + ":exit");
+                            // Remove user from chat subscribers
+                            redisClient.srem(chatSessionsKey, client.sessionId, function(err, resp) {
+                                redisClient.publish(chatChannel, JSON.stringify(ChatMembershipMessage.exit(userId)));
+                            });
                         });
                     } else {
-                        console.log("User invalid for chat: " + userId);
-                        client.send({ type: "chat.authentication", status: "error", text: "Invalid id or token" });
+                        console.log("Invalid token:"+token+" for chat:"+chatRoomId);
+                        client.send(Chat.authenticationResponse.fail);
                     }
                 });
             }
         }
-    });
-});
-
-/*
- * Channel: chat:<chatId>:presence
- * Message: <user>:enter
- *          <user>:exit
- *
- * Channel: chat:<chatId>:message
- * Message: <user>:<time>:<messageId>:<mesageText>
- */
-subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
-    if (pattern.search("^chat:") === 0) {
-        var chatId = channel.split(":")[1];
-
-        // on presence
-        switch (pattern) {
-        case "chat:*:presence": (function() {
-                // Message format: user:enter|exit
-                var presence = pmessage.match(/([^:]+):(enter|exit)/),
-                    userId = presence[1],
-                    action = presence[2];
-
-                console.log("Presence: user " + userId + " " + action + " chat " + chatId);
-                eachSession("chat:" + chatId, function(client) {
-                    client.send({ type: "chat.presence", action: action, user: userId });
-                });
-            })();
-            break;
-        case "chat:*:message": (function() {
-                // Message format: user:time:messageId:messageText
-                var message = pmessage.match(/([^:]+):([^:]+):([^:]+):(.*)/),
-                    userId = message[1],
-                    time = message[2],
-                    messageId = message[3],
-                    messageText = message[4];
-
-                console.log("Message from user " + userId + " on chat " + chatId);
-                eachSession("chat:" + chatId, function(client) {
-                    client.send({ type: "chat.message", user: userId, timestamp: time, id: messageId, content: messageText });
-                });
-            })();
-            break;
-        default:
-            console.log("unknown channel: " + channel);
-            break;
-        }
-    }
-});
-subscribeRedisClient.psubscribe("chat:*:presence", "chat:*:message");
-
-/**
- * SUPERVISION SESSION
- */
-/*
- * Events:
- *  - authenticate
- *    message format: { type: "supervision.authenticate", supervision: <id>, userId: <userId>, token: <token> }
- */
-socket.on("connection", function(client) {
-    client.on("message", function(message){
-        if (message.type.search("^supervision\\.") === 0) {
+        if (message.type.search(/^supervision\./) === 0) {
             // on authenticate
             if (message.type === "supervision.authenticate") {
-                var supervision = message.data.supervision,
+                var supervisionId = message.data.supervision,
                     userId = message.data.userId,
                     token = message.data.token;
-                var userAuthenticationKey = "supervision:" + supervision + ":users:" + userId + ":token:" + token,
-                    supervisionSessionsKey = "supervision:" + supervision + ":sessions";
+                var userAuthenticationKey = "supervision:" + supervisionId + ":users:" + userId + ":token:" + token,
+                    supervisionSessionsKey = "supervision:" + supervisionId + ":sessions";
                 redisClient.exists(userAuthenticationKey, function(err, resp) {
                     if (resp) {
                         console.log("User authenticated for supervision: " + userId + " sessionId: " + client.sessionId);
@@ -159,7 +125,7 @@ socket.on("connection", function(client) {
                         redisClient.sadd(supervisionSessionsKey, client.sessionId);
 
                         client.on("disconnect", function() {
-                            redisClient.srem("supervision:" + supervision + ":sessions", client.sessionId);
+                            redisClient.srem("supervision:" + supervisionId + ":sessions", client.sessionId);
                         });
                     } else {
                         console.log("User invalid for supervision: " + userId);
@@ -170,16 +136,29 @@ socket.on("connection", function(client) {
         }
     });
 });
+
 subscribeRedisClient.on("pmessage", function(pattern, channel, pmessage) {
-    if (pattern === "supervision:*") {
-        var decodedMessage = JSON.parse(pmessage);
-        decodedMessage.type = "supervision." + firstKey(decodedMessage);
-        console.log("pmessage: " + decodedMessage.type);
-        eachSession(channel, function(client) {
-            console.log("sending message to client " + client.sessionId);
-            client.send(decodedMessage);
-        });
+    var decodedMessage = JSON.parse(pmessage);
+    var rootKey = firstKey(decodedMessage);
+    var type;
+    switch (pattern) {
+    case "supervision:*":
+        type = "supervision";
+        break;
+    case "chat:*":
+        type = "chat";
+        break;
+    default:
+        console.log("Unknown message type: " + rootKey);
+        return;
     }
+    decodedMessage.type = type + "." + rootKey
+    console.log("pmessage: " + decodedMessage.type);
+    eachSession(channel, function(client) {
+        console.log("sending message to client " + client.sessionId);
+        client.send(decodedMessage);
+    });
 });
 subscribeRedisClient.psubscribe("supervision:*");
+subscribeRedisClient.psubscribe("chat:*");
 

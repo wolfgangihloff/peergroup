@@ -49,13 +49,21 @@ describe ChatMessage do
     end
   end
 
+  describe "#publish_to_redis" do
+    it "should publish itself as JSON to Redis channel" do
+      @chat_message = Factory.build(:chat_message, :id => "100", :created_at => Time.now)
+      @json_attributes = { :only => [:id, :content, :created_at], :include => { :user => { :only => [:id, :name], :methods => :avatar_url } } }
+      @json_representation = @chat_message.to_json(@json_attributes)
+      @chat_message.should_receive(:to_json).with(@json_attributes).and_return(@json_representation)
+      REDIS.should_receive(:publish).with("chat:#{@chat_message.chat_room.id}", @json_representation)
+      @chat_message.publish_to_redis
+    end
+  end
+
   describe "after create" do
     it "should publish message to Redis" do
-      # id and created_at are set to workaround problem with setting them after save
-      # but we need to know them to stub method on REDIS
-      @chat_message = Factory.build(:chat_message, :id => "100", :created_at => Time.now)
-      REDIS.should_receive(:publish).with("chat:#{@chat_message.chat_room.id}:message",
-                                          "#{@chat_message.user.id}:#{@chat_message.created_at.to_i}:#{@chat_message.id}:#{@chat_message.content}")
+      @chat_message = Factory.build(:chat_message)
+      @chat_message.should_receive(:publish_to_redis)
       @chat_message.save!
     end
   end
