@@ -222,6 +222,8 @@
             - :flash: !omap 
                 - :successful: Group Create Successfully
             - :title: 
+        - :current_supervision: !omap 
+            - :title: 
         - :group_brief: !omap 
             - :confirmations: !omap 
                 - :delete: You sure?
@@ -284,6 +286,7 @@
                 - :users: Users
             - :title: !omap 
                 - :peergroup: peergroup
+                - :welcome: "Welcome "
     - :other: !omap 
         - :controller: !omap 
             - :action: !omap 
@@ -466,6 +469,7 @@
             - :signup_title: Sign up
             - :title: 
         - :show: !omap 
+            - :group_list_title: My groups
             - :title: 
         - :update: !omap 
             - :title: 

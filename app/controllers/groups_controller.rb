@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
-  before_filter :require_group, :except => [:index, :my, :new, :create]
+  before_filter :require_group, :except => [:index, :new, :create]
 
   def index
     if params[:user_id].present?
@@ -49,6 +49,14 @@ class GroupsController < ApplicationController
 
     successful_flash("Group Delete Successfully")
     redirect_to groups_path
+  end
+
+  def current_supervision
+    if @group.current_supervision
+      redirect_to supervision_path(@group.current_supervision)
+    else
+      redirect_to new_group_supervision_path(@group)
+    end
   end
 
   protected

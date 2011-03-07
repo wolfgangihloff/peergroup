@@ -35,5 +35,24 @@ describe GroupsController do
         response.should render_template('groups/new')
       end
     end
+
+    describe "#current_supervision when there is no supervision in progress" do
+      before do
+        @group = Factory(:group)
+        get :current_supervision, :id => @group.id
+      end
+
+      specify { response.should redirect_to(new_group_supervision_path(@group)) }
+    end
+
+    describe "#current_sepervision when there is sepervision in progress" do
+      before do
+        @group = Factory(:group)
+        @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
+        get :current_supervision, :id => @group.id
+      end
+
+      specify { response.should redirect_to(supervision_path(@supervision)) }
+    end
   end
 end
