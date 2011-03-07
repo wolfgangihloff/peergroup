@@ -90,10 +90,21 @@
                 }
                 $newResource.appendTo($resourceContainer).hide().show("fast");
             }
-            $newResource.find("input[type=radio].star").rating();
+            setupRating($newResource);
             $newResource.find("[title]").tooltip();
         };
         $.get(url, [], onSuccess);
+    };
+
+    var setupRating = function($parentElement) {
+        $parentElement.find("form:has(input[type=radio][id*=_rating_])").each(function(i, el) {
+            var $this = $(this);
+            $this.find("input[type=radio][id*=_rating_]").rating({
+                required: true,
+                callback: function(value, link){ $this.submit(); }
+            });
+            $this.find("input[type=submit]").hide();
+        });
     };
 
     var setupForm = function($formElement) {
@@ -256,6 +267,7 @@
                 supervisionState = $this.data("supervision-state");
                 supervisionId = $this.attr("id").replace("supervision_", "");
 
+            setupRating($this);
             setupQuestionsPart($this, supervisionId);
             setupIdeasPart($this, supervisionId);
             setupIdeasFeedbackPart($this, supervisionId);

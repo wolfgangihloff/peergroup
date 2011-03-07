@@ -12,7 +12,7 @@
         = form_for(idea) do |f|
           - if supervision.problem_owner?(current_user) and !supervision.finished?
             - 1.upto(5) do |i|
-              = f.radio_button :rating, i, { :class => "star" }
+              = f.radio_button :rating, i
             = f.submit t(".submit_rate", :default => "Rate")
           - else
             - 1.upto(5) do |i|
