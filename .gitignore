@@ -10,3 +10,4 @@ capybara-*.html
 public/stylesheets/compiled/
 
 vendor/ruby
+db/*.rdb

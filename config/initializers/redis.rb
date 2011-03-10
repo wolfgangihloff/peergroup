@@ -4,5 +4,5 @@ if ENV["REDISTOGO_URL"]
 else
   # Read in the config file
   redis_cfg = YAML.load(IO.read("#{Rails.root}/config/redis.yml"))[Rails.env]
-  REDIS = Redis.new(redis_cfg) if redis_cfg
+  REDIS = Redis.new(redis_cfg.symbolize_keys) if redis_cfg
 end

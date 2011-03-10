@@ -36,19 +36,13 @@ RSpec.configure do |config|
   config.before(:all) do
     Factory.find_definitions
     DatabaseCleaner.clean_with :truncation
+    REDIS.flushall
   end
 
-  # We mock REDIS to not depend on it to run our tests.
-  RSpec::Mocks::setup(self)
-  REDIS = double(Object.new)
+  # Helper methods:
+  # ===============
 
-  # We have to stub publish, as it's run with callbacks for some models,
-  # and we don't want to specify this stub in every test which checks
-  # this callbacks
-  config.before do
-    REDIS.stub(:publish)
-  end
-
+  # Sign in user for test purposes
   def sign_in(user = Factory(:user))
     controller.current_user = user
   end

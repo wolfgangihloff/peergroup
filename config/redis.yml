@@ -1,2 +1,4 @@
 development:
   host: "localhost"
+test:
+  path: tmp/sockets/redis-test.sock

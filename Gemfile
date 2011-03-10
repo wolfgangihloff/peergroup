@@ -13,7 +13,8 @@ gem "faker"
 gem "compass"
 gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
-gem "redis"
+gem "redis", :git => "git://github.com/ezmobius/redis-rb.git" # git repo for unix socket support
+gem "hiredis" # for better Redis support
 gem "SystemTimer" # for redis
 gem "concerned_with"
 

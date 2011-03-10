@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/ezmobius/redis-rb.git
+  revision: ec8149dfb345b8e69585a85b8144d18fab3f03c3
+  specs:
+    redis (2.1.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -98,6 +104,7 @@ GEM
       term-ansicolor (~> 1.0.5)
     haml (3.0.23)
     hirb (0.3.6)
+    hiredis (0.3.1)
     hoe (2.8.0)
       rake (>= 0.8.7)
     i18n (0.5.0)
@@ -166,7 +173,6 @@ GEM
     rake (0.8.7)
     rcov (0.9.9)
     rdiscount (1.6.5)
-    redis (2.1.1)
     reek (1.2.8)
       ruby2ruby (~> 1.2)
       ruby_parser (~> 2.0)
@@ -236,6 +242,7 @@ DEPENDENCIES
   formtastic
   friendly_id (~> 3.1)
   haml
+  hiredis
   launchy
   metric_fu
   nifty-generators
@@ -243,7 +250,7 @@ DEPENDENCIES
   rack-sprockets
   rails (= 3.0.4)
   rdiscount
-  redis
+  redis!
   rspec (>= 2.0.0.rc)
   rspec-rails (>= 2.0.0.rc)
   ruby-graphviz
