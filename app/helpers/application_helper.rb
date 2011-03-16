@@ -1,6 +1,13 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
 
+  def switch_locale_url(locale)
+    actions = Hash.new {|h,method| method}
+    actions.merge!("update" => "edit", "create" => "new")
+
+    url_for(:action => actions[action_name], :locale => locale)
+  end
+
   # Return a title on a per-page basis.
 
   def gravatar(*args)

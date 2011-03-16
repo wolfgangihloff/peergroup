@@ -17,6 +17,7 @@ gem "redis", :git => "git://github.com/ezmobius/redis-rb.git" # git repo for uni
 gem "hiredis" # for better Redis support
 gem "SystemTimer" # for redis
 gem "concerned_with"
+gem "routing-filter"
 
 group :staging do
 #  gem "pg"

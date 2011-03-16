@@ -1,4 +1,6 @@
 Peergroupsupervision::Application.routes.draw do
+  filter :locale
+
   resources :rules
 
   resources :users do

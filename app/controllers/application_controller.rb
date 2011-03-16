@@ -6,9 +6,25 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_filter :set_locale, :set_location
   before_filter :setup_title
 
   protected
+
+  def set_locale
+    # if params[:locale] is set to nil, then I18n.default_locale will be used
+    I18n.locale = params[:locale]
+  end
+
+  def set_location
+    is_sessions_controller = (controller_name == "sessions")
+    is_new_user_action = (controller_name == "users" && action_name == "new")
+    session[:return_to] = request.request_uri if request.get? && !is_sessions_controller && !is_new_user_action
+  end
+
+  def default_url_options
+    { :locale => I18n.locale }
+  end
 
   def setup_title
     @title = t("#{controller_name}.#{action_name}.title")
