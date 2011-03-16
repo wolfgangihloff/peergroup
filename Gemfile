@@ -23,30 +23,31 @@ group :staging do
   gem "thin"
 end
 
-group :test, :development, :cucumber do
+group :test, :development do
   gem "factory_girl_rails"
   gem "database_cleaner"
+  gem "rspec-rails"
+  gem "capybara", :git => "git://github.com/jnicklas/capybara.git"
 end
 
 group :test do
   gem "webrat"
   gem "test-unit"
-  gem "rspec", ">=2.0.0.rc"
-  gem "rspec-rails", ">=2.0.0.rc"
+  gem "rspec"
+  gem "selenium-webdriver"
 end
 
 group :development do
-  gem "nifty-generators"
+  gem "nifty-generators", :require => false
   gem "ruby-graphviz"
   gem "metric_fu"
-  gem "rspec-rails", ">=2.0.0.rc"
 end
 
-group :cucumber do
-  gem "cucumber-rails"
-  gem "pickle"
-  gem "capybara", "=0.3.9"
-  gem "launchy"
-  gem "selenium-webdriver"
-end
+#group :cucumber do
+  #gem "cucumber-rails"
+  #gem "pickle"
+  #gem "capybara", "=0.3.9"
+  #gem "launchy"
+  #gem "selenium-webdriver"
+#end
 
