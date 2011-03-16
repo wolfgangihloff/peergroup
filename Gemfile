@@ -42,6 +42,7 @@ group :development do
   gem "nifty-generators", :require => false
   gem "ruby-graphviz"
   gem "metric_fu"
+  gem "tolk", :git => "git://github.com/cover/tolk.git"
 end
 
 #group :cucumber do

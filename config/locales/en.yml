@@ -2,6 +2,359 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  activerecord: 
+    attributes: 
+      feedback: 
+        content: 
+        supervision: 
+        user: 
+    errors: 
+      messages: 
+        blank: 
+        confirmation: 
+        inclusion: 
+        invalid: 
+        not_a_number: 
+        not_an_integer: 
+        too_long: 
+        too_short: 
+      models: 
+        answer: 
+          blank: 
+        chat_message: 
+          blank: 
+        chat_room: 
+          blank: 
+        feedback: 
+          attributes: 
+            content: 
+              blank: 
+            supervision: 
+              blank: 
+            user: 
+              blank: 
+          blank: 
+        group: 
+          blank: 
+          taken: 
+          too_long: 
+        idea: 
+          blank: 
+          inclusion: 
+          not_a_number: 
+          not_an_integer: 
+        ideas_feedback: 
+          blank: 
+        membership: 
+          taken: 
+        question: 
+          blank: 
+        relationship: 
+          blank: 
+        solution: 
+          blank: 
+          inclusion: 
+          not_a_number: 
+          not_an_integer: 
+        solutions_feedback: 
+          blank: 
+        supervision: 
+          invalid: 
+          invalid_event: 
+          invalid_transition: 
+        supervision_feedback: 
+          blank: 
+        supervision_membership: 
+          taken: 
+        topic: 
+          blank: 
+        user: 
+          blank: 
+          confirmation: 
+          invalid: 
+          taken: 
+          too_long: 
+          too_short: 
+        vote: 
+          blank: 
+    models: 
+      feedback: 
+    state_machines: 
+      events: 
+        general_feedback: 
+        join_member: 
+        next_step: 
+        owner_feedback: 
+        owner_idea_feedback: 
+        owner_solution_feedback: 
+        owner_solutions_feedback: 
+        post_ideas_feedback: 
+        post_solutions_feedback: 
+        post_supervision_feedback: 
+        post_topic: 
+        post_topic_vote: 
+        post_vote_for_next_step: 
+        step_back_to_asking_questions: 
+        step_back_to_giving_ideas_feedback: 
+        step_back_to_giving_solutions_feedback: 
+        step_back_to_providing_ideas: 
+        step_back_to_providing_solutions: 
+      state: 
+        events: 
+          general_feedback: 
+          join_member: 
+          next_step: 
+          owner_feedback: 
+          owner_idea_feedback: 
+          owner_solution_feedback: 
+          owner_solutions_feedback: 
+          post_ideas_feedback: 
+          post_solutions_feedback: 
+          post_supervision_feedback: 
+          post_topic: 
+          post_topic_vote: 
+          post_vote_for_next_step: 
+          step_back_to_asking_questions: 
+          step_back_to_giving_ideas_feedback: 
+          step_back_to_providing_ideas: 
+        states: 
+          gathering_topics: 
+      states: 
+        gathering_topics: 
+      step: 
+        events: 
+          post_ideas_feedback: 
+          post_solutions_feedback: 
+          post_supervision_feedback: 
+          post_topic: 
+          post_topic_vote: 
+          post_vote_for_next_step: 
+          step_back_to_asking_questions: 
+          step_back_to_giving_ideas_feedback: 
+          step_back_to_giving_solutions_feedback: 
+          step_back_to_providing_ideas: 
+          step_back_to_providing_solutions: 
+  attributes: 
+    chat_room: 
+    conent: 
+    content: 
+    description: 
+    email: 
+    followed_id: 
+    follower_id: 
+    founder: 
+    group: 
+    name: 
+    passcode: 
+    password: 
+    password_confirmation: 
+    question: 
+    rating: 
+    state: 
+    state_event: 
+    statement: 
+    step: 
+    supervision: 
+    user: 
+    user_id: 
+  chat_messages: 
+    create: 
+      title: 
+  chat_rooms: 
+    show: 
+      links: 
+        new_thread: new thread
+      submit: Submit
+      title: 
+  errors: 
+    attributes: 
+      chat_room: 
+        blank: 
+      content: 
+        blank: 
+      description: 
+        blank: 
+        too_long: 
+      email: 
+        blank: 
+        invalid: 
+      followed_id: 
+        blank: 
+      follower_id: 
+        blank: 
+      founder: 
+        blank: 
+      group: 
+        blank: 
+      name: 
+        blank: 
+        too_long: 
+      password: 
+        blank: 
+        confirmation: 
+        too_long: 
+        too_short: 
+      question: 
+        blank: 
+      rating: 
+        inclusion: 
+        not_a_number: 
+        not_an_integer: 
+      state: 
+        invalid: 
+      state_event: 
+        invalid: 
+      statement: 
+        blank: 
+      step: 
+        invalid: 
+      supervision: 
+        blank: 
+      user: 
+        blank: 
+  flash: 
+    sign_in_request: Please sign in to access this page.
+  formtastic: 
+    required: required
+  groups: 
+    create: 
+      flash: 
+        successful: Group Create Successfully
+      title: 
+    current_supervision: 
+      title: 
+    group_brief: 
+      confirmations: 
+        delete: You sure?
+      links: 
+        chat: Chat
+        delete: delete
+        edit: Edit
+        join: join
+        leave: leave
+        session: Session
+    index: 
+      no_groups: There are no groups here.
+      title: 
+        all_groups: All Groups
+        your_groups: Your Groups
+    new: 
+      title: New Group
+    show: 
+      links: 
+        edit: Edit
+  helpers: 
+    label: 
+      chat_update: 
+        message: ""
+      session: 
+        email: ""
+        password: ""
+  layouts: 
+    application: 
+      base_title: peergroup
+      title: peergroup
+    footer: 
+      links: 
+        about: About
+        contact: Contact
+    header: 
+      links: 
+        all_groups: All Groups
+        create_group: Create Group
+        help: Help
+        home: Home
+        my_groups: My Groups
+        profile: Profile
+        settings: Settings
+        signin: Sign in
+        signout: Sign out
+        supervisions: Supervisions
+        users: Users
+      title: 
+        peergroup: peergroup
+        welcome: "Welcome "
+  other: 
+    controller: 
+      action: 
+        flash: 
+          error: default
+          successful: default
+  pages: 
+    about: 
+      about_title: About Peer Supervision Groups
+      title: About
+    contact: 
+      contact_title: Contact
+      title: Contact
+    help: 
+      help: Help
+      title: Help
+    home: 
+      title: Home
+    home_guest: 
+      about_title: About Peer Supervision Groups
+      description: This is the live test site for the Peer Supervision Groups project for Patongo. Visit <a href='http://www.patongo.de/'> project page</a>.
+      links: 
+        signup: Sign up now!
+      title: Peer Supervision Groups
+    home_member: 
+      latest_groups: Latest groups
+      your_groups: Your groups
+  relationships: 
+    create: 
+      title: 
+    destroy: 
+      title: 
+  sessions: 
+    create: 
+      title: Sign in
+    destroy: 
+      title: 
+    new: 
+      links: 
+        signup: Sign up now!
+      signin: Sign in
+      signin_title: Sign in
+      signup_teaser: "New user? "
+      title: Sign in
+  supervision_memberships: 
+    create: 
+      title: 
+    destroy: 
+      title: 
+  users: 
+    create: 
+      title: 
+    destroy: 
+      title: 
+    edit: 
+      buttons: 
+        update: Update
+      edit_title: Edit user
+      links: 
+        change_gravatar: change
+      title: 
+    index: 
+      title: 
+      users_title: All users
+    new: 
+      buttons: 
+        signup: Sign up
+      links: 
+        signin: Sign in!
+      signup: Sign up
+      signup_title: Sign up
+      title: 
+    show: 
+      group_list_title: My groups
+      title: 
+    update: 
+      title: 
+  votes: 
+    create: 
+      title: 
+
   answers:
     create:
       notice: Your answer was successfully added
@@ -84,6 +437,7 @@ en:
       heading: Supervision Session
       title: Supervision Session
       leave_supervision: Leave session
+      go_to_current: Go to current supervision session
 
       topics: Topics List
       topic_votes: Topic votes

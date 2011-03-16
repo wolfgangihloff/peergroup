@@ -1,151 +1,333 @@
-# German translations for Ruby on Rails 
-# by Clemens Kofler (clemens@railway.at)
-
-de:
-  date:
-    formats:
-      default: "%d.%m.%Y"
-      short: "%e. %b"
-      long: "%e. %B %Y"
-      only_day: "%e"
-
-    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
-    abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
-    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
-    abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
-    order: [ :day, :month, :year ]
-  
-  time:
-    formats:
-      default: "%A, %d. %B %Y, %H:%M Uhr"
-      short: "%d. %B, %H:%M Uhr"
-      long: "%A, %d. %B %Y, %H:%M Uhr"
-      time: "%H:%M"
-
-    am: "vormittags"
-    pm: "nachmittags"
-      
-  datetime:
-    distance_in_words:
-      half_a_minute: 'eine halbe Minute'
-      less_than_x_seconds:
-        one: 'weniger als eine Sekunde'
-        other: 'weniger als %{count} Sekunden'
-      x_seconds:
-        one: 'eine Sekunde'
-        other: '%{count} Sekunden'
-      less_than_x_minutes:
-        one: 'weniger als eine Minute'
-        other: 'weniger als %{count} Minuten'
-      x_minutes:
-        one: 'eine Minute'
-        other: '%{count} Minuten'
-      about_x_hours:
-        one: 'etwa eine Stunde'
-        other: 'etwa %{count} Stunden'
-      x_days:
-        one: 'ein Tag'
-        other: '%{count} Tage'
-      about_x_months:
-        one: 'etwa ein Monat'
-        other: 'etwa %{count} Monate'
-      x_months:
-        one: 'ein Monat'
-        other: '%{count} Monate'
-      almost_x_years:
-        one: 'fast ein Jahr'
-        other: 'fast %{count} Jahre'
-      about_x_years:
-        one: 'etwa ein Jahr'
-        other: 'etwa %{count} Jahre'
-      over_x_years:
-        one: 'mehr als ein Jahr'
-        other: 'mehr als %{count} Jahre'
-    prompts:
-      second: "Sekunden"
-      minute: "Minuten"
-      hour: "Stunden"
-      day: "Tag"
-      month: "Monat"
-      year: "Jahr"
-
-  number:
-    format:
-      precision: 2
-      separator: ','
-      delimiter: '.'
-    currency:
-      format:
-        unit: '€'
-        format: '%n%u'
-        separator: ","
-        delimiter: ""
-        precision: 2
-    percentage:
-      format:
-        delimiter: ""
-    precision:
-      format:
-        delimiter: ""
-    human:
-      format:
-        delimiter: ""
-        precision: 1
-      storage_units:
-        # Storage units output formatting.
-        # %u is the storage unit, %n is the number (default: 2 MB)
-        format: "%n %u"
-        units:
-          byte:
-            one:   "Byte"
-            other: "Bytes"
-          kb: "KB"
-          mb: "MB"
-          gb: "GB"
-          tb: "TB"
-
-  support:
-    array:
-      words_connector: ", "
-      two_words_connector: " und "
-      last_word_connector: " und "
-    select:
-      prompt: "Bitte wählen:"
-
-  activemodel:
-    errors:
-      template:
-        header:
-          one:    "Konnte %{model} nicht speichern: ein Fehler."
-          other:  "Konnte %{model} nicht speichern: %{count} Fehler."
-        body: "Bitte überprüfen Sie die folgenden Felder:"
-
-  activerecord:
-    errors:
-      template:
-        header:
-          one:    "Konnte %{model} nicht speichern: ein Fehler."
-          other:  "Konnte %{model} nicht speichern: %{count} Fehler."
-        body: "Bitte überprüfen Sie die folgenden Felder:"
-
-      messages:
-        inclusion: "ist kein gültiger Wert"
-        exclusion: "ist nicht verfügbar"
-        invalid: "ist nicht gültig"
-        confirmation: "stimmt nicht mit der Bestätigung überein"
-        accepted: "muss akzeptiert werden"
-        empty: "muss ausgefüllt werden"
-        blank: "muss ausgefüllt werden"
-        too_long: "ist zu lang (nicht mehr als %{count} Zeichen)"
-        too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
-        wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
-        taken: "ist bereits vergeben"
-        not_a_number: "ist keine Zahl"
-        greater_than: "muss größer als %{count} sein"
-        greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
-        equal_to: "muss genau %{count} sein"
-        less_than: "muss kleiner als %{count} sein"
-        less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
-        odd: "muss ungerade sein"
-        even: "muss gerade sein"
+--- 
+de: 
+  activerecord: 
+    errors: 
+      messages: 
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
+        taken: "ist bereits vergeben"
+  answers: 
+    form: 
+      content_hint: "Antworten Sie kurz und praezise."
+      submit: Antworten
+  chat_rooms: 
+    show: 
+      links: 
+        new_thread: antworten
+  date: 
+    abbr_day_names: 
+      - So
+      - Mo
+      - Di
+      - Mi
+      - Do
+      - Fr
+      - Sa
+    abbr_month_names: 
+      - ~
+      - Jan
+      - Feb
+      - Mär
+      - Apr
+      - Mai
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dez
+    day_names: 
+      - Sonntag
+      - Montag
+      - Dienstag
+      - Mittwoch
+      - Donnerstag
+      - Freitag
+      - Samstag
+    formats: 
+      default: "%d.%m.%Y"
+      long: "%e. %B %Y"
+      short: "%e. %b"
+    month_names: 
+      - ~
+      - Januar
+      - Februar
+      - März
+      - April
+      - Mai
+      - Juni
+      - Juli
+      - August
+      - September
+      - Oktober
+      - November
+      - Dezember
+    order: 
+      - !ruby/symbol day
+      - !ruby/symbol month
+      - !ruby/symbol year
+  datetime: 
+    distance_in_words: 
+      about_x_hours: 
+        one: "etwa eine Stunde"
+        other: "etwa %{count} Stunden"
+      about_x_months: 
+        one: "etwa ein Monat"
+        other: "etwa %{count} Monate"
+      about_x_years: 
+        one: "etwa ein Jahr"
+        other: "etwa %{count} Jahre"
+      almost_x_years: 
+        one: "fast ein Jahr"
+        other: "fast %{count} Jahre"
+      half_a_minute: "eine halbe Minute"
+      less_than_x_minutes: 
+        one: "weniger als eine Minute"
+        other: "weniger als %{count} Minuten"
+      less_than_x_seconds: 
+        one: "weniger als eine Sekunde"
+        other: "weniger als %{count} Sekunden"
+      over_x_years: 
+        one: "mehr als ein Jahr"
+        other: "mehr als %{count} Jahre"
+      x_days: 
+        one: "ein Tag"
+        other: "%{count} Tage"
+      x_minutes: 
+        one: "eine Minute"
+        other: "%{count} Minuten"
+      x_months: 
+        one: "ein Monat"
+        other: "%{count} Monate"
+      x_seconds: 
+        one: "eine Sekunde"
+        other: "%{count} Sekunden"
+    prompts: 
+      day: Tag
+      hour: Stunden
+      minute: Minuten
+      month: Monat
+      second: Sekunden
+      year: Jahr
+  flash: 
+    sign_in_request: "Bitte melden Sie sich an um diese Seite zu sehen."
+  formtastic: 
+    required: notwendig
+  groups: 
+    create: 
+      flash: 
+        successful: "Gruppe erfolgreich angelegt."
+    group_brief: 
+      confirmations: 
+        delete: "Sind Sie sicher?"
+      links: 
+        chat: Chat
+        delete: löschen
+        edit: bearbeiten
+        join: betreten
+        leave: verlassen
+    index: 
+      no_groups: "Es gibt hier keine Gruppen."
+      title: 
+        all_groups: "Alle Gruppen"
+        your_groups: "Ihre Gruppen"
+    new: 
+      title: "Neue Gruppe"
+    show: 
+      links: 
+        edit: Bearbeiten
+  helpers: 
+    label: 
+      chat_update: 
+        message: "Chat update"
+  ideas: 
+    form: 
+      content_hint: "Ideen sind nun gefragt, nehmen Sie keine Loesungen vorweg!"
+      submit: "Idee abgeben"
+  ideas_feedbacks: 
+    form: 
+      content_hint: "Geben sie Ihre Meinung zu den Ideen kund und erklaeren Sie in welche Richtung die Loesung am liebsten nach Ihrer Meinung gehen sollte."
+      submit: Absenden
+  layouts: 
+    application: 
+      base_title: "Kollegiale Beratung"
+      title: "Kollegiale Beratung"
+    footer: 
+      links: 
+        about: Über
+        contact: Kontakt
+    header: 
+      links: 
+        all_groups: "Alle Gruppen"
+        create_group: "Neue Gruppe"
+        help: Hilfe
+        home: Start
+        my_groups: "Meine Gruppen"
+        profile: Profil
+        settings: Einstellungen
+        signin: Anmelden
+        signout: Abmelden
+        users: Benutzer
+      title: 
+        peergroup: "Kollegiale Beratung"
+        welcome: Willkommen
+  number: 
+    currency: 
+      format: 
+        format: "%n%u"
+        precision: 2
+        separator: ","
+        unit: €
+    format: 
+      delimiter: "."
+      precision: 2
+      separator: ","
+    human: 
+      format: 
+        precision: 1
+      storage_units: 
+        format: "%n %u"
+        units: 
+          byte: 
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+  other: 
+    controller: 
+      action: 
+        flash: 
+          error: default
+          successful: default
+  pages: 
+    about: 
+      about_title: "Über Kollegiale Beratung"
+      title: "Über uns"
+    contact: 
+      contact_title: Kontakt
+      title: Kontakt
+    help: 
+      help: Hilfe
+      title: Hilfe
+    home: 
+      title: Start
+    home_guest: 
+      about_title: "Über Kollegiale Beratung"
+      description: "Das hier ist die testseite fuer das Patongo Project, mehr Informationen auf der <a http://www.patongo.de/>Projektseite</a>."
+      links: 
+        signup: "Jetzt anmelden."
+      title: "Kollegiale Beratung nach dem Heilsbronner Modell"
+  questions: 
+    form: 
+      content_hint: "Geben Sie Fragen ein, die Ihnen und der Gruppe helfen das Thema zu bearbeiten."
+      submit: absenden
+  sessions: 
+    create: 
+      title: Anmelden
+    new: 
+      links: 
+        signup: "Jetzt registieren!"
+      signup_teaser: "Neuer Benutzer?"
+      title: Anmelden
+  solutions: 
+    form: 
+      content_hint: "Nun ist die Zeit fuer ausfuehrliche Loesungsvorschlaege, die komplett darstellen, wie ein gutes Verhalten in der gestellten Problemsituation ausschaut."
+      submit: Absenden
+  solutions_feedbacks: 
+    form: 
+      content_hint: "Geben Sie ein Feeback fuer die Gruppe ab, als auch fuer die Verwendbarkeit. Dieses Feedback dient um Ihre Freude oder Enttaeuschung ueber die Sitzung Luft zu machen."
+      submit: Absenden
+  supervision_feedbacks: 
+    form: 
+      content_hint: "Allgemeine Anregungen an die Gruppenmitglieder, Gefallen, Verbesserungsvorschlaege sind nun gefragt, aber auch positives Resume ist natuerlich in Ordnung."
+      submit: Senden
+  supervisions: 
+    new: 
+      back_to_groups: "zurueck zur Gruppe"
+      create_new: "Sitzung starten"
+      heading: "Neue Beratung"
+      question: "Willst Du eine neue Kollegiale Beratung starten?"
+      title: "Neue Kollegiale Beratung"
+    show: 
+      heading: "Kollegiale Beratung"
+      ideas: Ideen
+      ideas_feedback: "Feedback zu den Ideen"
+      ideas_feedback_waiting: "Warten auf das finale Feedback des Themengebers."
+      ideas_waiting: "Nun ist die Zeit Ideen einzugeben, geben Sie ihre Ideen ein und sehen sie was andere vorschlagen."
+      leave_supervision: "Beratung verlassen"
+      no_more_ideas: "Ich habe keine Ideen mehr."
+      no_more_questions: "Ich habe keine weiteren Fragen mehr."
+      no_more_solutions: "Ich habe keine weiteren."
+      problem_owner_ideas_waiting: "Warten Sie auf Vorschlaege und Ideen der Teilnehmer ..."
+      problem_owner_solutions_waiting: "Warten Sie auf weitere Ideen, wieder ist ihre Meinung dazu wichtig. Lassen Sie die Loesungen auf sich wirken."
+      questions: Fragen
+      questions_waiting: "Wir warten auf weitere Fragen."
+      solutions: Loesungen
+      solutions_feedback: Feedback
+      solutions_feedback_waiting: "Warten Sie auf das Feedback des Themengebers."
+      solutions_waiting: "Wir warten auf weitere Loesungen ..."
+      supervision_feedbacks: Resume
+      supervision_feedbacks_waiting: "Sehen sie die Rueckmeldungen ihrer Kollegen ..."
+      supervision_finished: "Die Beratung zu einem Thema ist nun zu Ende, wollen Sie ein weiteres Thema beraten?"
+      supervision_state: 
+        asking_questions: Fragen
+        finished: Ende
+        gathering_topics: Themen
+        giving_ideas_feedback: Feedback
+        giving_solutions_feedback: Feedback
+        giving_supervision_feedbacks: Resume
+        providing_ideas: Ideen
+        providing_solutions: Loesungen
+        voting_on_topics: Abstimmung
+      supervision_state_title: 
+        asking_questions: Fragen
+        finished: Ende
+        gathering_topics: Themen
+        giving_ideas_feedback: Feedback
+        giving_solutions_feedback: Feedback
+        giving_supervision_feedbacks: Resume
+        providing_ideas: Ideen
+        providing_solutions: Loesungen
+        voting_on_topics: Abstimmung
+      title: Beratungssitzung
+      topic: Thema
+      topic_votes: "Abstimmung des Themas"
+      topic_votes_waiting: "Geben Sie Ihre Stimme zum Thema ab, dass Sie meinen am besten in der Gruppe bearbeitet werden kann."
+      topics: Themensammlung
+      topics_waiting: "Geben Sie ein berufliches Thema fuer die Beratung ein ueber welches dann in der Gruppe beraten werden kann."
+  support: 
+    array: 
+      last_word_connector: " und "
+      two_words_connector: " und "
+      words_connector: ", "
+  time: 
+    am: vormittags
+    formats: 
+      default: "%A, %d. %B %Y, %H:%M Uhr"
+      long: "%A, %d. %B %Y, %H:%M Uhr"
+      short: "%d. %B, %H:%M Uhr"
+    pm: nachmittags
+  topics: 
+    form: 
+      content_hint: "Schreiben Sie hier los, es sollte verstaendlich und zugaenglich auch fuer Neulinge sein."
+      submit: Senden
+    index: 
+      heading: "Liste der bereits eingestellten Themen"
+      title: "Abgesandte Themen"
+      topic_vote: Auswaehlen
+  users: 
+    edit: 
+      buttons: 
+        update: Update
+      links: 
+        change_gravatar: ändern
+    index: 
+      users_title: "Alle Benutzer"
+    new: 
+      buttons: 
+        signup: Registieren
+      signup: Registieren
+    show: 
+      group_list_title: "Meine Gruppen"
