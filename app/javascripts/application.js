@@ -97,10 +97,12 @@ jQuery(function($) {
                     if (window.console && window.console.log) {
                         console.log("chat: Authenticated");
                     }
+                    $chatRoom.addClass("connected");
                 } else {
                     if (window.console && window.console.error) {
                         console.error(message);
                     }
+                    $chatRoom.addClass("connection-error");
                 }
             });
             s.on("chat_membership", function(type, message) {

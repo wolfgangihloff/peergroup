@@ -1,4 +1,6 @@
 development:
   host: "localhost"
 test:
-  path: tmp/sockets/redis-test.sock
+  host: "localhost"
+  port: 6380
+  db: 1

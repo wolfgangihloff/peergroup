@@ -52,7 +52,7 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
-    REDIS.flushall
+    REDIS.flushdb
   end
 
   # Helper methods:

@@ -18,11 +18,11 @@ This is the first version, heavy alpha.
 
 2. Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases, optionally tweak config/redis.yml
 
-3. Run node server (download from http://nodejs.org/#download) - tested on v0.4.2
+3. Run node server (download from http://nodejs.org/#download) - tested on v0.4.3
 
-  node app/node.js/server.js
+  node app-node/server.js
 
-You can run node as root user (sudo node ...) or with `authbind` (authbind node ...), so socket.io could bind for low port to serve xml policy file for Flash.
+You can run node as root user (sudo node ...) or with `authbind` (authbind node ...), so socket.io could bind to low port to serve xml policy file for Flash.
 
 4. Run the application
 
@@ -40,7 +40,11 @@ You can run node as root user (sudo node ...) or with `authbind` (authbind node 
 
   redis-server config/redis-test.conf
 
-3. Run tests:
+3. Run Node server instance
+
+  REDIS_DB=1 REDIS_PORT=6380 node app-node/server.js
+
+4. Run tests:
 
   rake spec
 

@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   def set_location
     is_sessions_controller = (controller_name == "sessions")
     is_new_user_action = (controller_name == "users" && action_name == "new")
-    session[:return_to] = request.request_uri if request.get? && !is_sessions_controller && !is_new_user_action
+    session[:return_to] = request.fullpath if request.get? && !is_sessions_controller && !is_new_user_action
   end
 
   def default_url_options

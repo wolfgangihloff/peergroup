@@ -24,7 +24,8 @@ describe "Chat" do
     fill_in "Password", :with => @alice.password
     click_button "Sign in"
 
-    current_path.should be == root_path
+    #current_path.should be == root_path
+    page.should have_content("Welcome Alice")
 
     click_link "Chat"
     current_path.should be == group_chat_room_path(@designers)
@@ -37,6 +38,7 @@ describe "Chat" do
   end
 
   it "allows to post new message", :js => true do
+    page.should have_css(".chat_room.connected")
     Factory(:user, :name => "test")
     fill_in "chat_message_content", :with => "What's up?"
     click_button "Submit"
@@ -45,6 +47,7 @@ describe "Chat" do
   end
 
   it "allows to view other's messages in real-time", :js => true do
+    page.should have_css(".chat_room.connected")
     Factory(:chat_message, :user => @bob, :chat_room => @designers_chat, :content => "What's up?")
 
     page.should have_content("What's up?")
