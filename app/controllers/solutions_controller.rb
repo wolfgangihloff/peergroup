@@ -4,7 +4,7 @@ class SolutionsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_solution, :only => [:update, :show]
   before_filter :fetch_supervision, :only => :create
-  require_supervision_state :providing_solutions, :only => [:create, :update]
+  require_supervision_state :providing_solutions, :only => :create
 
   respond_to :html, :json
 

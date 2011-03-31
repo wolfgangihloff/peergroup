@@ -225,12 +225,14 @@
                 $newSolutionForm = $solutions.find(".form"),
                 $editSolutionForm = $solutions.find(".solution:has('.edit_solution')");
 
-            var ratingPresentCallback = function() {
-                $parent.trigger("flash:notice", "!!! solution rating changed !!!");
+            var afterAdd = function(resource, $content, $container, $previousContent) {
+                if ($previousContent.length) {
+                    $parent.trigger("flash:notice", that.updateMessages["solution"]);
+                }
             };
             var onNewSolution = function(event, message) {
                 var resource = { type: "solution", id: message.id };
-                that.loadResource(resource, $solutionsList, message.rating && ratingPresentCallback);
+                that.loadResource(resource, $solutionsList, afterAdd);
             };
 
             $newSolutionForm.live("ajax:loading", clearText("#solution_content"));
