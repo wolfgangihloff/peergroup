@@ -191,4 +191,8 @@ redisClient.select(redisDb, function(err, resp) {
         process.exit(-1);
     }
 });
+var pingRedisClient = function(){
+    redisClient.ping();
+};
+setInterval(pingRedisClient, 10000);
 
