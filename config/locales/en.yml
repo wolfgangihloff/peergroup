@@ -494,6 +494,9 @@ en:
         providing_solutions: Providing solutions
         voting_on_topics: Voting on topics
 
+      supervision_updates:
+        idea: "Idea's rating has been changed"
+        solution: "Solution's rating has been changed"
       supervision_state_transition:
         asking_questions:
           providing_ideas: Advanced to "Ideas" state

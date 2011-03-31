@@ -62,5 +62,13 @@ RSpec.configure do |config|
   def sign_in(user = Factory(:user))
     controller.current_user = user
   end
+
+  def sign_in_interactive(user = Factory(:user))
+    visit "/"
+    click_link "Sign in"
+    fill_in "Email", :with => user.email
+    fill_in "Password", :with => user.password
+    click_button "Sign in"
+  end
 end
 

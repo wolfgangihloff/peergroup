@@ -28,6 +28,12 @@ class SupervisionsController < ApplicationController
     @chat_messages = @chat_room.last_messages
     @token = @chat_room.set_redis_access_token_for_user(current_user)
     REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    @supervision_data = {
+      :"supervision-state" => @supervision.state,
+      :token => @token,
+      :"supervision-state-transitions" => t("supervisions.show.supervision_state_transition").to_json,
+      :"supervision-updates" => t("supervisions.show.supervision_updates").to_json
+    }
   end
 
   def update

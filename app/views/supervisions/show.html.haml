@@ -1,6 +1,7 @@
-%article[@supervision]{:data => {:"supervision-state" => @supervision.state, :token => @token, :"supervision-state-transitions" => t("supervisions.show.supervision_state_transition").to_json}}
+%article[@supervision]{:data => @supervision_data}
   %header
     %h1= t("supervisions.show.heading")
+    %h2= @supervision.group
 
     %ul.supervision_statusbar
       - Supervision::STEPS.each do |step|

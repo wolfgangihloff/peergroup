@@ -2,9 +2,7 @@ require "spec_helper"
 
 describe "Chat" do
   before do
-    Capybara.current_driver = :selenium
     @alice = Factory(:user, :name => "Alice")
-    @alice.save!
     @bob = Factory(:user, :name => "Bob")
     @cindy = Factory(:user, :name => "Cindy")
     @designers = Factory(:group, :name => "Designers")

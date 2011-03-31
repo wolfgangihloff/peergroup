@@ -4,7 +4,7 @@ class IdeasController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_idea, :only => [:update, :show]
   before_filter :fetch_supervision, :only => :create
-  require_supervision_state :providing_ideas, :only => [:create, :update]
+  require_supervision_state :providing_ideas, :only => :create
 
   respond_to :html, :json
 

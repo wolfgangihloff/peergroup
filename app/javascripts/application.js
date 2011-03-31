@@ -13,6 +13,7 @@ jQuery.timeago.settings.allowFuture = true;
 //
 //= require "pgs"
 //= require "s"
+//= require "util"
 
 //= require "components/chat_room"
 //= require "components/supervision_room"
@@ -134,10 +135,12 @@ jQuery(function($) {
                     if (window.console && window.console.log) {
                         console.log("supervision: Authenticated");
                     }
+                    $supervision.addClass("connected");
                 } else {
                     if (window.console && window.console.error) {
                         console.error(message);
                     }
+                    $supervision.addClass("connection-error");
                 }
             });
             s.onConnect(function() {
@@ -168,41 +171,43 @@ jQuery(function($) {
                     if (window.console && window.console.log) {
                         console.log("supervision: Authenticated");
                     }
+                    $supervision.addClass("connected");
                 } else {
                     if (window.console && window.console.error) {
                         console.error(message);
                     }
+                    $supervision.addClass("connection-error");
                 }
             });
             s.onConnect(function() {
                 this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
             });
             s.on("supervision", function(type, message) {
-                $supervision.trigger("supervisionUpdate", message.supervision);
+                $supervision.trigger("supervision:update", message.supervision);
             });
             s.on("question", function(type, message) {
-                $supervision.trigger("newQuestion", message.question);
+                $supervision.trigger("supervision:question", message.question);
             });
             s.on("answer", function(type, message) {
-                $supervision.trigger("newAnswer", message.answer);
+                $supervision.trigger("supervision:answer", message.answer);
             });
             s.on("idea", function(type, message) {
-                $supervision.trigger("newIdea", message.idea);
+                $supervision.trigger("supervision:idea", message.idea);
             });
             s.on("ideas_feedback", function(type, message) {
-                $supervision.trigger("newIdeasFeedback", message.ideas_feedback);
+                $supervision.trigger("supervision:ideasFeedback", message.ideas_feedback);
             });
             s.on("solution", function(type, message) {
-                $supervision.trigger("newSolution", message.solution);
+                $supervision.trigger("supervision:solution", message.solution);
             });
             s.on("solutions_feedback", function(type, message) {
-                $supervision.trigger("newSolutionsFeedback", message.solutions_feedback);
+                $supervision.trigger("supervision:solutionsFeedback", message.solutions_feedback);
             });
             s.on("supervision_feedback", function(type, message) {
-                $supervision.trigger("newSupervisionFeedback", message.supervision_feedback);
+                $supervision.trigger("supervision:supervisionFeedback", message.supervision_feedback);
             });
             s.on("supervision_membership", function(type, message) {
-                $supervision.trigger("supervisionMembership", message.supervision_membership);
+                $supervision.trigger("supervision:membership", message.supervision_membership);
             });
         });
     });
