@@ -36,7 +36,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   # Stop after first failing test
-  config.fail_fast = true
+  # config.fail_fast = true
 
   config.before(:all) do
     Factory.find_definitions
