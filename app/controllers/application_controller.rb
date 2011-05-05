@@ -12,8 +12,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_locale
-    # if params[:locale] is set to nil, then I18n.default_locale will be used
-    I18n.locale = params[:locale]
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 
   def set_location

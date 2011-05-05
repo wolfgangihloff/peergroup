@@ -12,9 +12,11 @@ This is the first version, heavy alpha.
 
   git submodule update --init
 
-1. Install required gems into vendor/ruby/ subdirectory (for easier maintain)
+1. Install required gems
 
-  bundle install --path vendor/
+  bundle install
+
+If you are using rvm, create new gemset to not mess with your default gems
 
 2. Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases, optionally tweak config/redis.yml
 
@@ -42,9 +44,9 @@ Unfortunately Redis gem uses default url for connection (redis://localhost:6379)
 
 You have been warned!
 
-1. Install required gems into vendor/ruby/ subdirectory (for easier maintain)
+1. Install required gems
 
-  bundle install --path vendor/
+  bundle install
 
 2. Run Redis server instance
 
@@ -83,4 +85,3 @@ You have been warned!
    * app/views/pages/_about.<locale>.html.haml
    * app/views/pages/_help.<locale>.html.haml
    * README / LIESMICH
-

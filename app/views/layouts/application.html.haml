@@ -2,7 +2,7 @@
 %html{:lang => "en"}
   %head
     %title= title
-    %meta{ :charset => "utf-8" }
+    %meta{:charset => "utf-8"}
     = csrf_meta_tag
     = javascript_meta_information
 
@@ -12,14 +12,14 @@
       = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
     /[if lt IE 9]
       :javascript
-        var e = ("abbr,article,aside,audio,canvas,datalist,details," + 
-            "figure,footer,header,hgroup,mark,menu,meter,nav,output," + 
-            "progress,section,time,video").split(','); 
-        for (var i = 0; i < e.length; i++) { 
-            document.createElement(e[i]); 
+        var e = ("abbr,article,aside,audio,canvas,datalist,details," +
+            "figure,footer,header,hgroup,mark,menu,meter,nav,output," +
+            "progress,section,time,video").split(',');
+        for (var i = 0; i < e.length; i++) {
+            document.createElement(e[i]);
         }
 
-  %body{ :id => id_for_body }
+  %body{:id => id_for_body}
     %section#page
       = render "layouts/header", :title => @title
 
@@ -31,4 +31,3 @@
       = render "layouts/footer"
 
     = javascript_include_tag :defaults
-

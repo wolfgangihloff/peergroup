@@ -1,57 +1,12 @@
 require "spec_helper"
 
-module Matchers
-  class FlashSelector
-    def initialize(message)
-      @message = message
-    end
-
-    def matches?(actual)
-      @actual = wrap(actual)
-      @actual.within ".flash" do
-        @actual.has_content?(@message)
-      end
-    end
-
-    def does_not_match?(actual)
-      @actual = wrap(actual)
-      @actual.within ".flash" do
-        @actual.has_no_content?(@message)
-      end
-    end
-
-    def failure_message_for_should
-      %Q[expected flash message "#{@message}", but got only "#{@actual.find(".flash").text}"]
-    end
-
-    def failure_message_for_should_not
-      %Q[expected not to find flash message "#{@message}"]
-    end
-
-    def wrap(actual)
-      if actual.respond_to?("has_selector?")
-        actual
-      else
-        Capybara.string(actual.to_s)
-      end
-    end
-  end
-
-  def have_flash(flash_message)
-    FlashSelector.new(flash_message)
-  end
-end
-
-RSpec.configure do |config|
-  config.include Matchers
-end
-
 describe "Supervision", :js => true do
   def visit_supervision(supervision)
     visit supervision_path(supervision)
     page.should have_css(".supervision.connected") # make sure it's connected and authenticated
     page.should have_css(".supervision[data-supervision-updates]")
   end
+
   def prepare_supervision(state)
     supervision = Factory(:supervision, :group => @group, :state => state, :topic => Factory(:topic, :user => @alice))
     @alice.join_supervision(supervision)

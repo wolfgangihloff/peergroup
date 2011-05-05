@@ -85,4 +85,3 @@ Factory.define :supervision_feedback do |feedback|
   feedback.user { Factory(:user) }
   feedback.content "Feedback"
 end
-

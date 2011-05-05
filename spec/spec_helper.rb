@@ -5,15 +5,13 @@ require 'rspec/rails'
 require 'database_cleaner'
 
 require 'capybara/rspec'
+require 'capybara/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
-# TODO: Move all webrat specs to capybara
-Webrat.configure do |config|
-  config.mode = :rails
-end
+DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -25,10 +23,10 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
 
-  config.include Webrat::HaveTagMatcher, :type => :controller
+  # config.include Webrat::HaveTagMatcher, :type => :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -37,14 +35,6 @@ RSpec.configure do |config|
 
   # Stop after first failing test
   # config.fail_fast = true
-
-  config.before(:all) do
-    Factory.find_definitions
-  end
-
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-  end
 
   config.before(:each) do
     DatabaseCleaner.start
@@ -71,4 +61,3 @@ RSpec.configure do |config|
     click_button "Sign in"
   end
 end
-
