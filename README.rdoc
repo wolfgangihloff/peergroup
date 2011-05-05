@@ -18,9 +18,11 @@ This is the first version, heavy alpha.
 
 2. Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases, optionally tweak config/redis.yml
 
-3. Run node server (download from http://nodejs.org/#download) - tested on v0.4.3
+3. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7)
 
   node app-node/server.js
+
+Tip: You can also use nvm https://github.com/creationix/nvm
 
 You can run node as root user (sudo node ...) or with `authbind` (authbind node ...), so socket.io could bind to low port to serve xml policy file for Flash.
 
@@ -31,6 +33,14 @@ You can run node as root user (sudo node ...) or with `authbind` (authbind node 
 5. Open http://localhost:3000
 
 == Running tests
+
+=== BIG WARNING:
+
+As with test database, make sure that you run your tests on separate Redis database, as this will flush you data before tests.
+
+Unfortunately Redis gem uses default url for connection (redis://localhost:6379), so if you don't provide proper config (or use older gem than from master repository for Redis in case of unix socket), then instead of connecting to test database, your test environment could connect to other database and flush it all.
+
+You have been warned!
 
 1. Install required gems into vendor/ruby/ subdirectory (for easier maintain)
 
@@ -47,14 +57,6 @@ You can run node as root user (sudo node ...) or with `authbind` (authbind node 
 4. Run tests:
 
   rake spec
-
-=== BIG WARNING:
-
-As with test database, make sure that you run your tests on separate Redis database, as this will flush you data before tests.
-
-Unfortunately Redis gem uses default url for connection (redis://localhost:6379), so if you don't provide proper config (or use older gem than from master repository for Redis in case of unix socket), then instead of connecting to test database, your test environment could connect to other database and flush it all.
-
-You have been warned!
 
 == Translations
 
