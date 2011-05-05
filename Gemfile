@@ -16,7 +16,6 @@ gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
 gem "hiredis" # for better Redis support
 gem "SystemTimer" # for redis
-gem "concerned_with"
 gem "routing-filter"
 
 group :staging do
