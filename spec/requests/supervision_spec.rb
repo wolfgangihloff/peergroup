@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Supervision", :js => true do
+feature "Supervision Session", :js => true do
   def visit_supervision(supervision)
     visit supervision_path(supervision)
     page.should have_css(".supervision.connected") # make sure it's connected and authenticated
@@ -15,7 +15,7 @@ describe "Supervision", :js => true do
     supervision
   end
 
-  before do
+  background do
     @alice = Factory(:user, :name => "Alice", :email => "alice@example.com")
     @bob = Factory(:user, :name => "Bob", :email => "bob@example.com")
     @cindy = Factory(:user, :name => "Cindy", :email => "cindy@example.com")
@@ -27,11 +27,11 @@ describe "Supervision", :js => true do
   end
 
   context "in providing_ideas state" do
-    before do
+    background do
       @supervision = prepare_supervision("providing_ideas")
     end
 
-    it "allows to add idea by non-topic owner" do
+    scenario "allows to add idea by non-topic owner" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -40,7 +40,7 @@ describe "Supervision", :js => true do
       page.should have_content("I have some idea")
     end
 
-    it "allows to view posted idea" do
+    scenario "allows to view posted idea" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
@@ -48,7 +48,7 @@ describe "Supervision", :js => true do
       page.should have_content("I have some idea")
     end
 
-    it "allows to rate idea" do
+    scenario "allows to rate idea" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
@@ -63,7 +63,7 @@ describe "Supervision", :js => true do
       end
     end
 
-    it "shows rated idea" do
+    scenario "shows rated idea" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -75,7 +75,7 @@ describe "Supervision", :js => true do
       end
     end
 
-    it "allows to step back" do
+    scenario "allows to step back" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -90,11 +90,11 @@ describe "Supervision", :js => true do
   end
 
   context "in giving_ideas_feedback state" do
-    before do
+    background do
       @supervision = prepare_supervision("giving_ideas_feedback")
     end
 
-    it "allows to rate idea" do
+    scenario "allows to rate idea" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
@@ -112,11 +112,11 @@ describe "Supervision", :js => true do
   end
 
   context "in providing_solutions state" do
-    before do
+    background do
       @supervision = prepare_supervision("providing_solutions")
     end
 
-    it "allows to add solution by non-topic owner" do
+    scenario "allows to add solution by non-topic owner" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -125,7 +125,7 @@ describe "Supervision", :js => true do
       page.should have_content("I have a solution")
     end
 
-    it "allows to view posted solution" do
+    scenario "allows to view posted solution" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
@@ -133,7 +133,7 @@ describe "Supervision", :js => true do
       page.should have_content("I have a solution")
     end
 
-    it "allows to rate solution" do
+    scenario "allows to rate solution" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
@@ -148,7 +148,7 @@ describe "Supervision", :js => true do
       end
     end
 
-    it "shows rated solution" do
+    scenario "shows rated solution" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -160,7 +160,7 @@ describe "Supervision", :js => true do
       end
     end
 
-    it "allows to step back" do
+    scenario "allows to step back" do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
@@ -175,11 +175,11 @@ describe "Supervision", :js => true do
   end
 
   context "in giving_solutions_feedback state" do
-    before do
+    background do
       @supervision = prepare_supervision("giving_solutions_feedback")
     end
 
-    it "allows to rate solution" do
+    scenario "allows to rate solution" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
