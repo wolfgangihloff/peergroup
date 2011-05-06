@@ -18,9 +18,9 @@ var serverPort = process.env["NODE_PORT"]  || 8080;
 /*
  * Send 404 Not Found
  */
-var send404 = function(res){ 
-    res.writeHead(404, {"Content-Type": "text/plain"}); 
-    res.end("404 Not Found"); 
+var send404 = function(res){
+    res.writeHead(404, {"Content-Type": "text/plain"});
+    res.end("404 Not Found");
 };
 
 /*
@@ -92,7 +92,6 @@ var initializeClientConnections = function() {
                     var chatRoomId = message.data.chatRoomId,
                         token = message.data.token,
                         chat = new Chat(chatRoomId, token);
-
                     redisClient.get(chat.userAuthenticationKey, function(err, userId) {
                         if (userId) {
                             var chatMembership = new ChatMembership(userId);
@@ -121,12 +120,12 @@ var initializeClientConnections = function() {
             /*
              * SUPERVISION SESSION
              *  - authenticate
-             *    message format: { type: "supervision.authenticate", supervision: <id>, userId: <userId>, token: <token> }
+             *    message format: { type: "supervision.authenticate", supervisionId: <id>, userId: <userId>, token: <token> }
              */
             if (message.type.search(/^supervision\./) === 0) {
                 // on authenticate
                 if (message.type === "supervision.authenticate") {
-                    var supervisionId = message.data.supervision,
+                    var supervisionId = message.data.supervisionId,
                         userId = message.data.userId,
                         token = message.data.token;
                     var userAuthenticationKey = "supervision:" + supervisionId + ":users:" + userId + ":token:" + token,

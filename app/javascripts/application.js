@@ -180,7 +180,7 @@ jQuery(function($) {
                 }
             });
             s.onConnect(function() {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervision: supervisionId });
+                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervisionId: supervisionId });
             });
             s.on("supervision", function(type, message) {
                 $supervision.trigger("supervision:update", message.supervision);

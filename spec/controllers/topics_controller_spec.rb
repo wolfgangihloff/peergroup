@@ -1,4 +1,3 @@
-$:.unshift File.join(File.dirname(__FILE__), "..")
 require "spec_helper"
 
 describe TopicsController do
@@ -55,8 +54,8 @@ describe TopicsController do
 
     before do
       SecureRandom.should_receive(:hex).and_return("asdfb")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :index, :supervision_id => @supervision.id
     end
 
@@ -94,7 +93,7 @@ describe TopicsController do
       @supervision = Factory(:supervision, :state => "gathering_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -106,7 +105,7 @@ describe TopicsController do
       @supervision = Factory(:supervision, :state => "voting_on_topics")
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:users:#{@user.id}:token:asdfb", 60, "1")
+      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -167,4 +166,3 @@ describe TopicsController do
     specify { response.should redirect_to(supervision_path(@supervision)) }
   end
 end
-
