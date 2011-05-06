@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'flash_messages'
 
 describe FlashMessages do
   class Controller

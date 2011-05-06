@@ -1,5 +1,4 @@
 require "spec_helper"
-require "supervision_redis_publisher"
 
 describe SupervisionRedisPublisher do
   class Model
