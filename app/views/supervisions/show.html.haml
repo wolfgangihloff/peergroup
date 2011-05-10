@@ -5,12 +5,13 @@
 
     %ul.supervision_statusbar
       - Supervision::STEPS.each do |step|
-        %li{ :"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
-          = form_for @supervision, :remote => true do |f|
-            - if @supervision.respond_to? "step_back_to_#{step}"
+        %li{:"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
+          - if @supervision.state_events.include?(:"step_back_to_#{step}")
+            = form_for @supervision, :remote => true do |f|
               = f.hidden_field :state_event, :value => "step_back_to_#{step}"
-            = submit_tag t("supervisions.show.supervision_state.#{step}"),  :title => t("supervisions.show.supervision_state_title.#{step}")
-
+              = f.submit t("supervisions.show.supervision_state.#{step}"), :title => t("supervisions.show.supervision_state_title.#{step}")
+          - else
+            %span{:title => t("supervisions.show.supervision_state.#{step}")}= t("supervisions.show.supervision_state.#{step}")
     = form_tag supervision_membership_path(@supervision), :method => :delete do
       = submit_tag t("supervisions.show.leave_supervision")
 

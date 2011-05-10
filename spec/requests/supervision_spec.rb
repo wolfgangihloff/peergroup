@@ -84,7 +84,7 @@ feature "Supervision Session", :js => true do
       end
       page.should have_flash("Go back to \"Questions\" state")
       within ".supervision_statusbar" do
-        page.should have_selector("li.step.current_state input[value=Questions]")
+        page.should have_selector("li.step.current_step input[value=Questions]")
       end
     end
   end
@@ -169,7 +169,7 @@ feature "Supervision Session", :js => true do
       end
       page.should have_flash(%Q[Go back to "Questions" state])
       within ".supervision_statusbar" do
-        page.should have_selector("li.step.current_state input[value=Questions]")
+        page.should have_selector("li.step.current_step input[value=Questions]")
       end
     end
   end

@@ -294,8 +294,8 @@
         context.setupStatusbar = function() {
             var $statusbar = $parent.find(".supervision_statusbar");
             var onSupervisionUpdate = function(event, message) {
-                $statusbar.find(".current_state").removeClass("current_state");
-                $statusbar.find("[data-state-name="+message.state+"]").addClass("current_state");
+                $statusbar.find(".current_step").removeClass("current_step");
+                $statusbar.find("[data-state-name="+message.state+"]").addClass("current_step");
             };
 
             $parent.bind({
@@ -367,7 +367,6 @@
                     supervisionState = newState;
                 }
             });
-
             $this.trigger("supervision:update", { state: supervisionState });
             $this.find("[title]").tooltip();
         });
