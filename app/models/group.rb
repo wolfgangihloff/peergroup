@@ -9,8 +9,8 @@ class Group < ActiveRecord::Base
   has_one :chat_room, :conditions => {:supervision_id => nil}
   belongs_to :founder, :class_name => "User"
 
-  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 255 }
-  validates :description, :presence => true, :length => { :maximum => 255 }
+  validates :name, :presence => true, :uniqueness => true, :length => {:maximum => 255}
+  validates :description, :presence => true, :length => {:maximum => 255}
   validates :founder, :presence => true
 
   has_friendly_id :name, :use_slug => true

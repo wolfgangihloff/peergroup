@@ -126,23 +126,16 @@ class Supervision < ActiveRecord::Base
   has_many :questions, :dependent => :destroy, :order => "created_at ASC"
   has_many :ideas, :dependent => :destroy, :order => "created_at ASC"
   has_many :solutions, :dependent => :destroy, :order => "created_at ASC"
-
+  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at ASC"
+  has_many :memberships, :class_name => "SupervisionMembership"
+  has_many :members, :through => :memberships, :source => :user, :class_name => "User"
   # these 2 has DESC to show only latest feedback, it's has_one relation
   has_one :ideas_feedback, :dependent => :destroy, :order => "created_at DESC"
   has_one :solutions_feedback, :dependent => :destroy, :order => "created_at DESC"
-
-  has_many :supervision_feedbacks, :dependent => :destroy, :order => "created_at ASC"
-
   has_one :chat_room, :dependent => :destroy
-  after_create :create_chat_room
-
   belongs_to :topic
   belongs_to :group
 
-  has_and_belongs_to_many :users
-
-  has_many :memberships, :class_name => "SupervisionMembership"
-  has_many :members, :through => :memberships, :source => :user, :class_name => "User"
   validates :group, :presence => true
 
   delegate :name, :to => :group, :prefix => true
@@ -150,6 +143,8 @@ class Supervision < ActiveRecord::Base
   delegate :id, :to => :chat_room, :prefix => true
 
   attr_accessible :state_event
+
+  after_create :create_chat_room
 
   def self.finished
     with_state(:finished)
@@ -270,6 +265,4 @@ class Supervision < ActiveRecord::Base
   def supervision_publish_attributes
     {:only => [:id, :state, :topic_id]}
   end
-
 end
-

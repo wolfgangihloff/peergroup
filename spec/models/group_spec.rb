@@ -130,5 +130,4 @@ describe Group do
       @group.founder.should be == @founder
     end
   end
-
 end

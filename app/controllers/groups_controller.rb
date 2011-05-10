@@ -2,6 +2,8 @@ class GroupsController < ApplicationController
   before_filter :authenticate
   before_filter :require_group, :except => [:index, :new, :create]
 
+  # TODO: fix permissions for group founder
+
   def index
     if params[:user_id].present?
       @title = t(".title.your_groups", :default => "Your Groups")
@@ -25,7 +27,7 @@ class GroupsController < ApplicationController
       successful_flash("Group Create Successfully")
       redirect_to groups_path
     else
-      render :action => "new"
+      render :new
     end
   end
 
@@ -42,11 +44,9 @@ class GroupsController < ApplicationController
   def show
   end
 
+  # FIXME: temporary fix
   def destroy
-    @user_group = GroupsUser.find(:first,:conditions=>["group_id=? and user_id=?",params[:id],current_user.id])
-
-    @group.destroy if @user_group.group.user_id == current_user.id
-
+    @group.destroy if @group.founder == current_user
     successful_flash("Group Delete Successfully")
     redirect_to groups_path
   end
@@ -65,4 +65,3 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 end
-
