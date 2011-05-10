@@ -6,6 +6,16 @@ class SupervisionMembership < ActiveRecord::Base
   validates_presence_of :user
   validates_uniqueness_of :user_id, :scope => :supervision_id
 
+  after_create do
+    supervision.join_member
+    publish_to_redis
+  end
+
+  after_destroy do
+    supervision.remove_member
+    publish_to_redis
+  end
+
   def publish_to_redis
     channel = "supervision:#{supervision_id}"
     json_string = to_json({
@@ -18,15 +28,5 @@ class SupervisionMembership < ActiveRecord::Base
 
   def status
     destroyed? ? "destroyed" : "created"
-  end
-
-  after_create do
-    supervision.join_member
-    publish_to_redis
-  end
-
-  after_destroy do
-    supervision.remove_member
-    publish_to_redis
   end
 end

@@ -3,7 +3,6 @@ class Topic < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :supervision
-
   has_many :votes, :as => :statement, :dependent => :destroy
 
   validates_presence_of :user
@@ -23,4 +22,3 @@ class Topic < ActiveRecord::Base
     {:only => [:id, :content, :user_id]}
   end
 end
-

@@ -1,19 +1,17 @@
 require 'csv'
 
 class Group < ActiveRecord::Base
-
-  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 255 }
-  validates :description, :presence => true, :length => { :maximum => 255 }
-  validates :founder, :presence => true
-
-  belongs_to :founder, :class_name => "User"
-
   has_many :memberships, :autosave => true
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_many :rules, :order => "position", :dependent => :destroy
   has_many :supervisions, :dependent => :destroy
   has_many :chat_rooms, :dependent => :destroy
-  has_one :chat_room, :conditions => { :supervision_id => nil }
+  has_one :chat_room, :conditions => {:supervision_id => nil}
+  belongs_to :founder, :class_name => "User"
+
+  validates :name, :presence => true, :uniqueness => true, :length => { :maximum => 255 }
+  validates :description, :presence => true, :length => { :maximum => 255 }
+  validates :founder, :presence => true
 
   has_friendly_id :name, :use_slug => true
 
@@ -49,4 +47,3 @@ class Group < ActiveRecord::Base
     name
   end
 end
-

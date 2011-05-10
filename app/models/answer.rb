@@ -21,4 +21,3 @@ class Answer < ActiveRecord::Base
     {:only => [:id, :content, :question_id, :user_id]}
   end
 end
-

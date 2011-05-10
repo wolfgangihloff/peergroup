@@ -10,4 +10,3 @@ class IdeasFeedback < Feedback
     {:only => [:id, :content, :user_id]}
   end
 end
-

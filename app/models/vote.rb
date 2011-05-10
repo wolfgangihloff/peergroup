@@ -4,8 +4,7 @@ class Vote < ActiveRecord::Base
   belongs_to :user
   belongs_to :statement, :polymorphic => true
 
-  validates_presence_of :user
-  validates_presence_of :statement
+  validates_presence_of :user, :statement
 
   attr_accessible
 
@@ -33,4 +32,3 @@ class Vote < ActiveRecord::Base
     {:only => [:id, :statement_type, :statement_id, :user_id]}
   end
 end
-

@@ -27,4 +27,3 @@ class Idea < ActiveRecord::Base
     {:only => [:id, :content, :rating, :user_id]}
   end
 end
-

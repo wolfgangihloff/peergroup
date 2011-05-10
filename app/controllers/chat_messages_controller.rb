@@ -1,5 +1,4 @@
 class ChatMessagesController < ApplicationController
-
   before_filter :authenticate
   before_filter :fetch_chat_room
 
@@ -24,5 +23,4 @@ class ChatMessagesController < ApplicationController
     @chat_room = ChatRoom.find(params[:chat_room_id])
     @group = @chat_room.group
   end
-
 end

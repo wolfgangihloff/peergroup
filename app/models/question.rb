@@ -3,7 +3,6 @@ class Question < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :supervision
-
   has_one :answer, :dependent => :destroy
 
   validates_presence_of :user
@@ -22,4 +21,3 @@ class Question < ActiveRecord::Base
     {:only => [:id, :content, :user_id]}
   end
 end
-

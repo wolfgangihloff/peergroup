@@ -5,22 +5,16 @@ class User < ActiveRecord::Base
 
   include User::Authentication
 
-  attr_accessible :name, :email, :password, :password_confirmation
-
   has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
   has_many :following, :through => :relationships, :source => :followed
   has_many :reverse_relationships, :foreign_key => "followed_id",
     :class_name => "Relationship",
     :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
-
   has_many :memberships
   has_many :groups, :through => :memberships
-
   has_many :founded_groups, :class_name => "Group"
-
   has_many :votes
-
   has_many :supervision_memberships
   has_many :supervisions, :through => :supervision_memberships
 
@@ -28,6 +22,8 @@ class User < ActiveRecord::Base
   validates_length_of   :name, :maximum => 50
   validates_format_of   :email, :with => EMAIL_REGEX
   validates_uniqueness_of :email, :case_sensitive => false
+
+  attr_accessible :name, :email, :password, :password_confirmation
 
   def following?(followed)
     relationships.find_by_followed_id(followed)
@@ -77,5 +73,4 @@ class User < ActiveRecord::Base
     email_digest = Digest::MD5.hexdigest(email)
     "#{base_url}#{email_digest}"
   end
-
 end
