@@ -30,5 +30,4 @@ class QuestionsController < ApplicationController
   def fetch_supervision
     @supervision = Supervision.find(params[:supervision_id])
   end
-
 end

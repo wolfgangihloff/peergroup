@@ -38,7 +38,7 @@ class SupervisionsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @supervision.update_attributes!(params[:supervision])
+      if @supervision.update_attributes(params[:supervision])
         format.js { head :created }
         format.html { redirect_to @supervision }
       else

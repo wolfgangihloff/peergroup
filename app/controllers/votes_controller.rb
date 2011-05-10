@@ -14,6 +14,4 @@ class VotesController < ApplicationController
     @vote.save
     respond_with(@vote, :location => @supervision, :no_flash => true)
   end
-
 end
-

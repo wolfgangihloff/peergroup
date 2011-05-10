@@ -1,5 +1,3 @@
-require "supervision_redis_publisher"
-
 class Answer < ActiveRecord::Base
   include SupervisionRedisPublisher
 

@@ -1,5 +1,3 @@
-require "supervision_redis_publisher"
-
 # Run:
 #     rake state_machine:draw CLASS=Supervision
 # to generate diagram how this state machine changes states
@@ -27,7 +25,7 @@ class Supervision < ActiveRecord::Base
 
   state_machine :state, :initial => :gathering_topics do
     before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
-    after_transition all => all, :do => [ :destroy_next_step_votes, :publish_to_redis ]
+    after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
 
     before_transition :gathering_topics => :voting_on_topics, :do => :all_topics?
     before_transition :voting_on_topics => :asking_questions, :do => :all_topic_votes?
@@ -37,7 +35,6 @@ class Supervision < ActiveRecord::Base
     before_transition :providing_solutions => :giving_solutions_feedback, :do => :can_move_to_solution_feedback_state?
     before_transition :giving_solutions_feedback => :giving_supervision_feedbacks, :do => :solutions_feedback_present?
     before_transition :giving_supervision_feedbacks => :finished, :do => :can_move_to_finished_state?
-
 
     event :join_member do
       transition all => all
