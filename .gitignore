@@ -11,3 +11,5 @@ public/stylesheets/compiled/
 .rvmrc
 vendor/ruby
 db/*.rdb
+
+config/redis.yml

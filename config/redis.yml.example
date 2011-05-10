@@ -1,6 +1,6 @@
 development:
   host: "localhost"
+  db: 0
 test:
   host: "localhost"
-  port: 6380
   db: 1

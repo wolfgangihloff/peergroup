@@ -18,7 +18,13 @@ This is the first version, heavy alpha.
 
 If you are using rvm, create new gemset to not mess with your default gems
 
-2. Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases, optionally tweak config/redis.yml
+2. Setup Redis
+
+Copy and adjust redis config file:
+
+  cp config/redis.yml.example config/redis.yml
+
+Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
 3. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7)
 
@@ -48,17 +54,22 @@ You have been warned!
 
   bundle install
 
-2. Run Redis server instance
+2. Setup database number in config/redis.yml or run separate redis server like this:
 
   redis-server config/redis-test.conf
 
 3. Run Node server instance
+REDIS_DB should be number that you specified in config/redis.yml
+
+  REDIS_DB=1 node app-node/server.js
+
+Eventually you can connect to separate instace of redis server (if running)
 
   REDIS_DB=1 REDIS_PORT=6380 node app-node/server.js
 
 4. Run tests:
 
-  rake spec
+  bundle exec rake spec
 
 == Translations
 
