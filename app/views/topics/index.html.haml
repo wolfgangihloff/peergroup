@@ -3,14 +3,7 @@
     %h1= t("topics.index.heading")
     %h2= @supervision.group
 
-    %ul.supervision_statusbar
-      - Supervision::STEPS.each do |step|
-        %li{ :"data-state-name" => step, :class => @supervision.state == step ? "step current_step" : "step"}
-          = form_for @supervision, :remote => true do |f|
-            - if @supervision.respond_to? "step_back_to_#{step}"
-              = f.hidden_field :state_event, :value => "step_back_to_#{step}"
-            = submit_tag t("supervisions.show.supervision_state.#{step}"),  :title => t("supervisions.show.supervision_state_title.#{step}")
-
+    = render "supervisions/statusbar"
 
   %aside
     .members-part

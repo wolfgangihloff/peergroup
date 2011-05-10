@@ -106,8 +106,8 @@
                 if (supervisionState !== message.state) {
                     supervisionState = message.state;
                     $this.find(".waiting").hide("fast", function() { $(this).remove(); });
-                    $statusbar.find(".current_state").removeClass("current_state");
-                    $statusbar.find("[data-state-name="+supervisionState+"]").addClass("current_state");
+                    $statusbar.find(".current_step").removeClass("current_step");
+                    $statusbar.find("[data-state-name="+supervisionState+"]").addClass("current_step");
                     if (stateChangeCallbacks[supervisionState]) {
                         stateChangeCallbacks[supervisionState](true);
                     } else {
