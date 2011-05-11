@@ -1,5 +1,4 @@
 class MembershipsController < ApplicationController
-
   before_filter :require_parent_group
 
   def create
@@ -9,7 +8,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    @group.memberships.find(params[:id]).destroy
+    current_user.groups.delete(@group)
     successful_flash("You are no longer the member of the group %{group_name}", :group_name => @group.name)
     redirect_to groups_path
   end

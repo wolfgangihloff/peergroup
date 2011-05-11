@@ -38,8 +38,8 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :groups do
     resources :supervisions, :only => [:new, :create]
-    resources :memberships
     resources :rules
+    resource :membership
     resource :chat_room, :only => :show
   end
 

@@ -8,4 +8,3 @@
   %ul.groups
     - @user.groups.each do |group|
       %li= link_to(group_name(group, @user), group_path(group))
-
