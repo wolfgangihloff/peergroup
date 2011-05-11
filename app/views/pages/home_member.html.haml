@@ -3,13 +3,9 @@
     %h1= t(".latest_groups", :default => "Latest groups")
 
   .groups
-    - Group.newest.each do |group|
-      = render 'groups/group_brief', :group => group
+    = render Group.newest
 
   %aside.hergroups.round
     = render 'pages/user_info'
     %div= t(".your_groups", :default => "Your groups")
-    - current_user.groups.each do |group|
-      = render 'groups/group_brief', :group => group
-
-
+    = render current_user.groups

@@ -1,4 +1,6 @@
 module SupervisionPathsHelper
+  # TODO: rename helper methods to not mess with generated routes
+
   def supervision_step_path(supervision)
     return supervision_path(supervision)
 
@@ -42,5 +44,12 @@ module SupervisionPathsHelper
   def supervision_finished_step_path(supervision)
     supervision_path(supervision)
   end
-end
 
+  def path_for_group_supervision(group)
+    if group.current_supervision
+      supervision_path(group.current_supervision)
+    else
+      new_group_supervision_path(group)
+    end
+  end
+end

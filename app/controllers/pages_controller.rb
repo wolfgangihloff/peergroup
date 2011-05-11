@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def home
     @title = t(".title", :default => "Home")
-    render :action => signed_in? ? 'home_member' : 'home_guest'
+    render signed_in? ? 'home_member' : 'home_guest'
   end
 
   def contact
@@ -16,4 +16,3 @@ class PagesController < ApplicationController
     @title = t(".title", :default => "Help")
   end
 end
-

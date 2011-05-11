@@ -13,7 +13,7 @@
             = gravatar_for(user)
             %span.name= user
     .chat-room-part
-      %div[@supervision.chat_room]{ :data => { :token => @token } }
+      %div[@supervision.chat_room]{:"data-token" => @token}
         .messages_part
           %ul.messages
             - @chat_messages.reverse_each do |chat_message|

@@ -51,14 +51,6 @@ class GroupsController < ApplicationController
     redirect_to groups_path
   end
 
-  def current_supervision
-    if @group.current_supervision
-      redirect_to supervision_path(@group.current_supervision)
-    else
-      redirect_to new_group_supervision_path(@group)
-    end
-  end
-
   protected
 
   def require_group
