@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :followers, :through => :reverse_relationships, :source => :follower
   has_many :memberships
   has_many :groups, :through => :memberships
-  has_many :founded_groups, :class_name => "Group"
+  has_many :founded_groups, :class_name => "Group", :foreign_key => "founder_id"
   has_many :votes
   has_many :supervision_memberships
   has_many :supervisions, :through => :supervision_memberships

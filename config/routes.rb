@@ -8,7 +8,6 @@ Peergroupsupervision::Application.routes.draw do
       get :following
       get :followers
     end
-    resources :groups
   end
   resources :sessions, :only => [:new, :create, :destroy]
   resource :relationships, :only => [:create, :destroy]
@@ -37,6 +36,7 @@ Peergroupsupervision::Application.routes.draw do
   end
 
   resources :groups do
+    get :all, :on => :collection
     resources :supervisions, :only => [:new, :create]
     resources :rules
     resource :membership

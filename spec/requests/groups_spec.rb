@@ -29,7 +29,7 @@ feature "Groups" do
 
   scenario "Joining group" do
     group = Factory(:group, :name => "Ruby group")
-    visit groups_path
+    visit all_groups_path
     within ".group_brief" do
       click_button "join"
     end
