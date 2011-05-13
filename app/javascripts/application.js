@@ -113,6 +113,9 @@ jQuery(function($) {
                     $chatRoom.trigger("chat:presence", chatMembership);
                 });
             });
+            s.on("chat_presence", function(type, message) {
+                $chatRoom.trigger("chat:members", message.chat_presence);
+            });
             s.on("chat_message", function(type, message) {
                 $chatRoom.trigger("chat:message", message.chat_message);
             });

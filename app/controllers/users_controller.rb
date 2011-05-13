@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { }
-      format.json { render :json => @user.to_json(:only => [:id, :name]) }
+      format.json { render :json => @user.to_json(:only => [:id, :name], :methods => [:avatar_url]) }
     end
   end
 

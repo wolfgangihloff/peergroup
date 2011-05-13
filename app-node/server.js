@@ -99,6 +99,14 @@ var initializeClientConnections = function() {
                             util.log("[chat] User:"+userId+" authenticated for chat:"+chatRoomId+" sessionId:"+client.sessionId);
                             client.send(chat.authenticationSuccessedMessage);
 
+                            // Add user to chat members
+                            var chatMembersKey = "chat:"+chatRoomId+":members";
+                            redisClient.sadd(chatMembersKey, userId);
+
+                            redisClient.smembers(chatMembersKey, function(err, resp) {
+                                redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp}}));
+                            });
+
                             // Add user to chat subscribers
                             redisClient.sadd(chat.sessionsKey, client.sessionId, function(err, resp) {
                                 redisClient.publish(chat.channel, JSON.stringify(chatMembership.enterMessage));
@@ -109,6 +117,19 @@ var initializeClientConnections = function() {
                                 redisClient.srem(chat.sessionsKey, client.sessionId, function(err, resp) {
                                     redisClient.publish(chat.channel, JSON.stringify(chatMembership.exitMessage));
                                 });
+
+                                // Remove user from chat members
+                                redisClient.srem(chatMembersKey, userId);
+                                redisClient.smembers(chatMembersKey, function(err, resp) {
+                                    redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp}}));
+                                });
+                                // setTimeout(function() {
+                                    // redisClient.smembers(chatMembersKey, function(err, resp) {
+                                        // //if (_.include(resp, userId) {
+                                            // redisClient.srem(chatMembersKey, userId);
+                                        // //}
+                                    // });
+                                // }, 10000);
                             });
                         } else {
                             util.log("[chat] Invalid token:"+token+" for chat:"+chatRoomId);

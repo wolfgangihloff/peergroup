@@ -17,6 +17,14 @@
         "enter": _.template("<?= user ?> joined chat"),
         "exit": _.template("<?= user ?> left chat")
     };
+
+    var chatMemberTemplate = _.template(
+        "<li class=\"supervision-member user\" id=\"user_<?= id ?>\">" +
+          "<img class=\"gravatar\" width=\"50\" height=\"50\" src=\"<?= avatar_url ?>?rating=PG&size=50\" />" +
+          "<span class=\"name\"><?= name ?></span>" +
+        "</li>"
+    );
+
     $.fn.chatRoom = function() {
         return this.each(function() {
             var $this = $(this),
@@ -60,10 +68,29 @@
                 addMessage(newMessage);
             };
 
+            var onMembers = function(event, message) {
+                var membersList = $(".members-part .members-list");
+                var existingIds = _.map(membersList.find("li"), function(li) { return li.id });
+                 _.each(message.user_ids, function(userId) {
+                     if (_.include(existingIds, "user_"+userId)) {
+                         existingIds.splice(existingIds.indexOf("user_"+userId), 1);
+                     } else {
+                        PGS.withUserInfo(userId, function(id, userData) {
+                            var newMember = $(chatMemberTemplate(userData));
+                            membersList.append(newMember);
+                        });
+                     }
+                 });
+                 _.each(existingIds, function(userId) {
+                     membersList.find("li#"+userId).remove();
+                 });
+            };
+
             scrollMessages();
             $this.bind({
                 "chat:message": onMessage,
-                "chat:presence": onPresence
+                "chat:presence": onPresence,
+                "chat:members": onMembers
             });
 
         });

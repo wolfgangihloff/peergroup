@@ -13,10 +13,6 @@
   %aside
     .members-part
       %ul.members-list
-        - @supervision.members.each do |user|
-          %li[user]{:class => "supervision-member"}
-            = gravatar_for(user)
-            %span.name= user
 
     .chat-room-part
       %div[@supervision.chat_room]{ :data => { :token => @token } }
