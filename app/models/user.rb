@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def leave_supervision(supervision)
-    supervisions.delete(supervision)
+    supervision_memberships.where(:supervision_id => supervision.id).destroy_all
   end
 
   def member_of_supervision?(supervision)
