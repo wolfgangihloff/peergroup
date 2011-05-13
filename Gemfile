@@ -8,7 +8,7 @@ gem "haml"
 gem "sass"
 gem "compass"
 gem "formtastic"
-gem "friendly_id", "~> 3.1"
+gem "friendly_id"
 gem "rdiscount"
 gem "faker"
 gem "state_machine"
@@ -24,7 +24,7 @@ group :staging do
 end
 
 group :test, :development do
-  gem "rspec-rails", ">= 2.6.0.rc4"
+  gem "rspec-rails"
   gem "ruby-debug"
 end
 
