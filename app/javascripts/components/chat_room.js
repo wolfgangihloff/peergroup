@@ -59,6 +59,7 @@
                 newMessage.find("time").timeago();
                 addMessage(newMessage);
             };
+
             var onPresence = function(event, message) {
                 var text = presenceMessageContentTemplates[message.status]({ user: message.user.name }),
                     date = new Date(), // use message.created_at maybe

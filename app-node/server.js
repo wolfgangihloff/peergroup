@@ -99,6 +99,8 @@ var initializeClientConnections = function() {
                             util.log("[chat] User:"+userId+" authenticated for chat:"+chatRoomId+" sessionId:"+client.sessionId);
                             client.send(chat.authenticationSuccessedMessage);
 
+                            // TODO: unify chat membership with chat presence
+
                             // Add user to chat members
                             var chatMembersKey = "chat:"+chatRoomId+":members";
                             redisClient.sadd(chatMembersKey, userId);
@@ -123,13 +125,6 @@ var initializeClientConnections = function() {
                                 redisClient.smembers(chatMembersKey, function(err, resp) {
                                     redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp}}));
                                 });
-                                // setTimeout(function() {
-                                    // redisClient.smembers(chatMembersKey, function(err, resp) {
-                                        // //if (_.include(resp, userId) {
-                                            // redisClient.srem(chatMembersKey, userId);
-                                        // //}
-                                    // });
-                                // }, 10000);
                             });
                         } else {
                             util.log("[chat] Invalid token:"+token+" for chat:"+chatRoomId);

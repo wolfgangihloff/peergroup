@@ -303,32 +303,6 @@
             });
             return this;
         };
-
-        var chatMemberTemplate = _.template(
-            "<li class=\"user supervision-member\" id=\"user_<?= id ?>\"" +
-              "<img class=\"gravatar\" width=\"50\" height=\"50\" src=\"<?= avatar_url ?>?rating=PG&size=50\" />" +
-              "<span class=\"name\"><?= name ?></span>" +
-            "</li>"
-        );
-        /*
-         * setupMembershipsPart()
-         */
-        context.setupMembershipsPart = function() {
-            var $membershipsList = $parent.find(".members-part .members-list");
-            var onSupervisionMembership = function(event, message) {
-                if (message.status === "created") {
-                    var newMember = $(chatMemberTemplate(message.user));
-                    $membershipsList.append(newMember);
-                } else if (message.status === "destroyed") {
-                    $membershipsList.find("#user_" + message.user.id).remove();
-                }
-            };
-
-            $parent.bind({
-                "supervision:membership": onSupervisionMembership
-            });
-            return this;
-        };
         return context;
     };
 
@@ -350,7 +324,6 @@
                 .setupSolutionsFeedbackPart()
                 .setupSupervisionFeedbackPart()
                 .setupStatusbar($this)
-                .setupMembershipsPart($this);
 
             $this.bind({
                 "supervision:update": function(event, message) {
