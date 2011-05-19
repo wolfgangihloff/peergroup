@@ -2,7 +2,8 @@ var http = require("http"),
     util = require("util"),
     io = require("./socket.io/"),
     sys = require("sys"),
-    redis  = require("./node_redis/");
+    redis = require("./node_redis/"),
+    _und = require("./underscore/");
 
 /*
  * Redis connection address
@@ -27,21 +28,16 @@ var send404 = function(res){
  * Call callback for each session from Redis set
  */
 var eachSession = function(key, callback) {
-    //console.log(key);
     var sessionsKey = key + ":sessions";
-    redisClient.smembers(sessionsKey, function(err, replies) {
-        if (replies.forEach) {
-            replies.forEach(function(sessionId) {
-                var client = socket.clients[sessionId];
-                if (client) {
-                    callback.call(client, client);
-                } else {
-                    redisClient.srem(sessionsKey, sessionId);
-                }
-            });
-        } else {
-            console.log("!replies.forEach: " + util.inspect(replies));
-        }
+    redisClient.hgetall(sessionsKey, function(err, replies) {
+        _und.each(replies, function(sessionId, userId) {
+            var client = socket.clients[sessionId];
+            if (client) {
+                callback.call(client, client);
+            } else {
+                redisClient.hdel(sessionsKey, userId);
+            }
+        });
     });
 };
 
@@ -99,32 +95,24 @@ var initializeClientConnections = function() {
                             util.log("[chat] User:"+userId+" authenticated for chat:"+chatRoomId+" sessionId:"+client.sessionId);
                             client.send(chat.authenticationSuccessedMessage);
 
-                            // TODO: unify chat membership with chat presence
+                            // Hash of chat session, contains: {userId: sessionId}
+                            redisClient.hset(chat.sessionsKey, userId, client.sessionId)
 
-                            // Add user to chat members
-                            var chatMembersKey = "chat:"+chatRoomId+":members";
-                            redisClient.sadd(chatMembersKey, userId);
-
-                            redisClient.smembers(chatMembersKey, function(err, resp) {
-                                redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp}}));
-                            });
-
-                            // Add user to chat subscribers
-                            redisClient.sadd(chat.sessionsKey, client.sessionId, function(err, resp) {
-                                redisClient.publish(chat.channel, JSON.stringify(chatMembership.enterMessage));
+                            redisClient.hkeys(chat.sessionsKey, function(err, resp) {
+                                redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp, user_id: userId, status: "enter"}}));
                             });
 
                             client.on("disconnect", function() {
-                                // Remove user from chat subscribers
-                                redisClient.srem(chat.sessionsKey, client.sessionId, function(err, resp) {
-                                    redisClient.publish(chat.channel, JSON.stringify(chatMembership.exitMessage));
-                                });
+                                // Remove user from chat session
+                                redisClient.hdel(chat.sessionsKey, userId)
 
-                                // Remove user from chat members
-                                redisClient.srem(chatMembersKey, userId);
-                                redisClient.smembers(chatMembersKey, function(err, resp) {
-                                    redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp}}));
-                                });
+                                setTimeout(function() {
+                                    redisClient.hkeys(chat.sessionsKey, function(err, resp) {
+                                        if (!_und.include(resp, userId)) {
+                                            redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp, user_id: userId, status: "exit"}}));
+                                        }
+                                    });
+                                }, 5000);
                             });
                         } else {
                             util.log("[chat] Invalid token:"+token+" for chat:"+chatRoomId);
@@ -150,10 +138,10 @@ var initializeClientConnections = function() {
                         if (resp) {
                             console.log("User authenticated for supervision: " + userId + " sessionId: " + client.sessionId);
                             client.send({ type: "supervision.authentication", status: "OK" });
-                            redisClient.sadd(supervisionSessionsKey, client.sessionId);
+                            redisClient.hset(supervisionSessionsKey, userId, client.sessionId);
 
                             client.on("disconnect", function() {
-                                redisClient.srem("supervision:" + supervisionId + ":sessions", client.sessionId);
+                                redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
                             });
                         } else {
                             console.log("User invalid for supervision: " + userId);

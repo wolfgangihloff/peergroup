@@ -60,8 +60,8 @@
                 addMessage(newMessage);
             };
 
-            var onPresence = function(event, message) {
-                var text = presenceMessageContentTemplates[message.status]({ user: message.user.name }),
+            var addPresenceMessage = function(status, userData) {
+                var text = presenceMessageContentTemplates[status]({ user: userData.name }),
                     date = new Date(), // use message.created_at maybe
                     newMessage = $(presenceMessageTemplate({date: date, content: text}));
 
@@ -69,29 +69,34 @@
                 addMessage(newMessage);
             };
 
-            var onMembers = function(event, message) {
+            var onPresence = function(event, message) {
                 var membersList = $(".members-part .members-list");
                 var existingIds = _.map(membersList.find("li"), function(li) { return li.id });
-                 _.each(message.user_ids, function(userId) {
-                     if (_.include(existingIds, "user_"+userId)) {
-                         existingIds.splice(existingIds.indexOf("user_"+userId), 1);
-                     } else {
-                        PGS.withUserInfo(userId, function(id, userData) {
-                            var newMember = $(chatMemberTemplate(userData));
-                            membersList.append(newMember);
-                        });
-                     }
-                 });
-                 _.each(existingIds, function(userId) {
-                     membersList.find("li#"+userId).remove();
-                 });
+                _.each(message.user_ids, function(userId) {
+                    if (_.include(existingIds, "user_"+userId)) {
+                        existingIds.splice(existingIds.indexOf("user_"+userId), 1);
+                    } else {
+                       PGS.withUserInfo(userId, function(id, userData) {
+                           var newMember = $(chatMemberTemplate(userData));
+                           membersList.append(newMember);
+                           if (userId === message.user_id) {
+                               addPresenceMessage(message.status, userData);
+                           }
+                       });
+                    }
+                });
+                _.each(existingIds, function(htmlUserId) {
+                    membersList.find("li#"+htmlUserId).remove();
+                    PGS.withUserInfo(htmlUserId.replace(/[^\d]/g, ""), function(id, userData) {
+                        addPresenceMessage(message.status, userData);
+                    });
+                });
             };
 
             scrollMessages();
             $this.bind({
                 "chat:message": onMessage,
                 "chat:presence": onPresence,
-                "chat:members": onMembers
             });
 
         });

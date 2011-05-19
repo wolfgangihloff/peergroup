@@ -106,15 +106,8 @@ jQuery(function($) {
                     $chatRoom.addClass("connection-error");
                 }
             });
-            s.on("chat_membership", function(type, message) {
-                PGS.withUserInfo(message.chat_membership.user_id, function(userId, userData) {
-                    var chatMembership = message.chat_membership;
-                    chatMembership.user = userData;
-                    $chatRoom.trigger("chat:presence", chatMembership);
-                });
-            });
             s.on("chat_presence", function(type, message) {
-                $chatRoom.trigger("chat:members", message.chat_presence);
+                $chatRoom.trigger("chat:presence", message.chat_presence);
             });
             s.on("chat_message", function(type, message) {
                 $chatRoom.trigger("chat:message", message.chat_message);
