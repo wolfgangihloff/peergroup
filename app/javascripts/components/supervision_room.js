@@ -292,10 +292,8 @@
          * setupStatusbar()
          */
         context.setupStatusbar = function() {
-            var $statusbar = $parent.find(".supervision_statusbar");
             var onSupervisionUpdate = function(event, message) {
-                $statusbar.find(".current_step").removeClass("current_step");
-                $statusbar.find("[data-state-name="+message.state+"]").addClass("current_step");
+                PGS.renderStatusbar(message.id);
             };
 
             $parent.bind({

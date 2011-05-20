@@ -46,7 +46,13 @@
                 $.get(PGS.userPath(userId, { format: "json" }), [], onSuccess, "json");
             }
         },
-                    
+
+        renderStatusbar: function(supervisionId) {
+            if (supervisionId) {
+                $.get(PGS.supervisionStatusbarPath(supervisionId, {format: "js"}));
+            }
+        },
+
         path: function(pathComponents, options) {
             options = options || {};
 
@@ -105,9 +111,12 @@
 
         supervisionSupervisionFeedbackPath: function(supervisionId, supervisionFeedbackId, options) {
             return this.path(["supervision_feedbacks", supervisionFeedbackId], options);
+        },
+        supervisionStatusbarPath: function(supervisionId, options) {
+            return this.path(["supervisions", supervisionId, "statusbar"], options);
         }
 
     };
- 
+
     root.PGS = PGS;
 })();

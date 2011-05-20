@@ -6,9 +6,9 @@ class SupervisionsController < ApplicationController
   before_filter :require_parent_group, :only => [:new, :create]
   before_filter :check_current_supervision, :only => [:new, :create]
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
-  before_filter :fetch_supervision, :only => [:show,:update]
+  before_filter :fetch_supervision, :only => [:show, :update, :statusbar]
   before_filter :redirect_to_topics, :only => [:show]
-  before_filter :require_supervision_membership, :only => [:show, :update]
+  before_filter :require_supervision_membership, :only => [:show, :update, :statusbar]
 
   def index
     @finished_supervisions = Supervision.finished.where(:group_id => current_user.group_ids).paginate :per_page => 10, :page => params[:page], :order => "created_at DESC"
@@ -46,6 +46,9 @@ class SupervisionsController < ApplicationController
         format.html { redirect_to @supervision }
       end
     end
+  end
+
+  def statusbar
   end
 
   protected

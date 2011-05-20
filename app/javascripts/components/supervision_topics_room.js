@@ -95,9 +95,8 @@
                 if (supervisionState !== message.state) {
                     supervisionState = message.state;
                     $this.find(".waiting").hide("fast", function() { $(this).remove(); });
-                    $statusbar.find(".current_step").removeClass("current_step");
-                    $statusbar.find("[data-state-name="+supervisionState+"]").addClass("current_step");
                     if (stateChangeCallbacks[supervisionState]) {
+                        PGS.renderStatusbar(message.id);
                         stateChangeCallbacks[supervisionState](true);
                     } else {
                         document.location = PGS.supervisionPath(supervisionId);
