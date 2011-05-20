@@ -4,11 +4,9 @@ class Solution < ActiveRecord::Base
   belongs_to :user
   belongs_to :supervision
 
-  validates_presence_of :user
-  validates_presence_of :supervision
+  validates_presence_of :user, :supervision, :content
   validates_numericality_of :rating, :allow_nil => true, :only_integer => true
   validates_inclusion_of :rating, :allow_nil => true, :in => 1..5
-  validates_presence_of :content
 
   attr_accessible :content, :rating
 

@@ -5,8 +5,7 @@ class Topic < ActiveRecord::Base
   belongs_to :supervision
   has_many :votes, :as => :statement, :dependent => :destroy
 
-  validates_presence_of :user
-  validates_presence_of :supervision
+  validates_presence_of :user, :supervision
 
   attr_accessible :content
 
