@@ -25,7 +25,7 @@ var send404 = function(res){
 };
 
 /*
- * Call callback for each session from Redis set
+ * Call callback for each session from Redis hash
  */
 var eachSession = function(key, callback) {
     var sessionsKey = key + ":sessions";
@@ -59,11 +59,6 @@ var Chat = function(id, token) {
 Chat.prototype.authenticationSuccessedMessage = { type: "chat.authentication", status: "OK" };
 Chat.prototype.authenticationFailedMessage = { type: "chat.authentication", status: "error", text: "Invalid ID or token" };
 
-var ChatMembership = function(userId) {
-    this.enterMessage = { chat_membership: { status: "enter", user_id: userId } };
-    this.exitMessage =  { chat_membership: { status: "exit",  user_id: userId } };
-};
-
 var server = http.createServer(function(req, res) {
     send404(res);
 });
@@ -90,7 +85,6 @@ var initializeClientConnections = function() {
                         chat = new Chat(chatRoomId, token);
                     redisClient.get(chat.userAuthenticationKey, function(err, userId) {
                         if (userId) {
-                            var chatMembership = new ChatMembership(userId);
 
                             util.log("[chat] User:"+userId+" authenticated for chat:"+chatRoomId+" sessionId:"+client.sessionId);
                             client.send(chat.authenticationSuccessedMessage);
@@ -198,4 +192,3 @@ var pingRedisClient = function(){
     redisClient.ping();
 };
 setInterval(pingRedisClient, 10000);
-
