@@ -13,6 +13,7 @@ class ChatRoom < ActiveRecord::Base
   attr_accessible
 
   attr_reader :token
+
   def set_redis_access_token_for_user(user, token = SecureRandom.hex)
     REDIS.setex("chat:#{id}:token:#{token}", 60, user.id)
     @token = token
@@ -27,5 +28,4 @@ class ChatRoom < ActiveRecord::Base
   def last_messages
     chat_messages.limit(25)
   end
-
 end

@@ -7,6 +7,17 @@ feature "Groups" do
     sign_in_interactive(@user)
   end
 
+  scenario "Browsing groups" do
+    Factory(:group, :name => "Ruby group", :founder => @user)
+    Factory(:group, :name => "PHP group")
+    visit "/"
+    click_link "My Groups"
+    page.should have_content("Ruby group")
+    page.should_not have_content("PHP group")
+    click_link "All Groups"
+    page.should have_content("Ruby group")
+  end
+
   scenario "Creating group" do
     visit new_group_path
     fill_in "Name", :with => "Ruby group"
