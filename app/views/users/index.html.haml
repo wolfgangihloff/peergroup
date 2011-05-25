@@ -3,5 +3,5 @@
     %h1= t(".users_title", :default => "All users")
 
   = will_paginate
-  - users_list(@users)
+  = render "users/list", :users => @users, :selected_user => nil
   = will_paginate

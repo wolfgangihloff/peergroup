@@ -1,24 +1,2 @@
-- form_for(@group) do |f|
-  %table
-    %tr
-      %td
-        = f.label :name
-        %br/
-    %tr
-      %td
-        = f.text_field :name
-        %br/
-    %tr
-      %td
-        = f.label :description
-        %br/
-    %tr
-      %td
-        = f.text_area :description
-        %br/
-  %table
-    %tr
-      %td{:width => "10%"}
-        = f.submit "Submit"
-      %td
-        = link_to "Cancel", groups_path
+%article
+  = render "form"

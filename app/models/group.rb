@@ -17,14 +17,13 @@ class Group < ActiveRecord::Base
 
   scope :newest, :order => 'created_at desc', :limit => 6
 
+  after_create :add_founder_to_members, :create_chat_room, :create_default_rules
+
   attr_accessible :name, :description
 
-  after_create do |group|
-    group.add_member!(group.founder)
-    group.create_chat_room
+  def to_s
+    name
   end
-
-  after_create :create_default_rules
 
   def add_member!(member)
     members << member
@@ -43,7 +42,9 @@ class Group < ActiveRecord::Base
     supervisions.in_progress.first
   end
 
-  def to_s
-    name
+  private
+
+  def add_founder_to_members
+    add_member!(founder)
   end
 end

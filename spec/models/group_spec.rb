@@ -23,111 +23,110 @@ describe Group do
 
   describe "#to_s" do
     it "should return group's name" do
-      @group = Factory.build(:group, :name => "Group name")
+      group = Factory.build(:group, :name => "Group name")
 
-      @group.to_s.should be == @group.name
+      group.to_s.should be == group.name
     end
   end
 
   describe "name attribute" do
     it "should be required" do
-      @group = Factory.build(:group, :name => nil)
+      group = Factory.build(:group, :name => nil)
 
-      @group.should_not be_valid
-      @group.should have(1).error_on(:name)
+      group.should_not be_valid
+      group.should have(1).error_on(:name)
     end
 
     it "should be unique" do
-      @other_group = Factory(:group, :name => "group")
-      @group = Factory.build(:group, :name => "group")
+      other_group = Factory(:group, :name => "group")
+      group = Factory.build(:group, :name => "group")
 
-      @group.should_not be_valid
-      @group.should have(1).error_on(:name)
+      group.should_not be_valid
+      group.should have(1).error_on(:name)
     end
 
     it "should be limited in length" do
-      @group = Factory.build(:group)
-      @group.name = "a" * 256
-      @group.should_not be_valid
-      @group.should have(1).error_on(:name)
+      group = Factory.build(:group)
+      group.name = "a" * 256
+      group.should_not be_valid
+      group.should have(1).error_on(:name)
 
-      @group.name = "a" * 255
-      @group.should be_valid
-      @group.should have(:no).errors_on(:name)
+      group.name = "a" * 255
+      group.should be_valid
+      group.should have(:no).errors_on(:name)
     end
 
     it "should be accessible to mass_assignment" do
-      @group = Factory.build(:group, :name => "A Group")
-      @group.attributes = { :name => "A Team" }
-      @group.name.should be == "A Team"
+      group = Factory.build(:group, :name => "A Group")
+      group.attributes = {:name => "A Team"}
+      group.name.should be == "A Team"
     end
   end
 
   describe "description attribute" do
     it "should be required" do
-      @group = Factory.build(:group, :description => nil)
+      group = Factory.build(:group, :description => nil)
 
-      @group.should_not be_valid
-      @group.should have(1).error_on(:description)
+      group.should_not be_valid
+      group.should have(1).error_on(:description)
     end
 
     it "should be limited in length" do
-      @group = Factory.build(:group)
-      @group.description = "a" * 256
-      @group.should_not be_valid
-      @group.should have(1).error_on(:description)
+      group = Factory.build(:group)
+      group.description = "a" * 256
+      group.should_not be_valid
+      group.should have(1).error_on(:description)
 
-      @group.description = "a" * 255
-      @group.should be_valid
-      @group.should have(:no).errors_on(:description)
+      group.description = "a" * 255
+      group.should be_valid
+      group.should have(:no).errors_on(:description)
     end
 
     it "should be accessible to mass_assignment" do
-      @group = Factory.build(:group, :description => "A Group")
-      @group.attributes = { :description => "A Team" }
-      @group.description.should be == "A Team"
+      group = Factory.build(:group, :description => "A Group")
+      group.attributes = {:description => "A Team"}
+      group.description.should be == "A Team"
     end
   end
 
   describe "#add_member!" do
     it "should add user to group's members" do
-      @group = Factory(:group)
-      @user = Factory(:user)
+      group = Factory(:group)
+      user = Factory(:user)
 
-      @group.members.should_not include(@user)
+      group.members.should_not include(user)
 
-      @group.add_member!(@user)
-      @group.members.should include(@user)
+      group.add_member!(user)
+      group.members.should include(user)
     end
   end
 
   describe "after_create" do
     it "should add group founder as member" do
-      @group = Factory.build(:group)
-      @group.should_receive(:add_member!).with(@group.founder)
-      @group.save!
+      user = Factory(:user)
+      group = Factory(:group, :founder => user)
+      group.members.should include(user)
     end
 
     it "should create chat room for group" do
-      @group = Factory.build(:group)
-      @group.should_receive(:create_chat_room)
-      @group.save!
+      group = Factory(:group)
+      group.chat_room.should_not be_nil
     end
   end
 
   describe "founder attribute" do
     it "should be required" do
-      @group = Factory.build(:group, :founder => nil)
-      @group.should_not be_valid
-      @group.should have(1).error_on(:founder)
+      group = Factory.build(:group, :founder => nil)
+      group.should_not be_valid
+      group.should have(1).error_on(:founder)
     end
 
     it "should be protected against mass_assignment" do
-      @founder = Factory.build(:user)
-      @group = Factory.build(:group, :founder => @founder)
-      @user = Factory.build(:user)
-      @group.attributes = { :founder => @user }
-      @group.founder.should be == @founder
+      founder = Factory.build(:user)
+      group = Factory.build(:group, :founder => founder)
+      user = Factory.build(:user)
+      group.attributes = {:founder => user}
+      group.founder.should be == founder
     end
   end
 end

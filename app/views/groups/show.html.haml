@@ -1,7 +1,7 @@
 %article
   = link_to t(".links.edit", :default => "Edit"), edit_group_path(@group)
 
-  - users_list(@group.members, @group.founder)
+  = render "users/list", :users => @group.members, :selected_user => @group.founder
 
   - if current_user.member_of?(@group)
     %li= link_to t(".links.session", :default => "Session"), path_for_group_supervision(@group)

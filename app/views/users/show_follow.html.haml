@@ -3,7 +3,7 @@
     %td.main
       %h2= @title
       - unless @users.empty?
-        - users_list(@users)
+        = render "users/list", :users => @users, :selected_user => nil
         = will_paginate @users
     %td.sidebar.round
       %strong= t(".captions.name", :default => "Name")
