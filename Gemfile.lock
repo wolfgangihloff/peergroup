@@ -80,7 +80,7 @@ GEM
     faker (0.9.5)
       i18n (~> 0.4)
     fattr (2.2.0)
-    ffi (1.0.8)
+    ffi (1.0.9)
     flay (1.4.2)
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
@@ -124,7 +124,7 @@ GEM
     nifty-generators (0.4.6)
     nokogiri (1.4.4)
     polyglot (0.3.1)
-    rack (1.2.2)
+    rack (1.2.3)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
     rack-sprockets (1.1.0)
@@ -169,7 +169,7 @@ GEM
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
       rspec-mocks (~> 2.6.0)
-    rspec-core (2.6.1)
+    rspec-core (2.6.3)
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
@@ -234,6 +234,7 @@ DEPENDENCIES
   nifty-generators
   rack-sprockets
   rails (~> 3.0.5)
+  rake (~> 0.8.7)
   rdiscount
   redis
   routing-filter
