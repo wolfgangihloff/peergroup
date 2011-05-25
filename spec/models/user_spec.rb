@@ -241,20 +241,20 @@ describe User do
     end
   end
 
-  describe "#member_of?" do
+  describe "#active_member_of?" do
     it "should be true for user's groups" do
       @user = Factory(:user)
       @group = Factory(:group)
-      @user.groups << @group
+      @group.add_member!(@user)
 
-      @user.member_of?(@group).should be_true
+      @user.active_member_of?(@group).should be_true
     end
 
     it "should not be true for other groups" do
       @user = Factory(:user)
       @group = Factory(:group)
 
-      @user.member_of?(@group).should be_false
+      @user.active_member_of?(@group).should be_false
     end
   end
 
@@ -285,16 +285,4 @@ describe User do
       @supervision.members.should_not include(@user)
     end
   end
-
-  describe "#join_group" do
-    it "should add user to group members" do
-      @user = Factory(:user)
-      @group = Factory(:group)
-      @user.join_group(@group)
-      @group.reload
-      @group.members.should include(@user)
-      @user.member_of?(@group).should be_true
-    end
-  end
 end
-

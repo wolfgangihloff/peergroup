@@ -21,9 +21,9 @@ feature "Supervision Session", :js => true do
     @cindy = Factory(:user, :name => "Cindy", :email => "cindy@example.com")
 
     @group = Factory(:group, :name => "FuFighters")
-    @alice.join_group(@group)
-    @bob.join_group(@group)
-    @cindy.join_group(@group)
+    @group.add_member!(@alice)
+    @group.add_member!(@bob)
+    @group.add_member!(@cindy)
   end
 
   context "in providing_ideas state" do

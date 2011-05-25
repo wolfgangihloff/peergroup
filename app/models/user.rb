@@ -11,8 +11,12 @@ class User < ActiveRecord::Base
     :class_name => "Relationship",
     :dependent => :destroy
   has_many :followers, :through => :reverse_relationships, :source => :follower
-  has_many :memberships
+  has_many :memberships, :dependent => :destroy
+  has_many :pending_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "pending"}}
+  has_many :active_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "active"}}
   has_many :groups, :through => :memberships
+  has_many :active_groups, :source => :group, :through => :active_memberships
+  has_many :pending_groups, :source => :group, :through => :pending_memberships
   has_many :founded_groups, :class_name => "Group", :foreign_key => "founder_id"
   has_many :votes
   has_many :supervision_memberships
@@ -24,6 +28,10 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, :case_sensitive => false
 
   attr_accessible :name, :email, :password, :password_confirmation
+
+  def to_s
+    name
+  end
 
   def following?(followed)
     relationships.find_by_followed_id(followed)
@@ -37,12 +45,12 @@ class User < ActiveRecord::Base
     relationships.find_by_followed_id(followed).destroy
   end
 
-  def to_s
-    name
+  def active_member_of?(group)
+    active_groups.exists?(group)
   end
 
-  def member_of?(group)
-    groups.exists?(group.id)
+  def pending_member_of?(group)
+    pending_groups.exists?(group)
   end
 
   def join_supervision(supervision)
@@ -55,10 +63,6 @@ class User < ActiveRecord::Base
 
   def member_of_supervision?(supervision)
     supervisions.exists?(supervision.id)
-  end
-
-  def join_group(group)
-    groups << group
   end
 
   # TODO throw away gravatar gem, it's not as hard to implement it by ourselves,

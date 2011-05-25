@@ -40,7 +40,10 @@ Peergroupsupervision::Application.routes.draw do
     get :all, :on => :collection
     resources :supervisions, :only => [:new, :create]
     resources :rules
-    resource :membership
+    resource :membership do
+      put :accept, :on => :member
+      delete :reject, :on => :member
+    end
     resource :chat_room, :only => :show
   end
 
@@ -57,4 +60,3 @@ Peergroupsupervision::Application.routes.draw do
 
   root :to => 'pages#home'
 end
-

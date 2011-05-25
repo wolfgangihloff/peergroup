@@ -97,7 +97,7 @@ describe Group do
       group.members.should_not include(user)
 
       group.add_member!(user)
-      group.members.should include(user)
+      group.reload.members.should include(user)
     end
   end
 

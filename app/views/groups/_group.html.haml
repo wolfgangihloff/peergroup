@@ -5,12 +5,4 @@
       :markdown
         #{group.description}
     %ul.actions
-      - if current_user.member_of?(group)
-        %li= button_to t(".links.leave", :default => "leave"), group_membership_path(group), :method => :delete
-        %li= link_to t(".links.session", :default => "Session"), path_for_group_supervision(group)
-        %li= link_to t(".links.chat", :default => "Chat"), group_chat_room_path(group)
-        - if group.founder == current_user
-          %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group)
-          %li= link_to t(".links.delete", :default => "delete"), group_path(group), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
-      - else
-        %li= button_to t(".links.join", :default => "join"), group_membership_path(group)
+      = render "groups/navigation", :group => group

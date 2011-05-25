@@ -8,4 +8,11 @@ describe Membership do
     membership = Factory(:membership, :email => "john@doe.com")
     membership.user.should == user
   end
+
+  it "should verify membership" do
+    user = Factory(:user, :email => "john@doe.com")
+    membership = Factory(:membership, :email => "john@doe.com")
+    membership.verify!
+    membership.state.should == "active"
+  end
 end

@@ -44,12 +44,12 @@ feature "Groups" do
     within ".group_brief" do
       click_button "join"
     end
-    @user.groups.include?(group).should be_true
+    @user.active_groups.include?(group).should be_true
   end
 
   scenario "Leaving group" do
     group = Factory(:group, :name => "Ruby group")
-    @user.groups << group
+    group.add_member!(@user)
     visit groups_path
     within ".group_brief" do
       click_button "leave"

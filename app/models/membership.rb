@@ -10,13 +10,32 @@ class Membership < ActiveRecord::Base
   validates_uniqueness_of :email, :scope => :group_id
   validates_format_of :email, :with => EMAIL_REGEX
 
-  before_create :assign_user_by_email, :unless => :user_id?
+  before_create :assign_user, :unless => :user_id?
 
   attr_accessible :email
 
+  state_machine :initial => :pending do
+    event :accept do
+      transition :pending => :active
+    end
+
+    event :verify do
+      transition :pending => :active
+    end
+
+    state :active do
+      validates_presence_of :user_id
+    end
+  end
+
+  def assign_user!
+    assign_user
+    save!
+  end
+
   private
 
-  def assign_user_by_email
+  def assign_user
     self.user = User.find_by_email(email)
   end
 end

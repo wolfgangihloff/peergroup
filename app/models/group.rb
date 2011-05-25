@@ -1,7 +1,7 @@
 require 'csv'
 
 class Group < ActiveRecord::Base
-  has_many :memberships, :autosave => true
+  has_many :memberships, :autosave => true, :dependent => :destroy
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
   has_many :rules, :order => "position", :dependent => :destroy
   has_many :supervisions, :dependent => :destroy
@@ -25,8 +25,12 @@ class Group < ActiveRecord::Base
     name
   end
 
+  def public?
+    not invitable?
+  end
+
   def add_member!(member)
-    memberships.create!(:email => member.email)
+    memberships.create!(:email => member.email).verify!
   end
 
   def create_default_rules

@@ -5,7 +5,7 @@ feature "Supervision membership" do
     @group = Factory(:group, :name => "Ruby group")
     @user = Factory(:user, :name => "John")
 
-    @user.join_group(@group)
+    @group.add_member!(@user)
 
     sign_in_interactive(@user)
   end

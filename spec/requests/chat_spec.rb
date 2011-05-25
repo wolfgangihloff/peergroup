@@ -8,9 +8,9 @@ feature "Chat" do
     @designers = Factory(:group, :name => "Designers")
     @designers_chat = @designers.chat_room
 
-    @alice.join_group(@designers)
-    @bob.join_group(@designers)
-    @cindy.join_group(@designers)
+    @designers.add_member!(@alice)
+    @designers.add_member!(@bob)
+    @designers.add_member!(@cindy)
 
     Factory(:chat_message, :user => @alice, :chat_room => @designers_chat, :content => "Hi @all!")
     Factory(:chat_message, :user => @bob,   :chat_room => @designers_chat, :content => "Hi Alice")

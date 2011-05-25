@@ -344,8 +344,8 @@ describe Supervision do
       @cindy = Factory(:user)
 
       @group = Factory(:group, :founder => @alice)
-      @bob.join_group(@group)
-      @cindy.join_group(@group)
+      @group.add_member!(@bob)
+      @group.add_member!(@cindy)
     end
 
     it "should be in gathering_topics state after create" do
