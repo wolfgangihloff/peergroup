@@ -85,3 +85,8 @@ Factory.define :supervision_feedback do |feedback|
   feedback.user { Factory(:user) }
   feedback.content "Feedback"
 end
+
+Factory.define :membership do |membership|
+  membership.group { Factory(:group) }
+  membership.sequence(:email) { |i| "john#{i}@doe.com"}
+end

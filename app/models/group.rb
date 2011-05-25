@@ -19,14 +19,14 @@ class Group < ActiveRecord::Base
 
   after_create :add_founder_to_members, :create_chat_room, :create_default_rules
 
-  attr_accessible :name, :description
+  attr_accessible :name, :description, :invitable
 
   def to_s
     name
   end
 
   def add_member!(member)
-    members << member
+    memberships.create!(:email => member.email)
   end
 
   def create_default_rules
