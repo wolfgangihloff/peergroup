@@ -1,7 +1,7 @@
 source :gemcutter
 
 gem "rake", "~> 0.8.7"
-gem "rails", "~> 3.0.5"
+gem "rails", "~> 3.0.8.rc1"
 gem "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "bson_ext"
