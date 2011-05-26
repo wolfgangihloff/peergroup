@@ -14,13 +14,13 @@ class Membership < ActiveRecord::Base
 
   attr_accessible :email
 
-  state_machine :initial => :pending do
+  state_machine :initial => :invited do
     event :accept do
-      transition :pending => :active
+      transition :invited => :active
     end
 
     event :verify do
-      transition :pending => :active
+      transition :invited => :active
     end
 
     state :active do

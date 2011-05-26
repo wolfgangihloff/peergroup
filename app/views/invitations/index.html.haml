@@ -1,0 +1,15 @@
+%article
+  %h2= @group.name
+
+  %h3 Invite person
+  = render "form"
+
+  %h3 Sent invitations
+  %ul
+    - @group.invited_memberships.each do |membership|
+      %li= membership.email
+
+  %h3 Current members
+  %ul
+    - @group.active_members.each do |member|
+      %li= "#{member.name} <#{member.email}>"

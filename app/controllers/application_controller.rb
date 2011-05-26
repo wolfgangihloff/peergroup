@@ -1,5 +1,3 @@
-require 'flash_messages'
-
 class ApplicationController < ActionController::Base
   include FlashMessages
   include SessionsHelper

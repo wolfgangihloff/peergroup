@@ -2,7 +2,11 @@ require 'csv'
 
 class Group < ActiveRecord::Base
   has_many :memberships, :autosave => true, :dependent => :destroy
+  has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
+  has_many :active_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "active"}}
   has_many :members, :through => :memberships, :source => :user, :class_name => "User", :order => "users.name"
+  has_many :active_members, :source => :user, :through => :active_memberships
+  has_many :invited_members, :source => :user, :through => :invited_memberships
   has_many :rules, :order => "position", :dependent => :destroy
   has_many :supervisions, :dependent => :destroy
   has_many :chat_rooms, :dependent => :destroy
@@ -16,6 +20,8 @@ class Group < ActiveRecord::Base
   has_friendly_id :name, :use_slug => true
 
   scope :newest, :order => 'created_at desc', :limit => 6
+  scope :invitable, where(:invitable => true)
+  scope :open, where(:invitable => false)
 
   after_create :add_founder_to_members, :create_chat_room, :create_default_rules
 

@@ -45,6 +45,7 @@ Peergroupsupervision::Application.routes.draw do
       delete :reject, :on => :member
     end
     resource :chat_room, :only => :show
+    resources :invitations, :only => [:index, :new, :create]
   end
 
   resources :chat_room, :only => [] do
