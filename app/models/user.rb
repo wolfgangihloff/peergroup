@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
 
   attr_accessible :name, :email, :password, :password_confirmation
 
+  after_create :associate_group_memberships
+
   def to_s
     name
   end
@@ -76,5 +78,11 @@ class User < ActiveRecord::Base
                end
     email_digest = Digest::MD5.hexdigest(email)
     "#{base_url}#{email_digest}"
+  end
+
+  private
+
+  def associate_group_memberships
+    Membership.invited.where(:email => email).each(&:assign_user!)
   end
 end

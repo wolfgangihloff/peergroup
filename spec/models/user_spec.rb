@@ -275,6 +275,7 @@ describe User do
       @supervision.members.should include(@user)
     end
   end
+
   describe "#leave_supervision" do
     it "should remove user's membership in supervision" do
       @user = Factory(:user)
@@ -284,5 +285,12 @@ describe User do
       @supervision.reload
       @supervision.members.should_not include(@user)
     end
+  end
+
+  it "should associate pending group memberships after create" do
+    membership = Factory(:membership, :email => "john@doe.com")
+    membership.invite!
+    user = Factory(:user, :email => "john@doe.com")
+    user.invited_memberships.should == [membership]
   end
 end

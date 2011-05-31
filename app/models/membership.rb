@@ -14,6 +14,8 @@ class Membership < ActiveRecord::Base
 
   attr_accessible :email
 
+  scope :invited, where(:state => "invited")
+
   state_machine do
     after_transition nil => :invited, :do => :send_invitation_email
 
