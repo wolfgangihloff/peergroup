@@ -19,7 +19,7 @@ feature "Invitations" do
 
   scenario "Accepting invitation" do
     user = Factory(:user, :email => "billy@kid.com")
-    @group.memberships.create!(:email => "billy@kid.com")
+    @group.memberships.create!(:email => "billy@kid.com").invite!
 
     sign_in_interactive(user)
     visit groups_path
@@ -31,7 +31,7 @@ feature "Invitations" do
 
   scenario "Rejecting invitation" do
     user = Factory(:user, :email => "billy@kid.com")
-    @group.memberships.create!(:email => "billy@kid.com")
+    @group.memberships.create!(:email => "billy@kid.com").invite!
 
     sign_in_interactive(user)
     visit groups_path
