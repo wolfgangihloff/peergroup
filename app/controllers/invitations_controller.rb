@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
 
   def create
     @membership = group.memberships.build(params[:membership])
-    if @membership.save
+    if @membership.save && @membership.invite!
       redirect_to group_invitations_path(group), :notice => "User invited"
     else
       render :new

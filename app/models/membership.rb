@@ -14,13 +14,19 @@ class Membership < ActiveRecord::Base
 
   attr_accessible :email
 
-  state_machine :initial => :invited do
+  state_machine do
+    after_transition nil => :invited, :do => :send_invitation_email
+
+    event :invite do
+      transition nil => :invited
+    end
+
     event :accept do
       transition :invited => :active
     end
 
     event :verify do
-      transition :invited => :active
+      transition all => :active
     end
 
     state :active do
@@ -34,6 +40,12 @@ class Membership < ActiveRecord::Base
   end
 
   private
+
+  def send_invitation_email
+    if user.blank?
+      UserMailer.group_invitation(self).deliver
+    end
+  end
 
   def assign_user
     self.user = User.find_by_email(email)

@@ -15,4 +15,14 @@ describe Membership do
     membership.verify!
     membership.state.should == "active"
   end
+
+  it "should send email with invitation if user not present" do
+    membership = Factory(:membership, :email => "nonexisting-joe@doe.com")
+    ActionMailer::Base.deliveries.clear
+    membership.invite!
+    email = ActionMailer::Base.deliveries.last
+    email.should_not be_nil
+    email.to.should == [membership.email]
+    email.encoded.should match(/#{membership.group.name}/)
+  end
 end
