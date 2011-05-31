@@ -1,4 +1,4 @@
-source :gemcutter
+source :rubygems
 
 gem "rake", "~> 0.8.7"
 gem "rails", "~> 3.0.8.rc1"
