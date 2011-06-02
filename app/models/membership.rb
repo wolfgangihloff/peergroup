@@ -54,9 +54,7 @@ class Membership < ActiveRecord::Base
   private
 
   def send_invitation_email
-    if user.blank?
-      UserMailer.group_invitation(self).deliver
-    end
+    UserMailer.group_invitation(self).deliver
   end
 
   def send_request_email

@@ -1,3 +1,7 @@
 Hello.
 You have been invited to <%= @membership.group.name %> group.
-You can register following this link: <%= new_user_url %>
+<% if @membership.user %>
+You can accept or reject this invitation at <%= groups_url %>
+<% else %>
+To accept invitation, you need to register first following this link: <%= new_user_url %>
+<% end %>
