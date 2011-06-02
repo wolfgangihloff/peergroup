@@ -25,4 +25,15 @@ describe Membership do
     email.to.should == [membership.email]
     email.encoded.should match(/#{membership.group.name}/)
   end
+
+  it "should send email with group request to founder" do
+    user = Factory(:user)
+    membership = Factory(:membership, :email => user.email)
+    ActionMailer::Base.deliveries.clear
+    membership.request!
+    email = ActionMailer::Base.deliveries.last
+    email.should_not be_nil
+    email.to.should == [membership.group.founder.email]
+    email.encoded.should match(/#{membership.group.name}/)
+  end
 end

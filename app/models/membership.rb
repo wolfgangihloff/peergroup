@@ -19,6 +19,7 @@ class Membership < ActiveRecord::Base
 
   state_machine do
     after_transition nil => :invited, :do => :send_invitation_email
+    after_transition nil => :requested, :do => :send_request_email
 
     event :invite do
       transition nil => :invited
@@ -56,6 +57,10 @@ class Membership < ActiveRecord::Base
     if user.blank?
       UserMailer.group_invitation(self).deliver
     end
+  end
+
+  def send_request_email
+    UserMailer.group_request(self).deliver
   end
 
   def assign_user
