@@ -4,13 +4,15 @@
   %li= link_to t(".links.chat", :default => "Chat"), group_chat_room_path(group)
   - if group.founder == current_user
     - if group.invitable?
-      %li= link_to t(".links.invitations", :default => "Invitations"), group_invitations_path(group)
+      %li= link_to t(".links.invitations", :default => "Invitations"), owner_group_invitations_path(group)
     %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group)
     %li= link_to t(".links.delete", :default => "delete"), group_path(group), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
 - elsif current_user.invited_member_of?(group)
-  %li= button_to t(".links.accept", :default => "accept"), accept_group_membership_path(group), :method => :put
-  %li= button_to t(".links.reject", :default => "reject"), reject_group_membership_path(group), :method => :delete
+  %li= button_to t(".links.accept", :default => "accept"), group_invitation_path(group), :method => :put
+  %li= button_to t(".links.reject", :default => "reject"), group_invitation_path(group), :method => :delete
+- elsif current_user.requested_member_of?(group)
+  %li= t(".requested_info", :default => "Awaiting group owner acceptance")
 - elsif group.public?
   %li= button_to t(".links.join", :default => "join"), group_membership_path(group)
-- else
-  request membership
+- elsif group.invitable?
+  %li= button_to t(".links.request", :default => "request membership"), group_requests_path(group)

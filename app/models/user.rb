@@ -13,10 +13,12 @@ class User < ActiveRecord::Base
   has_many :followers, :through => :reverse_relationships, :source => :follower
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
+  has_many :requested_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "requested"}}
   has_many :active_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "active"}}
   has_many :groups, :through => :memberships
   has_many :active_groups, :source => :group, :through => :active_memberships
   has_many :invited_groups, :source => :group, :through => :invited_memberships
+  has_many :requested_groups, :source => :group, :through => :requested_memberships
   has_many :founded_groups, :class_name => "Group", :foreign_key => "founder_id"
   has_many :votes
   has_many :supervision_memberships
@@ -53,6 +55,10 @@ class User < ActiveRecord::Base
 
   def invited_member_of?(group)
     invited_groups.exists?(group)
+  end
+
+  def requested_member_of?(group)
+    requested_groups.exists?(group)
   end
 
   def join_supervision(supervision)

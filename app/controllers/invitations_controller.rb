@@ -1,26 +1,23 @@
 class InvitationsController < ApplicationController
   before_filter :authenticate
 
-  def index
-    group
+  def update
+    membership.accept!
+    redirect_to groups_path, :notice => "Accepted!"
   end
 
-  def new
-    @membership = group.memberships.build(params[:membership])
-  end
-
-  def create
-    @membership = group.memberships.build(params[:membership])
-    if @membership.save && @membership.invite!
-      redirect_to group_invitations_path(group), :notice => "User invited"
-    else
-      render :new
-    end
+  def destroy
+    membership.destroy
+    redirect_to groups_path, :notice => "Rejected!"
   end
 
   private
 
+  def membership
+    @membership ||= current_user.invited_memberships.find_by_group_id(group)
+  end
+
   def group
-    @group ||= current_user.founded_groups.invitable.find(params[:group_id])
+    @group ||= Group.find(params[:group_id])
   end
 end

@@ -44,5 +44,4 @@ module ApplicationHelper
   def id_for_body
     [controller_name, action_name].join "_"
   end
-
 end

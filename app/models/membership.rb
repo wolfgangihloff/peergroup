@@ -15,6 +15,7 @@ class Membership < ActiveRecord::Base
   attr_accessible :email
 
   scope :invited, where(:state => "invited")
+  scope :requested, where(:state => "requested")
 
   state_machine do
     after_transition nil => :invited, :do => :send_invitation_email
@@ -23,12 +24,20 @@ class Membership < ActiveRecord::Base
       transition nil => :invited
     end
 
+    event :request do
+      transition nil => :requested
+    end
+
     event :accept do
-      transition :invited => :active
+      transition [:invited, :requested] => :active
     end
 
     event :verify do
       transition all => :active
+    end
+
+    state :requested do
+      validates_presence_of :user_id
     end
 
     state :active do

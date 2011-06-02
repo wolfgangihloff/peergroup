@@ -40,16 +40,21 @@ Peergroupsupervision::Application.routes.draw do
     get :all, :on => :collection
     resources :supervisions, :only => [:new, :create]
     resources :rules
-    resource :membership do
-      put :accept, :on => :member
-      delete :reject, :on => :member
-    end
+    resource :membership
     resource :chat_room, :only => :show
-    resources :invitations, :only => [:index, :new, :create]
+    resource :invitation, :only => [:update, :destroy]
+    resources :requests, :only => [:create]
   end
 
   resources :chat_room, :only => [] do
     resources :chat_messages, :only => :create
+  end
+
+  namespace :owner do
+    resources :groups, :only => [] do
+      resources :invitations, :only => [:index, :new, :create]
+      resources :requests, :only => [:update, :destroy]
+    end
   end
 
   match '/signin' => 'sessions#new', :as => 'signin'
