@@ -1,56 +1,12 @@
 require "spec_helper"
 
 describe Answer do
-  it "should crate a new instance given valid attributes" do
-    Factory.build(:answer).valid?.should be_true
+
+  [:user, :question, :content].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
-
-  describe "user attribute" do
-    it "should be required" do
-      @answer = Factory.build(:answer, :user => nil)
-      @answer.valid?.should be_false
-      @answer.should have(1).error_on(:user)
-    end
-
-    it "should be protected agains mass assignment" do
-      @user = Factory.build(:user)
-      @answer = Factory.build(:answer, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @answer.attributes = { :user => @another_user }
-      @answer.user.should be == @user
-    end
-  end
-
-  describe "question attribute" do
-    it "should be required" do
-      @answer = Factory.build(:answer, :question => nil, :user => Factory.build(:user))
-      @answer.valid?.should be_false
-      @answer.should have(1).error_on(:question)
-    end
-
-    it "should be protected agains mass assignment" do
-      @question = Factory.build(:question)
-      @answer = Factory.build(:answer, :question => @question)
-      @another_question = Factory.build(:question)
-
-      @answer.attributes = { :question => @another_question }
-      @answer.question.should be == @question
-    end
-  end
-
-  describe "content attribute" do
-    it "should be required" do
-      @answer = Factory.build(:answer, :content => nil)
-      @answer.valid?.should be_false
-      @answer.should have(1).error_on(:content)
-    end
-
-    it "should be accessible to mass assignment" do
-      @answer = Factory.build(:answer, :content => "Simple content")
-      @answer.attributes = { :content => "Another content" }
-      @answer.content.should be == "Another content"
-    end
+  [:user_id, :question_id].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
 
   describe "supervision attribute" do
@@ -78,15 +34,13 @@ describe Answer do
   end
 
   it "should include SupervisionRedisPublisher module" do
-    included_modules = Answer.send :included_modules
-    included_modules.should include(SupervisionRedisPublisher)
+    Answer.new.should respond_to(:publish_to_redis)
   end
 
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
       @answer = Answer.new
-      @answer.supervision_publish_attributes.should be == ({:only => [:id, :content, :question_id, :user_id]})
+      @answer.supervision_publish_attributes.should == {:only => [:id, :content, :question_id, :user_id]}
     end
   end
 end
-

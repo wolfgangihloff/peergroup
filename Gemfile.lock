@@ -6,6 +6,13 @@ GIT
       will_paginate (~> 3.0.pre2)
       ya2yaml (~> 0.26)
 
+GIT
+  remote: git://github.com/morgoth/shoulda-matchers.git
+  revision: a463849d6bf3a5769ea29cfd353ae7ec1fedcb8f
+  branch: mass-assigment-fix-for-empty-attr-accessible
+  specs:
+    shoulda-matchers (1.0.0.beta3)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -198,7 +205,6 @@ GEM
       json_pure
       rubyzip
     sexp_processor (3.0.5)
-    shoulda-matchers (1.0.0.beta2)
     sprockets (1.0.2)
     sqlite3 (1.3.3)
     state_machine (1.0.1)
@@ -244,7 +250,7 @@ DEPENDENCIES
   ruby-graphviz
   sass
   selenium-webdriver
-  shoulda-matchers
+  shoulda-matchers!
   sqlite3
   state_machine
   thin

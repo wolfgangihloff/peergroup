@@ -1,93 +1,18 @@
 require "spec_helper"
 
 describe Idea do
-  it "should crate a new instance given valid attributes" do
-    Factory.build(:idea).should be_valid
+  [:user, :supervision, :content].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
-
-  describe "user attribute" do
-    it "should be required" do
-      @idea = Factory.build(:idea, :user => nil)
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:user)
-    end
-
-    it "should be protected agains mass assignment" do
-      @user = Factory.build(:user)
-      @idea = Factory.build(:idea, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @idea.attributes = { :user => @another_user }
-      @idea.user.should be == @user
-    end
+  [:user_id, :supervision_id].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
-
-  describe "superivion attribute" do
-    it "should be required" do
-      @idea = Factory.build(:idea, :supervision => nil, :user => Factory.build(:user))
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:supervision)
-    end
-
-    it "should be protected agains mass assignment" do
-      @supervision = Factory.build(:supervision)
-      @idea = Factory.build(:idea, :supervision => @supervision)
-      @another_question = Factory.build(:question)
-
-      @idea.attributes = { :supervision => @another_supervision }
-      @idea.supervision.should be == @supervision
-    end
-  end
-
-  describe "content attribute" do
-    it "should be required" do
-      @idea = Factory.build(:idea, :content => nil)
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:content)
-    end
-
-    it "should be accessible to mass assignment" do
-      @idea = Factory.build(:idea, :content => "Simple content")
-      @idea.attributes = { :content => "Another content" }
-      @idea.content.should be == "Another content"
-    end
-  end
-
-  describe "rating attribute" do
-    it "should allow nil" do
-      @idea = Factory.build(:idea, :rating => nil)
-      @idea.should be_valid
-    end
-
-    it "should be numerical" do
-      @idea = Factory.build(:idea, :rating => 5)
-      @idea.should be_valid
-    end
-
-    it "should not allow for non numerical values" do
-      @idea = Factory.build(:idea, :rating => "text")
-      @idea.should_not be_valid
-      @idea.should have(2).error_on(:rating)
-    end
-
-    it "should not allow for not integer values" do
-      @idea = Factory.build(:idea, :rating => 1.1)
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:rating)
-    end
-
-    it "should not allow values less than 1" do
-      @idea = Factory.build(:idea, :rating => 0)
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:rating)
-    end
-
-    it "should not allow values greater than 5" do
-      @idea = Factory.build(:idea, :rating => 6)
-      @idea.should_not be_valid
-      @idea.should have(1).error_on(:rating)
-    end
-  end
+  it { should validate_numericality_of(:rating)}
+  it { should allow_value(nil).for(:rating) }
+  it { should_not allow_value("text").for(:rating) }
+  it { should_not allow_value(1.1).for(:rating) }
+  it { should_not allow_value(0).for(:rating) }
+  it { should_not allow_value(6).for(:rating) }
 
   describe "after create" do
     it "should publish idea to Redis channel" do

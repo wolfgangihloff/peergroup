@@ -1,13 +1,18 @@
 require 'spec_helper'
 
 describe Group do
-  it "should create a new instance given valid attributes" do
-    Factory(:group)
+  before { @group = Factory(:group) }
+
+  [:name, :description, :founder].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
+  it { should_not allow_mass_assignment_of(:founder_id) }
+
+  it { should validate_uniqueness_of(:name) }
+  it { should_not allow_value("a" * 256).for(:name) }
+  it { should_not allow_value("a" * 256).for(:description) }
 
   describe "#current_supervision" do
-    before { @group = Factory(:group) }
-
     it "should return first unfinished supervision" do
       supervision = @group.supervisions.create!
       @group.current_supervision.should == supervision
@@ -26,66 +31,6 @@ describe Group do
       group = Factory.build(:group, :name => "Group name")
 
       group.to_s.should be == group.name
-    end
-  end
-
-  describe "name attribute" do
-    it "should be required" do
-      group = Factory.build(:group, :name => nil)
-
-      group.should_not be_valid
-      group.should have(1).error_on(:name)
-    end
-
-    it "should be unique" do
-      other_group = Factory(:group, :name => "group")
-      group = Factory.build(:group, :name => "group")
-
-      group.should_not be_valid
-      group.should have(1).error_on(:name)
-    end
-
-    it "should be limited in length" do
-      group = Factory.build(:group)
-      group.name = "a" * 256
-      group.should_not be_valid
-      group.should have(1).error_on(:name)
-
-      group.name = "a" * 255
-      group.should be_valid
-      group.should have(:no).errors_on(:name)
-    end
-
-    it "should be accessible to mass_assignment" do
-      group = Factory.build(:group, :name => "A Group")
-      group.attributes = {:name => "A Team"}
-      group.name.should be == "A Team"
-    end
-  end
-
-  describe "description attribute" do
-    it "should be required" do
-      group = Factory.build(:group, :description => nil)
-
-      group.should_not be_valid
-      group.should have(1).error_on(:description)
-    end
-
-    it "should be limited in length" do
-      group = Factory.build(:group)
-      group.description = "a" * 256
-      group.should_not be_valid
-      group.should have(1).error_on(:description)
-
-      group.description = "a" * 255
-      group.should be_valid
-      group.should have(:no).errors_on(:description)
-    end
-
-    it "should be accessible to mass_assignment" do
-      group = Factory.build(:group, :description => "A Group")
-      group.attributes = {:description => "A Team"}
-      group.description.should be == "A Team"
     end
   end
 
@@ -111,22 +56,6 @@ describe Group do
     it "should create chat room for group" do
       group = Factory(:group)
       group.chat_room.should_not be_nil
-    end
-  end
-
-  describe "founder attribute" do
-    it "should be required" do
-      group = Factory.build(:group, :founder => nil)
-      group.should_not be_valid
-      group.should have(1).error_on(:founder)
-    end
-
-    it "should be protected against mass_assignment" do
-      founder = Factory.build(:user)
-      group = Factory.build(:group, :founder => founder)
-      user = Factory.build(:user)
-      group.attributes = {:founder => user}
-      group.founder.should be == founder
     end
   end
 end

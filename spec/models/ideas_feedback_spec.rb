@@ -1,42 +1,11 @@
 require "spec_helper"
 
 describe IdeasFeedback do
-  it "should crate a new instance given valid attributes" do
-    Factory.build(:ideas_feedback).should be_valid
+  [:user, :supervision].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
-
-  describe "user attribute" do
-    it "should be required" do
-      @feedback = Factory.build(:ideas_feedback, :user => nil)
-      @feedback.should_not be_valid
-      @feedback.should have(1).error_on(:user)
-    end
-
-    it "should be protected agains mass assignment" do
-      @user = Factory.build(:user)
-      @feedback = Factory.build(:ideas_feedback, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @feedback.attributes = { :user => @another_user }
-      @feedback.user.should be == @user
-    end
-  end
-
-  describe "supervision attribute" do
-    it "should be required" do
-      @feedback = Factory.build(:ideas_feedback, :supervision => nil, :user => Factory.build(:user))
-      @feedback.should_not be_valid
-      @feedback.should have(1).error_on(:supervision)
-    end
-
-    it "should be protected agains mass assignment" do
-      @supervision = Factory.build(:supervision)
-      @feedback = Factory.build(:ideas_feedback, :supervision => @supervision)
-      @another_supervision = Factory.build(:supervision)
-
-      @feedback.attributes = { :supervision => @another_supervision }
-      @feedback.supervision.should be == @supervision
-    end
+  [:user_id, :supervision_id].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
 
   describe "after create" do
@@ -54,14 +23,13 @@ describe IdeasFeedback do
   end
 
   it "should include SupervisionRedisPublisher module" do
-    included_modules = IdeasFeedback.send :included_modules
-    included_modules.should include(SupervisionRedisPublisher)
+    IdeasFeedback.new.should respond_to(:publish_to_redis)
   end
 
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
       @answer = IdeasFeedback.new
-      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :user_id]}
+      @answer.supervision_publish_attributes.should == {:only => [:id, :content, :user_id]}
     end
   end
 end

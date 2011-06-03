@@ -1,93 +1,19 @@
 require "spec_helper"
 
 describe Solution do
-  it "should crate a new instance given valid attributes" do
-    Factory.build(:solution).should be_valid
+  [:user, :supervision, :content].each do |attribute|
+    it { should validate_presence_of(attribute) }
+  end
+  [:user_id, :supervision_id].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
 
-  describe "user attribute" do
-    it "should be required" do
-      @solution = Factory.build(:solution, :user => nil)
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:user)
-    end
-
-    it "should be protected agains mass assignment" do
-      @user = Factory.build(:user)
-      @solution = Factory.build(:solution, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @solution.attributes = { :user => @another_user }
-      @solution.user.should be == @user
-    end
-  end
-
-  describe "superivion attribute" do
-    it "should be required" do
-      @solution = Factory.build(:solution, :supervision => nil, :user => Factory.build(:user))
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:supervision)
-    end
-
-    it "should be protected agains mass assignment" do
-      @supervision = Factory.build(:supervision)
-      @solution = Factory.build(:solution, :supervision => @supervision)
-      @another_question = Factory.build(:question)
-
-      @solution.attributes = { :supervision => @another_supervision }
-      @solution.supervision.should be == @supervision
-    end
-  end
-
-  describe "content attribute" do
-    it "should be required" do
-      @solution = Factory.build(:solution, :content => nil)
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:content)
-    end
-
-    it "should be accessible to mass assignment" do
-      @solution = Factory.build(:solution, :content => "Simple content")
-      @solution.attributes = { :content => "Another content" }
-      @solution.content.should be == "Another content"
-    end
-  end
-
-  describe "rating attribute" do
-    it "should allow nil" do
-      @solution = Factory.build(:solution, :rating => nil)
-      @solution.should be_valid
-    end
-
-    it "should be numerical" do
-      @solution = Factory.build(:solution, :rating => 5)
-      @solution.should be_valid
-    end
-
-    it "should not allow for non numerical values" do
-      @solution = Factory.build(:solution, :rating => "text")
-      @solution.should_not be_valid
-      @solution.should have(2).error_on(:rating)
-    end
-
-    it "should not allow for not integer values" do
-      @solution = Factory.build(:solution, :rating => 1.1)
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:rating)
-    end
-
-    it "should not allow values less than 1" do
-      @solution = Factory.build(:solution, :rating => 0)
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:rating)
-    end
-
-    it "should not allow values greater than 5" do
-      @solution = Factory.build(:solution, :rating => 6)
-      @solution.should_not be_valid
-      @solution.should have(1).error_on(:rating)
-    end
-  end
+  it { should validate_numericality_of(:rating)}
+  it { should allow_value(nil).for(:rating) }
+  it { should_not allow_value("text").for(:rating) }
+  it { should_not allow_value(1.1).for(:rating) }
+  it { should_not allow_value(0).for(:rating) }
+  it { should_not allow_value(6).for(:rating) }
 
   describe "after create" do
     it "should publish solution to Redis channel" do
@@ -113,14 +39,13 @@ describe Solution do
   end
 
   it "should include SupervisionRedisPublisher module" do
-    included_modules = Solution.send :included_modules
-    included_modules.should include(SupervisionRedisPublisher)
+    Solution.new.should respond_to(:publish_to_redis)
   end
 
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
       @answer = Solution.new
-      @answer.supervision_publish_attributes.should be == {:only => [:id, :content, :rating, :user_id]}
+      @answer.supervision_publish_attributes.should == {:only => [:id, :content, :rating, :user_id]}
     end
   end
 end

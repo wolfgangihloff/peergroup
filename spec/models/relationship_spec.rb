@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Relationship do
+  [:follower, :followed].each do |attribute|
+    it { should validate_presence_of(attribute) }
+  end
 
   before(:each) do
     @follower = Factory(:user)
@@ -32,19 +35,6 @@ describe Relationship do
 
     it "should have the right followed user" do
       @relationship.followed.should == @followed
-    end
-  end
-
-  describe "validations" do
-
-    it "should reqire a follower_id" do
-      @relationship.follower_id = nil
-      @relationship.should_not be_valid
-    end
-
-    it "should reqire a followed_id" do
-      @relationship.followed_id = nil
-      @relationship.should_not be_valid
     end
   end
 end

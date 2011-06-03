@@ -1,42 +1,11 @@
 require 'spec_helper'
 
 describe Vote do
-  it "should create a new instance given valid attributes" do
-    Factory.build(:vote).should be_valid
+  [:user, :statement].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
-
-  describe "user attribute" do
-    it "should be required" do
-      @vote = Factory.build(:vote, :user => nil)
-      @vote.should_not be_valid
-      @vote.should have(1).error_on(:user)
-    end
-
-    it "should be protected against mass assignment" do
-      @user = Factory.build(:user)
-      @vote = Factory.build(:vote, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @vote.attributes = { :user => @another_user }
-      @vote.user.should be == @user
-    end
-  end
-
-  describe "statement attribute" do
-    it "should be required" do
-      # I had to add :user, or factory would fail
-      @vote = Factory.build(:vote, :statement => nil, :user => Factory(:user))
-      @vote.should_not be_valid
-    end
-
-    it "should be protected agains mass assignment" do
-      @topic = Factory.build(:topic)
-      @vote = Factory.build(:vote, :statement => @topic)
-      @another_topic = Factory.build(:topic)
-
-      @vote.attributes = { :statement => @another_topic }
-      @vote.statement.should be == @topic
-    end
+  [:user_id, :statement].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
 
   describe "after create" do
@@ -66,15 +35,13 @@ describe Vote do
   end
 
   it "should include SupervisionRedisPublisher module" do
-    included_modules = Vote.send :included_modules
-    included_modules.should include(SupervisionRedisPublisher)
+    Vote.new.should respond_to(:publish_to_redis)
   end
 
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
       @answer = Vote.new
-      @answer.supervision_publish_attributes.should be == {:only => [:id, :statement_type, :statement_id, :user_id]}
+      @answer.supervision_publish_attributes.should == {:only => [:id, :statement_type, :statement_id, :user_id]}
     end
   end
-
 end

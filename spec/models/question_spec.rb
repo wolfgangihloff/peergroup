@@ -1,56 +1,11 @@
 require "spec_helper"
 
 describe Question do
-  it "should crate a new instance given valid attributes" do
-    Factory.build(:question).should be_valid
+  [:user, :supervision, :content].each do |attribute|
+    it { should validate_presence_of(attribute) }
   end
-
-  describe "user attribute" do
-    it "should be required" do
-      @question = Factory.build(:question, :user => nil)
-      @question.should_not be_valid
-      @question.should have(1).error_on(:user)
-    end
-
-    it "should be protected agains mass assignment" do
-      @user = Factory.build(:user)
-      @question = Factory.build(:question, :user => @user)
-      @another_user = Factory.build(:user)
-
-      @question.attributes = { :user => @another_user }
-      @question.user.should be == @user
-    end
-  end
-
-  describe "supervision attribute" do
-    it "should be required" do
-      @question = Factory.build(:question, :supervision => nil, :user => Factory.build(:user))
-      @question.should_not be_valid
-      @question.should have(1).error_on(:supervision)
-    end
-
-    it "should be protected agains mass assignment" do
-      @supervision = Factory.build(:supervision)
-      @question = Factory.build(:question, :supervision => @supervision)
-      @another_supervision = Factory.build(:supervision)
-
-      @question.attributes = { :supervision => @another_supervision }
-      @question.supervision.should be == @supervision
-    end
-  end
-
-  describe "content attribute" do
-    it "should be required" do
-      @question = Factory.build(:question, :content => nil)
-      @question.should_not be_valid
-      @question.should have(1).error_on(:content)
-    end
-
-    it "should be accessible to mass assignment" do
-      @question = Factory.build(:question, :content => "Simple content")
-      @question.attributes = { :content => "Another content" }
-      @question.content.should be == "Another content"
-    end
+  [:user_id, :supervision_id].each do |attribute|
+    it { should_not allow_mass_assignment_of(attribute) }
   end
 
   describe "after create" do
@@ -62,8 +17,7 @@ describe Question do
   end
 
   it "should include SupervisionRedisPublisher module" do
-    included_modules = Question.send :included_modules
-    included_modules.should include(SupervisionRedisPublisher)
+    Question.new.should respond_to(:publish_to_redis)
   end
 
   describe "#supervision_publish_attributed" do

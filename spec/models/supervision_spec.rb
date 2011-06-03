@@ -1,4 +1,3 @@
-$:.unshift File.join(File.dirname(__FILE__), "..")
 require 'spec_helper'
 
 describe Supervision do
@@ -9,7 +8,7 @@ describe Supervision do
         @finished_supervision = Factory(:supervision, :state => "finished")
         @cancelled_supervision = Factory(:supervision, :state => "cancelled")
 
-        Supervision.finished.all.should be == [@finished_supervision]
+        Supervision.finished.all.should == [@finished_supervision]
       end
     end
 
@@ -19,7 +18,7 @@ describe Supervision do
         @finished_supervision = Factory(:supervision, :state => "finished")
         @cancelled_supervision = Factory(:supervision, :state => "cancelled")
 
-        Supervision.in_progress.all.should be == [@supervision]
+        Supervision.in_progress.all.should == [@supervision]
       end
     end
 
@@ -29,7 +28,7 @@ describe Supervision do
         @finished_supervision = Factory(:supervision, :state => "finished")
         @cancelled_supervision = Factory(:supervision, :state => "cancelled")
 
-        Supervision.cancelled.all.should be == [@cancelled_supervision]
+        Supervision.cancelled.all.should == [@cancelled_supervision]
       end
     end
   end
@@ -718,9 +717,8 @@ describe Supervision do
     it "should be accessible to mass assignment" do
       @supervision = Factory(:supervision, :state => "providing_ideas")
       @supervision.update_attributes({:state_event => "step_back_to_asking_questions"})
-      @supervision.state.should be == "asking_questions"
+      @supervision.state.should == "asking_questions"
       @supervision.asking_questions?.should be_true
     end
   end
 end
-
