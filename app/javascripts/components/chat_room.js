@@ -1,14 +1,14 @@
 (function($){
     var messageTemplate = _.template(
       "<li class=\"chat_message\" id=\"<?= id ?>\">" +
+        "<time datetime=\"<?= date.toISOString() ?>\"><?= displayDate ?></time> : " +
         "<span class=\"message-user\"><?= user ?></span> " +
-        "<time datetime=\"<?= date.toISOString() ?>\"><?= date ?></time> : " +
         "<span class=\"message-content\"><?= content ?></span>" +
       "</li>"
     );
     var presenceMessageTemplate = _.template(
       "<li class=\"system_chat_message\">" +
-        "<time datetime=\"<?= date.toISOString() ?>\"><?= date ?></time> : " +
+        "<time datetime=\"<?= date.toISOString() ?>\"><?= displayDate ?></time> : " +
         "<san class=\"message-content\"><?= content ?></span>" +
       "</li>"
     );
@@ -31,8 +31,6 @@
                 $messages = $this.find(".messages"),
                 $messagesParent = $messages.parent();
 
-            $messages.find("time").timeago();
-
             var scrollMessages = function() {
                 var newScrollTop = $messages.height() - $messagesParent.height();
                 $messagesParent.scrollTop(newScrollTop);
@@ -53,19 +51,31 @@
                 var id = message.id || -1,
                     user = message.user && message.user.name,
                     date = message.date || new Date(),
+                    displayDate = formattedDate(),
                     content = message.content || "";
 
-                var newMessage = $(messageTemplate({id: id, user: user, date: date, content: content}));
-                newMessage.find("time").timeago();
+                var newMessage = $(messageTemplate({id: id, user: user, date: date, displayDate: displayDate, content: content}));
                 addMessage(newMessage);
+            };
+
+            var formattedDate = function() {
+                var now = new Date(),
+                    hour = now.getHours(),
+                    min = now.getMinutes();
+                    if (hour < 10) {
+                        hour = '0' + hour;
+                    }
+                    if (min < 10) {
+                        min = '0' + min;
+                    }
+                return hour+":"+min;
             };
 
             var addPresenceMessage = function(status, userData) {
                 var text = presenceMessageContentTemplates[status]({ user: userData.name }),
-                    date = new Date(), // use message.created_at maybe
-                    newMessage = $(presenceMessageTemplate({date: date, content: text}));
-
-                newMessage.find("time").timeago();
+                    date = new Date(),
+                    displayDate = formattedDate(),
+                    newMessage = $(presenceMessageTemplate({date: date, displayDate: displayDate, content: text}));
                 addMessage(newMessage);
             };
 
