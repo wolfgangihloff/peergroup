@@ -6,6 +6,8 @@ class ChatMessage < ActiveRecord::Base
 
   attr_accessible :content
 
+  scope :recent, lambda { where(["created_at >= ?", 1.day.ago]) }
+
   def publish_to_redis
     channel = "chat:#{chat_room_id}"
     json_string = to_json({

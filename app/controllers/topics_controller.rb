@@ -14,7 +14,7 @@ class TopicsController < ApplicationController
       render :partial => partial_name, :layout => false, :locals => { :supervision => @supervision }
     else
       @chat_room = @supervision.chat_room
-      @chat_messages = @chat_room.last_messages
+      @chat_messages = @chat_room.chat_messages.recent
 
       @token = @chat_room.set_redis_access_token_for_user(current_user)
       REDIS.setex("supervision:#{@supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")

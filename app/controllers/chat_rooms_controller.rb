@@ -4,7 +4,7 @@ class ChatRoomsController < ApplicationController
   before_filter :fetch_chat_room
 
   def show
-    @chat_messages = @chat_room.chat_messages.limit(25)
+    @chat_messages = @chat_room.chat_messages.recent
     @token = @chat_room.set_redis_access_token_for_user(current_user)
   end
 

@@ -26,4 +26,10 @@ describe ChatMessage do
       @chat_message.save!
     end
   end
+
+  it "should not include messages older than one day" do
+    Factory(:chat_message, :created_at => 2.days.ago)
+    chat_message = Factory(:chat_message)
+    ChatMessage.recent.all.should == [chat_message]
+  end
 end
