@@ -1,4 +1,4 @@
-= semantic_form_for([:owner, @group, @membership || Membership.new], :url => owner_group_invitations_path) do |f|
+= semantic_form_for([:owner, @group, @membership || Membership.new], :url => owner_group_invitations_path(@group)) do |f|
   = f.inputs do
     = f.input :email
 

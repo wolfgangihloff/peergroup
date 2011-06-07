@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/morgoth/shoulda-matchers.git
-  revision: a463849d6bf3a5769ea29cfd353ae7ec1fedcb8f
+  revision: 9347fe8009865520009c98789bac3d940cf9b68e
   branch: mass-assigment-fix-for-empty-attr-accessible
   specs:
     shoulda-matchers (1.0.0.beta3)
@@ -176,7 +176,7 @@ GEM
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
       rspec-mocks (~> 2.6.0)
-    rspec-core (2.6.3)
+    rspec-core (2.6.4)
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)

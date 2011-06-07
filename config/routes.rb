@@ -52,7 +52,7 @@ Peergroupsupervision::Application.routes.draw do
 
   namespace :owner do
     resources :groups, :only => [] do
-      resources :invitations, :only => [:index, :new, :create]
+      resources :invitations, :only => [:new, :create]
       resources :requests, :only => [:update, :destroy]
     end
   end

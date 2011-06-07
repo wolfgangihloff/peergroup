@@ -1,10 +1,6 @@
 class Owner::InvitationsController < ApplicationController
   before_filter :authenticate
 
-  def index
-    group
-  end
-
   def new
     @membership = group.memberships.build(params[:membership])
   end
@@ -12,7 +8,7 @@ class Owner::InvitationsController < ApplicationController
   def create
     @membership = group.memberships.build(params[:membership])
     if @membership.save && @membership.invite!
-      redirect_to owner_group_invitations_path(group), :notice => "User invited"
+      redirect_to group_path(group), :notice => "User invited"
     else
       render :new
     end

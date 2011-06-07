@@ -3,12 +3,12 @@ class Owner::RequestsController < ApplicationController
 
   def update
     membership.accept!
-    redirect_to owner_group_invitations_path(group), :notice => "User is now part of group"
+    redirect_to group_path(group), :notice => "User is now part of group"
   end
 
   def destroy
     membership.destroy
-    redirect_to owner_group_invitations_path(group), :notice => "User membership request rejected"
+    redirect_to group_path(group), :notice => "User membership request rejected"
   end
 
   private

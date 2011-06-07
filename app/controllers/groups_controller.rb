@@ -40,6 +40,7 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @title = t(".title", :default => "Group overview")
     @group = Group.find(params[:id])
   end
 

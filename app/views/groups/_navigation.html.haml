@@ -3,8 +3,6 @@
   %li= link_to t(".links.session", :default => "Session"), path_for_group_supervision(group)
   %li= link_to t(".links.chat", :default => "Chat"), group_chat_room_path(group)
   - if group.founder == current_user
-    - if group.invitable?
-      %li= link_to t(".links.invitations", :default => "Invitations"), owner_group_invitations_path(group)
     %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group)
     %li= link_to t(".links.delete", :default => "delete"), group_path(group), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
 - elsif current_user.invited_member_of?(group)
