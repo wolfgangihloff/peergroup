@@ -26,6 +26,7 @@ class Group < ActiveRecord::Base
   scope :open, where(:invitable => false)
 
   after_create :add_founder_to_members, :create_chat_room, :create_default_rules
+  after_update :accept_pending_requests, :if => :group_opened?
 
   attr_accessible :name, :description, :invitable
 
@@ -58,5 +59,13 @@ class Group < ActiveRecord::Base
 
   def add_founder_to_members
     add_member!(founder)
+  end
+
+  def group_opened?
+    invitable_changed? and public?
+  end
+
+  def accept_pending_requests
+    requested_memberships.each(&:accept!)
   end
 end

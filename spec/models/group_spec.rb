@@ -58,4 +58,12 @@ describe Group do
       group.chat_room.should_not be_nil
     end
   end
+
+  it "should accept membership requests after opening group" do
+    @group.update_attributes!(:invitable => true)
+    membership = Factory(:membership, :group => @group, :user => Factory(:user))
+    membership.request!
+    @group.update_attributes(:invitable => false)
+    @group.active_memberships.should include(membership)
+  end
 end
