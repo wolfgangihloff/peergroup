@@ -11,8 +11,7 @@ class SupervisionsController < ApplicationController
   before_filter :require_supervision_membership, :only => [:show, :update, :statusbar]
 
   def index
-    @finished_supervisions = Supervision.finished.where(:group_id => current_user.group_ids).paginate :per_page => 10, :page => params[:page], :order => "created_at DESC"
-    @current_supervisions = Supervision.in_progress.where(:group_id => current_user.group_ids)
+    @supervisions = current_user.supervisions.in_progress
   end
 
   def new
