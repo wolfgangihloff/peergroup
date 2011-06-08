@@ -179,4 +179,8 @@ describe User do
     user = Factory(:user, :email => "john@doe.com")
     user.invited_memberships.should == [membership]
   end
+
+  it "should not select given user" do
+    User.without(@user).should be_empty
+  end
 end

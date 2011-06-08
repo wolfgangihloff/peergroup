@@ -1,22 +1,33 @@
 %article
 
+  %h3 Founder
+  = gravatar_for(@group.founder, :size => 30)
+  = link_to(@group.founder.name, @group.founder)
   %h3 Members
-  = render "users/list", :users => @group.active_members, :selected_user => @group.founder
+  %ul.users
+    - @group.active_members.without(@group.founder).each do |user|
+      %li
+        = gravatar_for(user, :size => 30)
+        = link_to(user, @group.founder)
+        - if @group.founder == current_user
+          .inline= button_to("remove from group", owner_group_membership_path(@group, user), :method => :delete)
 
   - if @group.founder == current_user
 
-    %h3 Requested memberships
-    %ul
-      - @group.requested_memberships.each do |membership|
-        %li
-          .inline= "#{membership.user.name} <#{membership.email}>"
-          .inline= button_to t(".links.accept", :default => "accept"), owner_group_request_path(@group, membership), :method => :put
-          .inline= button_to t(".links.reject", :default => "reject"), owner_group_request_path(@group, membership), :method => :delete
+    - if @group.requested_memberships.any?
+      %h3 Requested memberships
+      %ul
+        - @group.requested_memberships.each do |membership|
+          %li
+            .inline= "#{membership.user.name} <#{membership.email}>"
+            .inline= button_to t(".links.accept", :default => "accept"), owner_group_request_path(@group, membership), :method => :put
+            .inline= button_to t(".links.reject", :default => "reject"), owner_group_request_path(@group, membership), :method => :delete
 
-    %h3 Sent invitations
-    %ul
-      - @group.invited_memberships.each do |membership|
-        %li= membership.email
+    - if @group.invited_memberships.any?
+      %h3 Sent invitations
+      %ul
+        - @group.invited_memberships.each do |membership|
+          %li= membership.email
 
     - if @group.invitable?
       %h3 Invite person

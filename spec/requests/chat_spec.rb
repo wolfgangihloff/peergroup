@@ -30,7 +30,7 @@ feature "Chat" do
     page.should have_css(".chat_room.connected")
     Factory(:user, :name => "test")
     fill_in "chat_message_content", :with => "What's up?"
-    click_button "Submit"
+    click_button ">>"
 
     page.should have_content("What's up?")
   end

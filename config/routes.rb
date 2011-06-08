@@ -54,6 +54,7 @@ Peergroupsupervision::Application.routes.draw do
     resources :groups, :only => [] do
       resources :invitations, :only => [:new, :create]
       resources :requests, :only => [:update, :destroy]
+      resources :memberships, :only => [:destroy]
     end
   end
 

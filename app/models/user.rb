@@ -33,6 +33,8 @@ class User < ActiveRecord::Base
 
   after_create :associate_group_memberships
 
+  scope :without, lambda { |user| where(["users.id != ?", user]) }
+
   def to_s
     name
   end
