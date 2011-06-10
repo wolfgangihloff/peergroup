@@ -1,4 +1,4 @@
-class Owner::RequestsController < ApplicationController
+class Founder::RequestsController < ApplicationController
   before_filter :authenticate
 
   def update

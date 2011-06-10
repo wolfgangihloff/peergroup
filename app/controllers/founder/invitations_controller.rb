@@ -1,4 +1,4 @@
-class Owner::InvitationsController < ApplicationController
+class Founder::InvitationsController < ApplicationController
   before_filter :authenticate
 
   def new

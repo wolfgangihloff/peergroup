@@ -1,4 +1,4 @@
-class Owner::MembershipsController < ApplicationController
+class Founder::MembershipsController < ApplicationController
   before_filter :authenticate
 
   def destroy

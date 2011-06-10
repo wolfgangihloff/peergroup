@@ -1,0 +1,6 @@
+= semantic_form_for([:founder, @group, @membership || Membership.new], :url => founder_group_invitations_path(@group)) do |f|
+  = f.inputs do
+    = f.input :email
+
+  = f.buttons do
+    = f.commit_button "Invite"

@@ -50,7 +50,7 @@ Peergroupsupervision::Application.routes.draw do
     resources :chat_messages, :only => :create
   end
 
-  namespace :owner do
+  namespace :founder do
     resources :groups, :only => [] do
       resources :invitations, :only => [:new, :create]
       resources :requests, :only => [:update, :destroy]
