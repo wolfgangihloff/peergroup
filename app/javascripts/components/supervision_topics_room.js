@@ -113,8 +113,8 @@
                 $.get(url, [], onSuccess);
             };
 
-            var onAjaxComplete = function(event, xhr, status) {
-                var json = $.parseJSON(xhr.response);
+            var onAjaxComplete = function(event, xhr) {
+                var json = $.parseJSON(xhr.responseText);
                 if (json && json.flash) {
                     _.each(json.flash, function(message, severity) {
                         $this.trigger("flash:" + severity, message);

@@ -32,9 +32,8 @@
             },
             complete: function (xhr, status) {
                 $this.trigger('ajax:complete', [xhr, status]);
-
                 // try parse response as JSON and extract flash-es
-                var json = $.parseJSON(xhr.response);
+                var json = $.parseJSON(xhr.responseText);
                 if (json && json.flash) {
                     _.each(json.flash, function(message, severity) {
                         $this.trigger("flash:" + severity, message);
