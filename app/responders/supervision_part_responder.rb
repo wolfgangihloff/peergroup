@@ -34,11 +34,7 @@ class SupervisionPartResponder < ActionController::Responder
   protected
 
   def flash_message_hash(severity)
-    if options[:no_flash]
-      {}
-    else
-      { severity.to_sym => flash_message(severity) }
-    end
+    {severity.to_sym => flash_message(severity)}
   end
 
   def flash_message(severity)

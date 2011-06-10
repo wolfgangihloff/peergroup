@@ -396,7 +396,7 @@ en:
       notice: Your solution was successfully added
       alert: "You must type you solution or click \"No more solutions\" link"
     update:
-      notice: Your rating was succesfully saved
+      notice: "Solution's rating has been changed"
       alert: You must rate solution before posting
     form:
       content_hint: Enter your solution here
@@ -406,7 +406,7 @@ en:
       notice: Your idea was successfully added
       alert: "You must type your idea or click \"No more ideas\" link"
     update:
-      notice: Your rating was successfully saved
+      notice: "Idea's rating has been changed"
       alert: You must rate idea before posting
     form:
       content_hint: Enter your idea here

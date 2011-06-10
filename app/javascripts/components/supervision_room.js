@@ -175,14 +175,9 @@
                 $newIdeaForm = $ideas.find(".form"),
                 $editIdeaForm = $ideas.find(".idea:has('.edit_idea')");
 
-            var afterAdd = function(resource, $content, $container, $previousContent) {
-                if ($previousContent.length) {
-                    $parent.trigger("flash:notice", that.updateMessages["idea"]);
-                }
-            };
             var onNewIdea = function(event, message) {
                 var resource = { type: "idea", id: message.id };
-                that.loadResource(resource, $ideasList, afterAdd);
+                that.loadResource(resource, $ideasList);
             };
 
             $newIdeaForm.live("ajax:loading", clearText("#idea_content"));
@@ -224,14 +219,9 @@
                 $newSolutionForm = $solutions.find(".form"),
                 $editSolutionForm = $solutions.find(".solution:has('.edit_solution')");
 
-            var afterAdd = function(resource, $content, $container, $previousContent) {
-                if ($previousContent.length) {
-                    $parent.trigger("flash:notice", that.updateMessages["solution"]);
-                }
-            };
             var onNewSolution = function(event, message) {
                 var resource = { type: "solution", id: message.id };
-                that.loadResource(resource, $solutionsList, afterAdd);
+                that.loadResource(resource, $solutionsList);
             };
 
             $newSolutionForm.live("ajax:loading", clearText("#solution_content"));

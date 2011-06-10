@@ -69,7 +69,6 @@ feature "Supervision Session", :js => true do
 
       @idea = Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       @idea.update_attributes(:rating => "5")
-      page.should have_flash("Idea's rating has been changed")
       within "#idea_#{@idea.id} .rating" do
         page.should have_selector("input[type=radio]#idea_rating_5[checked]")
       end
@@ -154,7 +153,6 @@ feature "Supervision Session", :js => true do
 
       @solution = Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       @solution.update_attributes(:rating => "4")
-      page.should have_flash("Solution's rating has been changed")
       within "#solution_#{@solution.id} .rating" do
         page.should have_selector("input[type=radio]#solution_rating_4[checked]")
       end
