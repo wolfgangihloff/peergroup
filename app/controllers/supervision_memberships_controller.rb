@@ -25,7 +25,7 @@ class SupervisionMembershipsController < ApplicationController
   end
 
   def require_supervision_group_membership
-    unless @supervision.group.members.exists?(current_user)
+    unless @supervision.group.active_members.exists?(current_user)
       respond_to do |fomat|
         format.html { redirect_to root_path }
         format.json { render :status => :forbidden, :json => {:status => "forbidden"} }
@@ -33,5 +33,4 @@ class SupervisionMembershipsController < ApplicationController
       false
     end
   end
-
 end

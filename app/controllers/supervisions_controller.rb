@@ -78,6 +78,4 @@ class SupervisionsController < ApplicationController
       redirect_to new_supervision_membership_path(@supervision)
     end
   end
-
 end
-

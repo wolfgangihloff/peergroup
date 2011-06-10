@@ -211,7 +211,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def all_topics?
-    group.members.all? {|m| topics.exists?(:user_id => m.id) }
+    group.active_members.all? {|m| topics.exists?(:user_id => m.id) }
   end
 
   def all_topic_votes?
