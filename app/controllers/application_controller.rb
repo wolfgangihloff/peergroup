@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  before_filter :set_locale, :set_location
-  before_filter :setup_title
+  before_filter :set_locale, :set_location, :setup_title
 
   protected
 
@@ -20,19 +19,11 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    { :locale => I18n.locale }
+    {:locale => I18n.locale}
   end
 
   def setup_title
     @title = t("#{controller_name}.#{action_name}.title")
-  end
-
-  def require_parent_group
-    @group = Group.find(params[:group_id])
-  end
-
-  def require_parent_supervision
-    @supervision = Supervision.find(params[:supervision_id])
   end
 
   def self.require_supervision_state(*args)

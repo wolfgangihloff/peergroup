@@ -8,14 +8,9 @@ describe SupervisionsController do
     sign_in(@user)
   end
 
-  def mock_current_supervision_with(supervision)
-    Group.should_receive(:find).with(@group.id).and_return(@group)
-    @group.should_receive(:current_supervision).and_return(supervision)
-  end
-
   describe "#new" do
     context "when current supervision already exists" do
-      before { mock_current_supervision_with(@supervision = @group.supervisions.create!) }
+      before { @supervision = @group.supervisions.create! }
 
       it "should redirect to show current supervision" do
         get :new, :group_id => @group.id
@@ -24,8 +19,6 @@ describe SupervisionsController do
     end
 
     context "when no current supervision" do
-      before { mock_current_supervision_with(nil) }
-
       it "should display new supervision question" do
         get :new, :group_id => @group.id
         response.should render_template("new")
@@ -34,10 +27,9 @@ describe SupervisionsController do
   end
 
   describe "#create" do
-
     context "when supervision already exists" do
       before do
-        mock_current_supervision_with(@supervision = @group.supervisions.create!)
+        @supervision = @group.supervisions.create!
         post :create, :group_id => @group.id
       end
 
@@ -116,4 +108,3 @@ describe SupervisionsController do
     end
   end
 end
-
