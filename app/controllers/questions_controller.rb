@@ -4,6 +4,7 @@ class QuestionsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_question, :only => :show
   before_filter :fetch_supervision, :only => :create
+  before_filter :require_supervision_membership
   require_supervision_state :asking_questions, :only => :create
 
   respond_to :html, :json
@@ -29,5 +30,11 @@ class QuestionsController < ApplicationController
 
   def fetch_supervision
     @supervision = Supervision.find(params[:supervision_id])
+  end
+
+  def require_supervision_membership
+    unless @supervision.members.exists?(current_user)
+      redirect_to new_supervision_membership_path(@supervision)
+    end
   end
 end

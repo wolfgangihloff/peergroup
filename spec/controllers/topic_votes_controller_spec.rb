@@ -7,6 +7,7 @@ describe TopicVotesController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "voting_on_topics")
+    @user.join_supervision(@supervision)
     @topic = Factory(:topic, :supervision => @supervision)
   end
 

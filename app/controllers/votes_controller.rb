@@ -2,7 +2,7 @@ class VotesController < ApplicationController
   self.responder = SupervisionPartResponder
 
   before_filter :authenticate
-  before_filter :supervision
+  before_filter :require_supervision_membership
   require_supervision_state :asking_questions, :providing_ideas, :providing_solutions, :only => :create
 
   respond_to :html, :json
@@ -19,5 +19,11 @@ class VotesController < ApplicationController
 
   def supervision
     @supervision ||= Supervision.find(params[:supervision_id])
+  end
+
+  def require_supervision_membership
+    unless supervision.members.exists?(current_user)
+      redirect_to new_supervision_membership_path(supervision)
+    end
   end
 end

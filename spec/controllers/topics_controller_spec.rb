@@ -5,8 +5,10 @@ describe TopicsController do
   before do
     @group = Factory(:group)
     @user = @group.founder
-    sign_in(@user)
     @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+    @user.join_supervision(@supervision)
+
+    sign_in(@user)
   end
 
   describe "#show with partial=1 param" do
@@ -62,9 +64,11 @@ describe TopicsController do
     specify { response.should be_success }
     specify { assert_tag :attributes => { "class" => "supervision", "id" => "supervision_#{@supervision.id}", "data-token" => "asdfb" } }
   end
+
   context "#index with param" do
     before do
       @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @user.join_supervision(@supervision)
     end
 
     describe "partial=topics" do
@@ -91,9 +95,11 @@ describe TopicsController do
   describe "#index when @supervision.state=gathering_topics" do
     before do
       @supervision = Factory(:supervision, :state => "gathering_topics")
+      @user.join_supervision(@supervision)
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
       ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
+
       get :index, :supervision_id => @supervision.id
     end
 
@@ -103,6 +109,7 @@ describe TopicsController do
   describe "#index when @supervision.state=voting_on_topics" do
     before do
       @supervision = Factory(:supervision, :state => "voting_on_topics")
+      @user.join_supervision(@supervision)
       SecureRandom.should_receive(:hex).and_return("asdfb")
       ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
       ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
@@ -115,6 +122,7 @@ describe TopicsController do
   describe "#index when @supervision.state=asking_questions" do
     before do
       @supervision = Factory(:supervision, :state => "asking_questions")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -124,6 +132,7 @@ describe TopicsController do
   describe "#index when @supervision.state=providing_ideas" do
     before do
       @supervision = Factory(:supervision, :state => "providing_ideas")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -133,6 +142,7 @@ describe TopicsController do
   describe "#index when @supervision.state=giving_ideas_feedback" do
     before do
       @supervision = Factory(:supervision, :state => "giving_ideas_feedback")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -142,6 +152,7 @@ describe TopicsController do
   describe "#index when @supervision.state=providing_solutions" do
     before do
       @supervision = Factory(:supervision, :state => "providing_solutions")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -151,6 +162,7 @@ describe TopicsController do
   describe "#index when @supervision.state=giving_solutions_feedback" do
     before do
       @supervision = Factory(:supervision, :state => "giving_solutions_feedback")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 
@@ -160,6 +172,7 @@ describe TopicsController do
   describe "#index when @supervision.state=giving_supervision_feedbacks" do
     before do
       @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+      @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
 

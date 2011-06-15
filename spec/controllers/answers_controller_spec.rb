@@ -7,6 +7,7 @@ describe AnswersController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
+    @user.join_supervision(@supervision)
     @question = Factory(:question, :supervision => @supervision)
   end
 

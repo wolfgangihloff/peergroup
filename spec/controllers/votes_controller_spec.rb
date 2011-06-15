@@ -7,6 +7,7 @@ describe VotesController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "providing_ideas")
+    @user.join_supervision(@supervision)
   end
 
   describe "#create" do

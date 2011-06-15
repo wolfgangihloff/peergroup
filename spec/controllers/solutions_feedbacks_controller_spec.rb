@@ -7,6 +7,7 @@ describe SolutionsFeedbacksController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "giving_solutions_feedback")
+    @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do

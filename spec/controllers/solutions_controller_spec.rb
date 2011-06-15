@@ -7,6 +7,7 @@ describe SolutionsController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+    @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
@@ -140,6 +141,5 @@ describe SolutionsController do
         json["flash"]["alert"].should be_present
       end
     end
-
   end
 end

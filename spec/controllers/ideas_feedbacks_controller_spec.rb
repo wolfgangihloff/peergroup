@@ -7,6 +7,7 @@ describe IdeasFeedbacksController do
     sign_in(@user)
 
     @supervision = Factory(:supervision, :group => @group, :state => "giving_ideas_feedback")
+    @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
