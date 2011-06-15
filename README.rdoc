@@ -26,7 +26,7 @@ Copy and adjust redis config file:
 
 Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
-3. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7)
+3. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7, v0.4.8)
 
   node app-node/server.js
 

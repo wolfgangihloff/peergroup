@@ -20,6 +20,4 @@ class AnswersController < ApplicationController
     @question = Question.find(params[:question_id])
     @supervision = @question.supervision
   end
-
 end
-
