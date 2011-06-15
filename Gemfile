@@ -11,13 +11,14 @@ gem "compass"
 gem "formtastic"
 gem "friendly_id"
 gem "rdiscount"
-gem "faker"
 gem "state_machine"
 gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
 gem "hiredis" # for better Redis support
-gem "SystemTimer" # for redis
 gem "routing-filter"
+
+# for redis
+gem "SystemTimer", :require => nil, :platform => :ruby_18
 
 group :staging do
   # gem "pg"
@@ -27,6 +28,8 @@ end
 group :test, :development do
   gem "rspec-rails"
   gem "ruby-debug"
+  # for linecache 0.45 used by ruby-debug
+  gem "require_relative", :require => nil, :platform => :ruby_18
 end
 
 group :test do
@@ -35,6 +38,7 @@ group :test do
   gem "factory_girl_rails"
   gem "database_cleaner"
   gem "capybara", "~> 1.0.0.rc1"
+  gem "faker"
 end
 
 group :development do
