@@ -40,4 +40,3 @@ class ApplicationController < ActionController::Base
     before_filter filter_name, options
   end
 end
-

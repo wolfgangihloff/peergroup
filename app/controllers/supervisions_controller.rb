@@ -15,7 +15,9 @@ class SupervisionsController < ApplicationController
   end
 
   def create
-    redirect_to group.supervisions.create!
+    @supervision = group.supervisions.create!
+    current_user.join_supervision(@supervision)
+    redirect_to @supervision
   end
 
   def show

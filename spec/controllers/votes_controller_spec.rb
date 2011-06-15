@@ -11,12 +11,10 @@ describe VotesController do
 
   describe "#create" do
     before do
-      post :create,
-        :supervision_id => @supervision.id
+      post :create, :supervision_id => @supervision.id
     end
 
     specify { response.should redirect_to(supervision_path(@supervision)) }
-    specify { flash[:notice].should_not be_present }
   end
 
   describe "#create.json" do
@@ -27,9 +25,5 @@ describe VotesController do
     end
 
     specify { response.should be_success }
-    specify do
-      json = JSON.restore(response.body)
-      json["flash"].should_not be_present
-    end
   end
 end

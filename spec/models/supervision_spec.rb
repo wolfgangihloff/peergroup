@@ -355,13 +355,14 @@ describe Supervision do
 
     it "should change from gathering_topics to voting_on_topics" do
       @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @bob.join_supervision(@supervision)
+      @alice.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
 
       Factory(:topic, :user => @alice, :supervision => @supervision)
       Factory(:topic, :user => @bob, :supervision => @supervision)
-      @supervision.reload
-      @supervision.gathering_topics?.should be_true
-
       Factory(:topic, :user => @cindy, :supervision => @supervision)
+
       @supervision.reload
       @supervision.gathering_topics?.should be_false
       @supervision.voting_on_topics?.should be_true
@@ -369,6 +370,10 @@ describe Supervision do
 
     it "should change from voting_on_topics to asking_questions" do
       @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @bob.join_supervision(@supervision)
+      @alice.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
       @alices_topic = Factory(:topic, :user => @alice, :supervision => @supervision)
       Factory(:topic, :user => @bob, :supervision => @supervision)
       Factory(:topic, :user => @cindy, :supervision => @supervision)
@@ -383,7 +388,7 @@ describe Supervision do
       @supervision.reload
       @supervision.voting_on_topics?.should be_false
       @supervision.asking_questions?.should be_true
-      @supervision.topic.should be == @alices_topic
+      @supervision.topic.should == @alices_topic
     end
 
     it "should change from asking_questions to providing_ideas" do
@@ -659,10 +664,12 @@ describe Supervision do
 
       it "should not change state if it's not needed" do
         @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
-        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
-        @supervision.save
         @bob.join_supervision(@supervision)
         @cindy.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
+
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
 
         @bob.leave_supervision(@supervision)
 
@@ -684,10 +691,12 @@ describe Supervision do
 
       it "should change to cancelled state if topic owner leaves" do
         @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
-        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
-        @supervision.save
+        @alice.join_supervision(@supervision)
         @bob.join_supervision(@supervision)
         @cindy.join_supervision(@supervision)
+
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
 
         @alice.leave_supervision(@supervision)
 
@@ -698,10 +707,12 @@ describe Supervision do
       it "should change to next state if last member leaves" do
         @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
 
-        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
-        @supervision.save
+        @alice.join_supervision(@supervision)
         @bob.join_supervision(@supervision)
         @cindy.join_supervision(@supervision)
+
+        @supervision.topic = Factory(:topic, :supervision => @supervision, :user => @alice)
+        @supervision.save
 
         @supervision.supervision_feedbacks << Factory(:supervision_feedback, :supervision => @supervision, :user => @alice)
         @supervision.supervision_feedbacks << Factory(:supervision_feedback, :supervision => @supervision, :user => @bob)

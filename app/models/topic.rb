@@ -13,7 +13,6 @@ class Topic < ActiveRecord::Base
 
   after_create do
     supervision.post_topic
-    user.join_supervision(supervision)
     publish_to_redis
   end
 

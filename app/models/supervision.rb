@@ -21,8 +21,6 @@ class Supervision < ActiveRecord::Base
     giving_supervision_feedbacks
   ]
 
-  delegate :user, :to => :topic, :prefix => true, :allow_nil => true
-
   state_machine :state, :initial => :gathering_topics do
     before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
@@ -138,8 +136,8 @@ class Supervision < ActiveRecord::Base
 
   validates :group, :presence => true
 
+  delegate :user, :content, :to => :topic, :prefix => true, :allow_nil => true
   delegate :name, :to => :group, :prefix => true
-  delegate :content, :to => :topic, :prefix => true, :allow_nil => true
   delegate :id, :to => :chat_room, :prefix => true
 
   attr_accessible :state_event
@@ -179,7 +177,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def problem_owner
-    topic.user if topic
+    topic_user if topic
   end
 
   def problem_owner?(user)
@@ -211,15 +209,15 @@ class Supervision < ActiveRecord::Base
   end
 
   def all_topics?
-    group.active_members.all? {|m| topics.exists?(:user_id => m.id) }
+    members.all? { |m| topics.exists?(:user_id => m.id) }
   end
 
   def all_topic_votes?
-    members.all? {|m| topic_votes.exists?(:user_id => m.id) }
+    members.all? { |m| topic_votes.exists?(:user_id => m.id) }
   end
 
   def all_next_step_votes?
-    members.all? {|m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
+    members.all? { |m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
   end
 
   def can_move_to_idea_state?
@@ -251,7 +249,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def all_supervision_feedbacks?
-    members.all? {|m| supervision_feedbacks.exists?(:user_id => m.id) }
+    members.all? { |m| supervision_feedbacks.exists?(:user_id => m.id) }
   end
 
   def destroy_next_step_votes
@@ -259,7 +257,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def choose_topic
-    self.topic = topics.sort {|a,b| a.votes.count <=> b.votes.count}.last
+    self.topic = topics.sort { |a,b| a.votes.count <=> b.votes.count}.last
   end
 
   def supervision_publish_attributes
