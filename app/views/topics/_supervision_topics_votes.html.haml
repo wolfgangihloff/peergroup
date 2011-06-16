@@ -1,18 +1,15 @@
 %section.topic_votes_part
-  %header
-    %h1= t("supervisions.show.topic_votes")
-
   - if supervision.voting_on_topics?
     %p.waiting= t("supervisions.show.topic_votes_waiting")
 
     .list
       - supervision.topics.each do |topic|
-        %div[topic]
+        %div.form[topic]
           .user{ :class => ("you" if current_user?(topic.user)) }
             = link_to topic.user, :title => topic.user do
               = gravatar_for(topic.user)
               .name= topic.user
           .content
             %p= topic_content(topic)
-            = form_for([topic, Vote.new]) do |f|
-              = f.submit t("topics.index.topic_vote"), :disabled => supervision.voted_on_topic?(current_user)
+            = form_for([topic, Vote.new], :html => {:id => "new_topic_#{topic.id}_vote"}) do |f|
+              = f.submit t("topics.index.topic_vote"), :disabled => supervision.voted_on_topic?(current_user), :id => "topic_#{topic.id}_vote_submit"

@@ -176,6 +176,12 @@ jQuery(function($) {
             s.on("supervision", function(type, message) {
                 $supervision.trigger("supervision:update", message.supervision);
             });
+            s.on("topic", function(type, message) {
+                $supervision.trigger("supervision:topic", message.topic);
+            });
+            s.on("vote", function(type, message) {
+                $supervision.trigger("supervision:topic_vote", message.vote);
+            });
             s.on("question", function(type, message) {
                 $supervision.trigger("supervision:question", message.question);
             });

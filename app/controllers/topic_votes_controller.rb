@@ -11,7 +11,7 @@ class TopicVotesController < ApplicationController
     @vote = topic.votes.build
     @vote.user = current_user
     @vote.save
-    respond_with(@vote, :location => supervision_topics_path(supervision))
+    respond_with(@vote, :location => supervision_path(supervision))
   end
 
   protected

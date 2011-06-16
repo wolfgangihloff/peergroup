@@ -86,7 +86,7 @@
         },
 
         supervisionTopicPath: function(supervisionId, topicId, options) {
-            return this.path(["topics", topicId], options);
+            return this.path(["supervisions", supervisionId, "topics", topicId], options);
         },
 
         supervisionQuestionPath: function(supervisionId, questionId, options) {

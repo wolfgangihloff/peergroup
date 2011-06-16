@@ -30,8 +30,7 @@ class TopicsController < ApplicationController
   end
 
   def show
-    @topic = Topic.find(params[:id])
-    @supervision = @topic.supervision
+    @topic = supervision.topics.find(params[:id])
     respond_with(@topic)
   end
 

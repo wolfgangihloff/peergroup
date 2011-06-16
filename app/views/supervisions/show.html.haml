@@ -21,8 +21,15 @@
       %header
         %h1= t("supervisions.show.topic")
 
-      .list
-        = render @supervision.topic, :supervision => @supervision
+        %div{:"data-show-in-state" => "gathering_topics"}
+          = render "topics/supervision_topics", :supervision => @supervision
+
+        %div{:"data-show-in-state" => "voting_on_topics"}
+          = render "topics/supervision_topics_votes", :supervision => @supervision
+
+      .list.chosen_topic
+        - if @supervision.topic
+          = render @supervision.topic, :supervision => @supervision
 
     %section.questions_part
       %header

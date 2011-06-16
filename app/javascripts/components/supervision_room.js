@@ -128,12 +128,67 @@
             if (resource.single) {
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, { partial: 1 });
             } else {
+                console.log("in loadResource not single");
+                console.log($container);
+                console.log(resource);
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, resource.id, { partial: 1 });
+                console.log(url);
             }
             var onSuccess = function(data, status, xhr) {
                 that.addResource(resource, $(data), $container, callback);
             };
             $.get(url, [], onSuccess);
+            return this;
+        };
+        /*
+         * setupTopicsPart()
+         */
+        context.setupTopicsPart = function() {
+            var that = this;
+            var topics = $parent.find(".gathering_topics_part"),
+                topicsList = topics.find(".list"),
+                newTopicForm = topics.find(".form")
+
+            var onNewTopic = function(event, message) {
+                var resource = { type: "topic", id: message.id };
+                that.loadResource(resource, topicsList);
+            };
+
+            newTopicForm.live({
+                "ajax:success": function() { newTopicForm.hide("fast"); }
+            });
+            setupForm(newTopicForm);
+
+            $parent.bind({
+                "supervision:topic": onNewTopic
+            });
+            return this;
+        };
+        /*
+         * setupTopicVotesPart()
+         */
+        context.setupTopicVotesPart = function() {
+            var that = this;
+            var topicVotes = $parent.find(".topic_votes_part"),
+                topicsList = topicVotes.find(".list"),
+                newTopicVoteForm = topicVotes.find(".form")
+
+            var onNewTopicVote = function(event, message) {
+                //console.log(message);
+                //var resource = { type: "topic", id: message.statement_id };
+                //that.loadResource(resource, topicsList);
+            };
+
+            newTopicVoteForm.live({
+                "ajax:success": function() {
+                    newTopicVoteForm.find("input[type=submit]").attr("disabled", "disabled");
+                }
+            });
+            setupForm(newTopicVoteForm);
+
+            $parent.bind({
+                "supervision:topic_vote": onNewTopicVote
+            });
             return this;
         };
         /*
@@ -290,6 +345,30 @@
             });
             return this;
         };
+
+        /*
+         * setupChosenTopic()
+         */
+        context.setupChosenTopic = function() {
+            var onSupervisionUpdate = function(event, message) {
+                var state = message.state,
+                    topicPart = $parent.find(".topics_part");
+
+                console.log(supervisionId);
+                if (state === "asking_questions") {
+                    console.log("inside");
+                    if (topicPart.find(".chosen_topic .topic").length === 0) {
+                        console.log("inside chosen topic part");
+                        topicPart.find(".chosen_topic").append(topicPart.find(".gathering_topics_part").find("#topic_"+message.topic_id));
+                    }
+                }
+            };
+
+            $parent.bind({
+                "supervision:update": onSupervisionUpdate
+            });
+            return this;
+        }
         return context;
     };
 
@@ -304,12 +383,15 @@
 
             var supervisionContext = makeSupervisionContext($this, supervisionId);
             supervisionContext
+                .setupTopicsPart()
+                .setupTopicVotesPart()
                 .setupQuestionsPart()
                 .setupIdeasPart()
                 .setupIdeasFeedbackPart()
                 .setupSolutionsPart()
                 .setupSolutionsFeedbackPart()
                 .setupSupervisionFeedbackPart()
+                .setupChosenTopic()
                 .setupStatusbar($this)
 
             $this.bind({
