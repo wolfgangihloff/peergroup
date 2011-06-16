@@ -1,7 +1,6 @@
 source :rubygems
 
-gem "rake", "~> 0.8.7"
-gem "rails", "~> 3.0.9.rc3"
+gem "rails", "~> 3.0.9.rc5"
 gem "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "bson_ext"
@@ -37,7 +36,7 @@ group :test do
   gem "selenium-webdriver"
   gem "factory_girl_rails"
   gem "database_cleaner"
-  gem "capybara", "~> 1.0.0.rc1"
+  gem "capybara", "~> 1.0.0"
   gem "faker"
 end
 
