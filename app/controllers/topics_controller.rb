@@ -10,8 +10,8 @@ class TopicsController < ApplicationController
 
   def index
     if params[:partial]
-      partial_name = PARTIAL_NAMES[params[:partial]]
-      render :partial => partial_name, :layout => false, :locals => {:supervision => supervision}
+      # partial_name = PARTIAL_NAMES[params[:partial]]
+      render :partial => "supervision_topics_votes", :layout => false, :locals => {:supervision => supervision}
     else
       @chat_room = supervision.chat_room
       @chat_messages = @chat_room.chat_messages.recent

@@ -136,7 +136,7 @@ class Supervision < ActiveRecord::Base
 
   validates :group, :presence => true
 
-  delegate :user, :content, :to => :topic, :prefix => true, :allow_nil => true
+  delegate :user, :content, :user_id, :to => :topic, :prefix => true, :allow_nil => true
   delegate :name, :to => :group, :prefix => true
   delegate :id, :to => :chat_room, :prefix => true
 
@@ -261,6 +261,6 @@ class Supervision < ActiveRecord::Base
   end
 
   def supervision_publish_attributes
-    {:only => [:id, :state, :topic_id]}
+    {:only => [:id, :state, :topic_id], :methods => :topic_user_id}
   end
 end

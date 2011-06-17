@@ -25,7 +25,8 @@
           = render "topics/supervision_topics", :supervision => @supervision
 
         %div{:"data-show-in-state" => "voting_on_topics"}
-          = render "topics/supervision_topics_votes", :supervision => @supervision
+          %section.topic_votes_part
+            = render "topics/supervision_topics_votes", :supervision => @supervision
 
       .list.chosen_topic
         - if @supervision.topic

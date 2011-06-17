@@ -126,6 +126,8 @@
             var that = this;
             var url;
             if (resource.single) {
+                console.log("in loadResource single");
+                console.log(resource);
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, { partial: 1 });
             } else {
                 console.log("in loadResource not single");
@@ -173,22 +175,12 @@
                 topicsList = topicVotes.find(".list"),
                 newTopicVoteForm = topicVotes.find(".form")
 
-            var onNewTopicVote = function(event, message) {
-                //console.log(message);
-                //var resource = { type: "topic", id: message.statement_id };
-                //that.loadResource(resource, topicsList);
-            };
-
             newTopicVoteForm.live({
                 "ajax:success": function() {
                     newTopicVoteForm.find("input[type=submit]").attr("disabled", "disabled");
                 }
             });
             setupForm(newTopicVoteForm);
-
-            $parent.bind({
-                "supervision:topic_vote": onNewTopicVote
-            });
             return this;
         };
         /*
@@ -369,6 +361,44 @@
             });
             return this;
         }
+
+        /*
+         * setupTopicVoteList()
+         */
+        context.setupTopicVoteList = function() {
+            var onSupervisionUpdate = function(event, message) {
+                console.log("are we in setup topic votes list")
+                var that = this,
+                    state = message.state,
+                    topicVotesPart = $parent.find(".topics_part .topic_votes_part");
+
+                var onSuccess = function(data, status, xhr) {
+                    console.log("on success called")
+                    var content = $(data);
+                    topicVotesPart.append(content);
+                    topicVotesPart.find(".form").live({
+                        "ajax:success": function() {
+                            console.log("are we in live callback?");
+                            topicVotesPart.find(".form").find("input[type=submit]").attr("disabled", "disabled");
+                        }
+                    });
+                };
+
+                if (state === "voting_on_topics") {
+                    console.log("inside voting_on_topics setup");
+                    if (topicVotesPart.find(".list").length === 0) {
+                        console.log("inside voting on topics setup part");
+                        var url = PGS.supervisionTopicsPath(message.id, {partial: 1});
+                        $.get(url, [], onSuccess);
+                    }
+                }
+            };
+
+            $parent.bind({
+                "supervision:update": onSupervisionUpdate
+            });
+            return this;
+        }
         return context;
     };
 
@@ -392,6 +422,7 @@
                 .setupSolutionsFeedbackPart()
                 .setupSupervisionFeedbackPart()
                 .setupChosenTopic()
+                .setupTopicVoteList()
                 .setupStatusbar($this)
 
             $this.bind({
