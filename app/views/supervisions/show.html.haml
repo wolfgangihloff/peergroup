@@ -39,8 +39,7 @@
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "asking_questions"}
           %p.waiting= t("supervisions.show.questions_waiting")
-
-          - unless @supervision.problem_owner?(current_user)
+          .for_not_problem_owner
             .form.question
               .user
                 = render current_user
@@ -57,10 +56,9 @@
 
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "providing_ideas"}
-          - if @supervision.problem_owner?(current_user)
-            %p.waiting= t("supervisions.show.problem_owner_ideas_waiting")
-          - else
-            %p.waiting= t("supervisions.show.ideas_waiting")
+          %p.waiting.for_problem_owner= t("supervisions.show.problem_owner_ideas_waiting")
+          %p.waiting.for_not_problem_owner= t("supervisions.show.ideas_waiting")
+          .for_not_problem_owner
             .form.idea
               .user
                 = render current_user
@@ -77,14 +75,13 @@
 
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "giving_ideas_feedback"}
-          - if @supervision.problem_owner?(current_user)
+          .for_problem_owner
             .form.ideas_feedback
               .user
                 = render current_user
               .content
                 = render "ideas_feedbacks/form", :supervision => @supervision
-          - else
-            %p.waiting= t("supervisions.show.ideas_feedback_waiting")
+          %p.waiting.for_not_problem_owner= t("supervisions.show.ideas_feedback_waiting")
 
       .list
         = render @supervision.ideas_feedback if @supervision.ideas_feedback
@@ -95,16 +92,14 @@
 
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "providing_solutions"}
-          - if @supervision.problem_owner?(current_user)
-            %p.waiting= t("supervisions.show.problem_owner_solutions_waiting")
-          - else
-            %p.waiting= t("supervisions.show.solutions_waiting")
-            .form.solution
-              .user
-                = render current_user
-              .content
-                = render "solutions/form", :supervision => @supervision
-                = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
+          %p.waiting.for_problem_owner= t("supervisions.show.problem_owner_solutions_waiting")
+          %p.waiting.for_not_problem_owner= t("supervisions.show.solutions_waiting")
+          .form.solution
+            .user
+              = render current_user
+            .content
+              = render "solutions/form", :supervision => @supervision
+              = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
         = render @supervision.solutions, :supervision => @supervision
@@ -115,14 +110,13 @@
 
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "giving_solutions_feedback"}
-          - if @supervision.problem_owner?(current_user)
+          .for_problem_owner
             .form.solutions_feedback
               .user
                 = render current_user
               .content
                 = render "solutions_feedbacks/form", :supervision => @supervision
-          - else
-            %p.waiting= t("supervisions.show.solutions_feedback_waiting")
+          %p.waiting.for_not_problem_owner= t("supervisions.show.solutions_feedback_waiting")
 
       .list
         = render @supervision.solutions_feedback if @supervision.solutions_feedback

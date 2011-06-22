@@ -30,7 +30,8 @@ class SupervisionsController < ApplicationController
       :token => @token,
       :"supervision-state-transitions" => t("supervisions.show.supervision_state_transition").to_json,
       :"supervision-updates" => t("supervisions.show.supervision_updates").to_json,
-      :"current-user-id" => current_user.id
+      :"current-user-id" => current_user.id,
+      :"supervision-topic-user-id" => supervision.topic.try(:user_id)
     }
   end
 

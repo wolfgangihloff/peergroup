@@ -126,15 +126,9 @@
             var that = this;
             var url;
             if (resource.single) {
-                console.log("in loadResource single");
-                console.log(resource);
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, { partial: 1 });
             } else {
-                console.log("in loadResource not single");
-                console.log($container);
-                console.log(resource);
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, resource.id, { partial: 1 });
-                console.log(url);
             }
             var onSuccess = function(data, status, xhr) {
                 that.addResource(resource, $(data), $container, callback);
@@ -346,12 +340,11 @@
                 var state = message.state,
                     topicPart = $parent.find(".topics_part");
 
-                console.log(supervisionId);
                 if (state === "asking_questions") {
-                    console.log("inside");
                     if (topicPart.find(".chosen_topic .topic").length === 0) {
-                        console.log("inside chosen topic part");
                         topicPart.find(".chosen_topic").append(topicPart.find(".gathering_topics_part").find("#topic_"+message.topic_id));
+                        $parent.data("supervision-topic-user-id", message.topic_user_id);
+                        context.setupViewsForUser();
                     }
                 }
             };
@@ -363,31 +356,42 @@
         }
 
         /*
+         * setupViewsForUser()
+         */
+        context.setupViewsForUser = function() {
+            var currentUserId = $parent.data("current-user-id"),
+                topicUserId = $parent.data("supervision-topic-user-id");
+
+            if (topicUserId) {
+                if (currentUserId === topicUserId) {
+                    $parent.find(".for_problem_owner").show();
+                } else {
+                    $parent.find(".for_not_problem_owner").show();
+                }
+            }
+            return this
+        }
+        /*
          * setupTopicVoteList()
          */
         context.setupTopicVoteList = function() {
             var onSupervisionUpdate = function(event, message) {
-                console.log("are we in setup topic votes list")
                 var that = this,
                     state = message.state,
                     topicVotesPart = $parent.find(".topics_part .topic_votes_part");
 
                 var onSuccess = function(data, status, xhr) {
-                    console.log("on success called")
                     var content = $(data);
                     topicVotesPart.append(content);
                     topicVotesPart.find(".form").live({
                         "ajax:success": function() {
-                            console.log("are we in live callback?");
                             topicVotesPart.find(".form").find("input[type=submit]").attr("disabled", "disabled");
                         }
                     });
                 };
 
                 if (state === "voting_on_topics") {
-                    console.log("inside voting_on_topics setup");
                     if (topicVotesPart.find(".list").length === 0) {
-                        console.log("inside voting on topics setup part");
                         var url = PGS.supervisionTopicsPath(message.id, {partial: 1});
                         $.get(url, [], onSuccess);
                     }
@@ -423,6 +427,7 @@
                 .setupSupervisionFeedbackPart()
                 .setupChosenTopic()
                 .setupTopicVoteList()
+                .setupViewsForUser()
                 .setupStatusbar($this)
 
             $this.bind({
