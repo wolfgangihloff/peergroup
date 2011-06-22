@@ -26,6 +26,52 @@ feature "Supervision Session", :js => true do
     @group.add_member!(@cindy)
   end
 
+  context "in gathering_topics state" do
+    background do
+      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @alice.join_supervision(@supervision)
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+    end
+
+    scenario "should allow to post topic" do
+      sign_in_interactive(@bob)
+      visit_supervision(@supervision)
+      fill_in "topic_content", :with => "Can rails scale?"
+      click_button "Post your topic"
+      Topic.exists?(:content => "Can rails scale?").should be_true
+    end
+
+    scenario "should display topic posted by other user" do
+      sign_in_interactive(@alice)
+      visit_supervision(@supervision)
+      Factory(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
+      page.should have_content("Can rails scale?")
+    end
+  end
+
+  context "in voting_on_topics state" do
+    background do
+      @supervision = Factory(:supervision, :group => @group, :state => "voting_on_topics")
+      @alice.join_supervision(@supervision)
+      @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+    end
+
+    scenario "should allow to vote on topic" do
+      Factory(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
+      topic = Factory(:topic, :supervision => @supervision, :user => @alice, :content => "What is your favorite color?")
+      Factory(:vote, :statement => topic, :user => @alice)
+
+      sign_in_interactive(@bob)
+      visit_supervision(@supervision)
+      within "#topic_#{topic.id}" do
+        click_button "Vote on this topic"
+      end
+      @supervision.topic.should == topic
+    end
+  end
+
   context "in providing_ideas state" do
     background do
       @supervision = prepare_supervision("providing_ideas")

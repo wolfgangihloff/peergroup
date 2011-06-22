@@ -27,6 +27,6 @@ feature "Supervision membership" do
       click_link "Session"
     end
     click_button "Join session"
-    page.should have_content("Supervision Topics")
+    page.should have_content("Supervision Session")
   end
 end
