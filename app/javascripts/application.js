@@ -15,7 +15,6 @@
 
 //= require "components/chat_room"
 //= require "components/supervision_room"
-//= require "components/supervision_topics_room"
 //= require "components/flash_notifications"
 
 jQuery(function($) {

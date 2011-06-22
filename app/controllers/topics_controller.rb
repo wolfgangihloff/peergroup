@@ -9,16 +9,7 @@ class TopicsController < ApplicationController
   respond_to :html, :json
 
   def index
-    if params[:partial]
-      # partial_name = PARTIAL_NAMES[params[:partial]]
-      render :partial => "supervision_topics_votes", :layout => false, :locals => {:supervision => supervision}
-    else
-      @chat_room = supervision.chat_room
-      @chat_messages = @chat_room.chat_messages.recent
-
-      @token = @chat_room.set_redis_access_token_for_user(current_user)
-      REDIS.setex("supervision:#{supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
-    end
+    render :partial => "supervision_topics_votes", :layout => false, :locals => {:supervision => supervision}
   end
 
   def create
@@ -45,9 +36,4 @@ class TopicsController < ApplicationController
       redirect_to new_supervision_membership_path(supervision)
     end
   end
-
-  PARTIAL_NAMES = {
-    "topics" => "supervision_topics",
-    "topics_votes" => "supervision_topics_votes"
-  }
 end

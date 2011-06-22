@@ -15,6 +15,7 @@ describe TopicsController do
     before do
       @topic = Factory(:topic, :supervision => @supervision)
       get :show,
+        :supervision_id => @supervision.id,
         :id => @topic.id,
         :partial => 1
     end
@@ -55,68 +56,27 @@ describe TopicsController do
     render_views
 
     before do
-      SecureRandom.should_receive(:hex).and_return("asdfb")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
-      ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
       get :index, :supervision_id => @supervision.id
     end
 
     specify { response.should be_success }
-    specify { assert_tag :attributes => { "class" => "supervision", "id" => "supervision_#{@supervision.id}", "data-token" => "asdfb" } }
   end
 
-  context "#index with param" do
+  context "#index" do
     before do
       @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
       @user.join_supervision(@supervision)
     end
 
-    describe "partial=topics" do
-      before do
-        get :index, :supervision_id => @supervision.id, :partial => "topics"
-      end
-
-      specify { response.should be_success }
-      specify { response.should render_template("supervision_topics") }
-      specify { response.should_not render_template("index") }
-    end
-
     describe "partial=topics_votes" do
       before do
-        get :index, :supervision_id => @supervision.id, :partial => "topics_votes"
+        get :index, :supervision_id => @supervision.id
       end
 
       specify { response.should be_success }
       specify { response.should render_template("supervision_topics_votes") }
       specify { response.should_not render_template("index") }
     end
-  end
-
-  describe "#index when @supervision.state=gathering_topics" do
-    before do
-      @supervision = Factory(:supervision, :state => "gathering_topics")
-      @user.join_supervision(@supervision)
-      SecureRandom.should_receive(:hex).and_return("asdfb")
-      ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
-
-      get :index, :supervision_id => @supervision.id
-    end
-
-    specify { response.should be_success }
-  end
-
-  describe "#index when @supervision.state=voting_on_topics" do
-    before do
-      @supervision = Factory(:supervision, :state => "voting_on_topics")
-      @user.join_supervision(@supervision)
-      SecureRandom.should_receive(:hex).and_return("asdfb")
-      ::REDIS.should_receive(:setex).with("supervision:#{@supervision.id}:users:#{@user.id}:token:asdfb", 60, "1")
-      ::REDIS.should_receive(:setex).with("chat:#{@supervision.chat_room.id}:token:asdfb", 60, @user.id)
-      get :index, :supervision_id => @supervision.id
-    end
-
-    specify { response.should be_success }
   end
 
   describe "#index when @supervision.state=asking_questions" do

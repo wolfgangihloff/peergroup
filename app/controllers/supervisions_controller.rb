@@ -3,7 +3,6 @@ class SupervisionsController < ApplicationController
 
   before_filter :authenticate
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
-  # before_filter :redirect_to_topics, :only => [:show]
   before_filter :require_supervision_membership, :only => [:show, :update, :statusbar]
 
   def index
@@ -56,12 +55,6 @@ class SupervisionsController < ApplicationController
   def redirect_to_current_supervision_if_exists
     return if group.current_supervision.nil? || group.current_supervision.finished?
     redirect_to group.current_supervision
-  end
-
-  def redirect_to_topics
-    unless supervision.step_finished?(:voting_on_topics)
-      redirect_to supervision_topics_path(supervision)
-    end
   end
 
   def require_supervision_membership

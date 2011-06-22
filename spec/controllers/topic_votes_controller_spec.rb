@@ -13,11 +13,10 @@ describe TopicVotesController do
 
   describe "#create" do
     before do
-      post :create,
-        :topic_id => @topic.id
+      post :create, :topic_id => @topic.id
     end
 
-    specify { response.should redirect_to(supervision_topics_path(@supervision)) }
+    specify { response.should redirect_to(supervision_path(@supervision)) }
     specify { flash[:notice].should be_present }
   end
 

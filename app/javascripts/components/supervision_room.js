@@ -392,7 +392,7 @@
 
                 if (state === "voting_on_topics") {
                     if (topicVotesPart.find(".list").length === 0) {
-                        var url = PGS.supervisionTopicsPath(message.id, {partial: 1});
+                        var url = PGS.supervisionTopicsPath(message.id);
                         $.get(url, [], onSuccess);
                     }
                 }

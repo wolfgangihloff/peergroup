@@ -48,16 +48,6 @@ describe SupervisionsController do
     end
   end
 
-  describe "#show with supervision.state=gathering_topics" do
-    before do
-      @supervision = @group.supervisions.create!(:state => "gathering_topics")
-      @user.join_supervision(@supervision)
-      get :show, :id => @supervision.id
-    end
-
-    specify { response.should redirect_to(supervision_topics_path(@supervision)) }
-  end
-
   describe "#show" do
     render_views
 
