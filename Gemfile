@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "rails", "~> 3.0.9.rc5"
+gem "rails", "~> 3.0.9"
 gem "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "bson_ext"
@@ -27,8 +27,6 @@ end
 group :test, :development do
   gem "rspec-rails"
   gem "ruby-debug"
-  # for linecache 0.45 used by ruby-debug
-  gem "require_relative", :require => nil, :platform => :ruby_18
 end
 
 group :test do
