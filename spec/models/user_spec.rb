@@ -183,4 +183,18 @@ describe User do
   it "should not select given user" do
     User.without(@user).should be_empty
   end
+
+  describe "#avatar_url" do
+    before do
+      @user.email = "john@doe.com"
+    end
+
+    it "should be generated" do
+      @user.avatar_url.should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=50"
+    end
+
+    it "should be generated with custom options" do
+      @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=30"
+    end
+  end
 end

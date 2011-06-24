@@ -20,7 +20,7 @@
 
     var chatMemberTemplate = _.template(
         "<li class=\"supervision-member user\" id=\"user_<?= id ?>\">" +
-          "<img class=\"gravatar\" width=\"50\" height=\"50\" src=\"<?= avatar_url ?>?rating=PG&size=50\" />" +
+          "<img class=\"gravatar\" width=\"50\" height=\"50\" src=\"<?= avatar_url ?>\" />" +
           "<span class=\"name\"><?= name ?></span>" +
         "</li>"
     );

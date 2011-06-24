@@ -8,12 +8,13 @@ module ApplicationHelper
     url_for(:action => actions[action_name], :locale => locale)
   end
 
-  # Return a title on a per-page basis.
-
-  def gravatar(*args)
-    raw super
+  def gravatar_for(user, options={})
+    options[:size] ||= 50
+    html_options = {:width => options[:size], :heigth => options[:size], :class => "gravatar", :alt => ""}
+    image_tag(user.avatar_url(options), html_options)
   end
 
+  # Return a title on a per-page basis.
   def title
     base_title = t(".base_title", :default => "peergroup")
     if @title.nil?
