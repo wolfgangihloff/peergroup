@@ -96,3 +96,9 @@ Eventually you can connect to separate instace of redis server (if running)
    * app/views/pages/_about.<locale>.html.haml
    * app/views/pages/_help.<locale>.html.haml
    * README / LIESMICH
+
+== Deploying
+
+If you are having problems with compiling sass files, try this:
+
+   bundle exec compass compile -e production --force
