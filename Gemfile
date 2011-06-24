@@ -7,7 +7,7 @@ gem "bson_ext"
 gem "haml"
 gem "sass"
 gem "compass"
-gem "formtastic"
+gem "formtastic", "~> 2.0.0.rc1"
 gem "friendly_id"
 gem "rdiscount"
 gem "state_machine"
@@ -20,7 +20,6 @@ gem "routing-filter"
 gem "SystemTimer", :require => nil, :platform => :ruby_18
 
 group :staging do
-  # gem "pg"
   gem "thin"
 end
 
