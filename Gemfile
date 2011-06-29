@@ -30,7 +30,7 @@ group :test, :development do
 end
 
 group :test do
-  gem "shoulda-matchers", :git => "git://github.com/morgoth/shoulda-matchers.git", :branch => "mass-assigment-fix-for-empty-attr-accessible"
+  gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
   gem "selenium-webdriver"
   gem "factory_girl_rails"
   gem "database_cleaner"

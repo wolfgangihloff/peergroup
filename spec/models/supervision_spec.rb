@@ -332,7 +332,7 @@ describe Supervision do
   describe "#supervision_publish_attributed" do
     it "should have only known options" do
       @supervision = Supervision.new
-      @supervision.send(:supervision_publish_attributes).should be == {:only => [:id, :state, :topic_id]}
+      @supervision.send(:supervision_publish_attributes).should be == {:methods => :topic_user_id, :only => [:id, :state, :topic_id]}
     end
   end
 
