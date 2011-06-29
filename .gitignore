@@ -13,3 +13,4 @@ vendor/ruby
 db/*.rdb
 
 config/redis.yml
+config/database.yml

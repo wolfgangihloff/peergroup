@@ -1,7 +1,6 @@
 source :rubygems
 
 gem "rails", "~> 3.0.9"
-gem "sqlite3"
 gem "will_paginate", "~> 3.0.pre2"
 gem "bson_ext"
 gem "haml"
@@ -19,13 +18,15 @@ gem "routing-filter"
 # for redis
 gem "SystemTimer", :require => nil, :platform => :ruby_18
 
-group :staging do
-  gem "thin"
+group :production do
+  # freeze version for rails 3.0.x
+  gem "mysql2" , "~> 0.2.7"
 end
 
 group :test, :development do
   gem "rspec-rails"
   gem "ruby-debug"
+  gem "sqlite3"
 end
 
 group :test do

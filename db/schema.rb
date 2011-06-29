@@ -189,7 +189,8 @@ ActiveRecord::Schema.define(:version => 20110525102750) do
     t.datetime "updated_at"
   end
 
-  add_index "tolk_phrases", ["key"], :name => "index_tolk_phrases_on_key", :unique => true
+  # Probles with mysql database
+  # add_index "tolk_phrases", ["key"], :name => "index_tolk_phrases_on_key", :unique => true
 
   create_table "tolk_translations", :force => true do |t|
     t.integer  "phrase_id"

@@ -18,15 +18,16 @@ This is the first version, heavy alpha.
 
 If you are using rvm, create new gemset to not mess with your default gems
 
-2. Setup Redis
-
-Copy and adjust redis config file:
+2. Setup configuration files
 
   cp config/redis.yml.example config/redis.yml
+  cp config/database.yml.example config/database.yml
+
+3. Setup Redis
 
 Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
-3. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7, v0.4.8)
+4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7, v0.4.8)
 
   node app-node/server.js
 
@@ -34,11 +35,11 @@ Tip: You can also use nvm https://github.com/creationix/nvm
 
 You can run node as root user (sudo node ...) or with `authbind` (authbind node ...), so socket.io could bind to low port to serve xml policy file for Flash.
 
-4. Run the application
+5. Run the application
 
   bundle exec rails server
 
-5. Open http://localhost:3000
+6. Open http://localhost:3000
 
 == Running tests
 
@@ -102,3 +103,8 @@ Eventually you can connect to separate instace of redis server (if running)
 If you are having problems with compiling sass files, try this:
 
    bundle exec compass compile -e production --force
+
+On production server mysql database is used.
+Credentials are stored in non tracked file config/database.yml
+If you have problems with installing mysql2 gem, check this: http://stackoverflow.com/questions/3608287/installing-mysql2-gem-for-rails-3
+If you don't have mysql database at all, you can bundle gems by: bundle install --without production
