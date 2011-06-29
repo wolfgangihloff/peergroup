@@ -43,4 +43,5 @@ group :development do
   gem "ruby-graphviz"
   gem "metric_fu"
   gem "tolk", :git => "git://github.com/cover/tolk.git"
+  gem "capistrano"
 end
