@@ -1,6 +1,6 @@
 [submodule "app-node/socket.io"]
   path = app-node/socket.io
-  url = git://github.com/LearnBoost/Socket.IO-node.git
+  url = git://github.com/LearnBoost/socket.io.git
 [submodule "app-node/node_redis"]
   path = app-node/node_redis
   url = git://github.com/mranney/node_redis.git
