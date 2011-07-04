@@ -4,7 +4,7 @@
 // constructor: S(socket, namespace)
 //
 //     var s = S(socket, "chat")
-// 
+//
 // methods:
 //  * on(type, callback) - register callback for type event, callback
 //    gets full message type (with prefix) and them whole message object

@@ -142,6 +142,8 @@ var initializeClientConnections = function() {
                             client.send({ type: "supervision.authentication", status: "error", text: "Invalid id or token" });
                         }
                     });
+                } else if (message.type === "supervision.idle") {
+                    sys.puts(sys.inspect(message));
                 }
             }
         });

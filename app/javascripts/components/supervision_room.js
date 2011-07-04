@@ -403,6 +403,30 @@
             });
             return this;
         }
+
+        /*
+         * setupIdleStatus()
+         */
+        context.setupIdleStatus = function() {
+            var idleTime = 0;
+
+            setInterval(function() {
+                 idleTime++;
+                 if (idleTime > 2)
+                 {
+                     PGS.withSocket("supervision", function(s) {
+                         s.send("idle", {userId: document.pgs.currentUser, supervisionId: supervisionId});
+                     });
+                 }
+            }, 60000);
+
+           //Zero the idle timer on mouse movement.
+           $parent.mousemove(function(e){
+              idleTime = 0;
+           });
+
+            return this
+        }
         return context;
     };
 
@@ -428,6 +452,7 @@
                 .setupChosenTopic()
                 .setupTopicVoteList()
                 .setupViewsForUser()
+                .setupIdleStatus()
                 .setupStatusbar($this)
 
             $this.bind({
