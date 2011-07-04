@@ -72,6 +72,9 @@ Eventually you can connect to separate instace of redis server (if running)
 
   bundle exec rake spec
 
+Note: If you encounter error during requests specs:
+Selenium::WebDriver::Error::ObsoleteElementError, try to use wait_until method.
+
 == Translations
 
   Currently, the application is available in 2 languages: English and German. Default locale is set during the application boot, but is's possible to switch to different locale while application is running - just click link with locale name in the header.

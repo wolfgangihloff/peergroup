@@ -114,9 +114,12 @@ feature "Supervision Session", :js => true do
       visit_supervision(@supervision)
 
       @idea = Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
-      @idea.update_attributes(:rating => "5")
+      @idea.update_attributes!(:rating => "4")
+      wait_until do
+        page.has_selector?("#idea_#{@idea.id} .rating")
+      end
       within "#idea_#{@idea.id} .rating" do
-        page.should have_selector("input[type=radio]#idea_rating_5[checked]")
+        page.should have_selector("input[type=radio]#idea_rating_4[checked]")
       end
     end
 
@@ -199,6 +202,9 @@ feature "Supervision Session", :js => true do
 
       @solution = Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       @solution.update_attributes(:rating => "4")
+      wait_until do
+        page.has_selector?("#solution_#{@solution.id} .rating")
+      end
       within "#solution_#{@solution.id} .rating" do
         page.should have_selector("input[type=radio]#solution_rating_4[checked]")
       end
