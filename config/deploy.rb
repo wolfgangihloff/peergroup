@@ -49,7 +49,7 @@ namespace :deploy do
 
   namespace :git do
     task :update_submodules do
-      run "cd #{latest_release} && git submodule update --init"
+      run "cd #{latest_release} && git submodule init && git submodule update"
     end
   end
 end
