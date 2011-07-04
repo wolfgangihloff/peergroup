@@ -115,39 +115,6 @@ jQuery(function($) {
         });
     });
 
-    $("#topics_index .supervision").each(function(i, element) {
-        var $supervision = $(this);
-        $supervision.supervisionTopicsRoom();
-
-        var supervisionToken = $supervision.data("token");
-        var supervisionId = $supervision.attr("id").replace("supervision_", "");
-
-        PGS.withSocket("supervision", function(s) {
-            s.on("authentication", function(type, message) {
-                if (message.status === "OK") {
-                    if (window.console && window.console.log) {
-                        console.log("supervision: Authenticated");
-                    }
-                    $supervision.addClass("connected");
-                } else {
-                    if (window.console && window.console.error) {
-                        console.error(message);
-                    }
-                    $supervision.addClass("connection-error");
-                }
-            });
-            s.onConnect(function() {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervisionId: supervisionId });
-            });
-            s.on("supervision", function(type, message) {
-                $supervision.trigger("supervisionUpdate", message.supervision);
-            });
-            s.on("topic", function(type, message) {
-                $supervision.trigger("newTopic", message.topic);
-            });
-        });
-    });
-
     $("#supervisions_show .supervision").each(function(i, element) {
         var $supervision = $(this);
         $supervision.supervisionRoom();
