@@ -121,10 +121,10 @@ var initializeClientConnections = function() {
              *    message format: { type: "supervision.authenticate", supervisionId: <id>, userId: <userId>, token: <token> }
              */
             if (message.type.search(/^supervision\./) === 0) {
+                var supervisionId = message.data.supervisionId;
                 // on authenticate
                 if (message.type === "supervision.authenticate") {
-                    var supervisionId = message.data.supervisionId,
-                        userId = message.data.userId,
+                    var userId = message.data.userId,
                         token = message.data.token;
                     var userAuthenticationKey = "supervision:" + supervisionId + ":users:" + userId + ":token:" + token,
                         supervisionSessionsKey = "supervision:" + supervisionId + ":sessions";
@@ -143,7 +143,7 @@ var initializeClientConnections = function() {
                         }
                     });
                 } else if (message.type === "supervision.member_idle_status") {
-                    sys.puts(sys.inspect(message));
+                    redisClient.publish("supervision:"+supervisionId, JSON.stringify({idle_status_changed: message.data}));
                 }
             }
         });

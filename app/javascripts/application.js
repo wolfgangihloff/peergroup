@@ -169,6 +169,9 @@ jQuery(function($) {
             s.on("supervision_feedback", function(type, message) {
                 $supervision.trigger("supervision:supervisionFeedback", message.supervision_feedback);
             });
+            s.on("idle_status_changed", function(type, message) {
+                $supervision.trigger("supervision:idleStatusChanged", message.idle_status_changed);
+            });
         });
     });
 

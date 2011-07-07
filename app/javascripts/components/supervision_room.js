@@ -413,8 +413,7 @@
 
             var sendStatus = function(state) {
                 PGS.withSocket("supervision", function(s) {
-                    s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, state: state});
-                    console.log(state);
+                    s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
                 });
             }
 
@@ -449,6 +448,30 @@
            resetIdleTimeout();
            return this;
         }
+
+        /*
+         * setupViewIdleStatus()
+         */
+        context.setupViewIdleStatus = function() {
+            var onIdleStatusChange = function(event, message) {
+                var userId = message.userId,
+                    state = message.state,
+                    membersList = $parent.find(".members-part .members-list"),
+                    user = membersList.find("#user_"+message.userId);
+
+                    if (message.status === "idle") {
+                        user.addClass("idle");
+                    } else if (message.status === "active") {
+                        user.removeClass("idle");
+                    }
+            };
+
+            $parent.bind({
+                "supervision:idleStatusChanged": onIdleStatusChange
+            });
+            return this
+        }
+
         return context;
     };
 
@@ -475,6 +498,7 @@
                 .setupTopicVoteList()
                 .setupViewsForUser()
                 .setupMemberIdleStatus()
+                .setupViewIdleStatus()
                 .setupStatusbar($this)
 
             $this.bind({
