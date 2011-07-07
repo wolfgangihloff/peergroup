@@ -74,7 +74,7 @@ GEM
       ruby_parser (~> 2.0.4)
       sexp_processor (~> 3.0.3)
     colored (1.2)
-    columnize (0.3.3)
+    columnize (0.3.4)
     compass (0.11.4)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -164,7 +164,7 @@ GEM
       activesupport (= 3.0.9)
       bundler (~> 1.0)
       railties (= 3.0.9)
-    rails_best_practices (0.9.0)
+    rails_best_practices (0.10.0)
       activesupport
       colored
       erubis

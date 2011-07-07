@@ -27,7 +27,7 @@ If you are using rvm, create new gemset to not mess with your default gems
 
 Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
-4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7, v0.4.8)
+4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7-v.0.4.9)
 
   node app-node/server.js
 
