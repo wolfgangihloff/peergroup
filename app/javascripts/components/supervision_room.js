@@ -405,27 +405,49 @@
         }
 
         /*
-         * setupIdleStatus()
+         * setupMemberIdleStatus()
          */
-        context.setupIdleStatus = function() {
-            var idleTime = 0;
+        context.setupMemberIdleStatus = function() {
+            var status = "active",
+                timeout;
 
-            setInterval(function() {
-                 idleTime++;
-                 if (idleTime > 2)
-                 {
-                     PGS.withSocket("supervision", function(s) {
-                         s.send("idle", {userId: document.pgs.currentUser, supervisionId: supervisionId});
-                     });
-                 }
-            }, 60000);
+            var sendStatus = function(state) {
+                PGS.withSocket("supervision", function(s) {
+                    s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, state: state});
+                    console.log(state);
+                });
+            }
 
-           //Zero the idle timer on mouse movement.
-           $parent.mousemove(function(e){
-              idleTime = 0;
+            var setActiveStatus = function() {
+                resetIdleTimeout();
+                if (status === "idle") {
+                    status = "active";
+                    sendStatus("active");
+                }
+            };
+
+            // 5 minutes
+            var resetIdleTimeout = function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    if (status === "active") {
+                        status = "idle";
+                        sendStatus("idle");
+                    }
+                }, 50000);
+            }
+
+           $parent.mousemove(function() {
+               setActiveStatus();
            });
-
-            return this
+           $parent.keydown(function() {
+               setActiveStatus();
+           });
+           $parent.mousedown(function() {
+               setActiveStatus();
+           });
+           resetIdleTimeout();
+           return this;
         }
         return context;
     };
@@ -452,7 +474,7 @@
                 .setupChosenTopic()
                 .setupTopicVoteList()
                 .setupViewsForUser()
-                .setupIdleStatus()
+                .setupMemberIdleStatus()
                 .setupStatusbar($this)
 
             $this.bind({
