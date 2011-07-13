@@ -1,5 +1,6 @@
 var http = require("http"),
     util = require("util"),
+    fs = require("fs"),
     io = require("./socket.io/"),
     sys = require("sys"),
     redis = require("./node_redis/"),
@@ -97,7 +98,7 @@ var initializeClientConnections = function() {
                             });
 
                             client.on("disconnect", function() {
-                                // Remove user from chat session after 5 seconds
+                                // Remove user from chat session after 20 seconds
                                 redisClient.hdel(chat.sessionsKey, userId)
 
                                 setTimeout(function() {
@@ -106,7 +107,7 @@ var initializeClientConnections = function() {
                                             redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp, user_id: userId, status: "exit"}}));
                                         }
                                     });
-                                }, 5000);
+                                }, 20000);
                             });
                         } else {
                             util.log("[chat] Invalid token:"+token+" for chat:"+chatRoomId);
@@ -137,13 +138,14 @@ var initializeClientConnections = function() {
                             client.on("disconnect", function() {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
 
+                                // remove member from supervision after 20 seconds
                                 setTimeout(function() {
                                     redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
                                         if (!_und.include(resp, userId)) {
-                                            //peergroupRequest();
+                                            PGS.request(PGS.supervision_members_path(supervisionId, userId), "DELETE");
                                         }
                                     });
-                                }, 60000);
+                                }, 20000);
                             });
                         } else {
                             console.log("User invalid for supervision: " + userId);
@@ -156,6 +158,47 @@ var initializeClientConnections = function() {
             }
         });
     });
+}
+
+var PGS = {
+    //username: "node",
+
+    //password: "secret",
+
+    auth_header: function() {
+        return "Basic " + new Buffer(PGS.username + ":" + PGS.password).toString("base64");
+    },
+
+    supervision_members_path: function(supervisionId, memberId) {
+        return "/node/supervisions/" + supervisionId + "/members/" + memberId;
+    },
+
+    request: function(path, method) {
+        //var body = JSON.stringify({ "supervision_membership": {"firstname": "Joe", "lastname": "Bloggs"} })
+        var options = {
+          host: 'localhost',
+          port: 3000,
+          path: path,
+          method: method,
+          headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization": PGS.auth_header()}//, "Content-Length": Buffer.byteLength(body)}
+        };
+
+        var req = http.request(options, function(res) {
+          console.log('STATUS: ' + res.statusCode);
+          res.setEncoding('utf8');
+          res.on('data', function (chunk) {
+            console.log('BODY: ' + chunk);
+          });
+        });
+
+        req.on('error', function(e) {
+          console.log('problem with request: ' + e.message);
+        });
+
+        // write data to request body
+        //req.write(body);
+        req.end();
+    }
 }
 
 var subscribeToChannels = function() {
@@ -198,39 +241,16 @@ redisClient.select(redisDb, function(err, resp) {
         process.exit(-1);
     }
 });
+
 var pingRedisClient = function(){
     redisClient.ping();
 };
 setInterval(pingRedisClient, 10000);
 
-
-var peergroupRequest = function() {
-    //var body = JSON.stringify({ "supervision_membership": {"firstname": "Joe", "lastname": "Bloggs"} })
-    var username = "node", password = "secret";
-    var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
-    var options = {
-      host: 'localhost',
-      port: 3000,
-      path: '/node/supervision_memberships/11',
-      method: 'DELETE',
-      headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization": auth}//, "Content-Length": Buffer.byteLength(body)}
-    };
-
-    var req = http.request(options, function(res) {
-      console.log('STATUS: ' + res.statusCode);
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        console.log('BODY: ' + chunk);
-      });
-    });
-
-    req.on('error', function(e) {
-      console.log('problem with request: ' + e.message);
-    });
-
-    // write data to request body
-    //req.write(body);
-    req.end();
-}
-
-peergroupRequest();
+fs.readFile('/home/wojtek/Ruby/peergroup/app-node/config.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  var config = JSON.parse(data);
+  PGS.username = config.username;
+  PGS.password = config.password;
+  console.log(JSON.parse(data));
+});
