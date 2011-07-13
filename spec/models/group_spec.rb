@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Group do
-  before { @group = Factory(:group) }
+  before { @group = FactoryGirl.create(:group) }
 
   [:name, :description, :founder].each do |attribute|
     it { should validate_presence_of(attribute) }
@@ -28,7 +28,7 @@ describe Group do
 
   describe "#to_s" do
     it "should return group's name" do
-      group = Factory.build(:group, :name => "Group name")
+      group = FactoryGirl.build(:group, :name => "Group name")
 
       group.to_s.should be == group.name
     end
@@ -36,8 +36,8 @@ describe Group do
 
   describe "#add_member!" do
     it "should add user to group's members" do
-      group = Factory(:group)
-      user = Factory(:user)
+      group = FactoryGirl.create(:group)
+      user = FactoryGirl.create(:user)
 
       group.members.should_not include(user)
 
@@ -48,20 +48,20 @@ describe Group do
 
   describe "after_create" do
     it "should add group founder as member" do
-      user = Factory(:user)
-      group = Factory(:group, :founder => user)
+      user = FactoryGirl.create(:user)
+      group = FactoryGirl.create(:group, :founder => user)
       group.members.should include(user)
     end
 
     it "should create chat room for group" do
-      group = Factory(:group)
+      group = FactoryGirl.create(:group)
       group.chat_room.should_not be_nil
     end
   end
 
   it "should accept membership requests after opening group" do
     @group.update_attributes!(:invitable => true)
-    membership = Factory(:membership, :group => @group, :user => Factory(:user))
+    membership = FactoryGirl.create(:membership, :group => @group, :user => FactoryGirl.create(:user))
     membership.request!
     @group.update_attributes(:invitable => false)
     @group.active_memberships.should include(membership)

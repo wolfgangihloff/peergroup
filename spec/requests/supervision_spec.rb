@@ -8,7 +8,7 @@ feature "Supervision Session", :js => true do
   end
 
   def prepare_supervision(state)
-    supervision = Factory(:supervision, :group => @group, :state => state, :topic => Factory(:topic, :user => @alice))
+    supervision = FactoryGirl.create(:supervision, :group => @group, :state => state, :topic => FactoryGirl.create(:topic, :user => @alice))
     @alice.join_supervision(supervision)
     @bob.join_supervision(supervision)
     @cindy.join_supervision(supervision)
@@ -16,11 +16,11 @@ feature "Supervision Session", :js => true do
   end
 
   background do
-    @alice = Factory(:user, :name => "Alice", :email => "alice@example.com")
-    @bob = Factory(:user, :name => "Bob", :email => "bob@example.com")
-    @cindy = Factory(:user, :name => "Cindy", :email => "cindy@example.com")
+    @alice = FactoryGirl.create(:user, :name => "Alice", :email => "alice@example.com")
+    @bob = FactoryGirl.create(:user, :name => "Bob", :email => "bob@example.com")
+    @cindy = FactoryGirl.create(:user, :name => "Cindy", :email => "cindy@example.com")
 
-    @group = Factory(:group, :name => "FuFighters")
+    @group = FactoryGirl.create(:group, :name => "FuFighters")
     @group.add_member!(@alice)
     @group.add_member!(@bob)
     @group.add_member!(@cindy)
@@ -28,7 +28,7 @@ feature "Supervision Session", :js => true do
 
   context "in gathering_topics state" do
     background do
-      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
       @alice.join_supervision(@supervision)
       @bob.join_supervision(@supervision)
       @cindy.join_supervision(@supervision)
@@ -45,23 +45,23 @@ feature "Supervision Session", :js => true do
     scenario "should display topic posted by other user" do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
-      Factory(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
+      FactoryGirl.create(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
       page.should have_content("Can rails scale?")
     end
   end
 
   context "in voting_on_topics state" do
     background do
-      @supervision = Factory(:supervision, :group => @group, :state => "voting_on_topics")
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "voting_on_topics")
       @alice.join_supervision(@supervision)
       @bob.join_supervision(@supervision)
       @cindy.join_supervision(@supervision)
     end
 
     scenario "should allow to vote on topic" do
-      Factory(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
-      topic = Factory(:topic, :supervision => @supervision, :user => @alice, :content => "What is your favorite color?")
-      Factory(:vote, :statement => topic, :user => @alice)
+      FactoryGirl.create(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
+      topic = FactoryGirl.create(:topic, :supervision => @supervision, :user => @alice, :content => "What is your favorite color?")
+      FactoryGirl.create(:vote, :statement => topic, :user => @alice)
 
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
@@ -90,7 +90,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
+      FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       page.should have_content("I have some idea")
     end
 
@@ -98,7 +98,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      @idea = Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
+      @idea = FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       page.should have_content("I have some idea")
       within "#idea_#{@idea.id} .rating" do
         page.find("a[title]", :text => "5").click
@@ -113,7 +113,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
-      @idea = Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
+      @idea = FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       @idea.update_attributes!(:rating => "4")
       wait_until do
         page.has_selector?("#idea_#{@idea.id} .rating")
@@ -146,7 +146,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      @idea = Factory(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
+      @idea = FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       @idea_rating_selector = "#idea_#{@idea.id} .rating"
       page.should have_content("I have some idea")
       within @idea_rating_selector do
@@ -177,7 +177,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
+      FactoryGirl.create(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       page.should have_content("I have a solution")
     end
 
@@ -185,7 +185,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      @solution = Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
+      @solution = FactoryGirl.create(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       page.should have_content("I have a solution")
       within "#solution_#{@solution.id} .rating" do
         page.find("a[title]", :text => "4").click
@@ -200,7 +200,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@bob)
       visit_supervision(@supervision)
 
-      @solution = Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
+      @solution = FactoryGirl.create(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       @solution.update_attributes(:rating => "4")
       wait_until do
         page.has_selector?("#solution_#{@solution.id} .rating")
@@ -233,7 +233,7 @@ feature "Supervision Session", :js => true do
       sign_in_interactive(@alice)
       visit_supervision(@supervision)
 
-      @solution = Factory(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
+      @solution = FactoryGirl.create(:solution, :content => "I have a solution", :supervision => @supervision, :user => @bob)
       @solution_rating_selector = "#solution_#{@solution.id} .rating"
       page.should have_content("I have a solution")
       within @solution_rating_selector do

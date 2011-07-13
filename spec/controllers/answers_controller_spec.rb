@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe AnswersController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "asking_questions")
     @user.join_supervision(@supervision)
-    @question = Factory(:question, :supervision => @supervision)
+    @question = FactoryGirl.create(:question, :supervision => @supervision)
   end
 
   describe "#create" do

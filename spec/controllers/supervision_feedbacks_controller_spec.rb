@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe SupervisionFeedbacksController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "giving_supervision_feedbacks")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "giving_supervision_feedbacks")
     @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
     before do
-      @supervision_feedback = Factory(:supervision_feedback, :supervision => @supervision)
+      @supervision_feedback = FactoryGirl.create(:supervision_feedback, :supervision => @supervision)
       get :show,
         :id => @supervision_feedback.id,
         :partial => 1

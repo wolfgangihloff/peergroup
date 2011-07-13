@@ -6,8 +6,8 @@ describe Relationship do
   end
 
   before(:each) do
-    @follower = Factory(:user)
-    @followed = Factory(:user)
+    @follower = FactoryGirl.create(:user)
+    @followed = FactoryGirl.create(:user)
 
     @relationship = @follower.relationships.build(:followed_id => @followed.id)
   end

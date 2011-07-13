@@ -2,8 +2,8 @@ require "spec_helper"
 
 feature "Supervision membership" do
   background do
-    @group = Factory(:group, :name => "Ruby group")
-    @user = Factory(:user, :name => "John")
+    @group = FactoryGirl.create(:group, :name => "Ruby group")
+    @user = FactoryGirl.create(:user, :name => "John")
 
     @group.add_member!(@user)
 

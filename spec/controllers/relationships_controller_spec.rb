@@ -18,7 +18,7 @@ describe RelationshipsController do
 
     before(:each) do
       @user = sign_in
-      @followed = Factory(:user)
+      @followed = FactoryGirl.create(:user)
 
       @user.should_receive(:follow!).with(@followed)
     end
@@ -39,7 +39,7 @@ describe RelationshipsController do
 
     before(:each) do
       @user = sign_in
-      @followed = Factory(:user)
+      @followed = FactoryGirl.create(:user)
 
       @user.should_receive(:unfollow!).with(@followed)
     end

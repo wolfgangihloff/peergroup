@@ -2,13 +2,13 @@ require "spec_helper"
 
 describe TopicVotesController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "voting_on_topics")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "voting_on_topics")
     @user.join_supervision(@supervision)
-    @topic = Factory(:topic, :supervision => @supervision)
+    @topic = FactoryGirl.create(:topic, :supervision => @supervision)
   end
 
   describe "#create" do

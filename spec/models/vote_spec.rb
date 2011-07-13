@@ -10,25 +10,25 @@ describe Vote do
 
   describe "after create" do
     it "should notify supervision with #post_topic_vote" do
-      @topic = Factory(:topic)
+      @topic = FactoryGirl.create(:topic)
       @topic.supervision.should_receive(:post_topic_vote)
-      @vote = Factory(:vote, :statement => @topic)
+      @vote = FactoryGirl.create(:vote, :statement => @topic)
     end
 
     it "should notify spervision with #post_vote_for_next_step" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @supervision.should_receive(:post_vote_for_next_step)
-      @vote = Factory(:supervision_vote, :statement => @supervision)
+      @vote = FactoryGirl.create(:supervision_vote, :statement => @supervision)
     end
 
     it "should publish vote to Redis channel" do
-      @vote = Factory.build(:vote)
+      @vote = FactoryGirl.build(:vote)
       @vote.should_receive(:publish_to_redis)
       @vote.save!
     end
 
     it "should publish vote to Redis channel" do
-      @vote = Factory.build(:supervision_vote)
+      @vote = FactoryGirl.build(:supervision_vote)
       @vote.should_receive(:publish_to_redis)
       @vote.save!
     end

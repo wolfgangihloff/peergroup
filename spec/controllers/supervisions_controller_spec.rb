@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SupervisionsController do
 
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
   end
@@ -52,7 +52,7 @@ describe SupervisionsController do
     render_views
 
     before do
-      @supervision = Factory(:supervision, :group => @group, :topic => Factory(:topic), :state => "asking_questions")
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :topic => FactoryGirl.create(:topic), :state => "asking_questions")
       @chat_room = @supervision.chat_room
       @user.join_supervision(@supervision)
 
@@ -69,7 +69,7 @@ describe SupervisionsController do
 
   describe "#show for non-member user" do
     before do
-      @supervision = Factory(:supervision, :group => @group, :topic => Factory(:topic), :state => "asking_questions")
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :topic => FactoryGirl.create(:topic), :state => "asking_questions")
       get :show, :id => @supervision.id
     end
 
@@ -79,7 +79,7 @@ describe SupervisionsController do
   describe "#update" do
     context "with default format" do
       before do
-        @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+        @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "providing_solutions")
         @user.join_supervision(@supervision)
         put :update, :id => @supervision.id, :supervision => { :state_event => "step_back_to_providing_ideas" }
       end
@@ -89,7 +89,7 @@ describe SupervisionsController do
 
     context "with js format" do
       before do
-        @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+        @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "providing_solutions")
         @user.join_supervision(@supervision)
         put :update, :id => @supervision.id, :supervision => { :state_event => "step_back_to_providing_ideas" }, :format => "js"
       end

@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe QuestionsController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "asking_questions")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "asking_questions")
     @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
     before do
-      @question = Factory(:question, :supervision => @supervision)
+      @question = FactoryGirl.create(:question, :supervision => @supervision)
       get :show,
         :id => @question.id,
         :partial => 1

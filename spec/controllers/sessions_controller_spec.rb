@@ -29,7 +29,7 @@ describe SessionsController do
     describe "with valid email and password" do
 
       before(:each) do
-        @user = Factory(:user)
+        @user = FactoryGirl.create(:user)
         @attr = { :email => @user.email, :password => @user.password }
         User.should_receive(:authenticate).
              with(@user.email, @user.password).

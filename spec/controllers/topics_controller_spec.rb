@@ -3,9 +3,9 @@ require "spec_helper"
 describe TopicsController do
 
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
-    @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
     @user.join_supervision(@supervision)
 
     sign_in(@user)
@@ -13,7 +13,7 @@ describe TopicsController do
 
   describe "#show with partial=1 param" do
     before do
-      @topic = Factory(:topic, :supervision => @supervision)
+      @topic = FactoryGirl.create(:topic, :supervision => @supervision)
       get :show,
         :supervision_id => @supervision.id,
         :id => @topic.id,
@@ -64,7 +64,7 @@ describe TopicsController do
 
   context "#index" do
     before do
-      @supervision = Factory(:supervision, :group => @group, :state => "gathering_topics")
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
       @user.join_supervision(@supervision)
     end
 
@@ -81,7 +81,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=asking_questions" do
     before do
-      @supervision = Factory(:supervision, :state => "asking_questions")
+      @supervision = FactoryGirl.create(:supervision, :state => "asking_questions")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
@@ -91,7 +91,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=providing_ideas" do
     before do
-      @supervision = Factory(:supervision, :state => "providing_ideas")
+      @supervision = FactoryGirl.create(:supervision, :state => "providing_ideas")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
@@ -101,7 +101,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=giving_ideas_feedback" do
     before do
-      @supervision = Factory(:supervision, :state => "giving_ideas_feedback")
+      @supervision = FactoryGirl.create(:supervision, :state => "giving_ideas_feedback")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
@@ -111,7 +111,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=providing_solutions" do
     before do
-      @supervision = Factory(:supervision, :state => "providing_solutions")
+      @supervision = FactoryGirl.create(:supervision, :state => "providing_solutions")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
@@ -121,7 +121,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=giving_solutions_feedback" do
     before do
-      @supervision = Factory(:supervision, :state => "giving_solutions_feedback")
+      @supervision = FactoryGirl.create(:supervision, :state => "giving_solutions_feedback")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end
@@ -131,7 +131,7 @@ describe TopicsController do
 
   describe "#index when @supervision.state=giving_supervision_feedbacks" do
     before do
-      @supervision = Factory(:supervision, :state => "giving_supervision_feedbacks")
+      @supervision = FactoryGirl.create(:supervision, :state => "giving_supervision_feedbacks")
       @user.join_supervision(@supervision)
       get :index, :supervision_id => @supervision.id
     end

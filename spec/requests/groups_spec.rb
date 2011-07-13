@@ -2,14 +2,14 @@ require "spec_helper"
 
 feature "Groups" do
   background do
-    @user = Factory(:user)
+    @user = FactoryGirl.create(:user)
 
     sign_in_interactive(@user)
   end
 
   scenario "Browsing groups" do
-    Factory(:group, :name => "Ruby group", :founder => @user)
-    Factory(:group, :name => "PHP group")
+    FactoryGirl.create(:group, :name => "Ruby group", :founder => @user)
+    FactoryGirl.create(:group, :name => "PHP group")
     visit "/"
     click_link "My Groups"
     page.should have_content("Ruby group")
@@ -29,7 +29,7 @@ feature "Groups" do
   end
 
   scenario "Deleting group by owner" do
-    Factory(:group, :name => "Ruby group", :founder => @user)
+    FactoryGirl.create(:group, :name => "Ruby group", :founder => @user)
     visit groups_path
     page.should have_content("Ruby group")
     within ".group_brief" do
@@ -39,7 +39,7 @@ feature "Groups" do
   end
 
   scenario "Joining group" do
-    group = Factory(:group, :name => "Ruby group")
+    group = FactoryGirl.create(:group, :name => "Ruby group")
     visit all_groups_path
     within ".group_brief" do
       click_button "join"
@@ -48,7 +48,7 @@ feature "Groups" do
   end
 
   scenario "Leaving group" do
-    group = Factory(:group, :name => "Ruby group")
+    group = FactoryGirl.create(:group, :name => "Ruby group")
     group.add_member!(@user)
     visit groups_path
     within ".group_brief" do

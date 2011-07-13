@@ -2,11 +2,11 @@ require "spec_helper"
 
 describe VotesController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "providing_ideas")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "providing_ideas")
     @user.join_supervision(@supervision)
   end
 

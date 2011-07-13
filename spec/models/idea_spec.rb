@@ -16,7 +16,7 @@ describe Idea do
 
   describe "after create" do
     it "should publish idea to Redis channel" do
-      @idea = Factory.build(:idea)
+      @idea = FactoryGirl.build(:idea)
       @idea.should_receive(:publish_to_redis)
       @idea.save!
     end
@@ -24,14 +24,14 @@ describe Idea do
 
   describe "after update" do
     it "should notify supervision with #post_vote_for_next_step" do
-      @supervision = Factory(:supervision)
-      @idea = Factory(:idea, :supervision => @supervision)
+      @supervision = FactoryGirl.create(:supervision)
+      @idea = FactoryGirl.create(:idea, :supervision => @supervision)
       @supervision.should_receive(:post_vote_for_next_step)
       @idea.update_attributes!(:rating => 5)
     end
 
     it "should publish rated idea to to Redis channel" do
-      @idea = Factory.build(:idea)
+      @idea = FactoryGirl.build(:idea)
       @idea.should_receive(:publish_to_redis)
       @idea.update_attributes!(:rating => 5)
     end

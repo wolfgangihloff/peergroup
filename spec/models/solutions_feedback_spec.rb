@@ -10,13 +10,13 @@ describe SolutionsFeedback do
 
   describe "after create" do
     it "should notify supervision with #post_solutions_feedback" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @supervision.should_receive(:post_solutions_feedback)
-      @feedback = Factory(:solutions_feedback, :supervision => @supervision)
+      @feedback = FactoryGirl.create(:solutions_feedback, :supervision => @supervision)
     end
 
     it "should publish feedback to Redis channel" do
-      @feedback = Factory.build(:solutions_feedback)
+      @feedback = FactoryGirl.build(:solutions_feedback)
       @feedback.should_receive(:publish_to_redis)
       @feedback.save!
     end

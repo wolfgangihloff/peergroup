@@ -50,11 +50,11 @@ RSpec.configure do |config|
   # ===============
 
   # Sign in user for test purposes
-  def sign_in(user = Factory(:user))
+  def sign_in(user = FactoryGirl.create(:user))
     controller.current_user = user
   end
 
-  def sign_in_interactive(user = Factory(:user))
+  def sign_in_interactive(user = FactoryGirl.create(:user))
     visit "/"
     click_link "Sign in"
     fill_in "Email", :with => user.email

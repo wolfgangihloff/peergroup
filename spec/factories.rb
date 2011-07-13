@@ -1,92 +1,93 @@
-Factory.define :user do |user|
-  user.sequence(:name)       {|i| "User name #{i}"}
-  user.sequence(:email)      {|i| "mhartl#{i}@example.com"}
-  user.password              "foobar"
-  user.password_confirmation "foobar"
-end
+FactoryGirl.define do
+  factory :user do
+    sequence(:name)       { |i| "User name #{i}" }
+    sequence(:email)      { |i| "mhartl#{i}@example.com" }
+    password              "foobar"
+    password_confirmation { password }
+  end
 
-Factory.define :group do |group|
-  group.sequence(:name) {|i| "Group #{i}"}
-  group.description "Very nice group"
-  group.founder { Factory(:user) }
-end
+  factory :group do
+    sequence(:name) { |i| "Group #{i}"}
+    description "Very nice group"
+    association :founder, :factory => :user
+  end
 
-Factory.define :freds_group, :parent => :group do |freds_group|
-  freds_group.founder { Factory(:user, :name => "Fred") }
-end
+  factory :freds_group, :parent => :group do
+    association :founder, :factory => :user, :name => "Fred"
+  end
 
-Factory.define :chat_room do |chat_room|
-  chat_room.group { Factory(:group) }
-end
+  factory :chat_room do
+    group
+  end
 
-Factory.define :chat_message do |chat_message|
-  chat_message.user { Factory(:user) }
-  chat_message.chat_room { Factory(:chat_room) }
-  chat_message.content "Hi there"
-end
+  factory :chat_message do
+    user
+    chat_room
+    content "Hi there"
+  end
 
-Factory.define :supervision do |supervision|
-  supervision.group { Factory(:group) }
-end
+  factory :supervision do
+    group
+  end
 
-Factory.define :topic do |topic|
-  topic.supervision { Factory(:supervision) }
-  topic.user { Factory(:user) }
-end
+  factory :topic do
+    supervision
+    user
+  end
 
-Factory.define :vote do |vote|
-  vote.statement { Factory(:topic) }
-  vote.user { Factory(:user) }
-end
+  factory :vote do
+    association :statement, :factory => :topic
+    user
+  end
 
-Factory.define :supervision_vote, :parent => :vote do |vote|
-  vote.statement { Factory(:supervision) }
-  vote.user { Factory(:user) }
-end
+  factory :supervision_vote, :parent => :vote do
+    association :statement, :factory => :supervision
+  end
 
-Factory.define :question do |question|
-  question.supervision { Factory(:supervision) }
-  question.user { Factory(:user) }
-  question.content "Why?"
-end
+  factory :question do
+    supervision
+    user
+    content "Why?"
+  end
 
-Factory.define :answer do |answer|
-  answer.question { Factory(:question) }
-  answer.user { Factory(:user) }
-  answer.content "Just because."
-end
+  factory :answer do
+    question
+    user
+    content "Just because."
+  end
 
-Factory.define :idea do |idea|
-  idea.supervision { Factory(:supervision) }
-  idea.user { Factory(:user) }
-  idea.content "Less talk, more action."
-end
+  factory :idea do
+    supervision
+    user
+    content "Less talk, more action."
+  end
 
-Factory.define :ideas_feedback do |feedback|
-  feedback.supervision { Factory(:supervision) }
-  feedback.user { Factory(:user) }
-  feedback.content "Thanks for the ideas!"
-end
+  factory :ideas_feedback do
+    supervision
+    user
+    content "Thanks for the ideas!"
+  end
 
-Factory.define :solution do |solution|
-  solution.supervision { Factory(:supervision) }
-  solution.user { Factory(:user) }
-  solution.content "Solution"
-end
+  factory :solution do
+    supervision
+    user
+    content "Solution"
+  end
 
-Factory.define :solutions_feedback do |feedback|
-  feedback.supervision { Factory(:supervision) }
-  feedback.user { Factory(:user) }
-  feedback.content "Thanks for the solutions!"
-end
+  factory :solutions_feedback do
+    supervision
+    user
+    content "Thanks for the solutions!"
+  end
 
-Factory.define :supervision_feedback do |feedback|
-  feedback.supervision { Factory(:supervision) }
-  feedback.user { Factory(:user) }
-  feedback.content "Feedback"
-end
+  factory :supervision_feedback do
+    supervision
+    user
+    content "Feedback"
+  end
 
-Factory.define :membership do |membership|
-  membership.group { Factory(:group) }
-  membership.sequence(:email) { |i| "john#{i}@doe.com"}
+  factory :membership do
+    group
+    sequence(:email) { |i| "john#{i}@doe.com"}
+  end
 end

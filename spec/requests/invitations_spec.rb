@@ -2,8 +2,8 @@ require "spec_helper"
 
 feature "Invitations" do
   background do
-    @founder = Factory(:user)
-    @group = Factory(:group, :invitable => true, :founder => @founder)
+    @founder = FactoryGirl.create(:user)
+    @group = FactoryGirl.create(:group, :invitable => true, :founder => @founder)
   end
 
   scenario "Sending invitation" do
@@ -15,7 +15,7 @@ feature "Invitations" do
   end
 
   scenario "Accepting invitation" do
-    user = Factory(:user, :email => "billy@kid.com")
+    user = FactoryGirl.create(:user, :email => "billy@kid.com")
     @group.memberships.create!(:email => "billy@kid.com").invite!
 
     sign_in_interactive(user)
@@ -27,7 +27,7 @@ feature "Invitations" do
   end
 
   scenario "Rejecting invitation" do
-    user = Factory(:user, :email => "billy@kid.com")
+    user = FactoryGirl.create(:user, :email => "billy@kid.com")
     @group.memberships.create!(:email => "billy@kid.com").invite!
 
     sign_in_interactive(user)

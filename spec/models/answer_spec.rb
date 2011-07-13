@@ -11,8 +11,8 @@ describe Answer do
 
   describe "supervision attribute" do
     it "shuld delegate to question" do
-      @question = Factory.build(:question)
-      @answer = Factory.build(:answer, :question => @question)
+      @question = FactoryGirl.build(:question)
+      @answer = FactoryGirl.build(:answer, :question => @question)
       @question.should_receive(:supervision).and_return("supervision")
       @answer.supervision.should be == "supervision"
     end
@@ -20,14 +20,14 @@ describe Answer do
 
   describe "after create" do
     it "should notify supervision with #post_vote_for_next_step" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @supervision.should_receive(:post_vote_for_next_step)
-      @question = Factory(:question, :supervision => @supervision)
-      @answer = Factory(:answer, :question => @question)
+      @question = FactoryGirl.create(:question, :supervision => @supervision)
+      @answer = FactoryGirl.create(:answer, :question => @question)
     end
 
     it "should publish answer to Redis channel" do
-      @answer = Factory.build(:answer)
+      @answer = FactoryGirl.build(:answer)
       @answer.should_receive(:publish_to_redis)
       @answer.save!
     end

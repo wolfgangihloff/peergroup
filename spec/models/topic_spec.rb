@@ -10,13 +10,13 @@ describe Topic do
 
   describe "after create" do
     it "should fire #post_topic event on supervision" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @supervision.should_receive(:post_topic)
-      @topic = Factory(:topic, :supervision => @supervision)
+      @topic = FactoryGirl.create(:topic, :supervision => @supervision)
     end
 
     it "should publish topic to Redis channel" do
-      @topic = Factory.build(:topic)
+      @topic = FactoryGirl.build(:topic)
       @topic.should_receive(:publish_to_redis)
       @topic.save!
     end

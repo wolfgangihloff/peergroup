@@ -3,10 +3,10 @@ require 'spec_helper'
 describe SupervisionMembershipsController do
 
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
-    @supervision = Factory(:supervision, :group => @group)
+    @supervision = FactoryGirl.create(:supervision, :group => @group)
   end
 
   describe "#create" do

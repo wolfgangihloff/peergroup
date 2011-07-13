@@ -10,7 +10,7 @@ describe Question do
 
   describe "after create" do
     it "should publish question to Redis channel" do
-      @question = Factory.build(:question)
+      @question = FactoryGirl.build(:question)
       @question.should_receive(:publish_to_redis)
       @question.save!
     end

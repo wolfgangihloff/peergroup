@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe ChatMessagesController do
   before do
-    @user = Factory(:user)
-    @group = Factory(:group, :founder => @user)
+    @user = FactoryGirl.create(:user)
+    @group = FactoryGirl.create(:group, :founder => @user)
     @chat_room = @group.chat_room
 
     sign_in(@user)

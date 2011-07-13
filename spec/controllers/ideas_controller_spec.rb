@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe IdeasController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "providing_ideas")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "providing_ideas")
     @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
     before do
-      @idea = Factory(:idea, :supervision => @supervision)
+      @idea = FactoryGirl.create(:idea, :supervision => @supervision)
       get :show,
         :id => @idea.id,
         :partial => 1
@@ -84,7 +84,7 @@ describe IdeasController do
   describe "#update" do
     describe "with valida data" do
       before do
-        @idea = Factory(:idea, :supervision => @supervision)
+        @idea = FactoryGirl.create(:idea, :supervision => @supervision)
         put :update,
           :id => @idea.id,
           :idea => { :ratign => "3" }
@@ -96,7 +96,7 @@ describe IdeasController do
 
     describe "with invalid data" do
       before do
-        @idea = Factory(:idea, :supervision => @supervision)
+        @idea = FactoryGirl.create(:idea, :supervision => @supervision)
         put :update,
           :id => @idea.id,
           :idea => { :rating => "none" }
@@ -110,7 +110,7 @@ describe IdeasController do
   describe "#update.json" do
     describe "with valida data" do
       before do
-        @idea = Factory(:idea, :supervision => @supervision)
+        @idea = FactoryGirl.create(:idea, :supervision => @supervision)
         put :update,
           :format => :json,
           :id => @idea.id,
@@ -127,7 +127,7 @@ describe IdeasController do
 
     describe "with invalid data" do
       before do
-        @idea = Factory(:idea, :supervision => @supervision)
+        @idea = FactoryGirl.create(:idea, :supervision => @supervision)
         post :update,
           :format => :json,
           :id => @idea.id,

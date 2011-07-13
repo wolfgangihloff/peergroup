@@ -18,12 +18,12 @@ describe UsersController do
 
       before do
         @user = sign_in
-        second = Factory(:user, :email => "another@example.com")
-        third  = Factory(:user, :email => "another@example.net")
+        second = FactoryGirl.create(:user, :email => "another@example.com")
+        third  = FactoryGirl.create(:user, :email => "another@example.net")
 
         @users = [@user, second, third]
         30.times do
-          @users << Factory(:user)
+          @users << FactoryGirl.create(:user)
         end
         User.should_receive(:paginate).and_return(@users.paginate)
       end
@@ -88,7 +88,7 @@ describe UsersController do
       before(:each) do
         @attr = { :name => "", :email => "", :password => "",
                   :password_confirmation => "", :passcode => "Pat0ng0" }
-        @user = Factory.build(:user, @attr)
+        @user = FactoryGirl.build(:user, @attr)
         User.stub!(:new).and_return(@user)
         @user.should_receive(:save).and_return(false)
       end
@@ -105,7 +105,7 @@ describe UsersController do
         @attr = { :name => "New User", :email => "user@example.com",
                   :password => "foobar", :password_confirmation => "foobar",
                   :passcode => "Pat0ng0"}
-        @user = Factory(:user, @attr)
+        @user = FactoryGirl.create(:user, @attr)
         User.stub!(:new).and_return(@user)
         @user.should_receive(:save).at_least(1).and_return(true)
       end
@@ -187,7 +187,7 @@ describe UsersController do
 
   describe "authentication of edit/update pages" do
     before(:each) do
-      @user = Factory(:user)
+      @user = FactoryGirl.create(:user)
     end
 
     describe "for non-signed-in users" do
@@ -205,7 +205,7 @@ describe UsersController do
 
     describe "for signed-in users" do
       before(:each) do
-        wrong_user = Factory(:user, :email => "user@example.net")
+        wrong_user = FactoryGirl.create(:user, :email => "user@example.net")
         sign_in(wrong_user)
       end
 
@@ -224,7 +224,7 @@ describe UsersController do
   describe "DELETE 'destroy'" do
 
     before(:each) do
-      @user = Factory(:user)
+      @user = FactoryGirl.create(:user)
     end
 
     describe "as a non-signed-in user" do
@@ -245,7 +245,7 @@ describe UsersController do
     describe "as an admin user" do
 
       before(:each) do
-        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        admin = FactoryGirl.create(:user, :email => "admin@example.com", :admin => true)
         sign_in(admin)
         User.should_receive(:find).with(@user).and_return(@user)
         @user.should_receive(:destroy).and_return(@user)

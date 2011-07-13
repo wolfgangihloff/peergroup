@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  before { @user = Factory(:user) }
+  before { @user = FactoryGirl.create(:user) }
 
   %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp].each do |email|
     it { should allow_value(email).for(:email) }
@@ -89,7 +89,7 @@ describe User do
   end
 
   describe "relationships" do
-    before { @followed = Factory(:user) }
+    before { @followed = FactoryGirl.create(:user) }
 
     it "should have a relationships method" do
       @user.should respond_to(:relationships)
@@ -137,14 +137,14 @@ describe User do
 
   describe "#active_member_of?" do
     it "should be true for user's groups" do
-      @group = Factory(:group)
+      @group = FactoryGirl.create(:group)
       @group.add_member!(@user)
 
       @user.active_member_of?(@group).should be_true
     end
 
     it "should not be true for other groups" do
-      @group = Factory(:group)
+      @group = FactoryGirl.create(:group)
 
       @user.active_member_of?(@group).should be_false
     end
@@ -156,7 +156,7 @@ describe User do
 
   describe "#join_supervision" do
     it "should add user to supervision members" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @user.join_supervision(@supervision)
       @supervision.reload
       @supervision.members.should include(@user)
@@ -165,7 +165,7 @@ describe User do
 
   describe "#leave_supervision" do
     it "should remove user's membership in supervision" do
-      @supervision = Factory(:supervision)
+      @supervision = FactoryGirl.create(:supervision)
       @user.join_supervision(@supervision)
       @user.leave_supervision(@supervision)
       @supervision.reload
@@ -174,9 +174,9 @@ describe User do
   end
 
   it "should associate pending group memberships after create" do
-    membership = Factory(:membership, :email => "john@doe.com")
+    membership = FactoryGirl.create(:membership, :email => "john@doe.com")
     membership.invite!
-    user = Factory(:user, :email => "john@doe.com")
+    user = FactoryGirl.create(:user, :email => "john@doe.com")
     user.invited_memberships.should == [membership]
   end
 

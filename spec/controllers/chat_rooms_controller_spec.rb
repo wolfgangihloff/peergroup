@@ -3,8 +3,8 @@ require "spec_helper"
 describe ChatRoomsController do
 
   before do
-    @user = Factory(:user, :id => 1)
-    @group = Factory(:group, :founder => @user)
+    @user = FactoryGirl.create(:user, :id => 1)
+    @group = FactoryGirl.create(:group, :founder => @user)
     sign_in(@user)
   end
 

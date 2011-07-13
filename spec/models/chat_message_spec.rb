@@ -10,7 +10,7 @@ describe ChatMessage do
 
   describe "#publish_to_redis" do
     it "should publish itself as JSON to Redis channel" do
-      @chat_message = Factory.build(:chat_message, :id => "100", :created_at => Time.now)
+      @chat_message = FactoryGirl.build(:chat_message, :id => "100", :created_at => Time.now)
       @json_attributes = { :only => [:id, :content, :created_at], :include => { :user => { :only => [:id, :name], :methods => :avatar_url } } }
       @json_representation = @chat_message.to_json(@json_attributes)
       @chat_message.should_receive(:to_json).with(@json_attributes).and_return(@json_representation)
@@ -21,15 +21,15 @@ describe ChatMessage do
 
   describe "after create" do
     it "should publish message to Redis" do
-      @chat_message = Factory.build(:chat_message)
+      @chat_message = FactoryGirl.build(:chat_message)
       @chat_message.should_receive(:publish_to_redis)
       @chat_message.save!
     end
   end
 
   it "should not include messages older than one day" do
-    Factory(:chat_message, :created_at => 2.days.ago)
-    chat_message = Factory(:chat_message)
+    FactoryGirl.create(:chat_message, :created_at => 2.days.ago)
+    chat_message = FactoryGirl.create(:chat_message)
     ChatMessage.recent.all.should == [chat_message]
   end
 end

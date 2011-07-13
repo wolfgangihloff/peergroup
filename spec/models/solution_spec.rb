@@ -17,7 +17,7 @@ describe Solution do
 
   describe "after create" do
     it "should publish solution to Redis channel" do
-      @solution = Factory.build(:solution)
+      @solution = FactoryGirl.build(:solution)
       @solution.should_receive(:publish_to_redis)
       @solution.save!
     end
@@ -25,14 +25,14 @@ describe Solution do
 
   describe "after update" do
     it "should notify supervision with #post_vote_for_next_step" do
-      @supervision = Factory(:supervision)
-      @solution = Factory(:solution, :supervision => @supervision)
+      @supervision = FactoryGirl.create(:supervision)
+      @solution = FactoryGirl.create(:solution, :supervision => @supervision)
       @supervision.should_receive(:post_vote_for_next_step)
       @solution.update_attributes!(:rating => 5)
     end
 
     it "should publish rated solution to Redis channel" do
-      @solution = Factory(:solution)
+      @solution = FactoryGirl.create(:solution)
       @solution.should_receive(:publish_to_redis)
       @solution.update_attributes!(:rating => 5)
     end

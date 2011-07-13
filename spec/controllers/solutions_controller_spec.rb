@@ -2,17 +2,17 @@ require "spec_helper"
 
 describe SolutionsController do
   before do
-    @group = Factory(:group)
+    @group = FactoryGirl.create(:group)
     @user = @group.founder
     sign_in(@user)
 
-    @supervision = Factory(:supervision, :group => @group, :state => "providing_solutions")
+    @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "providing_solutions")
     @user.join_supervision(@supervision)
   end
 
   describe "#show with partial=1 param" do
     before do
-      @solution = Factory(:solution, :supervision => @supervision)
+      @solution = FactoryGirl.create(:solution, :supervision => @supervision)
       get :show,
         :id => @solution.id,
         :partial => 1
@@ -84,7 +84,7 @@ describe SolutionsController do
   describe "#update" do
     describe "with valida data" do
       before do
-        @solution = Factory(:solution, :supervision => @supervision)
+        @solution = FactoryGirl.create(:solution, :supervision => @supervision)
         put :update,
           :id => @solution.id,
           :solution => { :ratign => "3" }
@@ -96,7 +96,7 @@ describe SolutionsController do
 
     describe "with invalid data" do
       before do
-        @solution = Factory(:solution, :supervision => @supervision)
+        @solution = FactoryGirl.create(:solution, :supervision => @supervision)
         put :update,
           :id => @solution.id,
           :solution => { :rating => "none" }
@@ -110,7 +110,7 @@ describe SolutionsController do
   describe "#update.json" do
     describe "with valida data" do
       before do
-        @solution = Factory(:solution, :supervision => @supervision)
+        @solution = FactoryGirl.create(:solution, :supervision => @supervision)
         put :update,
           :format => :json,
           :id => @solution.id,
@@ -127,7 +127,7 @@ describe SolutionsController do
 
     describe "with invalid data" do
       before do
-        @solution = Factory(:solution, :supervision => @supervision)
+        @solution = FactoryGirl.create(:solution, :supervision => @supervision)
         post :update,
           :format => :json,
           :id => @solution.id,
