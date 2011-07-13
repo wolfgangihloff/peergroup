@@ -3,12 +3,12 @@
 // this is jquery-ui 1.9m3 version, it's not yet stable, so be prapared
 // to update it when needed
 //= require "lib/jquery-ui"
-//= require "lib/rails"
+//= require "lib/jquery_ujs"
 //= require "lib/underscore"
 
 //= require "lib/jquery.form"
 //= require "lib/jquery.rating"
-//
+
 //= require "pgs"
 //= require "s"
 //= require "util"
@@ -59,7 +59,7 @@ jQuery(function($) {
 
         var $form = $chatRoom.find("#new_chat_message");
         $form.bind({
-            "ajax:loading": function(event) { $form.find("#chat_message_content").val(""); }
+            "ajax:success": function(event) { $form.find("#chat_message_content").val(""); }
         });
 
         var onUserEnters = function(event, user) {
@@ -174,5 +174,4 @@ jQuery(function($) {
             });
         });
     });
-
 });

@@ -39,7 +39,7 @@ class Supervision < ActiveRecord::Base
     end
 
     event :remove_member do
-      transition all - [:finished,:cancelled] => :cancelled, :if => :cancel_supervision?
+      transition all - [:finished, :cancelled] => :cancelled, :if => :cancel_supervision?
       transition :gathering_topics => :voting_on_topics
       transition :voting_on_topics => :asking_questions
       transition :giving_supervision_feedbacks => :finished
