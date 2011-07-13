@@ -58,6 +58,10 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
 
+  namespace :node do
+    resources :supervision_memberships, :only => [:destroy]
+  end
+
   match '/signin' => 'sessions#new', :as => 'signin'
   match '/signout' =>'sessions#destroy', :as => 'signout'
   match '/contact' => 'pages#contact', :as => 'contact'

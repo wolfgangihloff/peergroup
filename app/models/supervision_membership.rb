@@ -5,11 +5,8 @@ class SupervisionMembership < ActiveRecord::Base
   validates_presence_of :supervision, :user
   validates_uniqueness_of :user_id, :scope => :supervision_id
 
-  after_create do
-    supervision.join_member
-  end
+  delegate :join_member, :remove_member, :to => :supervision, :prefix => true
 
-  after_destroy do
-    supervision.remove_member
-  end
+  after_create :supervision_join_member
+  after_destroy :supervision_remove_member
 end

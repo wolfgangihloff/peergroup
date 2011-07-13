@@ -97,7 +97,7 @@ var initializeClientConnections = function() {
                             });
 
                             client.on("disconnect", function() {
-                                // Remove user from chat session
+                                // Remove user from chat session after 5 seconds
                                 redisClient.hdel(chat.sessionsKey, userId)
 
                                 setTimeout(function() {
@@ -136,6 +136,14 @@ var initializeClientConnections = function() {
 
                             client.on("disconnect", function() {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
+
+                                setTimeout(function() {
+                                    redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
+                                        if (!_und.include(resp, userId)) {
+                                            //peergroupRequest();
+                                        }
+                                    });
+                                }, 60000);
                             });
                         } else {
                             console.log("User invalid for supervision: " + userId);
@@ -194,3 +202,35 @@ var pingRedisClient = function(){
     redisClient.ping();
 };
 setInterval(pingRedisClient, 10000);
+
+
+var peergroupRequest = function() {
+    //var body = JSON.stringify({ "supervision_membership": {"firstname": "Joe", "lastname": "Bloggs"} })
+    var username = "node", password = "secret";
+    var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
+    var options = {
+      host: 'localhost',
+      port: 3000,
+      path: '/node/supervision_memberships/11',
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization": auth}//, "Content-Length": Buffer.byteLength(body)}
+    };
+
+    var req = http.request(options, function(res) {
+      console.log('STATUS: ' + res.statusCode);
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+        console.log('BODY: ' + chunk);
+      });
+    });
+
+    req.on('error', function(e) {
+      console.log('problem with request: ' + e.message);
+    });
+
+    // write data to request body
+    //req.write(body);
+    req.end();
+}
+
+peergroupRequest();
