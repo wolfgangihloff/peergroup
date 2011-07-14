@@ -36,7 +36,6 @@ group :test do
   gem "database_cleaner"
   gem "capybara", "~> 1.0.0"
   gem "launchy"
-  gem "faker"
 end
 
 group :development do
