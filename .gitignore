@@ -14,3 +14,4 @@ db/*.rdb
 
 config/redis.yml
 config/database.yml
+app-node/config.json

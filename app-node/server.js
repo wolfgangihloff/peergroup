@@ -142,7 +142,7 @@ var initializeClientConnections = function() {
                                 setTimeout(function() {
                                     redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
                                         if (!_und.include(resp, userId)) {
-                                            PGS.request(PGS.supervision_members_path(supervisionId, userId), "DELETE");
+                                            PGS.request(PGS.node_supervision_member_path(supervisionId, userId), "DELETE");
                                         }
                                     });
                                 }, 20000);
@@ -161,42 +161,43 @@ var initializeClientConnections = function() {
 }
 
 var PGS = {
-    //username: "node",
-
-    //password: "secret",
+    initialize: function() {
+        var config;
+        fs.readFile('./config.json', 'utf8', function (err, data) {
+            if (err) throw err;
+            config = JSON.parse(data);
+            PGS.username = config.username;
+            PGS.password = config.password;
+            PGS.host = config.host;
+            PGS.port = config.port;
+        });
+    },
 
     auth_header: function() {
         return "Basic " + new Buffer(PGS.username + ":" + PGS.password).toString("base64");
     },
 
-    supervision_members_path: function(supervisionId, memberId) {
+    node_supervision_member_path: function(supervisionId, memberId) {
         return "/node/supervisions/" + supervisionId + "/members/" + memberId;
     },
 
     request: function(path, method) {
-        //var body = JSON.stringify({ "supervision_membership": {"firstname": "Joe", "lastname": "Bloggs"} })
         var options = {
-          host: 'localhost',
-          port: 3000,
-          path: path,
-          method: method,
-          headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization": PGS.auth_header()}//, "Content-Length": Buffer.byteLength(body)}
+            host: PGS.host,
+            port: PGS.port,
+            path: path,
+            method: method,
+            headers: {"Content-Type": "application/json", "Accept": "application/json", "Authorization": PGS.auth_header()}
         };
 
         var req = http.request(options, function(res) {
-          console.log('STATUS: ' + res.statusCode);
-          res.setEncoding('utf8');
-          res.on('data', function (chunk) {
-            console.log('BODY: ' + chunk);
-          });
+            res.setEncoding('utf8');
         });
 
         req.on('error', function(e) {
-          console.log('problem with request: ' + e.message);
+            console.log('problem with request: ' + e.message);
         });
 
-        // write data to request body
-        //req.write(body);
         req.end();
     }
 }
@@ -247,10 +248,7 @@ var pingRedisClient = function(){
 };
 setInterval(pingRedisClient, 10000);
 
-fs.readFile('/home/wojtek/Ruby/peergroup/app-node/config.json', 'utf8', function (err, data) {
-  if (err) throw err;
-  var config = JSON.parse(data);
-  PGS.username = config.username;
-  PGS.password = config.password;
-  console.log(JSON.parse(data));
-});
+/*
+ * Setup configuration to connect to rails application
+ */
+PGS.initialize();

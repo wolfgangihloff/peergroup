@@ -39,6 +39,7 @@ namespace :deploy do
   task :link do
     run "ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
     run "ln -nfs #{shared_path}/config/redis.yml #{latest_release}/config/redis.yml"
+    run "ln -nfs #{shared_path}/app-node/config.json #{latest_release}/app-node/config.json"
   end
 
   namespace :apache do

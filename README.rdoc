@@ -22,14 +22,17 @@ If you are using rvm, create new gemset to not mess with your default gems
 
   cp config/redis.yml.example config/redis.yml
   cp config/database.yml.example config/database.yml
+  cp app-node/config.json.example app-node/config.json
 
 3. Setup Redis
 
 Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
-4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7-v.0.4.9)
+4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7-v.0.5.0)
 
-  node app-node/server.js
+Go to app-node directory directly (this is necessary to load configuraion file using relative path see https://github.com/joyent/node/issues/1326)
+
+  cd app-node && node server.js
 
 Tip: You can also use nvm https://github.com/creationix/nvm
 
