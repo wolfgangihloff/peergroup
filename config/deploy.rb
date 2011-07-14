@@ -29,6 +29,7 @@ namespace :deploy do
     update_code
     migrate
     symlink
+    node.restart
     apache.restart
   end
 
@@ -50,6 +51,14 @@ namespace :deploy do
   namespace :git do
     task :update_submodules do
       run "cd #{latest_release} && git submodule init && git submodule update"
+    end
+  end
+
+  namespace :node do
+    %w(start stop restart).each do |action|
+      task action do
+        run "/etc/init.d/node-peergroup #{action}"
+      end
     end
   end
 end
