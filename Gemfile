@@ -31,7 +31,8 @@ end
 
 group :test do
   gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
-  gem "selenium-webdriver"
+  #gem "selenium-webdriver"
+  gem "capybara-webkit", :git => "git://github.com/thoughtbot/capybara-webkit.git"
   gem "factory_girl_rails", "~> 1.1.rc1"
   gem "database_cleaner"
   gem "capybara", "~> 1.0.0"

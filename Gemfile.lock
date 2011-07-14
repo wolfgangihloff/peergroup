@@ -7,6 +7,13 @@ GIT
       ya2yaml (~> 0.26)
 
 GIT
+  remote: git://github.com/thoughtbot/capybara-webkit.git
+  revision: 9fe7301d489179390d7c5ce69f5941b76cc3584d
+  specs:
+    capybara-webkit (0.5.0)
+      capybara (~> 1.0.0)
+
+GIT
   remote: git://github.com/thoughtbot/shoulda-matchers.git
   revision: f1baf025d64389d4d1e90262d415c9ad55c5ba1a
   specs:
@@ -244,6 +251,7 @@ DEPENDENCIES
   bson_ext
   capistrano
   capybara (~> 1.0.0)
+  capybara-webkit!
   compass
   database_cleaner
   factory_girl_rails (~> 1.1.rc1)
@@ -264,7 +272,6 @@ DEPENDENCIES
   ruby-debug
   ruby-graphviz
   sass
-  selenium-webdriver
   shoulda-matchers!
   sqlite3
   state_machine
