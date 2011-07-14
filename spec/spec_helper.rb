@@ -6,7 +6,9 @@ require 'database_cleaner'
 
 require 'capybara/rspec'
 require 'capybara/rails'
+
 Capybara.default_wait_time = 5
+Capybara.server_port = 3666
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
