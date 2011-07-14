@@ -1,6 +1,6 @@
 {
   "username": "node",
-  "pasword": "secret",
+  "password": "secret",
   "host": "localhost",
   "port": 3000
 }

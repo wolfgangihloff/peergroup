@@ -98,7 +98,7 @@ var initializeClientConnections = function() {
                             });
 
                             client.on("disconnect", function() {
-                                // Remove user from chat session after 20 seconds
+                                // Remove user from chat session after 30 seconds
                                 redisClient.hdel(chat.sessionsKey, userId)
 
                                 setTimeout(function() {
@@ -107,7 +107,7 @@ var initializeClientConnections = function() {
                                             redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp, user_id: userId, status: "exit"}}));
                                         }
                                     });
-                                }, 20000);
+                                }, 30000);
                             });
                         } else {
                             util.log("[chat] Invalid token:"+token+" for chat:"+chatRoomId);
@@ -138,14 +138,14 @@ var initializeClientConnections = function() {
                             client.on("disconnect", function() {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
 
-                                // remove member from supervision after 20 seconds
+                                // remove member from supervision after 0 seconds
                                 setTimeout(function() {
                                     redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
                                         if (!_und.include(resp, userId)) {
                                             PGS.request(PGS.node_supervision_member_path(supervisionId, userId), "DELETE");
                                         }
                                     });
-                                }, 20000);
+                                }, 30000);
                             });
                         } else {
                             console.log("User invalid for supervision: " + userId);
