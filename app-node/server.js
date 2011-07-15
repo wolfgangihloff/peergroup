@@ -155,11 +155,12 @@ var initializeClientConnections = function() {
                     });
                 } else if (message.type === "supervision.member_idle_status") {
                     if (message.data.status === "away") {
-                        console.log("remove that guy");
-                        console.log(util.inspect(message.data));
                         PGS.request(PGS.node_supervision_member_path(supervisionId, message.data.userId), "DELETE");
-                        // user is not yet disconnected
-                        clearTimeout(supervisionStatusTimeout);
+                        // hack for not sending second request on client disconnect
+                        // TODO: find a better way to do this
+                        setTimeout(function() {
+                            clearTimeout(supervisionStatusTimeout);
+                        }, 2000)
                     }
                     redisClient.publish("supervision:"+supervisionId, JSON.stringify({idle_status_changed: message.data}));
                 }

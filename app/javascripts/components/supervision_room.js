@@ -413,7 +413,6 @@
                 awayTimeout;
 
             var sendStatus = function(state) {
-                console.log("status: "+state);
                 PGS.withSocket("supervision", function(s) {
                     s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
                 });
@@ -449,7 +448,7 @@
                         awayInformation();
                         resetAwayTimeout();
                     }
-                }, 30000);
+                }, 60000);
             }
 
             // 1 minute
@@ -460,7 +459,7 @@
                         status = "away";
                         sendStatus("away");
                     }
-                }, 30000);
+                }, 60000);
             }
 
            $parent.mousemove(function() {
