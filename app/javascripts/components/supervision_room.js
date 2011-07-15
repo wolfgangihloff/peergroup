@@ -409,9 +409,11 @@
          */
         context.setupMemberIdleStatus = function() {
             var status = "active",
-                timeout;
+                idleTimeout,
+                awayTimeout;
 
             var sendStatus = function(state) {
+                console.log("status: "+state);
                 PGS.withSocket("supervision", function(s) {
                     s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
                 });
@@ -419,21 +421,46 @@
 
             var setActiveStatus = function() {
                 resetIdleTimeout();
-                if (status === "idle") {
+                if (status !== "active") {
                     status = "active";
                     sendStatus("active");
                 }
             };
 
-            // 5 minutes
+            var awayInformation = function() {
+                $("#away-dialog-message").dialog({
+                    modal: true,
+                    buttons: {
+                        "I am here": function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            }
+
+            // 1 minute
             var resetIdleTimeout = function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
+                clearTimeout(idleTimeout);
+                clearTimeout(awayTimeout);
+                idleTimeout = setTimeout(function() {
                     if (status === "active") {
                         status = "idle";
                         sendStatus("idle");
+                        awayInformation();
+                        resetAwayTimeout();
                     }
-                }, 50000);
+                }, 30000);
+            }
+
+            // 1 minute
+            var resetAwayTimeout = function() {
+                clearTimeout(awayTimeout);
+                awayTimeout = setTimeout(function() {
+                    if (status === "idle") {
+                        status = "away";
+                        sendStatus("away");
+                    }
+                }, 30000);
             }
 
            $parent.mousemove(function() {
@@ -455,13 +482,18 @@
         context.setupViewIdleStatus = function() {
             var onIdleStatusChange = function(event, message) {
                 var userId = message.userId,
-                    state = message.state,
+                    status = message.status,
                     membersList = $parent.find(".members-part .members-list"),
                     user = membersList.find("#user_"+message.userId);
 
-                    if (message.status === "idle") {
+                    // redirect removed member
+                    if (status === "away" && document.pgs.currentUser === userId) {
+                        //document.location = PGS.newSupervisionMembershipPath(supervisionId);
+                    }
+
+                    if (status === "idle") {
                         user.addClass("idle");
-                    } else if (message.status === "active") {
+                    } else if (status === "active") {
                         user.removeClass("idle");
                     }
             };

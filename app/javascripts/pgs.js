@@ -81,6 +81,10 @@
             return this.path(["supervisions", supervisionId], options);
         },
 
+        newSupervisionMembershipPath: function(supervisionId, options) {
+            return this.path(["supervisions", supervisionId, "membership", "new"], options);
+        },
+
         supervisionTopicsPath: function(supervisionId, options) {
             return this.path(["supervisions", supervisionId, "topics"], options);
         },
