@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     @title = @user.name
 
     respond_to do |format|
-      format.html { }
+      format.html
       format.json { render :json => @user.to_json(:only => [:id, :name], :methods => [:avatar_url]) }
     end
   end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       flash[:error] = "Wrong Passcode" unless params[:user][:passcode] == "Pat0ng0"
       @user.password = ""
       @user.password_confirmation = ""
-      render 'new'
+      render :new
     end
   end
 
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       @title = "Edit user"
-      render 'edit'
+      render :edit
     end
   end
 

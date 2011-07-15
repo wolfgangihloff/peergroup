@@ -125,7 +125,7 @@ var initializeClientConnections = function() {
                 var supervisionId = message.data.supervisionId;
                 // on authenticate
                 if (message.type === "supervision.authenticate") {
-                    var userId = message.data.userId,
+                    var userId = String(message.data.userId),
                         token = message.data.token;
                     var userAuthenticationKey = "supervision:" + supervisionId + ":users:" + userId + ":token:" + token,
                         supervisionSessionsKey = "supervision:" + supervisionId + ":sessions";
@@ -138,7 +138,7 @@ var initializeClientConnections = function() {
                             client.on("disconnect", function() {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
 
-                                // remove member from supervision after 0 seconds
+                                // remove member from supervision after 30 seconds
                                 setTimeout(function() {
                                     redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
                                         if (!_und.include(resp, userId)) {

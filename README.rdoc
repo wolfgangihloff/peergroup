@@ -111,13 +111,17 @@ If you are having problems with compiling sass files, try this:
    bundle exec compass compile -e production --force
 
 On production server mysql database is used.
+
 Credentials are stored in non tracked file config/database.yml
+
 If you have problems with installing mysql2 gem, check this: http://stackoverflow.com/questions/3608287/installing-mysql2-gem-for-rails-3
+
 If you don't have mysql database at all, you can bundle gems by: bundle install --without production
 
 Node server is managed by init script placed in /etc/init.d/node-peergroup
 
-Deployment is done by Capistrano
+Deployment is done by Capistrano.
+
 Deployment process:
 
 * make changes, commit and push to github server
