@@ -71,6 +71,7 @@ var redisClient = redis.createClient(redisPort, redisHost),
     subscribeRedisClient = redis.createClient(redisPort, redisHost);
 
 var initializeClientConnections = function() {
+    var supervisionStatusTimeout;
     socket.on('connection', function(client) {
         client.on("message", function(message) {
             /**
@@ -139,7 +140,7 @@ var initializeClientConnections = function() {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
 
                                 // remove member from supervision after 30 seconds
-                                setTimeout(function() {
+                                supervisionStatusTimeout = setTimeout(function() {
                                     redisClient.hkeys(supervisionSessionsKey, function(err, resp) {
                                         if (!_und.include(resp, userId)) {
                                             PGS.request(PGS.node_supervision_member_path(supervisionId, userId), "DELETE");
@@ -156,6 +157,9 @@ var initializeClientConnections = function() {
                     if (message.data.status === "away") {
                         console.log("remove that guy");
                         console.log(util.inspect(message.data));
+                        PGS.request(PGS.node_supervision_member_path(supervisionId, message.data.userId), "DELETE");
+                        // user is not yet disconnected
+                        clearTimeout(supervisionStatusTimeout);
                     }
                     redisClient.publish("supervision:"+supervisionId, JSON.stringify({idle_status_changed: message.data}));
                 }
