@@ -13,7 +13,7 @@ role :db,  domain, :primary => true
 
 set :scm, :git
 set :repository, "git://github.com/wolfgangihloff/peergroup.git"
-set :branch, "master"
+set :branch, ENV["BRANCH"] || "master"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 

@@ -7,10 +7,15 @@ var http = require("http"),
     _und = require("./underscore/");
 
 /*
+ * Node environment
+ */
+var nodeEnv = process.env["NODE_ENV"] || "default";
+
+/*
  * Redis connection address
  */
-var redisPort = process.env["REDIS_PORT"], // || default
-    redisHost = process.env["REDIS_HOST"], // || default
+var redisPort = process.env["REDIS_PORT"],
+    redisHost = process.env["REDIS_HOST"],
     redisDb =   process.env["REDIS_DB"] || 0;
 /*
  * Server port
@@ -62,7 +67,7 @@ var PGS = {
         var config;
         fs.readFile('./config.json', 'utf8', function (err, data) {
             if (err) throw err;
-            config = JSON.parse(data);
+            config = JSON.parse(data)[nodeEnv];
             PGS.username = config.username;
             PGS.password = config.password;
             PGS.host = config.host;
@@ -114,7 +119,6 @@ var eachSession = function (key, callback) {
         });
     });
 };
-
 
 var initializeClientConnections = function () {
     var supervisionStatusTimeout;

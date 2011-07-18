@@ -64,12 +64,17 @@ You have been warned!
 
 3. Run Node server instance
 REDIS_DB should be number that you specified in config/redis.yml
+NODE_ENV should be set to test
 
-  REDIS_DB=1 node app-node/server.js
+  REDIS_DB=1 NODE_ENV=test node app-node/server.js
+
+Above command can be run as:
+
+  rake spec:start_node
 
 Eventually you can connect to separate instace of redis server (if running)
 
-  REDIS_DB=1 REDIS_PORT=6380 node app-node/server.js
+  REDIS_DB=1 REDIS_PORT=6380 NODE_ENV=test node app-node/server.js
 
 4. Run tests:
 
