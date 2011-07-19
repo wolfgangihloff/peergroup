@@ -48,7 +48,7 @@ var S = function (socket, namespace) {
             return this;
         },
         send: function (type, data) {
-            socket.send({ type: prefix(type), data: data });
+            socket.json.send({ type: prefix(type), data: data });
             return this;
         }
     };
@@ -62,6 +62,7 @@ var S = function (socket, namespace) {
     };
     var onConnect = function () {
         _.each(connectCallbacks, function (callback) {
+            console.log("onConnect");
             callback.call(that);
         });
     };

@@ -30,8 +30,9 @@
         withSocket: function (namespace, callback) {
             this.load("socket.io", function () {
                 if (typeof socket === "undefined") {
-                    socket = new io.Socket(null, { port: 8080 });
-                    socket.connect();
+                    console.log("inside PGS.withSocket")
+                    socket = io.connect("http://localhost:8080");
+                    console.log(socket)
                 }
                 callback.call({}, S(socket, namespace));
             });

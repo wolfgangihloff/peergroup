@@ -110,7 +110,7 @@ var eachSession = function (key, callback) {
     var sessionsKey = key + ":sessions";
     redisClient.hgetall(sessionsKey, function (err, replies) {
         _und.each(replies, function(sessionId, userId) {
-            var client = socket.clients[sessionId];
+            var client = socket.sockets.sockets[sessionId];
             if (client) {
                 callback.call(client, client);
             } else {
@@ -122,8 +122,9 @@ var eachSession = function (key, callback) {
 
 var initializeClientConnections = function () {
     var supervisionStatusTimeout;
-    socket.on('connection', function (client) {
+    socket.sockets.on('connection', function (client) {
         client.on("message", function (message) {
+            console.log(util.inspect(message));
             /**
              * CHAT
              *  - authenticate
@@ -138,11 +139,11 @@ var initializeClientConnections = function () {
                     redisClient.get(chat.userAuthenticationKey, function (err, userId) {
                         if (userId) {
 
-                            util.log("[chat] User:" + userId + " authenticated for chat:" + chatRoomId + " sessionId:" + client.sessionId);
-                            client.send(chat.authenticationSuccessedMessage);
+                            util.log("[chat] User:" + userId + " authenticated for chat:" + chatRoomId + " sessionId:" + client.id);
+                            client.json.send(chat.authenticationSuccessedMessage);
 
                             // Hash of chat session, contains: {userId: sessionId}
-                            redisClient.hset(chat.sessionsKey, userId, client.sessionId);
+                            redisClient.hset(chat.sessionsKey, userId, client.id);
 
                             redisClient.hkeys(chat.sessionsKey, function (err, resp) {
                                 redisClient.publish(chat.channel, JSON.stringify({chat_presence: {user_ids: resp, user_id: userId, status: "enter"}}));
@@ -162,7 +163,7 @@ var initializeClientConnections = function () {
                             });
                         } else {
                             util.log("[chat] Invalid token:" + token + " for chat:" + chatRoomId);
-                            client.send(chat.authenticationFailedMessage);
+                            client.json.send(chat.authenticationFailedMessage);
                         }
                     });
                 }
@@ -183,9 +184,9 @@ var initializeClientConnections = function () {
 
                     redisClient.exists(userAuthenticationKey, function (err, resp) {
                         if (resp) {
-                            console.log("User authenticated for supervision: " + userId + " sessionId: " + client.sessionId);
-                            client.send({ type: "supervision.authentication", status: "OK" });
-                            redisClient.hset(supervisionSessionsKey, userId, client.sessionId);
+                            console.log("User authenticated for supervision: " + userId + " sessionId: " + client.id);
+                            client.json.send({ type: "supervision.authentication", status: "OK" });
+                            redisClient.hset(supervisionSessionsKey, userId, client.id);
 
                             client.on("disconnect", function () {
                                 redisClient.hdel("supervision:" + supervisionId + ":sessions", userId);
@@ -201,7 +202,7 @@ var initializeClientConnections = function () {
                             });
                         } else {
                             console.log("User invalid for supervision: " + userId);
-                            client.send({ type: "supervision.authentication", status: "error", text: "Invalid id or token" });
+                            client.json.send({ type: "supervision.authentication", status: "error", text: "Invalid id or token" });
                         }
                     });
                 } else if (message.type === "supervision.member_idle_status") {
@@ -239,8 +240,8 @@ var subscribeToChannels = function () {
         decodedMessage.type = type + "." + rootKey;
         util.log("[" + type + "] pmessage: " + decodedMessage.type);
         eachSession(channel, function (client) {
-            util.log("[" + type + "] Sending message to client " + client.sessionId);
-            client.send(decodedMessage);
+            util.log("[" + type + "] Sending message to client " + client.id);
+            client.json.send(decodedMessage);
         });
     });
     subscribeRedisClient.psubscribe("supervision:*");

@@ -421,7 +421,7 @@
 
             var sendStatus = function (state) {
                 PGS.withSocket("supervision", function (s) {
-                    s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
+                    s.json.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
                 });
             };
 

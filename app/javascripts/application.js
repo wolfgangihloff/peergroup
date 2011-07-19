@@ -26,7 +26,7 @@ jQuery(function($) {
         var nodeServerUrl = document.location.protocol + "//" + document.location.hostname + ":8080",
             socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
         // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
-        window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
+        //window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
         PGS.addModule("socket.io", socketIoUrl);
     })();
 
@@ -110,7 +110,7 @@ jQuery(function($) {
                 $chatRoom.trigger("chat:message", message.chat_message);
             });
             s.onConnect(function () {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoomId: chatRoomId });
+                this.json.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoomId: chatRoomId });
             });
         });
     });
@@ -137,7 +137,7 @@ jQuery(function($) {
                 }
             });
             s.onConnect(function() {
-                this.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervisionId: supervisionId });
+                this.json.send("authenticate", { userId: document.pgs.currentUser, token: supervisionToken, supervisionId: supervisionId });
             });
             s.on("supervision", function(type, message) {
                 $supervision.trigger("supervision:update", message.supervision);
