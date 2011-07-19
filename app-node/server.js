@@ -9,18 +9,18 @@ var http = require("http"),
 /*
  * Node environment
  */
-var nodeEnv = process.env["NODE_ENV"] || "default";
+var nodeEnv = process.env.NODE_ENV || "default";
 
 /*
  * Redis connection address
  */
-var redisPort = process.env["REDIS_PORT"],
-    redisHost = process.env["REDIS_HOST"],
-    redisDb =   process.env["REDIS_DB"] || 0;
+var redisPort = process.env.REDIS_PORT,
+    redisHost = process.env.REDIS_HOST,
+    redisDb =   process.env.REDIS_DB || 0;
 /*
  * Server port
  */
-var serverPort = process.env["NODE_PORT"]  || 8080;
+var serverPort = process.env.NODE_PORT || 8080;
 
 /*
  * Send 404 Not Found
