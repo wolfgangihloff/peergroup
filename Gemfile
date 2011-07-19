@@ -2,7 +2,6 @@ source :rubygems
 
 gem "rails", "~> 3.0.9"
 gem "will_paginate", "~> 3.0.pre2"
-gem "bson_ext"
 gem "haml"
 gem "sass"
 gem "compass"
@@ -25,7 +24,8 @@ end
 
 group :test, :development do
   gem "rspec-rails"
-  gem "ruby-debug"
+  gem "ruby-debug", :platform => :ruby_18
+  gem "ruby-debug19", :require => "ruby-debug", :platform => :ruby_19
   gem "sqlite3"
 end
 
@@ -39,9 +39,6 @@ group :test do
 end
 
 group :development do
-  gem "nifty-generators", :require => false
-  gem "ruby-graphviz"
-  gem "metric_fu"
   gem "tolk", :git => "git://github.com/cover/tolk.git"
   gem "capistrano"
 end
