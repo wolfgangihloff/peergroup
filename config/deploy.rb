@@ -20,7 +20,7 @@ set :use_sudo, false
 # variables for bundler gem
 set :bundle_without, [:development, :test]
 
-after "deploy:update_code", "deploy:git:update_submodules", "deploy:link"
+after "deploy:update_code", "deploy:link"
 after "deploy", "deploy:cleanup"
 
 namespace :deploy do
@@ -46,12 +46,6 @@ namespace :deploy do
   namespace :apache do
     task :restart do
       run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
-    end
-  end
-
-  namespace :git do
-    task :update_submodules do
-      run "cd #{latest_release} && git submodule init && git submodule update"
     end
   end
 

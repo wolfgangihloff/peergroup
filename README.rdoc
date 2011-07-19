@@ -8,10 +8,6 @@ This is the first version, heavy alpha.
 
 == Running the application
 
-0. Fetch all submodules unsed by node server
-
-  git submodule update --init
-
 1. Install required gems
 
   bundle install
@@ -43,6 +39,12 @@ You can run node as root user (sudo node ...) or with `authbind` (authbind node 
   bundle exec rails server
 
 6. Open http://localhost:3000
+
+== Development
+
+Node packages are managed by http://npmjs.org/, however it is not neccessary to run node
+server. When you want to update packages, change file app-node/package.json and run npm
+update.
 
 == Running tests
 

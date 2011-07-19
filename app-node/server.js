@@ -1,10 +1,10 @@
 var http = require("http"),
     util = require("util"),
     fs = require("fs"),
-    io = require("./socket.io/"),
     sys = require("sys"),
-    redis = require("./node_redis/"),
-    _und = require("./underscore/");
+    io = require("./node_modules/socket.io/"),
+    redis = require("./node_modules/redis/"),
+    _und = require("./node_modules/underscore/");
 
 /*
  * Node environment
