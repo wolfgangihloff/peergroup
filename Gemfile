@@ -19,7 +19,8 @@ gem "SystemTimer", :require => nil, :platform => :ruby_18
 
 group :production do
   # freeze version for rails 3.0.x
-  gem "mysql2" , "~> 0.2.7"
+  #gem "mysql2" , "~> 0.2.7"
+  gem "pg"
 end
 
 group :test, :development do
