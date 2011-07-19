@@ -24,7 +24,8 @@ jQuery(function($) {
     //     });
     (function () {
         var nodeServerUrl = document.location.protocol + "//" + document.location.hostname + ":8080",
-            socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
+            //socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
+            socketIoUrl = "http://evening-mountain-990.herokuapp.com/socket.io/socket.io.js";
         // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
         window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
         PGS.addModule("socket.io", socketIoUrl);
