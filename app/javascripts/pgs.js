@@ -30,7 +30,7 @@
         withSocket: function (namespace, callback) {
             this.load("socket.io", function () {
                 if (typeof socket === "undefined") {
-                    socket = new io.Socket(null, { port: 8080 });
+                    socket = new io.Socket(null, {});
                     socket.connect();
                 }
                 callback.call({}, S(socket, namespace));
