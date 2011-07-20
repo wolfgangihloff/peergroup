@@ -30,7 +30,7 @@
         withSocket: function (namespace, callback) {
             this.load("socket.io", function () {
                 if (typeof socket === "undefined") {
-                    socket = new io.Socket("evening-mountain-990.herokuapp.com", { port: 80 });
+                    socket = new io.Socket(null, { port: 8080 });
                     socket.connect();
                 }
                 callback.call({}, S(socket, namespace));
