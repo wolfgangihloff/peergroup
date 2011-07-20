@@ -23,7 +23,7 @@ jQuery(function($) {
     //         ... // socket.io is loaded
     //     });
     (function () {
-        var nodeServerUrl = "http://peergroup.herokuapp.com";//document.location.protocol + "//" + document.location.hostname + ":8080",
+        var nodeServerUrl = "http://peergroup-node.herokuapp.com";//document.location.protocol + "//" + document.location.hostname + ":8080",
             socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
         // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
         window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
