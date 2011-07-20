@@ -38,6 +38,7 @@ module ApplicationHelper
     }
     pgs[:supervision_step] = @supervision.state if @supervision
     pgs[:currentUser] = current_user.id if current_user
+    pgs[:node] = {:host => NODE_CONFIG[:host], :port => NODE_CONFIG[:port], :protocol => NODE_CONFIG[:protocol]}
 
     javascript_tag "document.pgs = #{pgs.to_json};"
   end

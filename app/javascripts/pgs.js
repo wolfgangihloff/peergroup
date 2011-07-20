@@ -30,7 +30,7 @@
         withSocket: function (namespace, callback) {
             this.load("socket.io", function () {
                 if (typeof socket === "undefined") {
-                    socket = new io.Socket("peergroup-node.herokuapp.com", {port: 80});
+                    socket = new io.Socket(document.pgs.node.host, {port: document.pgs.node.port});
                     socket.connect();
                 }
                 callback.call({}, S(socket, namespace));
