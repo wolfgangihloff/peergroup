@@ -64,12 +64,12 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
 
-  match '/signin' => 'sessions#new', :as => 'signin'
-  match '/signout' =>'sessions#destroy', :as => 'signout'
-  match '/contact' => 'pages#contact', :as => 'contact'
-  match '/about' => 'pages#about', :as => 'about'
-  match '/help' => 'pages#help', :as => 'help'
-  match '/signup' =>'users#new', :as => 'signup'
+  get '/signin' => 'sessions#new', :as => 'signin'
+  delete '/signout' =>'sessions#destroy', :as => 'signout'
+  get '/contact' => 'pages#contact', :as => 'contact'
+  get '/about' => 'pages#about', :as => 'about'
+  get '/help' => 'pages#help', :as => 'help'
+  get '/signup' =>'users#new', :as => 'signup'
 
   root :to => 'pages#home'
 end

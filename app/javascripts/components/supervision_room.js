@@ -1,5 +1,5 @@
-(function($){
-    var asyncSubmitCallback = function(event) {
+(function ($) {
+    var asyncSubmitCallback = function (event) {
         var $this = $(this),
             data, url, method,
             dataType  = $this.attr("data-type")  || ($.ajaxSettings && $.ajaxSettings.dataType);
@@ -18,13 +18,13 @@
             data: data,
             dataType: dataType,
             type: method || "GET",
-            beforeSend: function(xhr, settings) {
+            beforeSend: function (xhr, settings) {
                 if (settings.dataType === undefined) {
                     xhr.setRequestHeader("accept", "*/*;q=0.5, " + settings.accepts.script);
                 }
                 $this.trigger("ajax:loading", xhr);
             },
-            success: function(data, status, xhr) {
+            success: function (data, status, xhr) {
                 $this.trigger("ajax:success", [data, status, xhr]);
             },
             error: function (xhr, status, error) {
@@ -35,7 +35,7 @@
                 // try parse response as JSON and extract flash-es
                 var json = $.parseJSON(xhr.responseText);
                 if (json && json.flash) {
-                    _.each(json.flash, function(message, severity) {
+                    _.each(json.flash, function (message, severity) {
                         $this.trigger("flash:" + severity, message);
                     });
                 }
@@ -47,30 +47,32 @@
         // rails.js file
         return false;
     };
-    var disableSubmitCallback = function(event) {
+    var disableSubmitCallback = function (event) {
         $(this).find("input[type=submit]").attr("disabled", "disabled");
     };
-    var enableSubmitCallback = function(event) {
+    var enableSubmitCallback = function (event) {
         $(this).find("input[type=submit]").removeAttr("disabled");
     };
-    var clearText = function(selector) {
-        return function(event) {
+    var clearText = function (selector) {
+        return function (event) {
             $(this).find(selector).val("");
         };
     };
 
-    var setupRating = function($parentElement) {
-        $parentElement.find("form:has(input[type=radio][id*=_rating_])").each(function(i, el) {
+    var setupRating = function ($parentElement) {
+        $parentElement.find("form:has(input[type=radio][id*=_rating_])").each(function (i, el) {
             var $this = $(this);
             $this.find("input[type=radio][id*=_rating_]").rating({
                 required: true,
-                callback: function(value, link){ $this.submit(); }
+                callback: function (value, link) {
+                    $this.submit();
+                }
             });
             $this.find("input[type=submit]").hide();
         });
     };
 
-    var setupForm = function($formElement) {
+    var setupForm = function ($formElement) {
         $formElement.find("form")
             .live({
                 "submit": asyncSubmitCallback,
@@ -78,10 +80,10 @@
                 "ajax:success": enableSubmitCallback,
                 "ajax:failure": enableSubmitCallback
             });
-        var hideForm = function() {
+        var hideForm = function () {
             $formElement.hide("fast");
         };
-        var showForm = function() {
+        var showForm = function () {
             $formElement.show("fast");
         };
         $formElement.find("a.discard")
@@ -93,7 +95,7 @@
             });
     };
 
-    var makeSupervisionContext = function($parent, supervisionId) {
+    var makeSupervisionContext = function ($parent, supervisionId) {
         var context = {};
 
         context.updateMessages = $parent.data("supervision-updates");
@@ -101,7 +103,7 @@
          * addResource(resource, content, $container, callback = undefined)
          *   callback(resource, $(content), $container)
          */
-        context.addResource = function(resource, content, $container, callback) {
+        context.addResource = function (resource, content, $container, callback) {
             var $previousContent = $container.find("#" + resource.type + "_" + resource.id),
                 $content = $(content);
             if ($previousContent.length) {
@@ -122,15 +124,15 @@
         /*
          * loadResource(resource, $container, callback = undefined)
          */
-        context.loadResource = function(resource, $container, callback) {
-            var that = this;
-            var url;
+        context.loadResource = function (resource, $container, callback) {
+            var that = this,
+                url;
             if (resource.single) {
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, { partial: 1 });
             } else {
                 url = PGS["supervision" + Util.capitalize(resource.type) + "Path"](supervisionId, resource.id, { partial: 1 });
             }
-            var onSuccess = function(data, status, xhr) {
+            var onSuccess = function (data, status, xhr) {
                 that.addResource(resource, $(data), $container, callback);
             };
             $.get(url, [], onSuccess);
@@ -139,19 +141,21 @@
         /*
          * setupTopicsPart()
          */
-        context.setupTopicsPart = function() {
+        context.setupTopicsPart = function () {
             var that = this;
             var topics = $parent.find(".gathering_topics_part"),
                 topicsList = topics.find(".list"),
-                newTopicForm = topics.find(".form")
+                newTopicForm = topics.find(".form");
 
-            var onNewTopic = function(event, message) {
+            var onNewTopic = function (event, message) {
                 var resource = { type: "topic", id: message.id };
                 that.loadResource(resource, topicsList);
             };
 
             newTopicForm.live({
-                "ajax:success": function() { newTopicForm.hide("fast"); }
+                "ajax:success": function () {
+                    newTopicForm.hide("fast");
+                }
             });
             setupForm(newTopicForm);
 
@@ -163,14 +167,14 @@
         /*
          * setupTopicVotesPart()
          */
-        context.setupTopicVotesPart = function() {
-            var that = this;
-            var topicVotes = $parent.find(".topic_votes_part"),
+        context.setupTopicVotesPart = function () {
+            var that = this,
+                topicVotes = $parent.find(".topic_votes_part"),
                 topicsList = topicVotes.find(".list"),
-                newTopicVoteForm = topicVotes.find(".form")
+                newTopicVoteForm = topicVotes.find(".form");
 
             newTopicVoteForm.live({
-                "ajax:success": function() {
+                "ajax:success": function () {
                     newTopicVoteForm.find("input[type=submit]").attr("disabled", "disabled");
                 }
             });
@@ -180,18 +184,18 @@
         /*
          * setupQuestionsPart()
          */
-        context.setupQuestionsPart = function() {
-            var that = this;
-            var $questions = $parent.find(".questions_part"),
+        context.setupQuestionsPart = function () {
+            var that = this,
+                $questions = $parent.find(".questions_part"),
                 $questionsList = $questions.find(".list"),
                 $newQuestionForm = $questions.find(".form"),
                 $newAnswerForm = $questions.find(".answer:has('.new_answer')");
 
-            var onNewQuestion = function(event, message) {
+            var onNewQuestion = function (event, message) {
                 var resource = { type: "question", id: message.id };
                 that.loadResource(resource, $questionsList);
             };
-            var onNewAnswer = function(event, message) {
+            var onNewAnswer = function (event, message) {
                 var resource = { type: "question", id: message.question_id };
                 that.loadResource(resource, $questionsList);
             };
@@ -209,14 +213,14 @@
         /*
          * setupIdeasPart()
          */
-        context.setupIdeasPart = function() {
-            var that = this;
-            var $ideas = $parent.find(".ideas_part"),
+        context.setupIdeasPart = function () {
+            var that = this,
+                $ideas = $parent.find(".ideas_part"),
                 $ideasList = $ideas.find(".list"),
                 $newIdeaForm = $ideas.find(".form"),
                 $editIdeaForm = $ideas.find(".idea:has('.edit_idea')");
 
-            var onNewIdea = function(event, message) {
+            var onNewIdea = function (event, message) {
                 var resource = { type: "idea", id: message.id };
                 that.loadResource(resource, $ideasList);
             };
@@ -233,12 +237,12 @@
         /*
          * setupIdeasFeedbackPart()
          */
-        context.setupIdeasFeedbackPart = function() {
-            var that = this;
-            var $ideasFeedbacks = $parent.find(".ideas_feedback_part"),
+        context.setupIdeasFeedbackPart = function () {
+            var that = this,
+                $ideasFeedbacks = $parent.find(".ideas_feedback_part"),
                 $ideasFeedbacksList = $ideasFeedbacks.find(".list");
 
-            var onNewIdeasFeedback = function(event, message) {
+            var onNewIdeasFeedback = function (event, message) {
                 var resource = { type: "ideas_feedback", id: message.id, single: true };
                 that.loadResource(resource, $ideasFeedbacksList);
             };
@@ -253,14 +257,14 @@
         /*
          * setupSolutionsPart()
          */
-        context.setupSolutionsPart = function() {
-            var that = this;
-            var $solutions = $parent.find(".solutions_part"),
+        context.setupSolutionsPart = function () {
+            var that = this,
+                $solutions = $parent.find(".solutions_part"),
                 $solutionsList = $solutions.find(".list"),
                 $newSolutionForm = $solutions.find(".form"),
                 $editSolutionForm = $solutions.find(".solution:has('.edit_solution')");
 
-            var onNewSolution = function(event, message) {
+            var onNewSolution = function (event, message) {
                 var resource = { type: "solution", id: message.id };
                 that.loadResource(resource, $solutionsList);
             };
@@ -277,12 +281,12 @@
         /*
          * setupSolutionsFeedbackPart()
          */
-        context.setupSolutionsFeedbackPart = function() {
-            var that = this;
-            var $solutionsFeedbacks = $parent.find(".solutions_feedback_part"),
+        context.setupSolutionsFeedbackPart = function () {
+            var that = this,
+                $solutionsFeedbacks = $parent.find(".solutions_feedback_part"),
                 $solutionsFeedbacksList = $solutionsFeedbacks.find(".list");
 
-            var onNewSolutionsFeedback = function(event, message) {
+            var onNewSolutionsFeedback = function (event, message) {
                 var resource = { type: "solutions_feedback", id: message.id, single: true };
                 that.loadResource(resource, $solutionsFeedbacksList);
             };
@@ -297,19 +301,21 @@
         /*
          * setupSupervisionFeedbackPart()
          */
-        context.setupSupervisionFeedbackPart = function() {
-            var that = this;
-            var $supervisionFeedbacks = $parent.find(".supervision_feedbacks_part"),
+        context.setupSupervisionFeedbackPart = function () {
+            var that = this,
+                $supervisionFeedbacks = $parent.find(".supervision_feedbacks_part"),
                 $supervisionFeedbacksList = $supervisionFeedbacks.find(".list"),
                 $newSupervisionFeedbackForm = $supervisionFeedbacks.find(".form");
 
-            var onNewSupervisionFeedback = function(event, message) {
+            var onNewSupervisionFeedback = function (event, message) {
                 var resource = { type: "supervision_feedback", id: message.id };
                 that.loadResource(resource, $supervisionFeedbacksList);
             };
 
             $newSupervisionFeedbackForm.live({
-                "ajax:success": function() { $newSupervisionFeedbackForm.hide("fast"); }
+                "ajax:success": function () {
+                    $newSupervisionFeedbackForm.hide("fast");
+                }
             });
             setupForm($newSupervisionFeedbackForm);
 
@@ -321,8 +327,8 @@
         /*
          * setupStatusbar()
          */
-        context.setupStatusbar = function() {
-            var onSupervisionUpdate = function(event, message) {
+        context.setupStatusbar = function () {
+            var onSupervisionUpdate = function (event, message) {
                 PGS.renderStatusbar(message.id);
             };
 
@@ -335,14 +341,14 @@
         /*
          * setupChosenTopic()
          */
-        context.setupChosenTopic = function() {
-            var onSupervisionUpdate = function(event, message) {
+        context.setupChosenTopic = function () {
+            var onSupervisionUpdate = function (event, message) {
                 var state = message.state,
                     topicPart = $parent.find(".topics_part");
 
                 if (state === "asking_questions") {
                     if (topicPart.find(".chosen_topic .topic").length === 0) {
-                        topicPart.find(".chosen_topic").append(topicPart.find(".gathering_topics_part").find("#topic_"+message.topic_id));
+                        topicPart.find(".chosen_topic").append(topicPart.find(".gathering_topics_part").find("#topic_" + message.topic_id));
                         $parent.data("supervision-topic-user-id", message.topic_user_id);
                         context.setupViewsForUser();
                     }
@@ -353,12 +359,12 @@
                 "supervision:update": onSupervisionUpdate
             });
             return this;
-        }
+        };
 
         /*
          * setupViewsForUser()
          */
-        context.setupViewsForUser = function() {
+        context.setupViewsForUser = function () {
             var currentUserId = $parent.data("current-user-id"),
                 topicUserId = $parent.data("supervision-topic-user-id");
 
@@ -369,22 +375,23 @@
                     $parent.find(".for_not_problem_owner").show();
                 }
             }
-            return this
-        }
+            return this;
+        };
         /*
          * setupTopicVoteList()
          */
-        context.setupTopicVoteList = function() {
-            var onSupervisionUpdate = function(event, message) {
+        context.setupTopicVoteList = function () {
+            var onSupervisionUpdate = function (event, message) {
                 var that = this,
                     state = message.state,
-                    topicVotesPart = $parent.find(".topics_part .topic_votes_part");
+                    topicVotesPart = $parent.find(".topics_part .topic_votes_part"),
+                    url;
 
-                var onSuccess = function(data, status, xhr) {
+                var onSuccess = function (data, status, xhr) {
                     var content = $(data);
                     topicVotesPart.append(content);
                     topicVotesPart.find(".form").live({
-                        "ajax:success": function() {
+                        "ajax:success": function () {
                             topicVotesPart.find(".form").find("input[type=submit]").attr("disabled", "disabled");
                         }
                     });
@@ -392,7 +399,7 @@
 
                 if (state === "voting_on_topics") {
                     if (topicVotesPart.find(".list").length === 0) {
-                        var url = PGS.supervisionTopicsPath(message.id);
+                        url = PGS.supervisionTopicsPath(message.id);
                         $.get(url, [], onSuccess);
                     }
                 }
@@ -402,85 +409,116 @@
                 "supervision:update": onSupervisionUpdate
             });
             return this;
-        }
+        };
 
         /*
          * setupMemberIdleStatus()
          */
-        context.setupMemberIdleStatus = function() {
+        context.setupMemberIdleStatus = function () {
             var status = "active",
-                timeout;
+                idleTimeout,
+                awayTimeout;
 
-            var sendStatus = function(state) {
-                PGS.withSocket("supervision", function(s) {
+            var sendStatus = function (state) {
+                PGS.withSocket("supervision", function (s) {
                     s.send("member_idle_status", {userId: document.pgs.currentUser, supervisionId: supervisionId, status: state});
                 });
-            }
+            };
 
-            var setActiveStatus = function() {
+            var setActiveStatus = function () {
                 resetIdleTimeout();
-                if (status === "idle") {
+                if (status !== "active") {
                     status = "active";
                     sendStatus("active");
                 }
             };
 
-            // 5 minutes
-            var resetIdleTimeout = function() {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
+            var awayInformation = function () {
+                $("#away-dialog-message").dialog({
+                    modal: true,
+                    buttons: {
+                        "I am here": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                });
+            };
+
+            // 1 minute
+            var resetIdleTimeout = function () {
+                clearTimeout(idleTimeout);
+                clearTimeout(awayTimeout);
+                idleTimeout = setTimeout(function () {
                     if (status === "active") {
                         status = "idle";
                         sendStatus("idle");
+                        awayInformation();
+                        resetAwayTimeout();
                     }
-                }, 50000);
-            }
+                }, 60000);
+            };
 
-           $parent.mousemove(function() {
-               setActiveStatus();
-           });
-           $parent.keydown(function() {
-               setActiveStatus();
-           });
-           $parent.mousedown(function() {
-               setActiveStatus();
-           });
-           resetIdleTimeout();
-           return this;
-        }
+            // 1 minute
+            var resetAwayTimeout = function () {
+                clearTimeout(awayTimeout);
+                awayTimeout = setTimeout(function () {
+                    if (status === "idle") {
+                        status = "away";
+                        sendStatus("away");
+                    }
+                }, 60000);
+            };
+
+            $parent.mousemove(function () {
+                setActiveStatus();
+            });
+            $parent.keydown(function () {
+                setActiveStatus();
+            });
+            $parent.mousedown(function () {
+                setActiveStatus();
+            });
+            resetIdleTimeout();
+            return this;
+        };
 
         /*
          * setupViewIdleStatus()
          */
-        context.setupViewIdleStatus = function() {
-            var onIdleStatusChange = function(event, message) {
+        context.setupViewIdleStatus = function () {
+            var onIdleStatusChange = function (event, message) {
                 var userId = message.userId,
-                    state = message.state,
+                    status = message.status,
                     membersList = $parent.find(".members-part .members-list"),
-                    user = membersList.find("#user_"+message.userId);
+                    user = membersList.find("#user_" + message.userId);
 
-                    if (message.status === "idle") {
-                        user.addClass("idle");
-                    } else if (message.status === "active") {
-                        user.removeClass("idle");
-                    }
+                    // redirect removed member
+                if (status === "away" && document.pgs.currentUser === userId) {
+                    document.location = PGS.newSupervisionMembershipPath(supervisionId);
+                }
+
+                if (status === "idle") {
+                    user.addClass("idle");
+                } else if (status === "active") {
+                    user.removeClass("idle");
+                }
             };
 
             $parent.bind({
                 "supervision:idleStatusChanged": onIdleStatusChange
             });
-            return this
-        }
+            return this;
+        };
 
         return context;
     };
 
-    $.fn.supervisionRoom = function() {
-        return this.each(function() {
+    $.fn.supervisionRoom = function () {
+        return this.each(function () {
             var $this = $(this),
                 supervisionState = $this.data("supervision-state"),
-                supervisionId = $this.attr("id").replace("supervision_", "");
-            var messages = $this.data("supervision-state-transitions");
+                supervisionId = $this.attr("id").replace("supervision_", ""),
+                messages = $this.data("supervision-state-transitions");
 
             setupRating($this);
 
@@ -499,10 +537,10 @@
                 .setupViewsForUser()
                 .setupMemberIdleStatus()
                 .setupViewIdleStatus()
-                .setupStatusbar($this)
+                .setupStatusbar($this);
 
             $this.bind({
-                "supervision:update": function(event, message) {
+                "supervision:update": function (event, message) {
                     var oldState = supervisionState,
                         newState = message.state;
                     $this.find("[data-show-in-state]").hide();

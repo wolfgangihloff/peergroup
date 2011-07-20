@@ -8,10 +8,6 @@ This is the first version, heavy alpha.
 
 == Running the application
 
-0. Fetch all submodules unsed by node server
-
-  git submodule update --init
-
 1. Install required gems
 
   bundle install
@@ -22,21 +18,22 @@ If you are using rvm, create new gemset to not mess with your default gems
 
   cp config/redis.yml.example config/redis.yml
   cp config/database.yml.example config/database.yml
-  cp app-node/config.json.example app-node/config.json
 
 3. Setup Redis
 
 Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
-4. Run node server (download from http://nodejs.org/#download) - tested on (v0.4.3, v0.4.7-v.0.5.0)
+4. Run node server
 
-Go to app-node directory directly (this is necessary to load configuraion file using relative path see https://github.com/joyent/node/issues/1326)
+Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
 
-  cd app-node && node server.js
+Clone peergroup-node repository:
 
-Tip: You can also use nvm https://github.com/creationix/nvm
+  git clone git://github.com/wolfgangihloff/peergroup-node.git
 
-You can run node as root user (sudo node ...) or with `authbind` (authbind node ...), so socket.io could bind to low port to serve xml policy file for Flash.
+Run node server
+
+  node server.js
 
 5. Run the application
 
@@ -65,7 +62,7 @@ You have been warned!
 3. Run Node server instance
 REDIS_DB should be number that you specified in config/redis.yml
 
-  REDIS_DB=1 node app-node/server.js
+  REDIS_DB=1 PGS_PORT=3666 node app-node/server.js
 
 Eventually you can connect to separate instace of redis server (if running)
 
@@ -106,20 +103,32 @@ Selenium::WebDriver::Error::ObsoleteElementError, try to use wait_until method.
 
 == Deploying
 
-If you are having problems with compiling sass files, try this:
+It's possible to run application on heroku.
 
-   bundle exec compass compile -e production --force
+To have your own instance on heroku:
 
-On production server mysql database is used.
-Credentials are stored in non tracked file config/database.yml
-If you have problems with installing mysql2 gem, check this: http://stackoverflow.com/questions/3608287/installing-mysql2-gem-for-rails-3
-If you don't have mysql database at all, you can bundle gems by: bundle install --without production
+1. Install heroku client
 
-Node server is managed by init script placed in /etc/init.d/node-peergroup
+  gem install heroku
 
-Deployment is done by Capistrano
-Deployment process:
+2. Create application
 
-* make changes, commit and push to github server
-* from your local machine, type: cap deploy
-* That's all
+  heroku create --stack cedar my-peergroup-app-name
+
+3. Setup configuration variables
+
+  heroku config:add NODE_PORT=80 NODE_USERNAME=node NODE_PASSWORD=secret NODE_PROTOCOL=http
+
+* NODE_USERNAME/NODE_PASSWORD - credentials that will allow node server to connect
+
+4. Add redis addon
+
+  heroku addons:add redistogo:nano
+
+5. Deploy code
+
+  git push heroku master
+
+Refer to heroku [docs](http://devcenter.heroku.com/articles/rails31_heroku_cedar) for more informations.
+
+6. Setup node server using REDISTOGO_URL - https://github.com/wolfgangihloff/peergroup-node#readme

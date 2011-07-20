@@ -22,26 +22,26 @@ jQuery(function($) {
     //     PGS.load("socket.io", function() {
     //         ... // socket.io is loaded
     //     });
-    (function(){
-        var nodeServerUrl = document.location.protocol + "//" + document.location.hostname + ":8080";
-        var socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
+    (function () {
+        var nodeServerUrl = document.pgs.node.protocol + "://" + document.pgs.node.host + ":" + document.pgs.node.port,
+            socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
         // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
         window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
         PGS.addModule("socket.io", socketIoUrl);
     })();
 
-    $(".supervision").each(function(i,el) {
+    $(".supervision").each(function (i, el) {
         $supervision = $(this);
         $chatRoom = $supervision.find(".chat_room");
         $supervisionContent = $supervision.find(".supervision-content");
 
         var $pusher = $("<div style='height:0;margin:0;padding:0'>");
         $chatRoom.before($pusher);
-        var scrollCallback = function() {
-            var y = $(this).scrollTop();
-            var top = $pusher.offset().top - 15;
-            var maxTop = $supervisionContent.height() - $chatRoom.height();
-            var pushAmount = Math.max(0, Math.min(y-top, maxTop))
+        var scrollCallback = function () {
+            var y = $(this).scrollTop(),
+                top = $pusher.offset().top - 15,
+                maxTop = $supervisionContent.height() - $chatRoom.height(),
+                pushAmount = Math.max(0, Math.min(y - top, maxTop));
             $pusher.animate({height: pushAmount + "px"}, 500);
         };
         $(window).scroll(_.throttle(scrollCallback, 100));
@@ -49,33 +49,33 @@ jQuery(function($) {
 
     var flash = $(".flash-messages").flashnotifications({animate: true});
     $(document).bind({
-        "flash:notice": function(event, message) { flash.flashnotifications("notice", message); },
-        "flash:alert": function(event, message) { flash.flashnotifications("alert", message); }
+        "flash:notice": function (event, message) { flash.flashnotifications("notice", message); },
+        "flash:alert": function (event, message) { flash.flashnotifications("alert", message); }
     });
 
-    $(".chat_room").each(function(i, element) {
+    $(".chat_room").each(function (i, element) {
         var $chatRoom = $(this);
         $chatRoom.chatRoom();
 
         var $form = $chatRoom.find("#new_chat_message");
         $form.bind({
-            "ajax:success": function(event) { $form.find("#chat_message_content").val(""); }
+            "ajax:success": function (event) { $form.find("#chat_message_content").val(""); }
         });
 
         var onUserEnters = function(event, user) {
-            PGS.withUserInfo(user.id, function(userId, userData) {
+            PGS.withUserInfo(user.id, function (userId, userData) {
                 var username = userData.name;
                 $chatRoom.trigger("systemMessage", { text: "<" + username + "> enter room" });
             });
         };
-        var onUserExits = function(event, user) {
-            PGS.withUserInfo(user.id, function(userId, userData) {
+        var onUserExits = function (event, user) {
+            PGS.withUserInfo(user.id, function (userId, userData) {
                 var username = userData.name;
                 $chatRoom.trigger("systemMessage", { text: "<" + username + "> exit room" });
             });
         };
-        var onNewMessage = function(event, message) {
-            PGS.withUserInfo(message.user, function(userId, userData) {
+        var onNewMessage = function (event, message) {
+            PGS.withUserInfo(message.user, function (userId, userData) {
                 var date = new Date((+message.timestamp) * 1000);
                 $chatRoom.trigger("message", _.extend(message, { date: date, user: userData.name }));
             });
@@ -86,11 +86,11 @@ jQuery(function($) {
             "newMessage": onNewMessage
         });
 
-        var chatRoomToken = $chatRoom.data("token");
-        var chatRoomId = $chatRoom.attr("id").replace("chat_room_", "");
+        var chatRoomToken = $chatRoom.data("token"),
+            chatRoomId = $chatRoom.attr("id").replace("chat_room_", "");
 
-        PGS.withSocket("chat", function(s) {
-            s.on("authentication", function(type, message) {
+        PGS.withSocket("chat", function (s) {
+            s.on("authentication", function (type, message) {
                 if (message.status === "OK") {
                     if (window.console && window.console.log) {
                         console.log("chat: Authenticated");
@@ -103,27 +103,27 @@ jQuery(function($) {
                     $chatRoom.addClass("connection-error");
                 }
             });
-            s.on("chat_presence", function(type, message) {
+            s.on("chat_presence", function (type, message) {
                 $chatRoom.trigger("chat:presence", message.chat_presence);
             });
-            s.on("chat_message", function(type, message) {
+            s.on("chat_message", function (type, message) {
                 $chatRoom.trigger("chat:message", message.chat_message);
             });
-            s.onConnect(function() {
+            s.onConnect(function () {
                 this.send("authenticate", { userId: document.pgs.currentUser, token: chatRoomToken, chatRoomId: chatRoomId });
             });
         });
     });
 
-    $("#supervisions_show .supervision").each(function(i, element) {
+    $("#supervisions_show .supervision").each(function (i, element) {
         var $supervision = $(this);
         $supervision.supervisionRoom();
 
-        var supervisionToken = $supervision.data("token");
-        var supervisionId = $supervision.attr("id").replace("supervision_", "");
+        var supervisionToken = $supervision.data("token"),
+            supervisionId = $supervision.attr("id").replace("supervision_", "");
 
-        PGS.withSocket("supervision", function(s) {
-            s.on("authentication", function(type, message) {
+        PGS.withSocket("supervision", function (s) {
+            s.on("authentication", function (type, message) {
                 if (message.status === "OK") {
                     if (window.console && window.console.log) {
                         console.log("supervision: Authenticated");

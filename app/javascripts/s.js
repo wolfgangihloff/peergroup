@@ -26,38 +26,42 @@
 //
 // In case of callbacks - insrtance of this module is set as context for
 // every callback .
-var S = function(socket, namespace) {
+var S = function (socket, namespace) {
     var callbacks = {},
         connectCallbacks = [],
-        prefix = function(type) { return namespace + "." + type; };
+        prefix = function (type) {
+            return namespace + "." + type;
+        };
 
     var that = {
         socket: socket,
         namespace: namespace,
-        on: function(type, callback) {
-            if (!callbacks[prefix(type)]) { callbacks[prefix(type)] = []; }
+        on: function (type, callback) {
+            if (!callbacks[prefix(type)]) {
+                callbacks[prefix(type)] = [];
+            }
             callbacks[prefix(type)].push(callback);
             return this;
         },
-        onConnect: function(callback) {
+        onConnect: function (callback) {
             connectCallbacks.push(callback);
             return this;
         },
-        send: function(type, data) {
+        send: function (type, data) {
             socket.send({ type: prefix(type), data: data });
             return this;
         }
     };
 
-    var onMessage = function(message) {
+    var onMessage = function (message) {
         if (message.type && callbacks[message.type]) {
-            _.each(callbacks[message.type], function(callback) {
+            _.each(callbacks[message.type], function (callback) {
                 callback.call(that, message.type, message);
             });
         }
     };
-    var onConnect = function() {
-        _.each(connectCallbacks, function(callback) {
+    var onConnect = function () {
+        _.each(connectCallbacks, function (callback) {
             callback.call(that);
         });
     };
@@ -66,4 +70,3 @@ var S = function(socket, namespace) {
 
     return that;
 };
-

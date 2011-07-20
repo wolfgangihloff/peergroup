@@ -1,4 +1,4 @@
-(function($){
+(function ($) {
     var messageTemplate = _.template(
       "<li class=\"chat_message\" id=\"<?= id ?>\">" +
         "<time datetime=\"<?= date.toISOString() ?>\"><?= displayDate ?></time> : " +
@@ -25,17 +25,17 @@
         "</li>"
     );
 
-    $.fn.chatRoom = function() {
-        return this.each(function() {
+    $.fn.chatRoom = function () {
+        return this.each(function () {
             var $this = $(this),
                 $messages = $this.find(".messages"),
                 $messagesParent = $messages.parent();
 
-            var scrollMessages = function() {
+            var scrollMessages = function () {
                 var newScrollTop = $messages.height() - $messagesParent.height();
                 $messagesParent.scrollTop(newScrollTop);
             };
-            var addMessage = function(message) {
+            var addMessage = function (message) {
                 var shouldScroll =
                     ($messagesParent.scrollTop() === $messages.height() - $messagesParent.height()) || // if messages are already scrolled
                     ($messagesParent.height() > $messages.height()); // or if there are less messages than possible to display
@@ -47,7 +47,7 @@
                 }
             };
 
-            var onMessage = function(event, message) {
+            var onMessage = function (event, message) {
                 var id = message.id || -1,
                     user = message.user && message.user.name,
                     date = message.date || new Date(),
@@ -58,20 +58,21 @@
                 addMessage(newMessage);
             };
 
-            var formattedDate = function() {
+            var formattedDate = function () {
                 var now = new Date(),
                     hour = now.getHours(),
                     min = now.getMinutes();
-                    if (hour < 10) {
-                        hour = '0' + hour;
-                    }
-                    if (min < 10) {
-                        min = '0' + min;
-                    }
-                return hour+":"+min;
+
+                if (hour < 10) {
+                    hour = '0' + hour;
+                }
+                if (min < 10) {
+                    min = '0' + min;
+                }
+                return hour + ":" + min;
             };
 
-            var addPresenceMessage = function(status, userData) {
+            var addPresenceMessage = function (status, userData) {
                 var text = presenceMessageContentTemplates[status]({ user: userData.name }),
                     date = new Date(),
                     displayDate = formattedDate(),
@@ -79,25 +80,25 @@
                 addMessage(newMessage);
             };
 
-            var onPresence = function(event, message) {
+            var onPresence = function (event, message) {
                 var membersList = $(".members-part .members-list");
-                var existingIds = _.map(membersList.find("li"), function(li) { return li.id });
-                _.each(message.user_ids, function(userId) {
-                    if (_.include(existingIds, "user_"+userId)) {
-                        existingIds.splice(existingIds.indexOf("user_"+userId), 1);
+                var existingIds = _.map(membersList.find("li"), function (li) { return li.id });
+                _.each(message.user_ids, function (userId) {
+                    if (_.include(existingIds, "user_" + userId)) {
+                        existingIds.splice(existingIds.indexOf("user_" + userId), 1);
                     } else {
-                       PGS.withUserInfo(userId, function(id, userData) {
-                           var newMember = $(chatMemberTemplate(userData));
-                           membersList.append(newMember);
-                           if (userId === message.user_id) {
-                               addPresenceMessage(message.status, userData);
-                           }
-                       });
+                        PGS.withUserInfo(userId, function (id, userData) {
+                            var newMember = $(chatMemberTemplate(userData));
+                            membersList.append(newMember);
+                            if (userId === message.user_id) {
+                                addPresenceMessage(message.status, userData);
+                            }
+                        });
                     }
                 });
-                _.each(existingIds, function(htmlUserId) {
-                    membersList.find("li#"+htmlUserId).remove();
-                    PGS.withUserInfo(htmlUserId.replace(/[^\d]/g, ""), function(id, userData) {
+                _.each(existingIds, function (htmlUserId) {
+                    membersList.find("li#" + htmlUserId).remove();
+                    PGS.withUserInfo(htmlUserId.replace(/[^\d]/g, ""), function (id, userData) {
                         addPresenceMessage(message.status, userData);
                     });
                 });
@@ -106,10 +107,9 @@
             scrollMessages();
             $this.bind({
                 "chat:message": onMessage,
-                "chat:presence": onPresence,
+                "chat:presence": onPresence
             });
 
         });
     };
 })(jQuery);
-
