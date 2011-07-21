@@ -109,26 +109,26 @@ To have your own instance on heroku:
 
 1. Install heroku client
 
-  gem install heroku
+    gem install heroku
 
 2. Create application
 
-  heroku create --stack cedar my-peergroup-app-name
+    heroku create --stack cedar my-peergroup-app-name
 
 3. Setup configuration variables
 
-  heroku config:add NODE_PORT=80 NODE_USERNAME=node NODE_PASSWORD=secret NODE_PROTOCOL=http
+    heroku config:add NODE_PORT=80 NODE_USERNAME=node NODE_PASSWORD=secret NODE_PROTOCOL=http
 
-* NODE_USERNAME/NODE_PASSWORD - credentials that will allow node server to connect
+  * NODE_USERNAME/NODE_PASSWORD - credentials that will allow node server to connect
 
 4. Add redis addon
 
-  heroku addons:add redistogo:nano
+    heroku addons:add redistogo:nano
 
 5. Deploy code
 
-  git push heroku master
+    git push heroku master
 
-Refer to heroku [docs](http://devcenter.heroku.com/articles/rails31_heroku_cedar) for more informations.
+  Refer to heroku [docs](http://devcenter.heroku.com/articles/rails31_heroku_cedar) for more informations.
 
 6. Setup node server using REDISTOGO_URL - https://github.com/wolfgangihloff/peergroup-node#readme

@@ -53,8 +53,9 @@ class SupervisionsController < ApplicationController
   protected
 
   def redirect_to_current_supervision_if_exists
-    return if group.current_supervision.nil? || group.current_supervision.finished?
-    redirect_to group.current_supervision
+    if current_supervision = group.supervisions.current
+      redirect_to current_supervision
+    end
   end
 
   def require_supervision_membership

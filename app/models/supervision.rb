@@ -156,8 +156,8 @@ class Supervision < ActiveRecord::Base
     without_state(:finished, :cancelled)
   end
 
-  def finished?
-    state == "finished"
+  def in_progress?
+    !finished? and !cancelled?
   end
 
   def posted_topic?(user)

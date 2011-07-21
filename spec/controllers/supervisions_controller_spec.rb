@@ -40,7 +40,7 @@ describe SupervisionsController do
     context "when no current supervision" do
       before do
         post :create, :group_id => @group.id
-        @current_supervision = @group.current_supervision
+        @current_supervision = @group.supervisions.current
       end
 
       specify { @current_supervision.should_not be_nil }

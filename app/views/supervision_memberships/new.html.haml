@@ -1,10 +1,12 @@
-- @title = t("supervision_memberships.new.title")
+- @title = t(".title")
 
 %article
   %header
-    %h1= t("supervision_memberships.new.heading")
+    %h1= t(".heading")
 
-  = t("supervision_memberships.new.message")
-
-  = form_tag supervision_membership_path(@supervision), :method => :post do
-    = submit_tag t("supervision_memberships.new.join_supervision")
+  - if @supervision.in_progress?
+    = t(".message")
+    = button_to t(".join_supervision"), supervision_membership_path(@supervision)
+  - else
+    = t(".not_in_progress", :state => @supervision.state)
+    %p= link_to(t(".new_supervision"), new_group_supervision_path(@supervision.group))

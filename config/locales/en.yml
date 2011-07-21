@@ -318,11 +318,6 @@ en:
       signin_title: Sign in
       signup_teaser: "New user? "
       title: Sign in
-  supervision_memberships:
-    create:
-      title:
-    destroy:
-      title:
   users:
     create:
       title:
@@ -539,3 +534,7 @@ en:
       heading: Join session
       join_supervision: Join session
       message: "You're not currently member of this supervision. Would you like to join this supervision session?"
+      not_in_progress: "This supervision was %{state}"
+      new_supervision: "New Supervision"
+    create:
+      not_in_progress_state: "This supervision was %{state}"

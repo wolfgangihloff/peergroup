@@ -2,6 +2,7 @@ class SupervisionMembershipsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_supervision
   before_filter :require_supervision_group_membership
+  before_filter :require_supervision_in_progress_state, :only => :create
 
   respond_to :html, :json
 
@@ -31,6 +32,12 @@ class SupervisionMembershipsController < ApplicationController
         format.json { render :status => :forbidden, :json => {:status => "forbidden"} }
       end
       false
+    end
+  end
+
+  def require_supervision_in_progress_state
+    unless @supervision.in_progress?
+      redirect_to new_group_supervision_path(@supervision.group), :notice => t(".not_in_progress_state", :state => @supervision.state)
     end
   end
 end

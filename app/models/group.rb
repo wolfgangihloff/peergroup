@@ -10,7 +10,7 @@ class Group < ActiveRecord::Base
   has_many :invited_members, :source => :user, :through => :invited_memberships
   has_many :requested_members, :source => :user, :through => :requested_memberships
   has_many :rules, :order => "position", :dependent => :destroy
-  has_many :supervisions, :dependent => :destroy
+  has_many :supervisions, :dependent => :destroy, :extend => GroupSupervisionsExtension
   has_many :chat_rooms, :dependent => :destroy
   has_one :chat_room, :conditions => {:supervision_id => nil}
   belongs_to :founder, :class_name => "User"
@@ -49,10 +49,6 @@ class Group < ActiveRecord::Base
       rules.create!(:position => position, :name => name,
                     :description => description, :time_limit => time_limit)
     end
-  end
-
-  def current_supervision
-    supervisions.in_progress.first
   end
 
   private
