@@ -12,17 +12,17 @@ describe Group do
   it { should_not allow_value("a" * 256).for(:name) }
   it { should_not allow_value("a" * 256).for(:description) }
 
-  describe "#current_supervision" do
+  describe "current supervision" do
     it "should return first unfinished supervision" do
       supervision = @group.supervisions.create!
-      @group.current_supervision.should == supervision
+      @group.supervisions.current.should == supervision
     end
 
     it "should return nil when no unfinished supervisions" do
       @group.supervisions.create! do |supervision|
         supervision.state = "finished"
       end
-      @group.current_supervision.should be_nil
+      @group.supervisions.current.should be_nil
     end
   end
 

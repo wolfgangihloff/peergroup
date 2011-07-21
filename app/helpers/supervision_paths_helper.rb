@@ -46,8 +46,8 @@ module SupervisionPathsHelper
   end
 
   def path_for_group_supervision(group)
-    if group.current_supervision
-      supervision_path(group.current_supervision)
+    if current_supervision = group.supervisions.current
+      supervision_path(current_supervision)
     else
       new_group_supervision_path(group)
     end
