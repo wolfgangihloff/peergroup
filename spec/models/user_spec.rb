@@ -190,11 +190,11 @@ describe User do
     end
 
     it "should be generated" do
-      @user.avatar_url.should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=50"
+      @user.avatar_url.should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?size=50&rating=PG"
     end
 
     it "should be generated with custom options" do
-      @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=30"
+      @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?size=30&rating=PG"
     end
   end
 end
