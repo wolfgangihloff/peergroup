@@ -4,12 +4,12 @@ module FlashMessages
     if overwritten_scope = options.delete(:overwritten_scope)
       options[:scope] = overwritten_scope
     else
-      key = key.to_s[0..0] == "." ? [controller_name, action_name].join('.') + key : key
+      key = key.to_s[0] == "." ? [controller_name, action_name].join('.') + key : key
     end
     I18n.t(key, options)
   end
 
-  def flash_message type, flash_type, default, options
+  def flash_message(type, flash_type, default, options)
     key = if key_from_options = options.delete(:key)
       options[:overwritten_scope] = options.delete(:scope) || ""
       key_from_options
