@@ -350,6 +350,37 @@ feature "Supervision Session", :js => true do
           end
           active_state.should eq "Ideas"
         end
+
+        # Providing ideas
+        Capybara.using_session :alice do
+          fill_in "idea_content", :with => "Good idea"
+          click_button "Post idea"
+          fill_in "idea_content", :with => "Other idea"
+          click_button "Post idea"
+          find(".idea .content .discard").click
+        end
+        
+        Capybara.using_session :cindy do
+          fill_in "idea_content", :with => "Bad idea"
+          click_button "Post idea"
+          find(".idea .content .discard").click
+        end
+        
+        Capybara.using_session :bob do
+          rate "Good idea", :with => 4
+          rate "Other idea", :with => 1
+          rate "Bad idea", :with => 1
+        end
+
+        Capybara.using_session :cindy do
+          rate "Good idea", :with => 5
+          rate "Other idea", :with => 5
+        end
+
+        Capybara.using_session :alice do
+          rate "Bad idea", :with => 1
+        end
+        ## TODO: check idea ratings
     end
   end
 end
