@@ -66,6 +66,10 @@ RSpec.configure do |config|
     click_button "Sign in"
   end
 
+  def active_state
+    find(".supervision_statusbar .current_step span").text
+  end
+
   def within_question_with_text(text)
     within(:xpath, xpath_for_question(text)) do
       yield

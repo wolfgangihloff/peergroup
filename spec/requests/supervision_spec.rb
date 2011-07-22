@@ -273,6 +273,7 @@ feature "Supervision Session", :js => true do
         Capybara.using_session :cindy do
           sign_in_interactive(@cindy)
           visit_supervision(@supervision)
+          active_state.should eq "Topics"
           fill_in "topic_content", :with => "Last topic"
           click_button "Post your topic"
           Topic.exists?(:content => "Last topic").should be_true
@@ -282,6 +283,7 @@ feature "Supervision Session", :js => true do
         @topic = Topic.where(:content => "Can rails scale?").first
         @cindy_topic = Topic.where(:content => "Last topic").first
         Capybara.using_session :bob do
+          active_state.should eq "Topic votes"
           within("div#topic_#{@topic.id}") do
             click_button "Vote on this topic"
           end
@@ -302,6 +304,7 @@ feature "Supervision Session", :js => true do
 
         # Asking questions
         Capybara.using_session :alice do
+          active_state.should eq "Questions"
           fill_in "question_content", :with => "Simple question"
           click_button "Post question"
           fill_in "question_content", :with => "Other question"
@@ -342,10 +345,12 @@ feature "Supervision Session", :js => true do
         end
 
         Capybara.using_session :bob do
+          active_state.should eq "Questions"
           within_question_with_text "Last question" do
             fill_in "answer_content", :with => "I don't know, sorry :("
             click_button "Post answer"
           end
+          active_state.should eq "Ideas"
         end
     end
   end
