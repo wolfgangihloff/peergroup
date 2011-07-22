@@ -267,6 +267,21 @@ feature "Supervision Session", :js => true do
           click_button "Post your topic"
           Topic.exists?(:content => "Other topic").should be_true
         end
+        # Voting on topics
+        @topic = Topic.where(:content => "Can rails scale?").first
+        Capybara.using_session :bob do
+          within("div#topic_#{@topic.id}") do
+            click_button("Vote on this topic")
+          end
+        end
+        Capybara.using_session :alice do
+          within("div#topic_#{@topic.id}") do
+            click_button("Vote on this topic")
+          end
+        end
+        Capybara.using_session :bob do
+          find(".chosen_topic .content p").text.should  eq(@topic.content)
+        end
     end
   end
 end
