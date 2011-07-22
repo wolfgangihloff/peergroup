@@ -50,6 +50,17 @@ RSpec.configure do |config|
     REDIS.flushdb
   end
 
+  config.before(:all, :type => :request) do
+    @node_pid = Process.fork do
+      system("PORT=8081; REDIS_DB=1; PGS_PORT=3666; export PORT REDIS_DB PGS_PORT; node #{Rails.root.join("..", "peergroup-node", "server.js").to_s}")
+    end
+    Process.detach(@node_pid)
+  end
+
+  config.after(:all, :type => :request) do
+    Process.kill(9, @node_pid)
+  end
+
   # Helper methods:
   # ===============
 

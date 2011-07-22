@@ -3,5 +3,5 @@ NODE_CONFIG = {
   :password => ENV["NODE_PASSWORD"] || "secret",
   :protocol => ENV["NODE_PROTOCOL"] || "http",
   :host     => ENV["NODE_HOST"]     || "localhost",
-  :port     => ENV["NODE_PORT"]     || 8080
+  :port     => ENV["NODE_PORT"]     || "8081"
 }
