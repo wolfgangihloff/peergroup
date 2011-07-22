@@ -260,6 +260,7 @@ feature "Supervision Session", :js => true do
           click_button "Post your topic"
           Topic.exists?(:content => "Can rails scale?").should be_true
         end
+
         Capybara.using_session :alice do
           sign_in_interactive(@alice)
           visit_supervision(@supervision)
@@ -267,20 +268,62 @@ feature "Supervision Session", :js => true do
           click_button "Post your topic"
           Topic.exists?(:content => "Other topic").should be_true
         end
+
         # Voting on topics
         @topic = Topic.where(:content => "Can rails scale?").first
+
         Capybara.using_session :bob do
           within("div#topic_#{@topic.id}") do
             click_button("Vote on this topic")
           end
         end
+
         Capybara.using_session :alice do
           within("div#topic_#{@topic.id}") do
             click_button("Vote on this topic")
           end
         end
+
         Capybara.using_session :bob do
           find(".chosen_topic .content p").text.should  eq(@topic.content)
+        end
+
+        # Asking questions
+        Capybara.using_session :alice do
+          fill_in "question_content", :with => "Simple question"
+          click_button "Post question"
+          fill_in "question_content", :with => "Other question"
+          click_button "Post question"
+          page.should have_no_selector(".answer")
+          page.should have_content("Simple question")
+          page.should have_content("Other question")
+        end
+
+        Capybara.using_session :bob do
+          within_question_with_text "Simple question" do
+            fill_in "answer_content", :with => "Complex answer"
+            click_button "Post answer"
+          end
+          within_question_with_text "Other question" do
+            fill_in "answer_content", :with => "I CAN HAZ ANSWER"
+            click_button "Post answer"
+          end
+          page.should have_no_css(".new_answer")
+        end
+
+        Capybara.using_session :alice do
+          within_answer_for_question_with_text("Simple question") do
+            page.should have_content "Complex answer"
+          end
+
+          within_answer_for_question_with_text("Other question") do
+            page.should have_content "I CAN HAZ ANSWER"
+          end
+          find(".question .content .discard").click
+        end
+
+        Capybara.using_session :bob do
+          page.should have_content "Waiting for ideas"
         end
     end
   end
