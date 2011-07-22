@@ -1,5 +1,5 @@
 require "spec_helper"
-
+include SupervisionSpecHelper
 feature "Supervision Session", :js => true do
   def visit_supervision(supervision)
     visit supervision_path(supervision)
