@@ -100,9 +100,7 @@ feature "Supervision Session", :js => true do
 
       @idea = FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       page.should have_content("I have some idea")
-      within "#idea_#{@idea.id} .rating" do
-        page.find("a[title]", :text => "5").click
-      end
+      rate @idea.content, :with => 5
       page.should have_flash("Idea's rating has been changed")
       within "#idea_#{@idea.id} .rating" do
         page.should have_selector("input[type=radio]#idea_rating_5[checked]")
