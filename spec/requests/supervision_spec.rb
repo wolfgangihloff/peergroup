@@ -245,4 +245,28 @@ feature "Supervision Session", :js => true do
       end
     end
   end
+  context "in all states" do
+    background do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
+      @alice.join_supervision(@supervision)
+      @bob.join_supervision(@supervision)
+    end
+    scenario "should pass all steps" do
+        # Gathering topics
+        Capybara.using_session :bob do
+          sign_in_interactive(@bob)
+          visit_supervision(@supervision)
+          fill_in "topic_content", :with => "Can rails scale?"
+          click_button "Post your topic"
+          Topic.exists?(:content => "Can rails scale?").should be_true
+        end
+        Capybara.using_session :alice do
+          sign_in_interactive(@alice)
+          visit_supervision(@supervision)
+          fill_in "topic_content", :with => "Other topic"
+          click_button "Post your topic"
+          Topic.exists?(:content => "Other topic").should be_true
+        end
+    end
+  end
 end
