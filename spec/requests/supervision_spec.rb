@@ -250,6 +250,7 @@ feature "Supervision Session", :js => true do
       @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
       @alice.join_supervision(@supervision)
       @bob.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
     end
     scenario "should pass all steps" do
         # Gathering topics
@@ -269,22 +270,33 @@ feature "Supervision Session", :js => true do
           Topic.exists?(:content => "Other topic").should be_true
         end
 
+        Capybara.using_session :cindy do
+          sign_in_interactive(@cindy)
+          visit_supervision(@supervision)
+          fill_in "topic_content", :with => "Last topic"
+          click_button "Post your topic"
+          Topic.exists?(:content => "Last topic").should be_true
+        end
+
         # Voting on topics
         @topic = Topic.where(:content => "Can rails scale?").first
-
+        @cindy_topic = Topic.where(:content => "Last topic").first
         Capybara.using_session :bob do
           within("div#topic_#{@topic.id}") do
-            click_button("Vote on this topic")
+            click_button "Vote on this topic"
           end
         end
 
         Capybara.using_session :alice do
           within("div#topic_#{@topic.id}") do
-            click_button("Vote on this topic")
+            click_button "Vote on this topic"
           end
         end
 
-        Capybara.using_session :bob do
+        Capybara.using_session :cindy do
+          within("div#topic_#{@cindy_topic.id}") do
+            click_button "Vote on this topic"
+          end
           find(".chosen_topic .content p").text.should  eq(@topic.content)
         end
 
@@ -322,8 +334,18 @@ feature "Supervision Session", :js => true do
           find(".question .content .discard").click
         end
 
+        Capybara.using_session :cindy do
+          fill_in "question_content", :with => "Last question"
+          click_button "Post question"
+          page.should have_content("Last question")
+          find(".question .content .discard").click
+        end
+
         Capybara.using_session :bob do
-          page.should have_content "Waiting for ideas"
+          within_question_with_text "Last question" do
+            fill_in "answer_content", :with => "I don't know, sorry :("
+            click_button "Post answer"
+          end
         end
     end
   end
