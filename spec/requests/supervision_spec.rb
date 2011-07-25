@@ -381,6 +381,18 @@ feature "Supervision Session", :js => true do
           rate "Bad idea", :with => 1
         end
         ## TODO: check idea ratings
+        # Giving ideas feedback
+
+        Capybara.using_session :bob do
+          active_state.should eq "Ideas feedback"
+          fill_in "ideas_feedback_content", :with => "Sample feedback"
+          click_button "Post feedback"
+        end
+
+        Capybara.using_session :cindy do
+          active_state.should eq "Solutions"
+          page.should have_content "Sample feedback"
+        end
     end
   end
 end
