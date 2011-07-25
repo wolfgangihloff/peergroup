@@ -466,7 +466,7 @@ feature "Supervision Session", :js => true do
           page.should have_content "Sample supervision feedback"
           page.should have_content "Alice posts her feedback ;)"
           click_button "Post feedback"
-          page.should have_flash "You must type feedback before posting"
+          page.should have_flash "You must type your feedback before posting"
           fill_in "supervision_feedback_content", :with => "I CAN HAZ FEEDBACK TOO!"
           click_button "Post feedback"
           page.should have_flash("Your feedback was successfully added")          
