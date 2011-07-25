@@ -436,6 +436,31 @@ feature "Supervision Session", :js => true do
           page.should have_content "Thanks guys!"
           active_state.should eq "Supervision feedbacks"
         end
+
+        # Giving supervision feedback
+
+        Capybara.using_session :bob do
+          fill_in "supervision_feedback_content", :with => "Sample supervision feedback"
+          click_button "Post feedback"
+        end
+
+        Capybara.using_session :alice do
+          fill_in "supervision_feedback_content", :with => "Alice posts her feedback ;)"
+          click_button "Post feedback"
+        end
+
+        Capybara.using_session :cindy do
+          page.should have_content "Sample supervision feedback"
+          page.should have_content "Alice posts her feedback ;)"
+          click_button "Post feedback"
+          # page.should have_flash "You must type feedback before posting"
+          fill_in "supervision_feedback_content", :with => "I CAN HAZ FEEDBACK TOO!"
+          click_button "Post feedback"          
+        end
+
+        Capybara.using_session :bob do
+          page.should have_content "This supervision is finished"
+        end
     end
   end
 end
