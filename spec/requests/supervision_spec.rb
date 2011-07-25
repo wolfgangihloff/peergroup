@@ -280,6 +280,7 @@ feature "Supervision Session", :js => true do
         @cindy_topic = Topic.where(:content => "Last topic").first
         Capybara.using_session :bob do
           active_state.should eq "Topic votes"
+          page.has_css?(".list .topic", :count => 2)
           within("div#topic_#{@topic.id}") do
             click_button "Vote on this topic"
           end
