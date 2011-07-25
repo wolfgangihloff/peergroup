@@ -289,6 +289,7 @@ feature "Supervision Session", :js => true do
           within("div#topic_#{@topic.id}") do
             click_button "Vote on this topic"
           end
+          page.find("#topic_#{@cindy_topic.id}_vote_submit")["disabled"].should eq "true"
         end
 
         Capybara.using_session :cindy do
