@@ -384,9 +384,42 @@ feature "Supervision Session", :js => true do
         end
 
         Capybara.using_session :cindy do
-          active_state.should eq "Solutions"
           page.should have_content "Sample feedback"
         end
+
+        # Providing solutins
+
+        Capybara.using_session :alice do
+          active_state.should eq "Solutions"
+          fill_in "solution_content", :with => "First solution"
+          click_button  "Post solution proposition"
+          # page.should have_flash "Your solution was successfully added"
+          fill_in "solution_content", :with => "Second solution"
+          click_button  "Post solution proposition"
+          # page.should have_flash "Your solution was successfully added"
+          find(".solution .content .discard").click
+        end
+
+        
+        Capybara.using_session :cindy do
+          page.should have_content "First solution"
+          page.should have_content "Second solution"          
+          fill_in "solution_content", :with => "Cindy has solution too"
+          click_button  "Post solution proposition"
+          # page.should have_flash "Your solution was successfully added"
+          find(".solution .content .discard").click
+        end
+
+        Capybara.using_session :bob do
+          page.should have_content "Cindy has solution too"
+          rate "First solution", :with => 4, :scope => "solution"
+          rate "Second solution", :with => 2, :scope => "solution"
+          rate "Cindy has solution too", :with => 3, :scope => "solution"
+        end
+
+        Solution.where(:content => "First solution").first.rating.should eq 4
+        Solution.where(:content => "Second solution").first.rating.should eq 2
+        Solution.where(:content => "Cindy has solution too").first.rating.should eq 3
     end
   end
 end
