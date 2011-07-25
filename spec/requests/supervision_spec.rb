@@ -420,6 +420,22 @@ feature "Supervision Session", :js => true do
         Solution.where(:content => "First solution").first.rating.should eq 4
         Solution.where(:content => "Second solution").first.rating.should eq 2
         Solution.where(:content => "Cindy has solution too").first.rating.should eq 3
+
+        # Giving solutions feedback
+
+        Capybara.using_session :cindy do
+          page.find("#solutions_feedback_content").visible?.should be_false
+        end
+
+        Capybara.using_session :bob do
+          fill_in "solutions_feedback_content", :with => "Thanks guys!"
+          click_button "Post feedback"
+        end
+
+        Capybara.using_session :alice do
+          page.should have_content "Thanks guys!"
+          active_state.should eq "Supervision feedbacks"
+        end
     end
   end
 end
