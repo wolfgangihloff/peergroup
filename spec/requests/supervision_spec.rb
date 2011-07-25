@@ -372,7 +372,9 @@ feature "Supervision Session", :js => true do
           rate "Bad idea", :with => 1, :scope => "idea"
         end
 
-        ## TODO: check idea ratings
+        Idea.where(:content => "Good idea").first.rating.should eq 5
+        Idea.where(:content => "Other idea").first.rating.should eq 3
+        Idea.where(:content => "Bad idea").first.rating.should eq 1
         # Giving ideas feedback
 
         Capybara.using_session :bob do
