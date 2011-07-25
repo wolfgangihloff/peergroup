@@ -12,7 +12,7 @@ RSpec::Matchers.define :have_flash do |expected|
   end
 
   def find_flash(actual)
-    actual.within ".flash" do
+    actual.within ".flash:last-child" do
       actual.text
     end
   end
