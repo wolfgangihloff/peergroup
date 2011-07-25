@@ -100,7 +100,7 @@ feature "Supervision Session", :js => true do
 
       @idea = FactoryGirl.create(:idea, :content => "I have some idea", :supervision => @supervision, :user => @bob)
       page.should have_content("I have some idea")
-      rate @idea.content, :with => 5
+      rate @idea.content, :with => 5, :scope => "idea"
       page.should have_flash("Idea's rating has been changed")
       within "#idea_#{@idea.id} .rating" do
         page.should have_selector("input[type=radio]#idea_rating_5[checked]")
@@ -367,9 +367,9 @@ feature "Supervision Session", :js => true do
         end
         
         Capybara.using_session :bob do
-          rate "Good idea", :with => 4
-          rate "Other idea", :with => 1
-          rate "Bad idea", :with => 1
+          rate "Good idea", :with => 5, :scope => "idea"
+          rate "Other idea", :with => 3, :scope => "idea"
+          rate "Bad idea", :with => 1, :scope => "idea"
         end
 
         Capybara.using_session :cindy do

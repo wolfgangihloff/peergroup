@@ -3,8 +3,8 @@ module SupervisionSpecHelper
     find(".supervision_statusbar .current_step span").text
   end
 
-  def rate(idea, options = {})
-    within(:xpath, xpath_for_rate(idea)) do
+  def rate(title, options = {})
+    within(:xpath, xpath_for_rate(title, options[:scope])) do
       page.find("a[title]", :text => options[:with].to_s).click
     end
   end
@@ -29,7 +29,7 @@ module SupervisionSpecHelper
     "//div[@class='question']/div[@class='content']/p[. ='#{text}']/../div[@class='answer']/p"    
   end
 
-  def xpath_for_rate(idea)
-    "//div[@class='idea']/div[@class='content']/p[. ='#{idea}']/../div[@class='rating']"
+  def xpath_for_rate(title, scope)
+    "//div[@class='#{scope}']/div[@class='content']/p[. ='#{title}']/../div[@class='rating']"
   end
 end
