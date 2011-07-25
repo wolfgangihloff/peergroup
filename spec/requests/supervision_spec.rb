@@ -313,6 +313,7 @@ feature "Supervision Session", :js => true do
         end
 
         Capybara.using_session :bob do
+          page.find("#question_content").visible?.should be_false
           within_question_with_text "Simple question" do
             fill_in "answer_content", :with => "Complex answer"
             click_button "Post answer"
