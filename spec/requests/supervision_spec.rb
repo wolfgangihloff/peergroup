@@ -263,9 +263,7 @@ feature "Supervision Session", :js => true do
         Capybara.using_session :alice do
           sign_in_interactive(@alice)
           visit_supervision(@supervision)
-          fill_in "topic_content", :with => "Other topic"
           click_button "Post your topic"
-          Topic.exists?(:content => "Other topic").should be_true
         end
 
         Capybara.using_session :cindy do
@@ -411,6 +409,7 @@ feature "Supervision Session", :js => true do
         end
 
         Capybara.using_session :bob do
+          # page.find("#solution_content").visible?.should be_false
           page.should have_content "Cindy has solution too"
           rate "First solution", :with => 4, :scope => "solution"
           rate "Second solution", :with => 2, :scope => "solution"
