@@ -16,7 +16,7 @@ class Group < ActiveRecord::Base
   belongs_to :founder, :class_name => "User"
 
   validates :name, :presence => true, :uniqueness => true, :length => {:maximum => 255}
-  validates :description, :presence => true, :length => {:maximum => 255}
+  validates :description, :length => {:maximum => 255}
   validates :founder, :presence => true
 
   has_friendly_id :name, :use_slug => true

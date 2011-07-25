@@ -12,7 +12,7 @@ This is the first version, heavy alpha.
 
   bundle install
 
-If you are using rvm, create new gemset to not mess with your default gems
+  If you are using rvm, create new gemset to not mess with your default gems
 
 2. Setup configuration files
 
@@ -21,13 +21,13 @@ If you are using rvm, create new gemset to not mess with your default gems
 
 3. Setup Redis
 
-Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
+  Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 
 4. Run node server
 
-Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
+  Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
 
-Clone peergroup-node repository:
+  Clone peergroup-node repository:
 
   git clone git://github.com/wolfgangihloff/peergroup-node.git
 
@@ -60,11 +60,11 @@ You have been warned!
   redis-server config/redis-test.conf
 
 3. Run Node server instance
-REDIS_DB should be number that you specified in config/redis.yml
+  REDIS_DB should be number that you specified in config/redis.yml
 
   REDIS_DB=1 PGS_PORT=3666 node app-node/server.js
 
-Eventually you can connect to separate instace of redis server (if running)
+  Eventually you can connect to separate instace of redis server (if running)
 
   REDIS_DB=1 REDIS_PORT=6380 node app-node/server.js
 

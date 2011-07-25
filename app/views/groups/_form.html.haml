@@ -1,7 +1,7 @@
 = semantic_form_for @group do |f|
   = f.inputs do
     = f.input :name
-    = f.input :description
+    = f.input :description, :required => false
     = f.input :invitable
 
   = f.buttons do

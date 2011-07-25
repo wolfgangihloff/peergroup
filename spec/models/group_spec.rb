@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Group do
   before { @group = FactoryGirl.create(:group) }
 
-  [:name, :description, :founder].each do |attribute|
+  [:name, :founder].each do |attribute|
     it { should validate_presence_of(attribute) }
   end
   it { should_not allow_mass_assignment_of(:founder_id) }

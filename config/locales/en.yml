@@ -216,6 +216,10 @@ en:
     sign_in_request: Please sign in to access this page.
   formtastic:
     required: required
+    hints:
+      group:
+        name: "This is the name of your peergroup, give it a descriptive name, so all of your colleagues can easily find it."
+        description: "Give your description all the information needed, so that new members of peergroup find you and know what your group is all about."
   groups:
     create:
       flash:
