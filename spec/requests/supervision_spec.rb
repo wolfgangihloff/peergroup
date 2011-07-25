@@ -372,14 +372,6 @@ feature "Supervision Session", :js => true do
           rate "Bad idea", :with => 1, :scope => "idea"
         end
 
-        Capybara.using_session :cindy do
-          rate "Good idea", :with => 5
-          rate "Other idea", :with => 5
-        end
-
-        Capybara.using_session :alice do
-          rate "Bad idea", :with => 1
-        end
         ## TODO: check idea ratings
         # Giving ideas feedback
 
