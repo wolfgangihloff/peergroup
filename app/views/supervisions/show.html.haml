@@ -94,12 +94,13 @@
         %div{:"data-show-in-state" => "providing_solutions"}
           %p.waiting.for_problem_owner= t("supervisions.show.problem_owner_solutions_waiting")
           %p.waiting.for_not_problem_owner= t("supervisions.show.solutions_waiting")
-          .form.solution
-            .user
-              = render current_user
-            .content
-              = render "solutions/form", :supervision => @supervision
-              = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
+          .for_not_problem_owner
+            .form.solution
+              .user
+                = render current_user
+              .content
+                = render "solutions/form", :supervision => @supervision
+                = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
         = render @supervision.solutions, :supervision => @supervision
