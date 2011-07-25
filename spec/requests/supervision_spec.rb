@@ -367,6 +367,7 @@ feature "Supervision Session", :js => true do
         end
         
         Capybara.using_session :bob do
+          page.find("#idea_content").visible?.should be_false
           rate "Good idea", :with => 5, :scope => "idea"
           rate "Other idea", :with => 3, :scope => "idea"
           rate "Bad idea", :with => 1, :scope => "idea"
@@ -411,7 +412,7 @@ feature "Supervision Session", :js => true do
         end
 
         Capybara.using_session :bob do
-          # page.find("#solution_content").visible?.should be_false
+          page.find("#solution_content").visible?.should be_false
           page.should have_content "Cindy has solution too"
           rate "First solution", :with => 4, :scope => "solution"
           rate "Second solution", :with => 2, :scope => "solution"
