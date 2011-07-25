@@ -258,6 +258,7 @@ feature "Supervision Session", :js => true do
           fill_in "topic_content", :with => "Can rails scale?"
           click_button "Post your topic"
           Topic.exists?(:content => "Can rails scale?").should be_true
+          page.should have_flash("Your topic was successfully added")
         end
 
         Capybara.using_session :alice do
@@ -284,6 +285,7 @@ feature "Supervision Session", :js => true do
           within("div#topic_#{@topic.id}") do
             click_button "Vote on this topic"
           end
+          page.should have_flash("Your vote was successfully added")
         end
 
         Capybara.using_session :alice do
@@ -310,6 +312,7 @@ feature "Supervision Session", :js => true do
           page.should have_no_selector(".answer")
           page.should have_content("Simple question")
           page.should have_content("Other question")
+          page.should have_flash("Your question was successfully added")
         end
 
         Capybara.using_session :bob do
@@ -318,6 +321,7 @@ feature "Supervision Session", :js => true do
             fill_in "answer_content", :with => "Complex answer"
             click_button "Post answer"
           end
+          page.should have_flash("Your answer was successfully added")
           within_question_with_text "Other question" do
             fill_in "answer_content", :with => "I CAN HAZ ANSWER"
             click_button "Post answer"
@@ -356,6 +360,7 @@ feature "Supervision Session", :js => true do
         Capybara.using_session :alice do
           fill_in "idea_content", :with => "Good idea"
           click_button "Post idea"
+          page.should have_flash("Your idea was successfully added")
           fill_in "idea_content", :with => "Other idea"
           click_button "Post idea"
           find(".idea .content .discard").click
@@ -372,6 +377,7 @@ feature "Supervision Session", :js => true do
           rate "Good idea", :with => 5, :scope => "idea"
           rate "Other idea", :with => 3, :scope => "idea"
           rate "Bad idea", :with => 1, :scope => "idea"
+          page.should have_flash("Idea's rating has been changed")
         end
 
         Idea.where(:content => "Good idea").first.rating.should eq 5
@@ -383,6 +389,7 @@ feature "Supervision Session", :js => true do
           active_state.should eq "Ideas feedback"
           fill_in "ideas_feedback_content", :with => "Sample feedback"
           click_button "Post feedback"
+          page.should have_flash("Your feedback was successfully added")
         end
 
         Capybara.using_session :cindy do
@@ -395,10 +402,9 @@ feature "Supervision Session", :js => true do
           active_state.should eq "Solutions"
           fill_in "solution_content", :with => "First solution"
           click_button  "Post solution proposition"
-          # page.should have_flash "Your solution was successfully added"
+          page.should have_flash "Your solution was successfully added"
           fill_in "solution_content", :with => "Second solution"
           click_button  "Post solution proposition"
-          # page.should have_flash "Your solution was successfully added"
           find(".solution .content .discard").click
         end
 
@@ -418,6 +424,7 @@ feature "Supervision Session", :js => true do
           rate "First solution", :with => 4, :scope => "solution"
           rate "Second solution", :with => 2, :scope => "solution"
           rate "Cindy has solution too", :with => 3, :scope => "solution"
+          page.should have_flash("Solution's rating has been changed")
         end
 
         Solution.where(:content => "First solution").first.rating.should eq 4
@@ -433,6 +440,7 @@ feature "Supervision Session", :js => true do
         Capybara.using_session :bob do
           fill_in "solutions_feedback_content", :with => "Thanks guys!"
           click_button "Post feedback"
+          page.should have_flash("Your feedback was successfully added")
         end
 
         Capybara.using_session :alice do
@@ -445,20 +453,23 @@ feature "Supervision Session", :js => true do
         Capybara.using_session :bob do
           fill_in "supervision_feedback_content", :with => "Sample supervision feedback"
           click_button "Post feedback"
+          page.should have_flash("Your feedback was successfully added")
         end
 
         Capybara.using_session :alice do
           fill_in "supervision_feedback_content", :with => "Alice posts her feedback ;)"
           click_button "Post feedback"
+          page.should have_flash("Your feedback was successfully added")
         end
 
         Capybara.using_session :cindy do
           page.should have_content "Sample supervision feedback"
           page.should have_content "Alice posts her feedback ;)"
           click_button "Post feedback"
-          # page.should have_flash "You must type feedback before posting"
+          page.should have_flash "You must type feedback before posting"
           fill_in "supervision_feedback_content", :with => "I CAN HAZ FEEDBACK TOO!"
-          click_button "Post feedback"          
+          click_button "Post feedback"
+          page.should have_flash("Your feedback was successfully added")          
         end
 
         Capybara.using_session :bob do
