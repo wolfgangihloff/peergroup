@@ -29,7 +29,7 @@
         - @group.invited_memberships.each do |membership|
           %li= membership.email
 
-    - if @group.invitable?
+    - if @group.closed?
       %h3 Invite person
       = render "founder/invitations/form"
 

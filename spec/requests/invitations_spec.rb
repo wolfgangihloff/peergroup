@@ -3,7 +3,7 @@ require "spec_helper"
 feature "Invitations" do
   background do
     @founder = FactoryGirl.create(:user)
-    @group = FactoryGirl.create(:group, :invitable => true, :founder => @founder)
+    @group = FactoryGirl.create(:group, :closed => true, :founder => @founder)
   end
 
   scenario "Sending invitation" do
