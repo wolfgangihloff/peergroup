@@ -44,10 +44,4 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
-  def destroy
-    @group = current_user.founded_groups.find(params[:id])
-    @group.destroy
-    successful_flash("Group Delete Successfully")
-    redirect_to groups_path
-  end
 end
