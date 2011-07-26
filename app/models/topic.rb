@@ -16,7 +16,7 @@ class Topic < ActiveRecord::Base
     publish_to_redis
   end
 
-  scope :votable, :conditions => "content != ''"
+  scope :votable, where("\"topics\".content IS NOT NULL AND \"topics\".content !=''")
 
   def supervision_publish_attributes
     {:only => [:id, :content, :user_id]}
