@@ -1,3 +1,3 @@
 %p
   = t("supervisions.show.supervision_finished")
-  = link_to t("supervisions.show.go_to_current"), path_for_group_supervision(supervision.group)
+  = link_to_group_supervision(t(".links.session", :default => "Session"), supervision.group)

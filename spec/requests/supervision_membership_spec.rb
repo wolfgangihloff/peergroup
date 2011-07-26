@@ -26,7 +26,6 @@ feature "Supervision membership" do
     within ".group_brief" do
       click_link "Session"
     end
-    click_button "Join session"
     page.should have_content("Supervision Session")
   end
 end
