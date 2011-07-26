@@ -16,6 +16,8 @@ class Topic < ActiveRecord::Base
     publish_to_redis
   end
 
+  scope :votable, :conditions => "content != ''"
+
   def supervision_publish_attributes
     {:only => [:id, :content, :user_id]}
   end

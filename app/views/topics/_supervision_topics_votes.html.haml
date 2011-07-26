@@ -2,7 +2,7 @@
   %p.waiting= t("supervisions.show.topic_votes_waiting")
 
   .list
-    - supervision.topics.each do |topic|
+    - supervision.topics.votable.each do |topic|
       %div.form[topic]
         .user{ :class => ("you" if current_user?(topic.user)) }
           = link_to topic.user, :title => topic.user do
