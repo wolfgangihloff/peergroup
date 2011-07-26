@@ -430,6 +430,7 @@ en:
       content_hint:
       legend: Your topic proposition
       content_hint: Enter your problem or leave blank if you don not have any
+      create_empty: I don't have any topic
       submit: Post your topic
   topic_votes:
     create:
