@@ -31,6 +31,7 @@ FactoryGirl.define do
   end
 
   factory :topic do
+    content "Lorem ipsum"
     supervision
     user
   end
