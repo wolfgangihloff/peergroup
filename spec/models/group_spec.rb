@@ -60,10 +60,10 @@ describe Group do
   end
 
   it "should accept membership requests after opening group" do
-    @group.update_attributes!(:invitable => true)
+    @group.update_attributes!(:closed => true)
     membership = FactoryGirl.create(:membership, :group => @group, :user => FactoryGirl.create(:user))
     membership.request!
-    @group.update_attributes(:invitable => false)
+    @group.update_attributes(:closed => false)
     @group.active_memberships.should include(membership)
   end
 end

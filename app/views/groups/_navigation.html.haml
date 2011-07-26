@@ -12,5 +12,5 @@
   %li= t(".requested_info", :default => "Awaiting group owner acceptance")
 - elsif group.public?
   %li= button_to t(".links.join", :default => "join"), group_membership_path(group)
-- elsif group.invitable?
+- elsif group.closed?
   %li= button_to t(".links.request", :default => "request membership"), group_requests_path(group)

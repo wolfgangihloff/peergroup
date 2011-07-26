@@ -3,7 +3,7 @@ require "spec_helper"
 feature "Group membership requests" do
   background do
     @founder = FactoryGirl.create(:user)
-    @group = FactoryGirl.create(:group, :invitable => true, :founder => @founder)
+    @group = FactoryGirl.create(:group, :closed => true, :founder => @founder)
   end
 
   scenario "Requesting membership" do

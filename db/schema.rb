@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110525102750) do
+ActiveRecord::Schema.define(:version => 20110726082830) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20110525102750) do
     t.datetime "updated_at"
     t.integer  "founder_id"
     t.string   "cached_slug"
-    t.boolean  "invitable",   :default => false
+    t.boolean  "closed",      :default => false
   end
 
   add_index "groups", ["founder_id"], :name => "index_groups_on_founder_id"
@@ -189,8 +189,7 @@ ActiveRecord::Schema.define(:version => 20110525102750) do
     t.datetime "updated_at"
   end
 
-  # Probles with mysql database
-  # add_index "tolk_phrases", ["key"], :name => "index_tolk_phrases_on_key", :unique => true
+  add_index "tolk_phrases", ["key"], :name => "index_tolk_phrases_on_key", :unique => true
 
   create_table "tolk_translations", :force => true do |t|
     t.integer  "phrase_id"

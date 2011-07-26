@@ -17,6 +17,6 @@ class Founder::InvitationsController < ApplicationController
   private
 
   def group
-    @group ||= current_user.founded_groups.invitable.find(params[:group_id])
+    @group ||= current_user.founded_groups.closed.find(params[:group_id])
   end
 end

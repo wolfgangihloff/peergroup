@@ -22,20 +22,20 @@ class Group < ActiveRecord::Base
   has_friendly_id :name, :use_slug => true
 
   scope :newest, :order => 'created_at desc', :limit => 6
-  scope :invitable, where(:invitable => true)
-  scope :open, where(:invitable => false)
+  scope :closed, where(:closed => true)
+  scope :open, where(:closed => false)
 
   after_create :add_founder_to_members, :create_chat_room, :create_default_rules
   after_update :accept_pending_requests, :if => :group_opened?
 
-  attr_accessible :name, :description, :invitable
+  attr_accessible :name, :description, :closed
 
   def to_s
     name
   end
 
   def public?
-    not invitable?
+    not closed?
   end
 
   def add_member!(member)
@@ -58,7 +58,7 @@ class Group < ActiveRecord::Base
   end
 
   def group_opened?
-    invitable_changed? and public?
+    closed_changed? and public?
   end
 
   def accept_pending_requests
