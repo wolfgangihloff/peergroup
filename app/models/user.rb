@@ -77,6 +77,7 @@ class User < ActiveRecord::Base
   def avatar_url(options = {})
     options[:size] ||= 50
     options[:rating] ||= "PG"
+    options[:d] ||= "identicon"
     params = options.map { |k, v| "#{k}=#{v}" }.join("&")
     email_digest = Digest::MD5.hexdigest(email)
     "http://www.gravatar.com/avatar/" + email_digest + "?#{params}"
