@@ -368,6 +368,21 @@ describe Supervision do
       @supervision.voting_on_topics?.should be_true
     end
 
+    it "should change from gathering_topics to asking_questions if there is only one votable topic" do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
+      @bob.join_supervision(@supervision)
+      @alice.join_supervision(@supervision)
+      @cindy.join_supervision(@supervision)
+
+      FactoryGirl.create(:topic, :user => @alice, :supervision => @supervision)
+      FactoryGirl.create(:topic, :content => "", :user => @bob, :supervision => @supervision)
+      FactoryGirl.create(:topic, :content => "", :user => @cindy, :supervision => @supervision)
+
+      @supervision.reload
+      @supervision.gathering_topics?.should be_false
+      @supervision.asking_questions?.should be_true
+      
+    end
     it "should change from voting_on_topics to asking_questions" do
       @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
       @bob.join_supervision(@supervision)

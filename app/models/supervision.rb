@@ -22,7 +22,7 @@ class Supervision < ActiveRecord::Base
   ]
 
   state_machine :state, :initial => :gathering_topics do
-    before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
+    before_transition [:gathering_topics, :voting_on_topics] => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
 
     before_transition :gathering_topics => :voting_on_topics, :do => :all_topics?
@@ -50,7 +50,8 @@ class Supervision < ActiveRecord::Base
     end
 
     event :post_topic do
-      transition :gathering_topics => :voting_on_topics
+        transition :gathering_topics => :asking_questions, :if => :skip_topic_voting?
+        transition :gathering_topics => :voting_on_topics
     end
 
     event :post_topic_vote do
@@ -216,6 +217,10 @@ class Supervision < ActiveRecord::Base
     members.all? { |m| topic_votes.exists?(:user_id => m.id) }
   end
 
+  def skip_topic_voting?
+    all_topics? && topics.votable.count == 1
+  end
+
   def all_next_step_votes?
     members.all? { |m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
   end
@@ -257,7 +262,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def choose_topic
-    self.topic = topics.sort { |a,b| a.votes.count <=> b.votes.count}.last
+    self.topic = topics.votable.sort { |a,b| a.votes.count <=> b.votes.count}.last
   end
 
   def supervision_publish_attributes
