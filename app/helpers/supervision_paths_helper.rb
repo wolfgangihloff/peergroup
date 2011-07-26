@@ -45,11 +45,15 @@ module SupervisionPathsHelper
     supervision_path(supervision)
   end
 
-  def path_for_group_supervision(group)
+  def link_to_group_supervision(text, group)
     if current_supervision = group.supervisions.current
-      supervision_path(current_supervision)
+      if current_supervision.members.include?(current_user)
+        link_to text, supervision_path(current_supervision)
+      else
+        link_to text, supervision_membership_path(current_supervision), :method => :post
+      end
     else
-      new_group_supervision_path(group)
+      link_to text, new_group_supervision_path(group)
     end
   end
 end
