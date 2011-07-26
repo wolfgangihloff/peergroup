@@ -11,11 +11,9 @@ feature "Groups" do
     FactoryGirl.create(:group, :name => "Ruby group", :founder => @user)
     FactoryGirl.create(:group, :name => "PHP group")
     visit "/"
-    click_link "My Groups"
+    click_link "Groups"
     page.should have_content("Ruby group")
-    page.should_not have_content("PHP group")
-    click_link "All Groups"
-    page.should have_content("Ruby group")
+    page.should have_content("PHP group")
   end
 
   scenario "Creating group" do

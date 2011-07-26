@@ -265,20 +265,13 @@ en:
         contact: Contact
     header:
       links:
-        all_groups: All Groups
-        create_group: Create Group
+        groups: Groups
         help: Help
-        home: Home
-        my_groups: My Groups
-        profile: Profile
-        settings: Settings
         signin: Sign in
         signout: Sign out
-        supervisions: Supervisions
         users: Users
       title:
         peergroup: peergroup
-        welcome: "Welcome "
   other:
     controller:
       action:
