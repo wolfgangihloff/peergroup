@@ -50,8 +50,8 @@ class Supervision < ActiveRecord::Base
     end
 
     event :post_topic do
-        transition :gathering_topics => :asking_questions, :if => :skip_topic_voting?
-        transition :gathering_topics => :voting_on_topics
+      transition :gathering_topics => :asking_questions, :if => :skip_topic_voting?
+      transition :gathering_topics => :voting_on_topics
     end
 
     event :post_topic_vote do
