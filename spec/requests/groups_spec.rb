@@ -54,4 +54,12 @@ feature "Groups" do
     end
     @user.groups.include?(group).should be_false
   end
+
+  scenario "Group founder shouldn't be able to leave group" do
+    group = FactoryGirl.create(:group, :name => "Ruby group", :founder => @user)
+    visit groups_path
+    within ".group_brief" do
+      page.should_not have_content("leave")
+    end
+  end
 end
