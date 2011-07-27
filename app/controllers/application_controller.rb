@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  before_filter :set_locale, :set_location, :setup_title
+  before_filter :set_locale, :set_location, :set_title
 
   protected
 
@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
     {:locale => I18n.locale}
   end
 
-  def setup_title
-    @title = t("#{controller_name}.#{action_name}.title")
+  def set_title
+    @title = t("#{controller_path.gsub("/", ".")}.#{action_name}.title")
   end
 
   def self.require_supervision_state(*args)
