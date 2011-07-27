@@ -35,5 +35,12 @@
         = render "founder/invitations/form"
 
     = render "navigation", :group => @group
+    - unless @group.supervisions.finished.blank?
+      %h3 History
+      %ul
+        - @group.supervisions.finished.each do |supervision|
+          %li
+            Supervision
+            =l supervision.created_at, :format => :short
   .mini_chat
     = render "chat_rooms/list"
