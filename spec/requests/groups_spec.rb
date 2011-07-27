@@ -26,16 +26,6 @@ feature "Groups" do
     group.founder.should == @user
   end
 
-  scenario "Deleting group by owner" do
-    FactoryGirl.create(:group, :name => "Ruby group", :founder => @user)
-    visit groups_path
-    page.should have_content("Ruby group")
-    within ".group_brief" do
-      click_link "delete"
-    end
-    Group.exists?(:name => "Ruby group").should be_false
-  end
-
   scenario "Joining group" do
     group = FactoryGirl.create(:group, :name => "Ruby group")
     visit all_groups_path
