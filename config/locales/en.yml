@@ -228,6 +228,9 @@ en:
     show:
       active_supervision_html: "Supervision active, %{url}"
       join: "join"
+      leave_group: "leave group"
+      new_supervision: "New supervision"
+      history: "History"
       links:
         edit: Edit
     group_brief:

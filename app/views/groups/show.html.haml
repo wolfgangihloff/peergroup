@@ -1,55 +1,37 @@
 %article#group
-  %header
-    %h1
-      = @group.name
-      - if @group.founder == current_user
-        %span.small= link_to t(".edit", :default => "edit"), edit_group_path(@group)
-    %p.description= @group.description
-  - if @group.supervisions.current
-    #active_supervision.round
-      = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
+  %section#group_content
+    %header
+      %h1
+        = @group.name
+        - if @group.founder == current_user
+          %span.small= link_to t(".edit", :default => "edit"), edit_group_path(@group)
+      %p.description= @group.description
+    - if @group.supervisions.current
+      #active_supervision.round
+        = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
 
-  %h3 Founder
-  = gravatar_for(@group.founder, :size => 30)
-  = link_to(@group.founder.name, @group.founder)
-  .group_content
-    %h3 Members
-    %ul.users
-      - @group.active_members.without(@group.founder).each do |user|
+    #members
+      %ul
         %li
-          = gravatar_for(user, :size => 30)
-          = link_to(user, @group.founder)
-          - if @group.founder == current_user
-            .inline= button_to("remove from group", founder_group_membership_path(@group, user), :method => :delete)
+          = gravatar_for(@group.founder, :size => 30)
+          = link_to(@group.founder.name, @group.founder)
+          (Founder)
+        - @group.active_members.without(@group.founder).each do |user|
+          %li
+            = gravatar_for(user, :size => 30)
+            = link_to(user.name, user)
 
-    - if @group.founder == current_user
-
-      - if @group.requested_memberships.any?
-        %h3 Requested memberships
-        %ul
-          - @group.requested_memberships.each do |membership|
-            %li
-              .inline= "#{membership.user.name} <#{membership.email}>"
-              .inline= button_to t(".links.accept", :default => "accept"), founder_group_request_path(@group, membership), :method => :put
-              .inline= button_to t(".links.reject", :default => "reject"), founder_group_request_path(@group, membership), :method => :delete
-
-      - if @group.invited_memberships.any?
-        %h3 Sent invitations
-        %ul
-          - @group.invited_memberships.each do |membership|
-            %li= membership.email
-
-      - if @group.closed?
-        %h3 Invite person
-        = render "founder/invitations/form"
-
-    = render "navigation", :group => @group
-    - unless @group.supervisions.finished.blank?
-      %h3 History
+    - if @group.supervisions.finished.present?
+      %h3= t(".history")
       %ul
         - @group.supervisions.finished.each do |supervision|
-          %li
-            Supervision
-            =l supervision.created_at, :format => :short
-  .mini_chat
+          %li= "Supervision - #{l(supervision.created_at, :format => :short)}"
+
+    - if @group.active_members.include?(current_user)
+      - unless @group.supervisions.current
+        = link_to t(".new_supervision"), new_group_supervision_path(@group)
+      - unless @group.founder == current_user
+        = button_to t(".leave_group"), group_membership_path(@group), :method => :delete
+
+  %section#chat_room
     = render "chat_rooms/list"
