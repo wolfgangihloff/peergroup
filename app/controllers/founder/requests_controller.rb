@@ -3,12 +3,12 @@ class Founder::RequestsController < ApplicationController
 
   def update
     membership.accept!
-    redirect_to edit_group_path(group), :notice => "User is now part of group"
+    redirect_to edit_founder_group_path(group), :notice => "User is now part of group"
   end
 
   def destroy
     membership.destroy
-    redirect_to edit_group_path(group), :notice => "User membership request rejected"
+    redirect_to edit_founder_group_path(group), :notice => "User membership request rejected"
   end
 
   private

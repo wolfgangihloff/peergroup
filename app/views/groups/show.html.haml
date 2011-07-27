@@ -4,7 +4,7 @@
       %h1
         = @group.name
         - if @group.founder == current_user
-          %span.small= link_to t(".edit", :default => "edit"), edit_group_path(@group)
+          %span.small= link_to t(".edit", :default => "edit"), edit_founder_group_path(@group)
       %p.description= @group.description
     - if @group.supervisions.current
       #active_supervision.round

@@ -1,6 +1,6 @@
 %article
   = render @groups
 
-  .new= link_to t(".new_group", :default => "Create Group"), new_group_path
+  .new= link_to t(".new_group", :default => "Create Group"), new_founder_group_path
   - if @groups.empty?
     %p= t(".no_groups", :default => "There are no groups here.")

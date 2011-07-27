@@ -17,7 +17,7 @@ feature "Groups" do
   end
 
   scenario "Creating group" do
-    visit new_group_path
+    visit new_founder_group_path
     fill_in "Name", :with => "Ruby group"
     fill_in "Description", :with => "Developers"
     click_button "Create Group"

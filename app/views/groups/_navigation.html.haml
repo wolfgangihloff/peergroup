@@ -4,7 +4,7 @@
   - unless group.founder == current_user
     %li= button_to t(".links.leave", :default => "leave"), group_membership_path(group), :method => :delete
   - if group.founder == current_user
-    %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group)
+    %li= link_to t(".links.edit", :default => "Edit"), edit_founder_group_path(group)
 - elsif current_user.invited_member_of?(group)
   %li= button_to t(".links.accept", :default => "accept"), group_invitation_path(group), :method => :put
   %li= button_to t(".links.reject", :default => "reject"), group_invitation_path(group), :method => :delete
