@@ -11,8 +11,8 @@ feature "Memberships" do
     @group.memberships.create!(:email => "billy@kid.com").verify!
 
     sign_in_interactive(@founder)
-    visit group_path(@group)
-    click_button "remove from group"
+    visit edit_group_path(@group)
+    click_button "Remove from group"
     @group.memberships.exists?(:email => "billy@kid.com").should be_false
   end
 end

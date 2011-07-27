@@ -8,7 +8,7 @@ feature "Invitations" do
 
   scenario "Sending invitation" do
     sign_in_interactive(@founder)
-    visit group_path(@group)
+    visit edit_group_path(@group)
     fill_in "Email", :with => "billy@kid.com"
     click_button "Invite"
     @group.invited_memberships.exists?(:email => "billy@kid.com").should be_true

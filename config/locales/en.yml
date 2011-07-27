@@ -233,6 +233,15 @@ en:
       history: "History"
       links:
         edit: Edit
+    edit:
+      remove_member: "Remove from group"
+      membership: "Membership"
+      requested_memberships: "Requested memberships"
+      sent_memberships: "Sent memberships"
+      accept: "Accept"
+      reject: "Reject"
+      back: "Back"
+      title: "Edit group"
     group_brief:
       confirmations:
         delete: You sure?

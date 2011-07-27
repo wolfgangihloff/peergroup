@@ -1,2 +1,31 @@
-%article
+%article#group
+  = link_to(t(".back"), @group)
   = render "form"
+
+  %h2= t(".membership")
+  #members
+    %ul
+      - @group.active_members.without(@group.founder).each do |user|
+        %li
+          = gravatar_for(user, :size => 30)
+          = link_to(user.name, user)
+          .inline=button_to(t(".remove_member"), founder_group_membership_path(@group, user), :method => :delete)
+
+    - if @group.requested_memberships.any?
+      %h3= t(".requested_memberships")
+      %ul
+        - @group.requested_memberships.each do |membership|
+          %li
+            .inline= "#{membership.user.name} <#{membership.email}>"
+            .inline= button_to t(".accept"), founder_group_request_path(@group, membership), :method => :put
+            .inline= button_to t(".reject"), founder_group_request_path(@group, membership), :method => :delete
+
+    - if @group.invited_memberships.any?
+      %h3= t(".sent_memberships")
+      %ul
+        - @group.invited_memberships.each do |membership|
+          %li= membership.email
+
+    - if @group.closed?
+      %h3 Invite person
+      = render "founder/invitations/form"
