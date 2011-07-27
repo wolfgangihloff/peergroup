@@ -225,9 +225,11 @@ en:
     create:
       flash:
         successful: Group Create Successfully
-      title:
-    current_supervision:
-      title:
+    show:
+      active_supervision_html: "Supervision active, %{url}"
+      join: "join"
+      links:
+        edit: Edit
     group_brief:
       confirmations:
         delete: You sure?
@@ -245,9 +247,7 @@ en:
         your_groups: Your Groups
     new:
       title: New Group
-    show:
-      links:
-        edit: Edit
+
   helpers:
     label:
       chat_update:

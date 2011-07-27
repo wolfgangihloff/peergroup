@@ -1,4 +1,13 @@
-%article
+%article#group
+  %header
+    %h1
+      = @group.name
+      - if @group.founder == current_user
+        %span.small= link_to t(".edit", :default => "edit"), edit_group_path(@group)
+    %p.description= @group.description
+  - if @group.supervisions.current
+    #active_supervision.round
+      = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
 
   %h3 Founder
   = gravatar_for(@group.founder, :size => 30)
