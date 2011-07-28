@@ -28,7 +28,7 @@ feature "Groups" do
 
   scenario "Joining group" do
     group = FactoryGirl.create(:group, :name => "Ruby group")
-    visit all_groups_path
+    visit groups_path
     within ".group_brief" do
       click_button "join"
     end

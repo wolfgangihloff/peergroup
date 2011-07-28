@@ -37,7 +37,6 @@ Peergroupsupervision::Application.routes.draw do
   end
 
   resources :groups, :only => [:index, :show] do
-    get :all, :on => :collection
     resources :supervisions, :only => [:new, :create]
     resources :rules
     resource :membership

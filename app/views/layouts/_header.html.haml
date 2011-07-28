@@ -9,7 +9,7 @@
     %ul#general_menu
       - if signed_in?
         %li= link_to t(".links.users", :default => "Users"), users_path
-        %li= link_to t(".links.groups", :default => "Groups"), all_groups_path
+        %li= link_to t(".links.groups", :default => "Groups"), groups_path
       %li= link_to t(".links.help", :default => "Help"), help_path
     %ul#personal_menu
       - if signed_in?

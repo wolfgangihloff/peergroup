@@ -1,17 +1,12 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_chat, :only => [:show]
-  before_filter :filters, :only => [:all]
-  def index
-    @title = t(".title.your_groups", :default => "Your Groups")
-    @groups = current_user.groups
-  end
+  before_filter :filters, :only => [:index]
 
-  def all
+  def index
     @title = t(".title.all_groups", :default => "All Groups")
     @user_groups = current_user.groups
     @groups = Group.order("#{sort_method} #{sort_direction}").paginate(:page => params[:page], :per_page => 10)
-    render :index
   end
 
   def show

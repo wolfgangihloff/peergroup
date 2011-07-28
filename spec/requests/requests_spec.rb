@@ -9,7 +9,7 @@ feature "Group membership requests" do
   scenario "Requesting membership" do
     user = FactoryGirl.create(:user)
     sign_in_interactive(user)
-    visit all_groups_path
+    visit groups_path
     within ".group_brief" do
       click_button "request membership"
     end
