@@ -2,9 +2,9 @@ $(".groups_list").html("<%= escape_javascript(render @groups) %>");
 window.location.href.indexOf("?") == "-1" ? join = "?" : join = "&";
 if( $("#direction").html() == "<%= escape_javascript(t('directions.asc', :default => 'Ascending') ) %>"){
 	$("#direction").html("<%= escape_javascript(t('directions.desc', :default => 'Descending') ) %>");
-	$("#direction").attr("href", join + "direction=desc");
+	$("#direction").attr("href", join + "direction=asc");
 }
 else{
 	$("#direction").html("<%= escape_javascript(t('directions.asc', :default => 'Ascending') ) %>");
-	$("#direction").attr("href", join + "direction=asc");
+	$("#direction").attr("href", join + "direction=desc");
 }
