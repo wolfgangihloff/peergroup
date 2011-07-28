@@ -1,6 +1,6 @@
 %article
   %h1 Groups
-  .left_col
+  %section#available_groups
     %h2 Available groups
     = t(".groups_hint", :default => "Open groups you can join right away, closed groups you request membership and you have to wait for the group founder to approve your request.")
     =form_tag all_groups_path, :method => :get, :remote => true do
@@ -11,7 +11,7 @@
       =link_to t(".directions.desc", :default => "Descending"), {:direction => "asc"}, {:remote => true, :id => "direction"}
       .groups_list= render @groups
       = will_paginate @groups
-  .right_col
+  %section#user_groups
     %h2 Go to Your groups
     = render @user_groups
     .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path
