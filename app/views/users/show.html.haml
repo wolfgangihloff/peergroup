@@ -1,12 +1,16 @@
 %article
   %header
     %h1
-      = gravatar_for(@user)
+      Hi
       = @user.name
+      ,
+  %section#avatar_settings
+    = gravatar_for(@user)
+    = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")
     - if signed_in? and @user == current_user
       = link_to t(".edit", :default => "Edit"), edit_user_path(current_user)
 
-  %h2= t(".group_list_title", :user_name => @user.name, :default => "Member of groups")
-  %ul.groups
-    - @user.groups.each do |group|
-      %li= link_to(group_name(group, @user), group_path(group))
+  %section#user_groups
+    %h2= t(".group_list_title", :user_name => @user.name, :default => "Go to Your groups")
+    = render @user.groups
+    .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path
