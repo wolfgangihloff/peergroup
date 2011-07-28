@@ -66,4 +66,9 @@ describe Group do
     @group.update_attributes(:closed => false)
     @group.active_memberships.should include(membership)
   end
+
+  it "should check if given user is founder" do
+    @group.founded_by?(@group.founder).should be_true
+    @group.founded_by?(Factory.build(:user)).should be_false
+  end
 end

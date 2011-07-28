@@ -1,7 +1,7 @@
 module GroupsHelper
   def group_name(group, user)
     base = group.name
-    user == group.founder ? "#{base}*" : base
+    group.founded_by?(user) ? "#{base}*" : base
   end
 
   def link_to_group_supervision(text, group)

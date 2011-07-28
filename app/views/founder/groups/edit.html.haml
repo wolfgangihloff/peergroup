@@ -1,9 +1,9 @@
-%article#group
+%article
   = link_to(t(".back"), @group)
   = render "form"
 
   %h2= t(".membership")
-  #members
+  .group_members
     %ul
       - @group.active_members.without(@group.founder).each do |user|
         %li

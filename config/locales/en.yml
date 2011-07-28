@@ -231,6 +231,10 @@ en:
       leave_group: "leave group"
       new_supervision: "New supervision"
       history: "History"
+      manage: "Manage"
+      requested_memberships_info_html:
+        one: "There is %{count} requested membership. %{url}"
+        other: "There are %{count} requested memberships. %{url}"
       links:
         edit: Edit
     group_brief:
