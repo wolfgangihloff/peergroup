@@ -9,7 +9,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    if current_user == group.founder
+    if group.founded_by?(current_user)
       error_flash("Group founder cannot leave group")
     else
       current_user.groups.delete(group)

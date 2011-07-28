@@ -21,7 +21,10 @@ feature "Group membership requests" do
     @group.memberships.create!(:email => "billy@kid.com").request!
 
     sign_in_interactive(@founder)
-    visit edit_founder_group_path(@group)
+    visit group_path(@group)
+    within ".info_box" do
+      click_link "Manage"
+    end
     click_button "Accept"
     @group.active_members.exists?(user).should be_true
   end
@@ -31,7 +34,10 @@ feature "Group membership requests" do
     @group.memberships.create!(:email => "billy@kid.com").request!
 
     sign_in_interactive(@founder)
-    visit edit_founder_group_path(@group)
+    visit group_path(@group)
+    within ".info_box" do
+      click_link "Manage"
+    end
     click_button "Reject"
     @group.members.should_not include(user)
   end

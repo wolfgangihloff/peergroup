@@ -51,6 +51,10 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def founded_by?(user)
+    founder == user
+  end
+
   private
 
   def add_founder_to_members
