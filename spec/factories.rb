@@ -87,6 +87,11 @@ FactoryGirl.define do
     content "Feedback"
   end
 
+  factory :supervision_membership do
+    supervision
+    user
+  end
+
   factory :membership do
     group
     sequence(:email) { |i| "john#{i}@doe.com"}

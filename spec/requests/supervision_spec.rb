@@ -48,6 +48,20 @@ feature "Supervision Session", :js => true do
       FactoryGirl.create(:topic, :supervision => @supervision, :user => @bob, :content => "Can rails scale?")
       page.should have_content("Can rails scale?")
     end
+
+    scenario "should suggest last propsed topic" do
+      @old_supervision = Factory.create(:supervision, :group => @supervision.group)
+      @old_supervision.update_attribute(:topic, Factory.create(:topic, :supervision => @old_supervision, :user => @alice) )
+
+      Factory.create(:supervision_membership, :supervision => @old_supervision, :user => @bob)
+      @old_supervision.update_attribute(:state, "finished")
+
+      @topic = Factory.create(:topic, :supervision => @old_supervision, :user => @bob, :content => "Good, ol' topic" )      
+
+      sign_in_interactive(@bob)
+      visit_supervision(@supervision)
+      page.should have_content("Good, ol' topic")
+    end
   end
 
   context "in voting_on_topics state" do

@@ -197,4 +197,28 @@ describe User do
       @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?size=30&rating=PG&d=identicon"
     end
   end
+
+  describe "#last_proposed_topic" do
+    before do
+      @supervision = Factory.create(:supervision)
+      Factory.create(:supervision_membership, :supervision => @supervision, :user => @user)
+      @supervision.update_attribute(:state, "finished")
+    end
+
+    it "should return new topic instance if user did not proposed any topic" do
+      @user.last_proposed_topic(@supervision.group).persisted?.should be_false
+    end
+
+    it "should return last topic proposition if it was not choosen" do
+      @topic = Factory.create(:topic, :supervision => @supervision, :user => @user)
+      @supervision.update_attribute(:topic, Factory.create(:topic, :supervision => @supervision, :user => Factory.create(:user) ) )
+      @user.last_proposed_topic(@supervision.group).should eq @topic
+    end
+
+    it "should return new topic instance if last topic proposition was choosen" do
+      @topic = Factory.create(:topic, :supervision => @supervision, :user => @user)
+      @supervision.topic = @topic
+      @user.last_proposed_topic(@supervision.group).persisted?.should be_false
+    end
+  end
 end
