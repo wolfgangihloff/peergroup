@@ -9,8 +9,8 @@
       =submit_tag "Filter"
       Direction:
       =link_to t(".directions.desc", :default => "Descending"), {:direction => "asc"}, {:remote => true, :id => "direction"}
-      .groups_list= render @groups
-      = will_paginate @groups
+    .groups_list= render @groups
+    = will_paginate @groups
   %section#user_groups
     %h2 Go to Your groups
     = render @user_groups
