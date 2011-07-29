@@ -89,6 +89,14 @@ class User < ActiveRecord::Base
     "http://www.gravatar.com/avatar/" + email_digest + "?#{params}"
   end
 
+  def ping
+    REDIS.setex("user:#{self.id}:active", 60, true)
+  end
+
+  def online?
+    REDIS.exists("user:#{self.id}:active")
+  end
+
   private
 
   def associate_group_memberships
