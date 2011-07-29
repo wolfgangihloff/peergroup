@@ -3,5 +3,7 @@
     %li{:class => [user == selected_user && "selected"]}
       = gravatar_for(user, :size => 30)
       = link_to(marked_user_name(user, selected_user), user)
+      - if user.online?
+        (Online)
       - if current_user.admin?
         = link_to(t(".links.delete", :default => "delete"), user, :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?"))

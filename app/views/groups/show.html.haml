@@ -16,10 +16,14 @@
           = gravatar_for(@group.founder, :size => 30)
           = link_to(@group.founder.name, @group.founder)
           (Founder)
+          - if @group.founder.online?
+            (Online)
         - @group.active_members.without(@group.founder).each do |user|
           %li
             = gravatar_for(user, :size => 30)
             = link_to(user.name, user)
+            - if user.online?
+              (Online)
       - if @group.founded_by?(current_user) and @group.requested_memberships.any?
         .info_box.round
           = t(".requested_memberships_info_html", :count => @group.requested_memberships.count, :url => link_to(t(".manage"), edit_founder_group_path(@group)))
