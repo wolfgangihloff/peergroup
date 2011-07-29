@@ -1,3 +1,5 @@
+%h3= t("supervisions.show.supervision_finished")
 %p
-  = t("supervisions.show.supervision_finished")
-  = link_to_group_supervision(t(".links.session", :default => "Session"), supervision.group)
+  = link_to t("supervisions.show.back_to_group", :default => "Back to group page"), group_path(supervision.group)
+%p
+  = link_to t("supervisions.new.heading"), new_group_supervision_path(supervision.group)
