@@ -490,5 +490,24 @@ feature "Supervision Session", :js => true do
         page.should have_content "This supervision is finished"
       end
     end
+
+    scenario "cancel supervision" do
+      @supervision = prepare_supervision("providing_ideas")
+      Capybara.using_session :bob do
+        sign_in_interactive(@bob)
+        visit_supervision(@supervision)
+      end
+
+      Capybara.using_session :alice do
+        sign_in_interactive(@alice)
+        visit_supervision(@supervision)
+        click_button "Leave session"
+      end
+
+      Capybara.using_session :bob do
+        page.should have_flash("Supervision was cancelled")
+        page.should have_content "Group overview"
+      end
+    end
   end
 end

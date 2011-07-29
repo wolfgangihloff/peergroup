@@ -51,6 +51,11 @@ class SupervisionsController < ApplicationController
     supervision
   end
 
+  def cancel
+    flash[:notice] = t("supervision.cancelled", :default => "Supervision was cancelled") 
+    redirect_to group_path(supervision.group)
+  end
+
   protected
 
   def redirect_to_current_supervision_if_exists

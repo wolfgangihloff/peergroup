@@ -543,6 +543,11 @@
                 "supervision:update": function (event, message) {
                     var oldState = supervisionState,
                         newState = message.state;
+
+										if ( newState == "cancelled"){
+											document.location = PGS.cancelSupervisionPath(supervisionId);
+										}
+
                     $this.find("[data-show-in-state]").hide();
                     $this.find("[data-show-in-state~=" + newState + "]").show("fast")
                         .find(".form").show();

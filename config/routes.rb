@@ -24,6 +24,7 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :supervisions, :only => [:show, :index, :update] do
     get :statusbar, :on => :member
+    get :cancel, :on => :member
     resources :topics, :only => [:create, :index, :show]
     resources :questions, :only => :create
     resources :ideas, :only => :create
