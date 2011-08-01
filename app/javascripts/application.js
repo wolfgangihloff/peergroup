@@ -53,6 +53,16 @@ jQuery(function($) {
         "flash:alert": function (event, message) { flash.flashnotifications("alert", message); }
     });
 
+    $(".flash-messages").each(function (i, element) {
+      console.log("flash_messages");
+      PGS.withSocket("group", function (s) {
+        console.log("group:");
+        s.on("message", function (type, message) {
+          flash.flashnotifications("notice", "hello from js");
+        });
+      });
+    });
+
     $(".chat_room").each(function (i, element) {
         var $chatRoom = $(this);
         $chatRoom.chatRoom();
