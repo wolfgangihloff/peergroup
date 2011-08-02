@@ -143,7 +143,7 @@ class Supervision < ActiveRecord::Base
 
   attr_accessible :state_event
 
-  after_create :create_chat_room
+  after_create :create_chat_room, :publish_notification_to_redis
 
   def self.finished
     with_state(:finished)
@@ -189,6 +189,15 @@ class Supervision < ActiveRecord::Base
     final_step = STEPS.index(desired_step.to_s)
     previous_steps = STEPS.to(final_step)
     previous_steps.exclude?(state)
+  end
+
+  def publish_notification_to_redis
+    json_string = {:message => { 
+      :content => "New supervision started",
+      :id => self.id,
+      :created_at => self.created_at
+    } }.to_json
+    REDIS.publish("group:#{self.group.id}", json_string )
   end
 
   protected
