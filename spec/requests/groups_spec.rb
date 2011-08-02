@@ -52,4 +52,39 @@ feature "Groups" do
       page.should_not have_content("leave")
     end
   end
+
+  scenario "Display notification to user if supervision session got stared" do
+    Capybara.current_driver = :selenium
+    @alice = FactoryGirl.create(:user, :name => "Alice", :email => "alice@example.com")
+    @bob = FactoryGirl.create(:user, :name => "Bob", :email => "bob@example.com")
+
+    @group = FactoryGirl.create(:group, :name => "FuFighters")
+    @group.add_member!(@alice)
+    @group.add_member!(@bob)
+
+    Capybara.using_session :bob do
+      sign_in_interactive(@bob)
+      visit group_path(@group)
+      sleep(3)
+    end
+
+    Capybara.using_session :alice do
+      sign_in_interactive(@alice)
+      visit group_path(@group)
+      sleep(3)
+    end
+
+    Capybara.using_session :bob do
+      click_link "New supervision"
+      click_button "Yes"
+    end
+
+    Capybara.using_session :alice do
+      page.should have_flash("New supervision started join")
+      within(".flash-messages .flash") do
+        click_link "join"
+      end
+      page.should have_content("Join session")
+    end
+  end
 end
