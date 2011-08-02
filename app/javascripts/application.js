@@ -30,13 +30,16 @@ jQuery(function($) {
         PGS.addModule("socket.io", socketIoUrl);
     })();
 
-    $("article#group").each(function (i, el) {
+    $(".group_notification").each(function (i, el) {
       PGS.withSocket("group", function (s) {
-        $group = $("article#group");
         s.onConnect(function () {
-          var groupToken = $group.data("token"),
-              groupId = $group.data("group_id");
-            this.send("authenticate", { userId: document.pgs.currentUser, token: groupToken, groupId: groupId });
+              groups = $(".group_notification").data("groups");
+              _io = this;
+              jQuery.each( groups.split(","), function(id, val) {
+                              token = val.split(":")[0];
+                              group = val.split(":")[1];
+                              _io.send("authenticate", { userId: document.pgs.currentUser, token: token, groupId: group });
+                            });
         });
         s.on("authenticate", function (type, message) {
             if (message.status === "OK") {

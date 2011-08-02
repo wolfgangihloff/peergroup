@@ -57,7 +57,7 @@ class Group < ActiveRecord::Base
 
   def set_redis_access_for_user(user, token = SecureRandom.hex)
     REDIS.setex("group:#{id}:token:#{token}", 60, user.id)
-    @token = token
+    token
   end
 
   private

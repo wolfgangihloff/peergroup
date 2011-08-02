@@ -1,4 +1,4 @@
-%article#group{:data => {:token => @group_token, :group_id => @group.id} }
+%article.group_notification#group{:data => {:groups => current_user.generate_group_subscription_tokens} }
   %section#group_content
     %header
       %h1

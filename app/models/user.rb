@@ -97,6 +97,14 @@ class User < ActiveRecord::Base
     REDIS.exists("user:#{self.id}:active")
   end
 
+  def generate_group_subscription_tokens
+    @tokens = []
+    self.groups.each do |group|
+      @tokens << [group.set_redis_access_for_user(self), group.id].join(":")
+    end
+    @tokens.join(",")
+  end
+
   private
 
   def associate_group_memberships

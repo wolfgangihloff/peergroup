@@ -1,7 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
   before_filter :fetch_chat, :only => [:show]
-  before_filter :fetch_group_informations, :only => [:show]
   before_filter :filters, :only => [:index]
 
   def index
@@ -21,10 +20,6 @@ class GroupsController < ApplicationController
     @chat_room ||= @group.chat_room
     @chat_messages = @chat_room.chat_messages.recent
     @token = @chat_room.set_redis_access_token_for_user(current_user)
-  end
-
-  def fetch_group_informations
-    @group_token = @group.set_redis_access_for_user(current_user)
   end
 
   def filters
