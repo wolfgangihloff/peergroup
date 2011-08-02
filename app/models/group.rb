@@ -55,6 +55,11 @@ class Group < ActiveRecord::Base
     founder == user
   end
 
+  def set_redis_access_for_user(user, token = SecureRandom.hex)
+    REDIS.setex("group:#{id}:token:#{token}", 60, user.id)
+    @token = token
+  end
+
   private
 
   def add_founder_to_members

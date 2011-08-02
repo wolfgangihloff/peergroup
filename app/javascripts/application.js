@@ -30,6 +30,28 @@ jQuery(function($) {
         PGS.addModule("socket.io", socketIoUrl);
     })();
 
+    $("article#group").each(function (i, el) {
+      PGS.withSocket("group", function (s) {
+        $group = $("article#group");
+        s.onConnect(function () {
+          var groupToken = $group.data("token"),
+              groupId = $group.data("group_id");
+            this.send("authenticate", { userId: document.pgs.currentUser, token: groupToken, groupId: groupId });
+        });
+        s.on("authenticate", function (type, message) {
+            if (message.status === "OK") {
+                if (window.console && window.console.log) {
+                    console.log("group: Authenticated");
+                }
+            } else {
+                if (window.console && window.console.error) {
+                    console.error(message);
+                }
+            }
+        });
+      });
+    });
+
     $(".supervision").each(function (i, el) {
         $supervision = $(this);
         $chatRoom = $supervision.find(".chat_room");
@@ -51,16 +73,6 @@ jQuery(function($) {
     $(document).bind({
         "flash:notice": function (event, message) { flash.flashnotifications("notice", message); },
         "flash:alert": function (event, message) { flash.flashnotifications("alert", message); }
-    });
-
-    $(".flash-messages").each(function (i, element) {
-      console.log("flash_messages");
-      PGS.withSocket("group", function (s) {
-        console.log("group:");
-        s.on("message", function (type, message) {
-          flash.flashnotifications("notice", "hello from js");
-        });
-      });
     });
 
     $(".chat_room").each(function (i, element) {
