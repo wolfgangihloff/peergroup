@@ -33,8 +33,19 @@ $.widget("ui.flashnotifications", {
         this._showMessage("alert", message);
         return this;
     },
-    _showMessage: function(severity, message) {
+    supervisionNotification: function(message) {
+      this._showMessage("notice", message.content, " <a href=\"" + PGS.path(["supervisions", message.id, "membership", "new"], {}) + "\">join</a>");
+      return this;
+    },
+    _supervisionNotificationTemplate: function(message) {
+    },
+    _showMessage: function(severity, message, link) {
         var messageElement = $("<div>", { "class": "flash " + severity, text: message });
+        
+        if (link) {
+          messageElement.append(link);
+        }
+
         var self = this;
 
         self.element.append(messageElement);

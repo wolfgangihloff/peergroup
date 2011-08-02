@@ -51,7 +51,7 @@ jQuery(function($) {
         });
       
         s.on("message", function (type, msg) {
-          flash.flashnotifications("notice", msg.message.content);
+          flash.flashnotifications("supervisionNotification", msg.message);
         });
       });
     });
