@@ -1,4 +1,4 @@
-%article
+%article.group_notification{:data => {:groups => current_user.generate_group_subscription_tokens} }
   %h1 Groups
   %section#available_groups
     %h2 Available groups
