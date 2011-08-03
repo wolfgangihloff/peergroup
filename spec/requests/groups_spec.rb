@@ -87,4 +87,15 @@ feature "Groups" do
       page.should have_content("Join session")
     end
   end
+
+  scenario "Display requested membership to group founder" do
+    @bob = FactoryGirl.create(:user, :name => "Bob", :email => "bob@example.com")
+
+    @group = FactoryGirl.create(:group, :name => "FuFighters", :founder => @user, :closed => true)
+    @membership = @group.memberships.build(:email => @bob.email)
+    @membership.save!
+    @membership.request!
+    visit group_path(@group)
+    page.should have_content("There is 1 requested membership. Manage")
+  end
 end
