@@ -435,12 +435,7 @@
 
             var awayInformation = function () {
                 $("#away-dialog-message").dialog({
-                    modal: true,
-                    buttons: {
-                        "I am here": function () {
-                            $(this).dialog("close");
-                        }
-                    }
+                    modal: true
                 });
             };
 
