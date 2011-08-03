@@ -98,4 +98,18 @@ feature "Groups" do
     visit group_path(@group)
     page.should have_content("There is 1 requested membership. Manage")
   end
+
+  scenario "Display link to active supervision" do
+    @group = FactoryGirl.create(:group, :name => "FuFighters")
+
+    visit group_path(@group)
+    page.should_not have_content("Supervision active, join")
+
+    @bob = FactoryGirl.create(:user, :name => "Bob", :email => "bob@example.com")
+    @supervision = FactoryGirl.create(:supervision, :group => @group)
+    @bob.join_supervision(@supervision)
+
+    visit group_path(@group)
+    page.should have_content("Supervision active, join")
+  end
 end
