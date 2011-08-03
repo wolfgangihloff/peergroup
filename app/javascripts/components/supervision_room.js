@@ -469,15 +469,11 @@
                 }, 60000);
             };
 
-            $parent.mousemove(function () {
-                setActiveStatus();
+            $(document).bind("mousemove keydown mousedown", function () {
+              $("#away-dialog-message").dialog("close");
+              setActiveStatus();
             });
-            $parent.keydown(function () {
-                setActiveStatus();
-            });
-            $parent.mousedown(function () {
-                setActiveStatus();
-            });
+
             resetIdleTimeout();
             return this;
         };
