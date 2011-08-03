@@ -112,4 +112,15 @@ feature "Groups" do
     visit group_path(@group)
     page.should have_content("Supervision active, join")
   end
+
+  scenario "Display supervisions history" do
+    @group = FactoryGirl.create(:group, :name => "FuFighters")
+    visit group_path(@group)
+    page.should_not have_content("History")
+
+    FactoryGirl.create(:supervision, :group => @group, :state => "finished", :topic => FactoryGirl.create(:topic, :user => @user))
+
+    visit group_path(@group)
+    page.should have_content("History")
+  end
 end
