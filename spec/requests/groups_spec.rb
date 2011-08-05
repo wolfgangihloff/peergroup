@@ -38,10 +38,8 @@ feature "Groups" do
   scenario "Leaving group" do
     group = FactoryGirl.create(:group, :name => "Ruby group")
     group.add_member!(@user)
-    visit groups_path
-    within ".group_brief" do
-      click_button "leave"
-    end
+    visit group_path(group)
+    click_button "leave group"
     @user.groups.include?(group).should be_false
   end
 
