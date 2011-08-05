@@ -266,7 +266,6 @@ div.user_info
 
 .group_brief
   +border-radius($border-radius)
-  +column($blueprint-grid-columns - 2, true)
   +append-bottom
   background: #eee
   .inner
@@ -295,9 +294,10 @@ div.user_info
 section#available_groups, section#user_groups, section#avatar_settings
   width: 50%
   .group_brief
-    +column(($blueprint-grid-columns / 2) - 1, true)
+    +column($blueprint-liquid-grid-columns, true)
+    padding: 5px 0
     .inner
-      +column(($blueprint-grid-columns / 2) - 2, true)
+      +column($blueprint-liquid-grid-columns - 1, true)
 section#available_groups, section#avatar_settings
   float: left
 section#user_groups
