@@ -7,11 +7,11 @@
 
   %header
     %h1= t(".latest_groups", :default => "Latest groups")
+  %section#available_groups
+    .group_list
+      = render Group.newest
 
-  .groups
-    = render Group.newest
-
-  %aside.hergroups.round
+  %section#user_groups
     = render 'pages/user_info'
     %div= t(".your_groups", :default => "Your groups")
     = render current_user.groups
