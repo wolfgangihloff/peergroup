@@ -123,4 +123,47 @@ feature "Groups" do
     visit group_path(@group)
     page.should have_content("History")
   end
+
+  scenario "Display propper buttons on groups page" do
+    @my_group_without_supervision = FactoryGirl.create(:group, :name => "Ruby Group", :founder => @user)
+    @my_group_with_supervision = FactoryGirl.create(:group, :name => "Scala Group", :founder => @user)
+    FactoryGirl.create(:supervision, :group => @my_group_with_supervision)
+
+    @closed_group_without_request = FactoryGirl.create(:group, :name => "Confidential Group", :closed => true)
+    @closed_group_with_request = FactoryGirl.create(:group, :name => "Strictly Confidential Group", :closed => true)
+    @membership = @closed_group_with_request.memberships.build(:email => @user.email)
+    @membership.save!
+    @membership.request!
+
+    @open_group_without_supervision = FactoryGirl.create(:group, :name => "Active Group")
+    @open_group_with_supervision = FactoryGirl.create(:group, :name => "PHP Group")
+    FactoryGirl.create(:supervision, :group => @open_group_with_supervision)
+
+    visit groups_path
+
+    within "#group_#{@my_group_without_supervision.id} .actions" do
+      page.should_not have_selector "li"
+    end
+
+    within "#group_#{@my_group_with_supervision.id} .actions li" do
+       page.should have_content "Join active supervision"
+    end
+
+    within "#group_#{@closed_group_without_request.id}" do
+      page.should have_button "request membership"
+    end
+
+    within "#group_#{@closed_group_with_request.id}" do
+      page.should have_content "Awaiting group owner acceptance"
+    end
+
+    within "#group_#{@open_group_with_supervision.id}" do
+      page.should have_button "join"
+    end
+
+    within "#group_#{@open_group_with_supervision.id}" do
+      page.should have_button "join"
+    end
+ 
+  end
 end
