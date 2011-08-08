@@ -89,6 +89,11 @@ class User < ActiveRecord::Base
     "http://www.gravatar.com/avatar/" + email_digest + "?#{params}"
   end
 
+  def gravatar_profile_url
+    email_digest = Digest::MD5.hexdigest(email)
+    "http://www.gravatar.com/" + email_digest
+  end
+
   def ping
     REDIS.setex("user:#{self.id}:active", 60, true)
   end

@@ -11,7 +11,7 @@ module ApplicationHelper
   def gravatar_for(user, options={})
     options[:size] ||= 50
     html_options = {:width => options[:size], :heigth => options[:size], :class => "gravatar", :alt => ""}
-    image_tag(user.avatar_url(options), html_options)
+    link_to image_tag(user.avatar_url(options), html_options), user.gravatar_profile_url
   end
 
   # Return a title on a per-page basis.
