@@ -14,7 +14,7 @@ class SupervisionsController < ApplicationController
   end
 
   def create
-    @supervision = group.supervisions.create!
+    @supervision = group.supervisions.current || group.supervisions.create!
     current_user.join_supervision(@supervision)
     redirect_to @supervision
   end
