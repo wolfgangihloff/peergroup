@@ -7,6 +7,10 @@ class SupervisionMembershipsController < ApplicationController
   respond_to :html, :json
 
   def new
+    if @supervision.in_progress?
+      current_user.join_supervision(@supervision)
+      redirect_to @supervision
+    end
   end
 
   def create

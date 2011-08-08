@@ -4,9 +4,6 @@
   %header
     %h1= t(".heading")
 
-  - if @supervision.in_progress?
-    = t(".message")
-    = button_to t(".join_supervision"), supervision_membership_path(@supervision)
-  - else
+  - unless @supervision.in_progress?
     = t(".not_in_progress", :state => @supervision.state)
     %p= link_to(t(".new_supervision"), new_group_supervision_path(@supervision.group))
