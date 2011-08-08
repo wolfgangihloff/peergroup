@@ -1,0 +1,13 @@
+$("#group_content").append("<%= escape_javascript(render 'form') %>");
+$("#new_supervision").hide();
+$("#add_supervision").dialog({
+  modal: true,
+  buttons: {
+  				"Create Supervision": function() {
+            $("#new_supervision").submit();
+  				},
+  				Cancel: function() {
+  					$( this ).dialog( "close" );
+  				}
+  			}
+});

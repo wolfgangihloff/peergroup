@@ -36,7 +36,7 @@
 
     - if @group.active_members.include?(current_user)
       - unless @group.supervisions.current
-        = link_to t(".new_supervision"), new_group_supervision_path(@group)
+        = link_to t(".new_supervision"), new_group_supervision_path(@group), :remote => true
       - unless @group.founded_by?(current_user)
         = button_to t(".leave_group"), group_membership_path(@group), :method => :delete
 
