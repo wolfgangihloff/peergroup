@@ -1,6 +1,6 @@
 // Import the non-default scaffolding module to help us get started.
 @import blueprint/scaffolding
-
+@import blueprint/liquid
 +blueprint-typography
 +blueprint-utilities
 +blueprint-debug
@@ -97,7 +97,7 @@ nav#home
 
   article
     +push(1)
-    +column($blueprint-grid-columns - 2, true)
+    +column($blueprint-liquid-grid-columns - 0.5, true)
     +prepend-top
     +append-bottom
 
@@ -266,7 +266,6 @@ div.user_info
 
 .group_brief
   +border-radius($border-radius)
-  +column($blueprint-grid-columns - 2, true)
   +append-bottom
   background: #eee
   .inner
@@ -293,11 +292,12 @@ div.user_info
 /* CSS for groups list
 
 section#available_groups, section#user_groups, section#avatar_settings
-  width: 50%
+  width: 49%
   .group_brief
-    +column(($blueprint-grid-columns / 2) - 1, true)
+    +column($blueprint-liquid-grid-columns, true)
+    padding: 5px 0
     .inner
-      +column(($blueprint-grid-columns / 2) - 2, true)
+      +column($blueprint-liquid-grid-columns - 1, true)
 section#available_groups, section#avatar_settings
   float: left
 section#user_groups
