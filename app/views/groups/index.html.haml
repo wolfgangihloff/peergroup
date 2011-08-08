@@ -8,7 +8,7 @@
       =select_tag :filter, options_for_select(@filters.map{|k| [t("groups.filters.#{k}"), k ] }, params[:filter] )
       =submit_tag "Filter"
       Direction:
-      =link_to t(".directions.desc", :default => "Descending"), {:direction => "asc"}, {:remote => true, :id => "direction"}
+      =link_to t(".directions.desc", :default => "Descending"), {:direction => "asc", :change_direction => true}, {:remote => true, :id => "direction"}
     .groups_list= render @groups
     = will_paginate @groups
   %section#user_groups
