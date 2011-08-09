@@ -5,7 +5,7 @@
 
     = render "statusbar"
     = form_tag supervision_membership_path(@supervision), :method => :delete do
-      = submit_tag t("supervisions.show.leave_supervision")
+      = submit_tag t("supervisions.show.leave_supervision"), :confirm => t("supervisions.show.leaving_confirmation", :default => "Are You sure?")
 
     %div{:"data-show-in-state" => "finished"}
       = render "supervision_finished", :supervision => @supervision
