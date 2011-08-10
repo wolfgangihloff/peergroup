@@ -1,15 +1,14 @@
 %article.group_notification#group{:data => {:groups => current_user.generate_group_subscription_tokens} }
+  %header
+    %h1
+      = @group.name
+      - if @group.founded_by?(current_user)
+        %span.small= link_to t(".edit", :default => "edit"), edit_founder_group_path(@group)
+    %p.description= @group.description
+  - if @group.supervisions.current
+    .info_box.round
+      = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
   %section#group_content
-    %header
-      %h1
-        = @group.name
-        - if @group.founded_by?(current_user)
-          %span.small= link_to t(".edit", :default => "edit"), edit_founder_group_path(@group)
-      %p.description= @group.description
-    - if @group.supervisions.current
-      .info_box.round
-        = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
-
     .group_members
       %ul
         %li
