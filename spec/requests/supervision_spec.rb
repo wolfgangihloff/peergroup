@@ -502,6 +502,8 @@ feature "Supervision Session", :js => true do
         sign_in_interactive(@alice)
         visit_supervision(@supervision)
         click_button "Leave session"
+        # close alert window
+        page.driver.browser.switch_to.alert.accept
       end
 
       Capybara.using_session :bob do
