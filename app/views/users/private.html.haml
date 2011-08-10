@@ -4,12 +4,15 @@
       Hi
       = @user.name
       ,
-  %section#avatar_settings
-    = gravatar_for(@user)
-    = link_to(t(".links.change_gravatar", :default => "change"), "http://gravatar.com/emails")
-    - if signed_in? and @user == current_user
-      = link_to t(".edit", :default => "Edit"), edit_user_path(current_user)
-
+  %section#user_avatar
+    = gravatar_for(@user, :size => 100)
+  %section#user_info
+    = link_to(t(".links.change_gravatar", :default => "Change Your gravatar image"), "http://gravatar.com/emails")
+    = semantic_form_for(@user) do |f|
+      = f.inputs do
+        = render :partial => 'fields', :locals => { :f => f }
+      = f.buttons do
+        = f.commit_button t(".buttons.update", :default => "Update")
   %section#user_groups
     %h2= t(".group_list_title", :user_name => @user.name, :default => "Go to Your groups")
     = render @user.groups

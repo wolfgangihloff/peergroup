@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @title = @user.name
-    @user.id == current_user.id ? @action = "private" : @action = "public"
+    @user == current_user ? @action = "private" : @action = "public"
     respond_to do |format|
       format.html { render :action => @action }
       format.json { render :json => @user.to_json(:only => [:id, :name], :methods => [:avatar_url]) }
