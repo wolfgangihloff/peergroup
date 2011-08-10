@@ -1,0 +1,5 @@
+%article.group_notification{:data => {:groups => current_user.generate_group_subscription_tokens} }
+  %section#user_avatar= gravatar_for(@user, :size => 100)
+  %section#user_info
+    %h1= @user.name
+    %p= @user.email
