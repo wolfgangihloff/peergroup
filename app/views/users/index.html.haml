@@ -1,7 +1,0 @@
-%article
-  %header
-    %h1= t(".users_title", :default => "All users")
-
-  = will_paginate
-  = render "users/list", :users => @users, :selected_user => nil
-  = will_paginate

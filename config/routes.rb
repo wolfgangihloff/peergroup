@@ -3,7 +3,7 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :rules
 
-  resources :users do
+  resources :users, :except => [:index] do
     member do
       get :following
       get :followers

@@ -38,11 +38,6 @@ class UsersController < ApplicationController
     @title = "Edit user"
   end
 
-  def index
-    @title = "All Users"
-    @users = User.paginate(:page => params[:page])
-  end
-
   def update
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated."
