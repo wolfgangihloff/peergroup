@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
     name
   end
 
+  def show_email?
+    show_email == true
+  end
+
   def following?(followed)
     relationships.find_by_followed_id(followed)
   end

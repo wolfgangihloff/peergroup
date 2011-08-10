@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110726082830) do
+ActiveRecord::Schema.define(:version => 20110810073756) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -189,8 +189,6 @@ ActiveRecord::Schema.define(:version => 20110726082830) do
     t.datetime "updated_at"
   end
 
-  add_index "tolk_phrases", ["key"], :name => "index_tolk_phrases_on_key", :unique => true
-
   create_table "tolk_translations", :force => true do |t|
     t.integer  "phrase_id"
     t.integer  "locale_id"
@@ -223,6 +221,7 @@ ActiveRecord::Schema.define(:version => 20110726082830) do
     t.string   "salt"
     t.string   "remember_token"
     t.boolean  "admin",              :default => false
+    t.boolean  "show_email",         :default => false, :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
