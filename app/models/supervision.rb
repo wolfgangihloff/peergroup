@@ -11,6 +11,7 @@ class Supervision < ActiveRecord::Base
   def supervision_id; id; end # aliasing doesn't work
 
   STEPS = %w[
+    waiting_for_members
     gathering_topics
     voting_on_topics
     asking_questions
@@ -21,7 +22,7 @@ class Supervision < ActiveRecord::Base
     giving_supervision_feedbacks
   ]
 
-  state_machine :state, :initial => :gathering_topics do
+  state_machine :state, :initial => :waiting_for_members do
     before_transition [:gathering_topics, :voting_on_topics] => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
 
@@ -35,6 +36,7 @@ class Supervision < ActiveRecord::Base
     before_transition :giving_supervision_feedbacks => :finished, :do => :can_move_to_finished_state?
 
     event :join_member do
+      transition :waiting_for_members => :gathering_topics, :if => :first_member_joins?
       transition all => all
     end
 
@@ -159,6 +161,10 @@ class Supervision < ActiveRecord::Base
 
   def in_progress?
     !finished? and !cancelled?
+  end
+
+  def first_member_joins?
+    members.count == 2
   end
 
   def posted_topic?(user)

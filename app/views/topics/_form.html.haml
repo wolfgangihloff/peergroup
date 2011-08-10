@@ -1,5 +1,10 @@
+%div{:"data-show-in-state" => "gathering_topics"}
+  %p.waiting= t("supervisions.show.topics_waiting")
 = form_for([supervision, @topic]) do |f|
   = f.text_area :content
-  %p.inline-hints= t("topics.form.content_hint")
-  = submit_tag t("topics.form.submit")
-  =link_to t("topics.form.create_empty"), supervision_topics_path(supervision, :format => :json), {:method => :post, :remote => true}
+  %div{:"data-show-in-state" => "waiting_for_members"}
+    %p= t("supervision.waiting_for_members", :default => "Waiting for other members.")
+  %div{:"data-show-in-state" => "gathering_topics"}
+    %p.inline-hints= t("topics.form.content_hint")
+    = submit_tag t("topics.form.submit")
+    =link_to t("topics.form.create_empty"), supervision_topics_path(supervision, :format => :json), {:method => :post, :remote => true}

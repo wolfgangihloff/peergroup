@@ -57,6 +57,7 @@ describe Supervision do
     end
     it "should use Supervision::STEPS and it should be correct" do
       Supervision::STEPS.should == %w[
+         waiting_for_members
          gathering_topics
          voting_on_topics
          asking_questions
@@ -347,9 +348,19 @@ describe Supervision do
       @group.add_member!(@cindy)
     end
 
-    it "should be in gathering_topics state after create" do
+    it "should be in waiting_for_members state after create" do
       @supervision = Supervision.new
 
+      @supervision.waiting_for_members?.should be_true
+    end
+
+    it "should change from waiting_for_members to gathering_topics" do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "waiting_for_members")
+      @bob.join_supervision(@supervision)
+      @alice.join_supervision(@supervision)
+      
+      @supervision.reload
+      @supervision.waiting_for_members?.should be_false
       @supervision.gathering_topics?.should be_true
     end
 

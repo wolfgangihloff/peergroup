@@ -20,8 +20,7 @@
     %section.topics_part
       %header
         %h1= t("supervisions.show.topic")
-
-        %div{:"data-show-in-state" => "gathering_topics"}
+        %div{:"data-show-in-state" => "waiting_for_members gathering_topics"}
           = render "topics/supervision_topics", :supervision => @supervision
 
         %div{:"data-show-in-state" => "voting_on_topics"}

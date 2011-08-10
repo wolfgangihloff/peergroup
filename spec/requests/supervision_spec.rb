@@ -25,7 +25,38 @@ feature "Supervision Session", :js => true do
     @group.add_member!(@bob)
     @group.add_member!(@cindy)
   end
+  context "in waiting_for_members state" do
+    background do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "waiting_for_members")
+      @bob.join_supervision(@supervision)
+    end
 
+    scenario "should not allow to post topic" do
+      sign_in_interactive(@bob)
+      visit_supervision(@supervision)
+      active_state.should eq "Waiting For Members"
+      page.should have_content "Waiting for other members"
+    end
+
+    scenario "switch to gathering_topics state if other member join supervision" do
+      Capybara.using_session :bob do
+        sign_in_interactive(@bob)
+        visit_supervision(@supervision)
+        page.should have_content "Waiting for other members"
+      end
+
+      Capybara.using_session :alice do
+        @alice.join_supervision(@supervision)
+        sign_in_interactive(@alice)
+        visit_supervision(@supervision)
+      end
+
+      Capybara.using_session :bob do
+        active_state.should eq "Topics"
+      end
+
+    end
+  end
   context "in gathering_topics state" do
     background do
       @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")

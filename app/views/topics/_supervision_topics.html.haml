@@ -1,7 +1,5 @@
 %section.gathering_topics_part
-  - if supervision.gathering_topics?
-    %p.waiting= t("supervisions.show.topics_waiting")
-
+  - if supervision.gathering_topics? || supervision.waiting_for_members?
     - unless supervision.posted_topic?(current_user)
       .topic.form
         = render current_user
