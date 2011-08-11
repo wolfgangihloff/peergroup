@@ -98,6 +98,12 @@ class User < ActiveRecord::Base
     "http://www.gravatar.com/" + email_digest
   end
 
+  def chat_status(chat_room)
+    @status = REDIS.get("chat_activity:#{chat_room}:user:#{self.id}")
+    return :unavailable unless @status
+    @status.split(":")[0].to_sym
+  end
+
   def ping
     REDIS.setex("user:#{self.id}:active", 60, true)
   end

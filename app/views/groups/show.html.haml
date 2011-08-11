@@ -13,6 +13,7 @@
       %ul
         %li
           = gravatar_for(@group.founder, :size => 30)
+          = chat_status(@group.founder, @group.chat_room)
           = link_to(@group.founder.name, @group.founder)
           (Founder)
           - if @group.founder.online?
@@ -20,6 +21,7 @@
         - @group.active_members.without(@group.founder).each do |user|
           %li
             = gravatar_for(user, :size => 30)
+            = chat_status(user, @group.chat_room)
             = link_to(user.name, user)
             - if user.online?
               (Online)

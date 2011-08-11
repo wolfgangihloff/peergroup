@@ -46,4 +46,8 @@ module ApplicationHelper
   def id_for_body
     [controller_name, action_name].join "_"
   end
+
+  def chat_status(user, chat_room)
+    "<div class=\"status #{user.chat_status(chat_room.id)}\" data-user_id=\"#{user.id}\" data-timestamp=\"#{DateTime.now.to_time.to_i}\"></div>".html_safe
+  end
 end
