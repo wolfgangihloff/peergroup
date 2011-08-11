@@ -30,6 +30,19 @@ jQuery(function($) {
         PGS.addModule("socket.io", socketIoUrl);
     })();
 
+    $("#chat_notification").each(function(i, el) {
+      var updateChatActivity = function () {
+        $("#chat_notification .status").each(function(i, el) {
+          timestamp = parseInt(Number(new Date) /1000);
+          if(timestamp - $(this).data("timestamp") > 60){
+            $(this).removeClass("available idle");
+            $(this).addClass("unavailable");
+          }
+        });
+      };
+      setInterval(updateChatActivity, 60000);
+    });
+
     $(".group_notification").each(function (i, el) {
       PGS.withSocket("group", function (s) {
         s.onConnect(function () {
