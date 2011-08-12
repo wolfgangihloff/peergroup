@@ -16,6 +16,7 @@ class ChatRoom < ActiveRecord::Base
 
   def set_redis_access_token_for_user(user, token = SecureRandom.hex)
     REDIS.setex("chat:#{id}:token:#{token}", 60, user.id)
+    REDIS.setex("activity:#{id}:token:#{token}", 60, user.id)
     @token = token
   end
 

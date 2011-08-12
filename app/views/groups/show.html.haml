@@ -9,7 +9,7 @@
     .info_box.round
       = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
   %section#group_content
-    .group_members#chat_notification{:data => {:chat_id => @group.chat_room.id}}
+    .group_members#chat_notification{:data => {:chat_id => @group.chat_room.id, :token => @token}}
       %ul
         %li
           = gravatar_for(@group.founder, :size => 30)
