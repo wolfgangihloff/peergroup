@@ -316,13 +316,12 @@ section#user_groups
 /* CSS for status icons
 .status
   width: 10px
-  height: 11px
-  background: url("../../images/status_icons.png") no-repeat
-  float:left
-  display:inline
+  height: 10px
+  display: inline-block
+  +border-radius(5px)
 .status.available
-  background-position-y: 0%
+  background-color: #ACDC32
 .status.idle
-  background-position-y: 50%
+  background-color: #E69B22
 .status.unavailable
-  background-position-y: 100%
+  background-color: #A9A9A9
