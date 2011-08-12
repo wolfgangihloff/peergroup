@@ -48,6 +48,6 @@ module ApplicationHelper
   end
 
   def chat_status(user, chat_room)
-    "<div class=\"status #{user.chat_status(chat_room.id)}\" data-user_id=\"#{user.id}\" data-timestamp=\"#{DateTime.now.to_time.to_i}\"></div>".html_safe
+    "<div id=\"user_#{user.id}_status\" class=\"status #{user.chat_status(chat_room.id)}\" data-user_id=\"#{user.id}\" data-timestamp=\"#{DateTime.now.to_time.to_i}\"></div>".html_safe
   end
 end

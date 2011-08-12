@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
   end
 
   def chat_status(chat_room)
-    @status = REDIS.get("chat_activity:#{chat_room}:user:#{self.id}")
+    @status = REDIS.get("activity:#{chat_room}:user:#{self.id}")
     return :unavailable unless @status
     @status.split(":")[0].to_sym
   end

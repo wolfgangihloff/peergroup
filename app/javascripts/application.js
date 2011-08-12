@@ -31,6 +31,31 @@ jQuery(function($) {
     })();
 
     $("#chat_notification").each(function(i, el) {
+        PGS.withSocket("activity", function (s) {
+          s.onConnect(function () {
+                chatId = $("#chat_notification").data("chat_id");
+                chatActivityToken = $("#chat_notification").data("token");
+                console.log("ID: "+ chatId + " token: " + chatActivityToken);
+                this.send("authenticate", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId });
+            });
+          s.on("authenticate", function (type, message) {
+              if (message.status === "OK") {
+                  if (window.console && window.console.log) {
+                      console.log("activity: Authenticated");
+                  }
+              } else {
+                  if (window.console && window.console.error) {
+                      console.error(message);
+                  }
+              }
+          });
+      
+          s.on("message", function (type, msg) {
+            message = msg.message;
+            $("#user_" + message.id + "_status").removeClass("idle available unavailable").addClass(message.status).data("timestamp", message.timestamp);
+            console.log($("#user_" + message.id + "_status").attr("class"));
+          });
+        });
       var updateChatActivity = function () {
         $("#chat_notification .status").each(function(i, el) {
           timestamp = parseInt(Number(new Date) /1000);
