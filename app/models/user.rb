@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def join_supervision(supervision)
-    supervisions << supervision
+    supervisions << supervision unless supervisions.include?(supervision)
   end
 
   def leave_supervision(supervision)
