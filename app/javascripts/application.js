@@ -22,24 +22,26 @@ jQuery(function($) {
     //     PGS.load("socket.io", function() {
     //         ... // socket.io is loaded
     //     });
-    (function () {
-        var nodeServerUrl = document.pgs.node.protocol + "://" + document.pgs.node.host + ":" + document.pgs.node.port,
-            socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js";
-        // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
-        window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
-        PGS.addModule("socket.io", socketIoUrl);
-    })();
+    var nodeServerUrl = document.pgs.node.protocol + "://" + document.pgs.node.host + ":" + document.pgs.node.port,
+        socketIoUrl = nodeServerUrl + "/socket.io/socket.io.js", lastChatActivity = + new Date();
+    // copied from app/node.js/socket.io/support/socket.io-client/socket.io.js
+    window.WEB_SOCKET_SWF_LOCATION = nodeServerUrl + "/socket.io/lib/vendor/web-socket-js/WebSocketMain.swf";
+    PGS.addModule("socket.io", socketIoUrl);
 
     $("#chat_notification").each(function(i, el) {
         PGS.withSocket("activity", function (s) {
           s.onConnect(function () {
-                chatId = $("#chat_notification").data("chat_id");
-                chatActivityToken = $("#chat_notification").data("token");
-                console.log("ID: "+ chatId + " token: " + chatActivityToken);
-                this.send("authenticate", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId });
-            });
+            chatId = $("#chat_notification").data("chat_id");
+            chatActivityToken = $("#chat_notification").data("token");
+            this.send("authenticate", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId });
+          });
+
           s.on("authenticate", function (type, message) {
               if (message.status === "OK") {
+                  chatId = $("#chat_notification").data("chat_id");
+                  chatActivityToken = $("#chat_notification").data("token");
+                  (new Date - lastChatActivity)/1000 > 60 ? status = "idle" : status = "available";
+                  s.send("ping", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId, status: status});
                   if (window.console && window.console.log) {
                       console.log("activity: Authenticated");
                   }
@@ -53,9 +55,20 @@ jQuery(function($) {
           s.on("message", function (type, msg) {
             message = msg.message;
             $("#user_" + message.id + "_status").removeClass("idle available unavailable").addClass(message.status).data("timestamp", message.timestamp);
-            console.log($("#user_" + message.id + "_status").attr("class"));
           });
         });
+
+      var pingChatActivity = function () {
+        chatId = $("#chat_notification").data("chat_id");
+        chatActivityToken = $("#chat_notification").data("token");
+        PGS.withSocket("activity", function (s) {
+          (new Date - lastChatActivity)/1000 > 60 ? status = "idle" : status = "active";
+          s.send("authenticate", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId });          
+          s.send("ping", { userId: document.pgs.currentUser, token: chatActivityToken, chatId: chatId, status: status});
+        });
+      };
+      setInterval(pingChatActivity, 60000);
+
       var updateChatActivity = function () {
         $("#chat_notification .status").each(function(i, el) {
           timestamp = parseInt(Number(new Date) /1000);
@@ -126,7 +139,7 @@ jQuery(function($) {
 
         var $form = $chatRoom.find("#new_chat_message");
         $form.bind({
-            "ajax:success": function (event) { $form.find("#chat_message_content").val(""); }
+            "ajax:success": function (event) { $form.find("#chat_message_content").val(""); lastChatActivity = + new Date(); }
         });
 
         var onUserEnters = function(event, user) {
