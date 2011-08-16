@@ -443,14 +443,16 @@
             var resetIdleTimeout = function () {
                 clearTimeout(idleTimeout);
                 clearTimeout(awayTimeout);
-                idleTimeout = setTimeout(function () {
-                    if (status === "active") {
-                        status = "idle";
-                        sendStatus("idle");
-                        awayInformation();
-                        resetAwayTimeout();
-                    }
-                }, 60000);
+                if (inputRequired() ) {
+                  idleTimeout = setTimeout(function () {
+                      if (status === "active") {
+                          status = "idle";
+                          sendStatus("idle");
+                          awayInformation();
+                          resetAwayTimeout();
+                      }
+                  }, 60000);
+                }
             };
 
             // 1 minute
@@ -462,6 +464,16 @@
                         sendStatus("away");
                     }
                 }, 60000);
+            };
+
+            var inputRequired = function () {
+              requireInput = ["#topic_content", ".new_vote", "#question_content", ".new_answer", "#idea_content", ".edit_idea", "#ideas_feedback_content", "#solution_content", ".edit_solution", "#supervision_feedback_content"];
+              $.each(requireInput, function(index, value) {
+                if ( $(value).is(":visible") ){
+                  return true;
+                }
+              });
+              return false;
             };
 
             $(document).bind("mousemove keydown mousedown", function () {
