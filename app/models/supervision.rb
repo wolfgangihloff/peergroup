@@ -20,6 +20,7 @@ class Supervision < ActiveRecord::Base
     voting_ideas
     giving_ideas_feedback
     providing_solutions
+    voting_solutions
     giving_solutions_feedback
     giving_supervision_feedbacks
   ]
@@ -35,7 +36,8 @@ class Supervision < ActiveRecord::Base
     before_transition :providing_ideas => :voting_ideas, :do => :all_next_step_votes?
     before_transition :voting_ideas => :giving_ideas_feedback, :do => :all_idea_ratings?
     before_transition :giving_ideas_feedback => :providing_solutions, :do => :ideas_feedback_present?
-    before_transition :providing_solutions => :giving_solutions_feedback, :do => :can_move_to_solution_feedback_state?
+    before_transition :providing_solutions => :voting_solutions, :do => :all_next_step_votes?
+    before_transition :voting_solutions => :giving_solutions_feedback, :do => :all_solution_ratings?
     before_transition :giving_solutions_feedback => :giving_supervision_feedbacks, :do => :solutions_feedback_present?
     before_transition :giving_supervision_feedbacks => :finished, :do => :can_move_to_finished_state?
 
@@ -51,9 +53,10 @@ class Supervision < ActiveRecord::Base
       transition :giving_supervision_feedbacks => :finished
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
-      transition :providing_solutions => :giving_solutions_feedback
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :voting_solutions
+      transition :voting_solutions => :giving_solutions_feedback
       transition all => all
     end
 
@@ -81,9 +84,10 @@ class Supervision < ActiveRecord::Base
     event :post_vote_for_next_step do
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
-      transition :providing_solutions => :giving_solutions_feedback
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :voting_solutions
+      transition :voting_solutions => :giving_solutions_feedback
     end
 
     event :step_back_to_asking_questions do
