@@ -438,42 +438,43 @@
                     modal: true
                 });
             };
+            var inputRequired = function () {
+              return $(".inputRequired").is(":visible");
+            };
 
             // 1 minute
             var resetIdleTimeout = function () {
                 clearTimeout(idleTimeout);
                 clearTimeout(awayTimeout);
-                if (inputRequired() ) {
-                  idleTimeout = setTimeout(function () {
+                idleTimeout = setTimeout(function () {
+                  if (inputRequired() ) {
                       if (status === "active") {
                           status = "idle";
                           sendStatus("idle");
                           awayInformation();
                           resetAwayTimeout();
                       }
-                  }, 60000);
-                }
+                  }
+                  else{
+                    setActiveStatus();
+                  }
+                }, 60000);
             };
 
             // 1 minute
             var resetAwayTimeout = function () {
                 clearTimeout(awayTimeout);
                 awayTimeout = setTimeout(function () {
-                    if (status === "idle") {
-                        status = "away";
-                        sendStatus("away");
-                    }
+                  if (inputRequired() ) {
+                      if (status === "idle") {
+                          status = "away";
+                          sendStatus("away");
+                      }
+                  }
+                  else{
+                    setActiveStatus();
+                  }
                 }, 60000);
-            };
-
-            var inputRequired = function () {
-              requireInput = ["#topic_content", ".new_vote", "#question_content", ".new_answer", "#idea_content", ".edit_idea", "#ideas_feedback_content", "#solution_content", ".edit_solution", "#supervision_feedback_content"];
-              $.each(requireInput, function(index, value) {
-                if ( $(value).is(":visible") ){
-                  return true;
-                }
-              });
-              return false;
             };
 
             $(document).bind("mousemove keydown mousedown", function () {
