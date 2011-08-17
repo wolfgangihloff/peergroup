@@ -15,6 +15,7 @@ class Supervision < ActiveRecord::Base
     gathering_topics
     voting_on_topics
     asking_questions
+    giving_answers
     providing_ideas
     giving_ideas_feedback
     providing_solutions
@@ -45,7 +46,8 @@ class Supervision < ActiveRecord::Base
       transition :gathering_topics => :voting_on_topics
       transition :voting_on_topics => :asking_questions
       transition :giving_supervision_feedbacks => :finished
-      transition :asking_questions => :providing_ideas
+      transition :asking_questions => :giving_answers
+      transition :giving_answers => :providing_ideas
       transition :providing_ideas => :giving_ideas_feedback
       transition :providing_solutions => :giving_solutions_feedback
       transition all => all
@@ -73,7 +75,8 @@ class Supervision < ActiveRecord::Base
     end
 
     event :post_vote_for_next_step do
-      transition :asking_questions => :providing_ideas
+      transition :asking_questions => :giving_answers
+      transition :giving_answers => :providing_ideas
       transition :providing_ideas => :giving_ideas_feedback
       transition :providing_solutions => :giving_solutions_feedback
     end
@@ -238,10 +241,6 @@ class Supervision < ActiveRecord::Base
 
   def all_next_step_votes?
     members.all? { |m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
-  end
-
-  def can_move_to_idea_state?
-    all_next_step_votes? && all_answers?
   end
 
   def can_move_to_idea_feedback_state?
