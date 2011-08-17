@@ -31,8 +31,8 @@ class Supervision < ActiveRecord::Base
 
     before_transition :gathering_topics => :voting_on_topics, :do => :all_topics?
     before_transition :voting_on_topics => :asking_questions, :do => :all_topic_votes?
-    before_transition :asking_questions => :providing_ideas, :do => :can_move_to_idea_state?
-    before_transition :providing_ideas => :giving_ideas_feedback, :do => :can_move_to_idea_feedback_state?
+    before_transition :asking_questions => :giving_answers, :do => :all_next_step_votes?
+    before_transition :giving_answers => :providing_ideas, :do => :all_answers?
     before_transition :providing_ideas => :voting_ideas, :do => :all_next_step_votes?
     before_transition :voting_ideas => :giving_ideas_feedback, :do => :all_idea_ratings?
     before_transition :giving_ideas_feedback => :providing_solutions, :do => :ideas_feedback_present?
@@ -250,14 +250,6 @@ class Supervision < ActiveRecord::Base
 
   def all_next_step_votes?
     members.all? { |m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
-  end
-
-  def can_move_to_idea_feedback_state?
-    all_next_step_votes? && all_idea_ratings?
-  end
-
-  def can_move_to_solution_feedback_state?
-    all_next_step_votes? && all_solution_ratings?
   end
 
   def can_move_to_finished_state?
