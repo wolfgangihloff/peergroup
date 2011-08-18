@@ -16,7 +16,7 @@
 //= require "components/chat_room"
 //= require "components/supervision_room"
 //= require "components/flash_notifications"
-
+//= require "components/countdown_timer"
 jQuery(function($) {
     // Add socket.io external javascript, use:
     //     PGS.load("socket.io", function() {
