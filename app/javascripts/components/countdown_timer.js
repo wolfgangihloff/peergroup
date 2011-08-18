@@ -11,8 +11,8 @@
     stopAtEnd: true,
     displayTime: true,
     displaySeconds: 35,
-    onStart: function (o){},
-    onStop: function (){}
+    onStart: function () {},
+    onStop:  function () {}
   },
 
   $.tick = function () {
@@ -24,8 +24,8 @@
       if (_options.stopAtEnd) {
         $.stop();
       }
-        col = 0;
-        seconds = _options.displaySeconds;
+      col = 0;
+      seconds = _options.displaySeconds;
     }
     verticalPosition = col * _options.gridSize * -1;
     horizontalPosition = row * _options.gridSize * -1;
