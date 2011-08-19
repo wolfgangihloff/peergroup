@@ -546,6 +546,10 @@ en:
           giving_ideas_feedback: Go back to "Ideas feedback" state
           providing_ideas: Go back to "Ideas" state
           asking_questions: Go back to "Questions" state
+        topic_owner:
+          giving_answers: "All users are waiting for Your answers!"
+          voting_ideas: "All users are waiting for Your votes!"
+          voting_solutions: "All users are waiting for Your votes!"
   supervision_memberships:
     new:
       title: Join session

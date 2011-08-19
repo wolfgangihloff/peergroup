@@ -554,18 +554,24 @@
             $this.bind({
                 "supervision:update": function (event, message) {
                     var oldState = supervisionState,
-                        newState = message.state;
-
-										if ( newState == "cancelled"){
-											document.location = PGS.cancelSupervisionPath(supervisionId);
-										}
+                        newState = message.state,
+                        currentUserId = $this.data("current-user-id"),
+                        topicUserId = $this.data("supervision-topic-user-id");
+                    console.log("current_user: " + currentUserId + " topic_owner:" + topicUserId);
+					if (newState == "cancelled") {
+						document.location = PGS.cancelSupervisionPath(supervisionId);
+					}
 
                     $this.find("[data-show-in-state]").hide();
                     $this.find("[data-show-in-state~=" + newState + "]").show("fast")
                         .find(".form").show();
 
-                    if (messages[oldState] && messages[oldState][newState]) {
+                    if ((messages[oldState] && messages[oldState][newState])) {
                         $this.trigger("flash:notice", messages[oldState][newState]);
+                    }
+
+                    if (topicUserId == currentUserId && messages["topic_owner"][newState]) {
+                        $this.trigger("flash:notice", messages["topic_owner"][newState]);
                     }
 
                     supervisionState = newState;
