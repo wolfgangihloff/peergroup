@@ -433,19 +433,8 @@
                 }
             };
 
-            var awayMessageSelector = function () {
-              var currentUserId = $parent.data("current-user-id"),
-                  topicUserId = $parent.data("supervision-topic-user-id");
-              if (topicUserId) {
-                  if (currentUserId === topicUserId) {
-                    return "#away-dialog-topic-owner";
-                  }
-              }
-              return "#away-dialog-message";
-            };
-
             var awayInformation = function () {
-              $(awayMessageSelector()).dialog({
+              $("#away-dialog-message").dialog({
                   modal: true,
                   open: function (event, ui) {
                       $(".countdown_timer").countdownTimer({ 
@@ -497,7 +486,7 @@
             };
 
             $(document).bind("mousemove keydown mousedown", function () {
-              $(awayMessageSelector()).dialog("close");
+              $("#away-dialog-message").dialog("close");
               setActiveStatus();
             });
 
