@@ -446,7 +446,15 @@
 
             var awayInformation = function () {
               $(awayMessageSelector()).dialog({
-                  modal: true
+                  modal: true,
+                  open: function (event, ui) {
+                      $(".countdown_timer").countdownTimer({ 
+                          onStop: function(){
+                              status = "away";
+                              sendStatus("away");
+                          }
+                      });
+                  }
               });
             };
             var inputRequired = function () {

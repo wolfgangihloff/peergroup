@@ -143,6 +143,8 @@
       = render "supervision_finished", :supervision => @supervision
 
   #away-dialog-message
-    You will be removed from supervision after 1 minute. Are you there?
-  #away-dialog-topic-owner
-    Sample message for topic owner
+    %p
+      You will be removed due to inactivity in 1 minute
+    .countdown_timer
+    %p
+      Are you there?
