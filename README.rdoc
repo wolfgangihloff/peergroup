@@ -9,37 +9,20 @@ This is the first version, heavy alpha.
 == Running the application
 
 1. Install required gems
-
-  bundle install
-
-  If you are using rvm, create new gemset to not mess with your default gems
-
+    bundle install # If you are using rvm, create new gemset to not mess with your default gems
 2. Setup configuration files
-
-  cp config/redis.yml.example config/redis.yml
-  cp config/database.yml.example config/database.yml
-
+    cp config/redis.yml.example config/redis.yml
+    cp config/database.yml.example config/database.yml
 3. Setup Redis
-
-  Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
-
-4. Run node server
-
-  Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
-
-  Clone peergroup-node repository:
-
-  git clone git://github.com/wolfgangihloff/peergroup-node.git
-
-Run node server
-
-  node server.js
-
-5. Run the application
-
-  bundle exec rails server
-
-6. Open http://localhost:3000
+    Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
+4. Setup database
+    bundle exec rake db:setup
+5. Run node server
+    Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
+    node server.js
+6. Run the application
+    bundle exec rails server
+7. Open http://localhost:3000
 
 == Running tests
 
