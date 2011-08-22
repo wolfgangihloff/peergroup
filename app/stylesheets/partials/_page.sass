@@ -105,9 +105,9 @@ nav#home
       +append-bottom
 
   .flash-messages
-    +prepend-top
-    +push(1)
-    +column($blueprint-grid-columns - 2, true)
+    position: fixed
+    top: 0px
+    width: 90%
     .notice
       +success
     .alert
