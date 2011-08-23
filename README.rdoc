@@ -18,7 +18,7 @@ This is the first version, heavy alpha.
 4. Setup database
     bundle exec rake db:setup
 5. Run node server
-    Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
+    # Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
     node server.js
 6. Run the application
     bundle exec rails server
@@ -85,7 +85,7 @@ Selenium::WebDriver::Error::ObsoleteElementError, try to use wait_until method.
    * README / LIESMICH
 
 == Deploying
-
+=== Heroku
 It's possible to run application on heroku.
 
 To have your own instance on heroku:
@@ -101,8 +101,7 @@ To have your own instance on heroku:
 3. Setup configuration variables
 
     heroku config:add NODE_PORT=80 NODE_USERNAME=node NODE_PASSWORD=secret NODE_PROTOCOL=http
-
-  * NODE_USERNAME/NODE_PASSWORD - credentials that will allow node server to connect
+    # NODE_USERNAME/NODE_PASSWORD - credentials that will allow node server to connect
 
 4. Add redis addon
 
@@ -112,6 +111,29 @@ To have your own instance on heroku:
 
     git push heroku master
 
-  Refer to heroku [docs](http://devcenter.heroku.com/articles/rails31_heroku_cedar) for more informations.
+    # Refer to heroku [docs](http://devcenter.heroku.com/articles/rails31_heroku_cedar) for more informations.
 
 6. Setup node server using REDISTOGO_URL - https://github.com/wolfgangihloff/peergroup-node#readme
+=== Passenger
+It's also possible to run application on Your own server.
+
+1. Install passenger gem
+    gem install passenger
+2. Install passenger
+    passenger-install-apache2-module #or to install with nginx
+    passenger-install-nginx-module
+3. Follow installer instructions.
+4. Install bundler & required gems
+   gem install bundler
+   bundle install
+5. Setup configuration files
+   
+    cp config/database.yml.example config/database.yml
+    cp config/redis.yml.example config/redis.yml
+    # Note: passenger by default runs in production mode, so either change database settings or run in development mode.
+6. Setup database
+    bundle exec rake db:setup
+7. Run node server
+    # Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
+    node server.js
+8. Open Your page
