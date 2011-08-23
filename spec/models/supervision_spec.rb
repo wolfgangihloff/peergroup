@@ -61,9 +61,12 @@ describe Supervision do
          gathering_topics
          voting_on_topics
          asking_questions
+         giving_answers
          providing_ideas
+         voting_ideas
          giving_ideas_feedback
          providing_solutions
+         voting_solutions
          giving_solutions_feedback
          giving_supervision_feedbacks
        ]
@@ -417,7 +420,7 @@ describe Supervision do
       @supervision.topic.should == @alices_topic
     end
 
-    it "should change from asking_questions to providing_ideas" do
+    it "should change from asking_questions to giving_answers" do
       @supervision = FactoryGirl.build(:supervision, :state => "asking_questions")
       @supervision.topic = FactoryGirl.create(:topic, :user => @alice, :supervision => @supervision)
       @supervision.save
@@ -431,15 +434,15 @@ describe Supervision do
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @bob)
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @cindy)
       @supervision.reload
-      @supervision.asking_questions?.should be_true
+      @supervision.asking_questions?.should be_false
+      @supervision.giving_answers?.should be_true
 
       FactoryGirl.create(:answer, :question => @cindys_question, :user => @alice)
       @supervision.reload
-      @supervision.asking_questions?.should be_false
-      @supervision.providing_ideas?.should be_true
+      @supervision.giving_answers?.should be_false
     end
 
-    it "should change from providing_ideas to giving_ideas_feedback" do
+    it "should change from providing_ideas to voting_ideas" do
       @supervision = FactoryGirl.build(:supervision, :state => "providing_ideas")
       @supervision.topic = FactoryGirl.create(:topic, :user => @alice, :supervision => @supervision)
       @supervision.save
@@ -453,11 +456,12 @@ describe Supervision do
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @bob)
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @cindy)
       @supervision.reload
-      @supervision.providing_ideas?.should be_true
+      @supervision.providing_ideas?.should be_false
+      @supervision.voting_ideas?.should be_true
 
       @cindys_idea.update_attributes({ :rating => 3 })
       @supervision.reload
-      @supervision.providing_ideas?.should be_false
+      @supervision.voting_ideas?.should be_false
       @supervision.giving_ideas_feedback?.should be_true
     end
 
@@ -473,7 +477,7 @@ describe Supervision do
       @supervision.providing_solutions?.should be_true
     end
 
-    it "should change from providing_solutions to giving_solutions_feedback" do
+    it "should change from providing_solutions to voting_solutions" do
       @supervision = FactoryGirl.build(:supervision, :state => "providing_solutions")
       @supervision.topic = FactoryGirl.create(:topic, :user => @alice, :supervision => @supervision)
       @supervision.save
@@ -487,11 +491,12 @@ describe Supervision do
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @bob)
       FactoryGirl.create(:supervision_vote, :statement => @supervision, :user => @cindy)
       @supervision.reload
-      @supervision.providing_solutions?.should be_true
+      @supervision.providing_solutions?.should be_false
+      @supervision.voting_solutions?.should be_true
 
       @cindys_solution.update_attributes({ :rating => 3 })
       @supervision.reload
-      @supervision.providing_solutions?.should be_false
+      @supervision.voting_solutions?.should be_false
       @supervision.giving_solutions_feedback?.should be_true
     end
 
