@@ -17,7 +17,7 @@ feature "Chat" do
     FactoryGirl.create(:chat_message, :user => @cindy, :chat_room => @designers_chat, :content => "Hello")
 
     sign_in_interactive(@alice)
-    click_link "Chat"
+    visit group_path @designers
   end
 
   scenario "allows to view past messages" do
