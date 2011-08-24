@@ -3,7 +3,7 @@ require "spec_helper"
 feature "Invitations" do
   background do
     @founder = FactoryGirl.create(:user)
-    @group = FactoryGirl.create(:group, :closed => true, :founder => @founder)
+    @group = FactoryGirl.create(:group, :name => "Closed!", :closed => true, :founder => @founder)
   end
 
   scenario "Sending invitation" do
@@ -21,7 +21,7 @@ feature "Invitations" do
     sign_in_interactive(user)
     visit groups_path
     within ".group_brief" do
-      click_button "accept"
+      click_button "Accept invitation"
     end
     @group.active_members.should include(user)
   end
@@ -33,7 +33,7 @@ feature "Invitations" do
     sign_in_interactive(user)
     visit groups_path
     within ".group_brief" do
-      click_button "reject"
+      click_button "Reject invitation"
     end
     @group.members.should_not include(user)
   end

@@ -4,5 +4,9 @@
   %li= t(".requested_info", :default => "Awaiting group owner acceptance")
 - elsif group.public? && !current_user.groups.include?(group)
   %li= button_to t(".links.join", :default => "join"), group_membership_path(group)
+- elsif current_user.invited_member_of?(group)
+  %li
+    = button_to t(".links.accept", :default => "Accept invitation"), group_invitation_path(group), :method => :put
+    = button_to t(".links.reject", :default => "Reject invitation"), group_invitation_path(group), :method => :delete
 - elsif group.closed? && !current_user.groups.include?(group)
   %li= button_to t(".links.request", :default => "request membership"), group_requests_path(group)

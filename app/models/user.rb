@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
   has_many :requested_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "requested"}}
   has_many :active_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "active"}}
-  has_many :groups, :through => :memberships
+  has_many :groups, :through => :active_memberships
   has_many :active_groups, :source => :group, :through => :active_memberships
   has_many :invited_groups, :source => :group, :through => :invited_memberships
   has_many :requested_groups, :source => :group, :through => :requested_memberships
