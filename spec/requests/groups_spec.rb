@@ -69,20 +69,22 @@ feature "Groups" do
     Capybara.using_session :alice do
       sign_in_interactive(@alice)
       visit group_path(@group)
-      sleep(3)
+      sleep(5)
     end
 
     Capybara.using_session :bob do
       click_link "New supervision"
-      click_button "Yes"
+      click_button "Create Supervision"
     end
 
     Capybara.using_session :alice do
-      page.should have_flash("New supervision started join")
+      wait_until do
+        page.should have_flash("New supervision started join")
+      end
       within(".flash-messages .flash") do
         click_link "join"
       end
-      page.should have_content("Join session")
+      page.should have_content("Supervision Session")
     end
   end
 
