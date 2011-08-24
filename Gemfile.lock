@@ -9,15 +9,10 @@ GIT
       sass (~> 3.1)
 
 GIT
-  remote: git://github.com/thoughtbot/shoulda-matchers.git
-  revision: f1baf025d64389d4d1e90262d415c9ad55c5ba1a
+  remote: git://github.com/rails/rails.git
+  revision: e3ba2cf2a50416213ec6902c2b8935b81c0da8fa
+  branch: 3-1-stable
   specs:
-    shoulda-matchers (1.0.0.beta3)
-
-GEM
-  remote: http://rubygems.org/
-  specs:
-    SystemTimer (1.2.3)
     actionmailer (3.1.0.rc6)
       actionpack (= 3.1.0.rc6)
       mail (~> 2.3.0)
@@ -31,7 +26,7 @@ GEM
       rack-cache (~> 1.0.2)
       rack-mount (~> 0.8.1)
       rack-test (~> 0.6.0)
-      sprockets (~> 2.0.0.beta.12)
+      sprockets (~> 2.0.0.beta.14)
     activemodel (3.1.0.rc6)
       activesupport (= 3.1.0.rc6)
       bcrypt-ruby (~> 2.1.4)
@@ -47,6 +42,32 @@ GEM
       activesupport (= 3.1.0.rc6)
     activesupport (3.1.0.rc6)
       multi_json (~> 1.0)
+    rails (3.1.0.rc6)
+      actionmailer (= 3.1.0.rc6)
+      actionpack (= 3.1.0.rc6)
+      activerecord (= 3.1.0.rc6)
+      activeresource (= 3.1.0.rc6)
+      activesupport (= 3.1.0.rc6)
+      bundler (~> 1.0)
+      railties (= 3.1.0.rc6)
+    railties (3.1.0.rc6)
+      actionpack (= 3.1.0.rc6)
+      activesupport (= 3.1.0.rc6)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (~> 0.14.6)
+
+GIT
+  remote: git://github.com/thoughtbot/shoulda-matchers.git
+  revision: f1baf025d64389d4d1e90262d415c9ad55c5ba1a
+  specs:
+    shoulda-matchers (1.0.0.beta3)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    SystemTimer (1.2.3)
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.2.1)
@@ -108,21 +129,6 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.1.0.rc6)
-      actionmailer (= 3.1.0.rc6)
-      actionpack (= 3.1.0.rc6)
-      activerecord (= 3.1.0.rc6)
-      activeresource (= 3.1.0.rc6)
-      activesupport (= 3.1.0.rc6)
-      bundler (~> 1.0)
-      railties (= 3.1.0.rc6)
-    railties (3.1.0.rc6)
-      actionpack (= 3.1.0.rc6)
-      activesupport (= 3.1.0.rc6)
-      rack-ssl (~> 1.3.2)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (~> 0.14.6)
     rake (0.9.2)
     rbx-require-relative (0.0.5)
     rdiscount (1.6.8)
@@ -203,7 +209,7 @@ DEPENDENCIES
   hiredis
   launchy
   pg
-  rails (= 3.1.0.rc6)
+  rails!
   rdiscount
   redis
   routing-filter
@@ -213,7 +219,6 @@ DEPENDENCIES
   sass-rails (~> 3.1.0.rc6)
   selenium-webdriver
   shoulda-matchers!
-  sprockets
   sqlite3
   state_machine
   uglifier
