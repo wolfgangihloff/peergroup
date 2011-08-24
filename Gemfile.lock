@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/chriseppstein/compass.git
+  revision: f23bf58e8db84e17e6fab37cc73e5a539924cca0
+  branch: rails31
+  specs:
+    compass (0.12.0.alpha.0.f23bf58)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+
+GIT
   remote: git://github.com/thoughtbot/shoulda-matchers.git
   revision: f1baf025d64389d4d1e90262d415c9ad55c5ba1a
   specs:
@@ -54,13 +64,11 @@ GEM
       ffi (~> 1.0.6)
     chunky_png (1.2.1)
     columnize (0.3.4)
-    compass (0.11.5)
-      chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.1)
     database_cleaner (0.6.7)
     diff-lcs (1.1.2)
     erubis (2.7.0)
+    execjs (1.2.4)
+      multi_json (~> 1.0)
     factory_girl (2.0.4)
     factory_girl_rails (1.1.0)
       factory_girl (~> 2.0.0)
@@ -96,9 +104,6 @@ GEM
       rack (>= 0.4)
     rack-mount (0.8.2)
       rack (>= 1.0.0)
-    rack-sprockets (1.0.4)
-      rack (>= 0.4)
-      sprockets (>= 1.0.0)
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.1)
@@ -155,6 +160,10 @@ GEM
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.4)
     sass (3.1.7)
+    sass-rails (3.1.0.rc.6)
+      actionpack (~> 3.1.0.rc6)
+      railties (~> 3.1.0.rc6)
+      sass (>= 3.1.4)
     selenium-webdriver (2.5.0)
       childprocess (>= 0.2.1)
       ffi (>= 1.0.7)
@@ -172,6 +181,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.29)
+    uglifier (1.0.1)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
     will_paginate (3.0.0)
     xpath (0.1.4)
       nokogiri (~> 1.3)
@@ -182,7 +194,7 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer
   capybara (~> 1.0.0)
-  compass
+  compass!
   database_cleaner
   factory_girl_rails (~> 1.1)
   formtastic (~> 2.0.0.rc1)
@@ -191,7 +203,6 @@ DEPENDENCIES
   hiredis
   launchy
   pg
-  rack-sprockets
   rails (= 3.1.0.rc6)
   rdiscount
   redis
@@ -199,9 +210,11 @@ DEPENDENCIES
   rspec-rails
   ruby-debug
   ruby-debug19
-  sass
+  sass-rails (~> 3.1.0.rc6)
   selenium-webdriver
   shoulda-matchers!
+  sprockets
   sqlite3
   state_machine
+  uglifier
   will_paginate (~> 3.0.pre2)
