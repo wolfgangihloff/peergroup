@@ -37,6 +37,6 @@ group :test do
   gem "launchy"
 end
 
-group :development do
-  gem "tolk", :git => "git://github.com/cover/tolk.git"
-end
+# group :development do
+#   gem "tolk", :git => "git://github.com/cover/tolk.git"
+# end
