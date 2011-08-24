@@ -1,6 +1,6 @@
 source :rubygems
 
-gem "rails", "~> 3.0.9"
+gem "rails", "3.1.0.rc6"
 gem "will_paginate", "~> 3.0.pre2"
 gem "haml"
 gem "sass"
