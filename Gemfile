@@ -30,7 +30,7 @@ end
 
 group :test do
   gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 2.5.0"
   gem "factory_girl_rails", "~> 1.1"
   gem "database_cleaner"
   gem "capybara", "~> 1.0.0"
