@@ -14,7 +14,7 @@
         }, options);
 
         return $(this).each(function (i, element) {
-            var seconds, interval
+            var seconds, interval,
                 row = 0,
                 col = 0;
 
