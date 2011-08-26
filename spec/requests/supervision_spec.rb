@@ -349,7 +349,7 @@ feature "Supervision Session", :js => true do
 
       # Asking questions
       Capybara.using_session :alice do
-        # active_state.should eq "Questions"
+        active_state.should eq "Questions"
         fill_in "question_content", :with => "Simple question"
         click_button "Post question"
         fill_in "question_content", :with => "Other question"
@@ -389,11 +389,11 @@ feature "Supervision Session", :js => true do
         fill_in "question_content", :with => "Last question"
         click_button "Post question"
         page.should have_content("Last question")
+        active_state.should eq "Questions"
         find(".question .content .discard").click
       end
 
       Capybara.using_session :bob do
-        # active_state.should eq "Questions"
         within_question_with_text "Last question" do
           fill_in "answer_content", :with => "I don't know, sorry :("
           click_button "Post answer"
