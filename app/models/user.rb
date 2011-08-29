@@ -5,11 +5,6 @@ class User < ActiveRecord::Base
 
   include User::Authentication
 
-  has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
-  has_many :following, :through => :relationships, :source => :followed
-  has_many :reverse_relationships, :foreign_key => "followed_id",
-    :class_name => "Relationship", :dependent => :destroy
-  has_many :followers, :through => :reverse_relationships, :source => :follower
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
   has_many :requested_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "requested"}}
@@ -40,18 +35,6 @@ class User < ActiveRecord::Base
 
   def show_email?
     show_email == true
-  end
-
-  def following?(followed)
-    relationships.find_by_followed_id(followed)
-  end
-
-  def follow!(followed)
-    relationships.create!(:followed_id => followed.id)
-  end
-
-  def unfollow!(followed)
-    relationships.find_by_followed_id(followed).destroy
   end
 
   def active_member_of?(group)

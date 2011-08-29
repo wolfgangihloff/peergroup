@@ -8,7 +8,6 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
   resources :sessions, :only => [:new, :create, :destroy]
-  resource :relationships, :only => [:create, :destroy]
 
   resources :topics, :only => [] do
     resources :votes, :only => :create, :controller => :topic_votes
