@@ -79,7 +79,6 @@ Selenium::WebDriver::Error::ObsoleteElementError, try to use wait_until method.
   # I18n.default_locale = :en
 
   Other localized files are:
-   * db/default_rules_<locale>.csv
    * app/views/pages/_about.<locale>.html.haml
    * app/views/pages/_help.<locale>.html.haml
    * README / LIESMICH
