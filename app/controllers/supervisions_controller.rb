@@ -14,7 +14,7 @@ class SupervisionsController < ApplicationController
   end
 
   def create
-    @supervision = group.supervisions.create!
+    @supervision = group.supervisions.current || group.supervisions.create!
     current_user.join_supervision(@supervision)
     redirect_to @supervision
   end
@@ -23,6 +23,7 @@ class SupervisionsController < ApplicationController
     @chat_room = supervision.chat_room
     @chat_messages = @chat_room.chat_messages.recent
     @token = @chat_room.set_redis_access_token_for_user(current_user)
+    @topic = current_user.last_proposed_topic(@supervision.group).clone
     REDIS.setex("supervision:#{supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
     @supervision_data = {
       :"supervision-state" => supervision.state,
@@ -50,11 +51,17 @@ class SupervisionsController < ApplicationController
     supervision
   end
 
+  def cancel
+    flash[:notice] = t("supervision.cancelled", :default => "Supervision was cancelled") 
+    redirect_to group_path(supervision.group)
+  end
+
   protected
 
   def redirect_to_current_supervision_if_exists
-    return if group.current_supervision.nil? || group.current_supervision.finished?
-    redirect_to group.current_supervision
+    if current_supervision = group.supervisions.current
+      redirect_to current_supervision
+    end
   end
 
   def require_supervision_membership

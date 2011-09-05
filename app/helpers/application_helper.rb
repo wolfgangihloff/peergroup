@@ -11,7 +11,7 @@ module ApplicationHelper
   def gravatar_for(user, options={})
     options[:size] ||= 50
     html_options = {:width => options[:size], :heigth => options[:size], :class => "gravatar", :alt => ""}
-    image_tag(user.avatar_url(options), html_options)
+    link_to image_tag(user.avatar_url(options), html_options), user.gravatar_profile_url
   end
 
   # Return a title on a per-page basis.
@@ -45,5 +45,9 @@ module ApplicationHelper
 
   def id_for_body
     [controller_name, action_name].join "_"
+  end
+
+  def chat_status(user, chat_room)
+    "<div id=\"user_#{user.id}_status\" class=\"status #{user.chat_status(chat_room.id)}\" data-user_id=\"#{user.id}\" data-timestamp=\"#{DateTime.now.to_time.to_i}\"></div>".html_safe
   end
 end

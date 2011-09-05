@@ -434,14 +434,20 @@
             };
 
             var awayInformation = function () {
-                $("#away-dialog-message").dialog({
-                    modal: true,
-                    buttons: {
-                        "I am here": function () {
-                            $(this).dialog("close");
-                        }
-                    }
-                });
+              $("#away-dialog-message").dialog({
+                  modal: true,
+                  open: function (event, ui) {
+                      $(".countdown_timer").countdownTimer({ 
+                          onStop: function(){
+                              status = "away";
+                              sendStatus("away");
+                          }
+                      });
+                  }
+              });
+            };
+            var inputRequired = function () {
+              return $(".inputRequired").is(":visible");
             };
 
             // 1 minute
@@ -449,12 +455,17 @@
                 clearTimeout(idleTimeout);
                 clearTimeout(awayTimeout);
                 idleTimeout = setTimeout(function () {
-                    if (status === "active") {
-                        status = "idle";
-                        sendStatus("idle");
-                        awayInformation();
-                        resetAwayTimeout();
-                    }
+                  if (inputRequired() ) {
+                      if (status === "active") {
+                          status = "idle";
+                          sendStatus("idle");
+                          awayInformation();
+                          resetAwayTimeout();
+                      }
+                  }
+                  else{
+                    setActiveStatus();
+                  }
                 }, 60000);
             };
 
@@ -462,22 +473,23 @@
             var resetAwayTimeout = function () {
                 clearTimeout(awayTimeout);
                 awayTimeout = setTimeout(function () {
-                    if (status === "idle") {
-                        status = "away";
-                        sendStatus("away");
-                    }
+                  if (inputRequired() ) {
+                      if (status === "idle") {
+                          status = "away";
+                          sendStatus("away");
+                      }
+                  }
+                  else{
+                    setActiveStatus();
+                  }
                 }, 60000);
             };
 
-            $parent.mousemove(function () {
-                setActiveStatus();
+            $(document).bind("mousemove keydown mousedown", function () {
+              $("#away-dialog-message").dialog("close");
+              setActiveStatus();
             });
-            $parent.keydown(function () {
-                setActiveStatus();
-            });
-            $parent.mousedown(function () {
-                setActiveStatus();
-            });
+
             resetIdleTimeout();
             return this;
         };
@@ -542,13 +554,24 @@
             $this.bind({
                 "supervision:update": function (event, message) {
                     var oldState = supervisionState,
-                        newState = message.state;
+                        newState = message.state,
+                        currentUserId = $this.data("current-user-id"),
+                        topicUserId = $this.data("supervision-topic-user-id");
+                    console.log("current_user: " + currentUserId + " topic_owner:" + topicUserId);
+					if (newState == "cancelled") {
+						document.location = PGS.cancelSupervisionPath(supervisionId);
+					}
+
                     $this.find("[data-show-in-state]").hide();
                     $this.find("[data-show-in-state~=" + newState + "]").show("fast")
                         .find(".form").show();
 
-                    if (messages[oldState] && messages[oldState][newState]) {
+                    if ((messages[oldState] && messages[oldState][newState])) {
                         $this.trigger("flash:notice", messages[oldState][newState]);
+                    }
+
+                    if (topicUserId == currentUserId && messages["topic_owner"][newState]) {
+                        $this.trigger("flash:notice", messages["topic_owner"][newState]);
                     }
 
                     supervisionState = newState;

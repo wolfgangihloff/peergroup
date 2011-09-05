@@ -9,8 +9,12 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
-    current_user.groups.delete(group)
-    successful_flash("You are no longer the member of the group %{group_name}", :group_name => group.name)
+    if group.founded_by?(current_user)
+      error_flash("Group founder cannot leave group")
+    else
+      current_user.groups.delete(group)
+      successful_flash("You are no longer the member of the group %{group_name}", :group_name => group.name)
+    end
     redirect_to groups_path
   end
 

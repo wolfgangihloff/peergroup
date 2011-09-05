@@ -88,53 +88,6 @@ describe User do
     end
   end
 
-  describe "relationships" do
-    before { @followed = FactoryGirl.create(:user) }
-
-    it "should have a relationships method" do
-      @user.should respond_to(:relationships)
-    end
-    it "should have a following method" do
-      @user.should respond_to(:following)
-    end
-    it "should have a follow! method" do
-      @user.should respond_to(:follow!)
-    end
-
-    it "should follow another user" do
-      @user.follow!(@followed)
-      @user.should be_following(@followed)
-    end
-
-    it "should include the followed user in the following array" do
-      @user.follow!(@followed)
-      @user.following.should include(@followed)
-    end
-
-    it "should have an unfollow! method" do
-      @followed.should respond_to(:unfollow!)
-    end
-
-    it "should unfollow a user" do
-      @user.follow!(@followed)
-      @user.unfollow!(@followed)
-      @user.should_not be_following(@followed)
-    end
-
-    it "should have a reverse_relationships method" do
-      @user.should respond_to(:reverse_relationships)
-    end
-
-    it "should have a followers method" do
-      @user.should respond_to(:followers)
-    end
-
-    it "should include the follower in the followers array" do
-      @user.follow!(@followed)
-      @followed.followers.should include(@user)
-    end
-  end
-
   describe "#active_member_of?" do
     it "should be true for user's groups" do
       @group = FactoryGirl.create(:group)
@@ -190,11 +143,35 @@ describe User do
     end
 
     it "should be generated" do
-      @user.avatar_url.should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=50"
+      @user.avatar_url.should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?size=50&rating=PG&d=identicon"
     end
 
     it "should be generated with custom options" do
-      @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?rating=PG&size=30"
+      @user.avatar_url(:size => 30).should == "http://www.gravatar.com/avatar/6a6c19fea4a3676970167ce51f39e6ee?size=30&rating=PG&d=identicon"
+    end
+  end
+
+  describe "#last_proposed_topic" do
+    before do
+      @supervision = Factory.create(:supervision)
+      Factory.create(:supervision_membership, :supervision => @supervision, :user => @user)
+      @supervision.update_attribute(:state, "finished")
+    end
+
+    it "should return new topic instance if user did not proposed any topic" do
+      @user.last_proposed_topic(@supervision.group).persisted?.should be_false
+    end
+
+    it "should return last topic proposition if it was not choosen" do
+      @topic = Factory.create(:topic, :supervision => @supervision, :user => @user)
+      @supervision.update_attribute(:topic, Factory.create(:topic, :supervision => @supervision, :user => Factory.create(:user) ) )
+      @user.last_proposed_topic(@supervision.group).should eq @topic
+    end
+
+    it "should return new topic instance if last topic proposition was choosen" do
+      @topic = Factory.create(:topic, :supervision => @supervision, :user => @user)
+      @supervision.topic = @topic
+      @user.last_proposed_topic(@supervision.group).persisted?.should be_false
     end
   end
 end

@@ -1,53 +1,37 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
+  before_filter :fetch_chat, :only => [:show]
+  before_filter :filters, :only => [:index]
 
   def index
-    @title = t(".title.your_groups", :default => "Your Groups")
-    @groups = current_user.groups
-  end
-
-  def all
     @title = t(".title.all_groups", :default => "All Groups")
-    @groups = Group.all
-    render :index
-  end
-
-  def new
-    @title = t(".title", :default => "New Group")
-    @group = current_user.founded_groups.build(params[:group])
-  end
-
-  def create
-    @group = current_user.founded_groups.build(params[:group])
-    if @group.save
-      successful_flash("Group Create Successfully")
-      redirect_to groups_path
-    else
-      render :new
-    end
-  end
-
-  def edit
-    @group = current_user.founded_groups.find(params[:id])
-  end
-
-  def update
-    @group = current_user.founded_groups.find(params[:id])
-    if @group.update_attributes(params[:group])
-      successful_flash("Group Update successfully")
-      redirect_to groups_path
-    end
+    @user_groups = current_user.groups
+    @groups = Group.order("#{sort_method} #{sort_direction}").paginate(:page => params[:page], :per_page => 10)
   end
 
   def show
     @title = t(".title", :default => "Group overview")
-    @group = Group.find(params[:id])
   end
 
-  def destroy
-    @group = current_user.founded_groups.find(params[:id])
-    @group.destroy
-    successful_flash("Group Delete Successfully")
-    redirect_to groups_path
+  protected
+
+  def fetch_chat
+    @group = Group.find(params[:id])
+    @chat_room ||= @group.chat_room
+    @chat_messages = @chat_room.chat_messages.recent
+    @token = @chat_room.set_redis_access_token_for_user(current_user)
+  end
+
+  def filters
+    @filters ||= ["date", "membership", "name"]
+  end
+
+  def sort_method
+    @methods = {:membership => "(SELECT COUNT(group_id) FROM memberships WHERE group_id = groups.id)", :name => "name"}
+    @methods.has_key?(params[:filter].try(:to_sym)) ? @methods[params[:filter].to_sym] : "created_at"
+  end
+
+  def sort_direction
+    params[:direction].try(:upcase) == "ASC" ? "ASC" : "DESC"
   end
 end

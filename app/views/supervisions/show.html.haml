@@ -5,7 +5,7 @@
 
     = render "statusbar"
     = form_tag supervision_membership_path(@supervision), :method => :delete do
-      = submit_tag t("supervisions.show.leave_supervision")
+      = submit_tag t("supervisions.show.leave_supervision"), :confirm => t("supervisions.show.leaving_confirmation", :default => "Are You sure?")
 
     %div{:"data-show-in-state" => "finished"}
       = render "supervision_finished", :supervision => @supervision
@@ -20,8 +20,7 @@
     %section.topics_part
       %header
         %h1= t("supervisions.show.topic")
-
-        %div{:"data-show-in-state" => "gathering_topics"}
+        %div{:"data-show-in-state" => "waiting_for_members gathering_topics"}
           = render "topics/supervision_topics", :supervision => @supervision
 
         %div{:"data-show-in-state" => "voting_on_topics"}
@@ -94,12 +93,13 @@
         %div{:"data-show-in-state" => "providing_solutions"}
           %p.waiting.for_problem_owner= t("supervisions.show.problem_owner_solutions_waiting")
           %p.waiting.for_not_problem_owner= t("supervisions.show.solutions_waiting")
-          .form.solution
-            .user
-              = render current_user
-            .content
-              = render "solutions/form", :supervision => @supervision
-              = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
+          .for_not_problem_owner
+            .form.solution
+              .user
+                = render current_user
+              .content
+                = render "solutions/form", :supervision => @supervision
+                = link_to t("supervisions.show.no_more_solutions"), supervision_votes_path(@supervision), :method => :post, :class => "discard"
 
       .list
         = render @supervision.solutions, :supervision => @supervision
@@ -143,4 +143,8 @@
       = render "supervision_finished", :supervision => @supervision
 
   #away-dialog-message
-    You will be removed from supervision after 1 minute. Are you there?
+    %p
+      You will be removed due to inactivity in 1 minute
+    .countdown_timer
+    %p
+      Are you there?

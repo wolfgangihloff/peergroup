@@ -8,7 +8,7 @@ class Founder::InvitationsController < ApplicationController
   def create
     @membership = group.memberships.build(params[:membership])
     if @membership.save && @membership.invite!
-      redirect_to group_path(group), :notice => "User invited"
+      redirect_to edit_founder_group_path(group), :notice => "User invited"
     else
       render :new
     end
@@ -17,6 +17,6 @@ class Founder::InvitationsController < ApplicationController
   private
 
   def group
-    @group ||= current_user.founded_groups.invitable.find(params[:group_id])
+    @group ||= current_user.founded_groups.closed.find(params[:group_id])
   end
 end

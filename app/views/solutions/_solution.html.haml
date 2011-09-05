@@ -9,7 +9,7 @@
       .rating
         .head
           %p= t(".rating", :default => "Rating")
-        = form_for(solution) do |f|
+        = form_for(solution, :class => "inputRequired") do |f|
           - if supervision.problem_owner?(current_user) and !supervision.finished?
             - 1.upto(5) do |i|
               = f.radio_button :rating, i, { :class => "star" }

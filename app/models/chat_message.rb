@@ -17,7 +17,18 @@ class ChatMessage < ActiveRecord::Base
     REDIS.publish(channel, json_string)
   end
 
+  def ping_user
+    json_string = {:message => {
+      :status => "available",
+      :id => user.id,
+      :timestamp => DateTime.now.to_time.to_i
+    } }.to_json
+    REDIS.publish("activity:#{chat_room_id}", json_string )
+    REDIS.setex("activity:#{chat_room_id}:user:#{user.id}", 60, "available")
+  end
+
   after_create do |chat_message|
     publish_to_redis
+    ping_user
   end
 end

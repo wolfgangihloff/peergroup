@@ -1,6 +1,6 @@
 // Import the non-default scaffolding module to help us get started.
 @import blueprint/scaffolding
-
+@import blueprint/liquid
 +blueprint-typography
 +blueprint-utilities
 +blueprint-debug
@@ -62,9 +62,10 @@ a
     ul
       display: inline-block
       +horizontal-list
-      +push-base
     a
       font-weight: bold
+    #personal_menu
+      float: right
 
 #page > footer
   +container
@@ -96,7 +97,7 @@ nav#home
 
   article
     +push(1)
-    +column($blueprint-grid-columns - 2, true)
+    +column($blueprint-liquid-grid-columns - 0.5, true)
     +prepend-top
     +append-bottom
 
@@ -104,9 +105,9 @@ nav#home
       +append-bottom
 
   .flash-messages
-    +prepend-top
-    +push(1)
-    +column($blueprint-grid-columns - 2, true)
+    position: fixed
+    top: 0px
+    width: 90%
     .notice
       +success
     .alert
@@ -178,10 +179,48 @@ a.signup_button
   margin-right: auto
   overflow: auto
 
+.info_box
+  background-color: $secondary-color-b-5
+  text-align: center
+  width: 50%
+  padding: 2px
+  margin: 5px auto
+  border: 1px solid black
+
+.small
+  font-size: small
+
+.group_members
+  +no-bullets
+  ul
+    padding: 0
+
+#group
+
+  h1
+    margin: 0
+
+  #group_content
+    width: 49%
+    float: right
+  section#chat_room
+    width: 49%
+    float: left
+
 .profile img.gravatar
   border: 1px solid #999
   margin-bottom: -15px
 
+#user_avatar
+  width: 100px
+  margin-right: 10px
+  float: left
+#user_info
+  width: 39%
+  float: left
+  form
+    width: 70%
+    margin-top: 30px
 div
   &.field, &.actions
     margin-bottom: 10px
@@ -237,7 +276,6 @@ div.user_info
 
 .group_brief
   +border-radius($border-radius)
-  +column($blueprint-grid-columns - 2, true)
   +append-bottom
   background: #eee
   .inner
@@ -260,3 +298,34 @@ div.user_info
 
 .inline
   display: inline-block
+
+/* CSS for groups list
+
+section#available_groups, section#user_groups, section#avatar_settings
+  width: 49%
+  .group_brief
+    +column($blueprint-liquid-grid-columns, true)
+    padding: 5px 0
+    .inner
+      +column($blueprint-liquid-grid-columns - 1, true)
+section#available_groups, section#avatar_settings
+  float: left
+section#user_groups
+  float: right
+
+/* CSS for status icons
+.status
+  width: 10px
+  height: 10px
+  display: inline-block
+.status.available
+  background-color: #ACDC32
+  +border-radius(5px)
+.status.idle
+  border-color: transparent transparent #E69B22
+  border-style: solid
+  border-width: 0 6px 6px
+  width: 0px
+  height: 0px
+.status.unavailable
+  background-color: #A9A9A9

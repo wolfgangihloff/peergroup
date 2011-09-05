@@ -1,16 +1,13 @@
 Peergroupsupervision::Application.routes.draw do
   filter :locale
 
-  resources :rules
-
-  resources :users do
+  resources :users, :except => [:index] do
     member do
       get :following
       get :followers
     end
   end
   resources :sessions, :only => [:new, :create, :destroy]
-  resource :relationships, :only => [:create, :destroy]
 
   resources :topics, :only => [] do
     resources :votes, :only => :create, :controller => :topic_votes
@@ -24,6 +21,7 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :supervisions, :only => [:show, :index, :update] do
     get :statusbar, :on => :member
+    get :cancel, :on => :member
     resources :topics, :only => [:create, :index, :show]
     resources :questions, :only => :create
     resources :ideas, :only => :create
@@ -36,10 +34,8 @@ Peergroupsupervision::Application.routes.draw do
     resource :membership, :controller => :supervision_memberships, :only => [:new, :create, :destroy]
   end
 
-  resources :groups do
-    get :all, :on => :collection
+  resources :groups, :only => [:index, :show] do
     resources :supervisions, :only => [:new, :create]
-    resources :rules
     resource :membership
     resource :chat_room, :only => :show
     resource :invitation, :only => [:update, :destroy]
@@ -51,7 +47,7 @@ Peergroupsupervision::Application.routes.draw do
   end
 
   namespace :founder do
-    resources :groups, :only => [] do
+    resources :groups, :only => [:new, :create, :edit, :update] do
       resources :invitations, :only => [:new, :create]
       resources :requests, :only => [:update, :destroy]
       resources :memberships, :only => [:destroy]

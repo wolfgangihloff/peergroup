@@ -1,16 +1,12 @@
-- if current_user.active_member_of?(group)
-  %li= button_to t(".links.leave", :default => "leave"), group_membership_path(group), :method => :delete
-  %li= link_to t(".links.session", :default => "Session"), path_for_group_supervision(group)
-  %li= link_to t(".links.chat", :default => "Chat"), group_chat_room_path(group)
-  - if group.founder == current_user
-    %li= link_to t(".links.edit", :default => "Edit"), edit_group_path(group)
-    %li= link_to t(".links.delete", :default => "delete"), group_path(group), :method => :delete, :confirm => t(".confirmations.delete", :default => "You sure?")
-- elsif current_user.invited_member_of?(group)
-  %li= button_to t(".links.accept", :default => "accept"), group_invitation_path(group), :method => :put
-  %li= button_to t(".links.reject", :default => "reject"), group_invitation_path(group), :method => :delete
+- if current_user.active_member_of?(group) && group.supervisions.current
+  %li= link_to_group_supervision(t("supervisions.join_active", :default => "Join active supervision"), group)
 - elsif current_user.requested_member_of?(group)
   %li= t(".requested_info", :default => "Awaiting group owner acceptance")
-- elsif group.public?
+- elsif group.public? && !current_user.groups.include?(group)
   %li= button_to t(".links.join", :default => "join"), group_membership_path(group)
-- elsif group.invitable?
+- elsif current_user.invited_member_of?(group)
+  %li
+    = button_to t(".links.accept", :default => "Accept invitation"), group_invitation_path(group), :method => :put
+    = button_to t(".links.reject", :default => "Reject invitation"), group_invitation_path(group), :method => :delete
+- elsif group.closed? && !current_user.groups.include?(group)
   %li= button_to t(".links.request", :default => "request membership"), group_requests_path(group)

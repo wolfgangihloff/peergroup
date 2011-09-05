@@ -14,6 +14,6 @@ class RequestsController < ApplicationController
   private
 
   def group
-    @group ||= Group.invitable.find(params[:group_id])
+    @group ||= Group.closed.find(params[:group_id])
   end
 end

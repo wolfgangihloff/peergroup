@@ -1,0 +1,19 @@
+%article.group_notification{:data => {:groups => current_user.generate_group_subscription_tokens} }
+  %header
+    %h1
+      Hi
+      = @user.name
+      ,
+  %section#user_avatar
+    = gravatar_for(@user, :size => 100)
+  %section#user_info
+    = link_to(t(".links.change_gravatar", :default => "Change Your gravatar image"), "http://gravatar.com/emails")
+    = semantic_form_for(@user) do |f|
+      = f.inputs do
+        = render :partial => 'fields', :locals => { :f => f }
+      = f.buttons do
+        = f.commit_button t(".buttons.update", :default => "Update")
+  %section#user_groups
+    %h2= t(".group_list_title", :user_name => @user.name, :default => "Go to Your groups")
+    = render @user.groups
+    .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path

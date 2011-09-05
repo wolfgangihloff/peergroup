@@ -1,0 +1,9 @@
+%article#add_supervision
+  %header
+    %h3= t("supervisions.new.heading")
+
+  %p= t("supervisions.new.question")
+  = form_for([@group, @supervision]) do |f|
+    = submit_tag t("supervisions.new.create_new")
+    = link_to t("supervisions.new.back_to_groups"), groups_path, {:id => "back_to_groups"}
+

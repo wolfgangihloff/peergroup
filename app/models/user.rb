@@ -5,17 +5,11 @@ class User < ActiveRecord::Base
 
   include User::Authentication
 
-  has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
-  has_many :following, :through => :relationships, :source => :followed
-  has_many :reverse_relationships, :foreign_key => "followed_id",
-    :class_name => "Relationship",
-    :dependent => :destroy
-  has_many :followers, :through => :reverse_relationships, :source => :follower
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
   has_many :requested_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "requested"}}
   has_many :active_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "active"}}
-  has_many :groups, :through => :memberships
+  has_many :groups, :through => :active_memberships
   has_many :active_groups, :source => :group, :through => :active_memberships
   has_many :invited_groups, :source => :group, :through => :invited_memberships
   has_many :requested_groups, :source => :group, :through => :requested_memberships
@@ -39,16 +33,8 @@ class User < ActiveRecord::Base
     name
   end
 
-  def following?(followed)
-    relationships.find_by_followed_id(followed)
-  end
-
-  def follow!(followed)
-    relationships.create!(:followed_id => followed.id)
-  end
-
-  def unfollow!(followed)
-    relationships.find_by_followed_id(followed).destroy
+  def show_email?
+    show_email == true
   end
 
   def active_member_of?(group)
@@ -64,7 +50,7 @@ class User < ActiveRecord::Base
   end
 
   def join_supervision(supervision)
-    supervisions << supervision
+    supervisions << supervision unless supervisions.include?(supervision)
   end
 
   def leave_supervision(supervision)
@@ -75,12 +61,46 @@ class User < ActiveRecord::Base
     supervisions.exists?(supervision.id)
   end
 
+  def last_proposed_topic(group)
+    @supervision = self.supervision_memberships.select{|s| s.supervision.try(:group_id) == group.id && s.supervision.finished? == true }.last.try(:supervision)
+    return Topic.new if @supervision.nil?
+    Topic.where(:user_id => self.id, :supervision_id => @supervision.id).where("\"topics\".id != ?", @supervision.topic_id).first || Topic.new
+  end
+
   def avatar_url(options = {})
     options[:size] ||= 50
     options[:rating] ||= "PG"
+    options[:d] ||= "identicon"
     params = options.map { |k, v| "#{k}=#{v}" }.join("&")
     email_digest = Digest::MD5.hexdigest(email)
     "http://www.gravatar.com/avatar/" + email_digest + "?#{params}"
+  end
+
+  def gravatar_profile_url
+    email_digest = Digest::MD5.hexdigest(email)
+    "http://www.gravatar.com/" + email_digest
+  end
+
+  def chat_status(chat_room)
+    @status = REDIS.get("activity:#{chat_room}:user:#{self.id}")
+    return :unavailable unless @status
+    @status.split(":")[0].to_sym
+  end
+
+  def ping
+    REDIS.setex("user:#{self.id}:active", 60, true)
+  end
+
+  def online?
+    REDIS.exists("user:#{self.id}:active")
+  end
+
+  def generate_group_subscription_tokens
+    @tokens = []
+    self.groups.each do |group|
+      @tokens << [group.set_redis_access_for_user(self), group.id].join(":")
+    end
+    @tokens.join(",")
   end
 
   private

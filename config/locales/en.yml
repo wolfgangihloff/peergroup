@@ -49,8 +49,6 @@ en:
           taken:
         question:
           blank:
-        relationship:
-          blank:
         solution:
           blank:
           inclusion:
@@ -215,14 +213,28 @@ en:
   flash:
     sign_in_request: Please sign in to access this page.
   formtastic:
-    required: required
+    required: "required"
+    hints:
+      group:
+        name: "This is the name of your peergroup, give it a descriptive name, so all of your colleagues can easily find it."
+        description: "Give your description all the information needed, so that new members of peergroup find you and know what your group is all about."
+        closed: "This makes the group private, however you can email colleagues with a link to join the group. If you are discussing sensitive topics, this is the option you most likely want to check."
   groups:
     create:
       flash:
         successful: Group Create Successfully
-      title:
-    current_supervision:
-      title:
+    show:
+      active_supervision_html: "Supervision active, %{url}"
+      join: "join"
+      leave_group: "leave group"
+      new_supervision: "New supervision"
+      history: "History"
+      manage: "Manage"
+      requested_memberships_info_html:
+        one: "There is %{count} requested membership. %{url}"
+        other: "There are %{count} requested memberships. %{url}"
+      links:
+        edit: Edit
     group_brief:
       confirmations:
         delete: You sure?
@@ -238,11 +250,21 @@ en:
       title:
         all_groups: All Groups
         your_groups: Your Groups
-    new:
-      title: New Group
-    show:
-      links:
-        edit: Edit
+
+  founder:
+    groups:
+      new:
+        title: New Group
+      edit:
+        remove_member: "Remove from group"
+        membership: "Membership"
+        requested_memberships: "Requested memberships"
+        sent_memberships: "Sent memberships"
+        accept: "Accept"
+        reject: "Reject"
+        back: "Back"
+        title: "Edit group"
+
   helpers:
     label:
       chat_update:
@@ -260,20 +282,13 @@ en:
         contact: Contact
     header:
       links:
-        all_groups: All Groups
-        create_group: Create Group
+        groups: Groups
         help: Help
-        home: Home
-        my_groups: My Groups
-        profile: Profile
-        settings: Settings
         signin: Sign in
         signout: Sign out
-        supervisions: Supervisions
         users: Users
       title:
         peergroup: peergroup
-        welcome: "Welcome "
   other:
     controller:
       action:
@@ -301,11 +316,6 @@ en:
     home_member:
       latest_groups: Latest groups
       your_groups: Your groups
-  relationships:
-    create:
-      title:
-    destroy:
-      title:
   sessions:
     create:
       title: Sign in
@@ -318,11 +328,6 @@ en:
       signin_title: Sign in
       signup_teaser: "New user? "
       title: Sign in
-  supervision_memberships:
-    create:
-      title:
-    destroy:
-      title:
   users:
     create:
       title:
@@ -430,6 +435,7 @@ en:
       content_hint:
       legend: Your topic proposition
       content_hint: Enter your problem or leave blank if you don not have any
+      create_empty: I don't have any topic
       submit: Post your topic
   topic_votes:
     create:
@@ -533,9 +539,17 @@ en:
           giving_ideas_feedback: Go back to "Ideas feedback" state
           providing_ideas: Go back to "Ideas" state
           asking_questions: Go back to "Questions" state
+        topic_owner:
+          giving_answers: "All users are waiting for Your answers!"
+          voting_ideas: "All users are waiting for Your votes!"
+          voting_solutions: "All users are waiting for Your votes!"
   supervision_memberships:
     new:
       title: Join session
       heading: Join session
       join_supervision: Join session
       message: "You're not currently member of this supervision. Would you like to join this supervision session?"
+      not_in_progress: "This supervision was %{state}"
+      new_supervision: "New Supervision"
+    create:
+      not_in_progress_state: "This supervision was %{state}"

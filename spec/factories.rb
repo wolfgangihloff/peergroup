@@ -31,6 +31,7 @@ FactoryGirl.define do
   end
 
   factory :topic do
+    content "Lorem ipsum"
     supervision
     user
   end
@@ -84,6 +85,11 @@ FactoryGirl.define do
     supervision
     user
     content "Feedback"
+  end
+
+  factory :supervision_membership do
+    supervision
+    user
   end
 
   factory :membership do

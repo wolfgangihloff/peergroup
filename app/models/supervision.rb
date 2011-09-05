@@ -11,30 +11,38 @@ class Supervision < ActiveRecord::Base
   def supervision_id; id; end # aliasing doesn't work
 
   STEPS = %w[
+    waiting_for_members
     gathering_topics
     voting_on_topics
     asking_questions
+    giving_answers
     providing_ideas
+    voting_ideas
     giving_ideas_feedback
     providing_solutions
+    voting_solutions
     giving_solutions_feedback
     giving_supervision_feedbacks
   ]
 
-  state_machine :state, :initial => :gathering_topics do
-    before_transition :voting_on_topics => :asking_questions, :do => :choose_topic
+  state_machine :state, :initial => :waiting_for_members do
+    before_transition [:gathering_topics, :voting_on_topics] => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
 
     before_transition :gathering_topics => :voting_on_topics, :do => :all_topics?
     before_transition :voting_on_topics => :asking_questions, :do => :all_topic_votes?
-    before_transition :asking_questions => :providing_ideas, :do => :can_move_to_idea_state?
-    before_transition :providing_ideas => :giving_ideas_feedback, :do => :can_move_to_idea_feedback_state?
+    before_transition :asking_questions => :giving_answers, :do => :all_next_step_votes?
+    before_transition :giving_answers => :providing_ideas, :do => :all_answers?
+    before_transition :providing_ideas => :voting_ideas, :do => :all_next_step_votes?
+    before_transition :voting_ideas => :giving_ideas_feedback, :do => :all_idea_ratings?
     before_transition :giving_ideas_feedback => :providing_solutions, :do => :ideas_feedback_present?
-    before_transition :providing_solutions => :giving_solutions_feedback, :do => :can_move_to_solution_feedback_state?
+    before_transition :providing_solutions => :voting_solutions, :do => :all_next_step_votes?
+    before_transition :voting_solutions => :giving_solutions_feedback, :do => :all_solution_ratings?
     before_transition :giving_solutions_feedback => :giving_supervision_feedbacks, :do => :solutions_feedback_present?
     before_transition :giving_supervision_feedbacks => :finished, :do => :can_move_to_finished_state?
 
     event :join_member do
+      transition :waiting_for_members => :gathering_topics, :if => :first_member_joins?
       transition all => all
     end
 
@@ -43,13 +51,17 @@ class Supervision < ActiveRecord::Base
       transition :gathering_topics => :voting_on_topics
       transition :voting_on_topics => :asking_questions
       transition :giving_supervision_feedbacks => :finished
-      transition :asking_questions => :providing_ideas
-      transition :providing_ideas => :giving_ideas_feedback
-      transition :providing_solutions => :giving_solutions_feedback
+      transition :asking_questions => :giving_answers
+      transition :giving_answers => :providing_ideas
+      transition :providing_ideas => :voting_ideas
+      transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :voting_solutions
+      transition :voting_solutions => :giving_solutions_feedback
       transition all => all
     end
 
     event :post_topic do
+      transition :gathering_topics => :asking_questions, :if => :skip_topic_voting?
       transition :gathering_topics => :voting_on_topics
     end
 
@@ -70,9 +82,12 @@ class Supervision < ActiveRecord::Base
     end
 
     event :post_vote_for_next_step do
-      transition :asking_questions => :providing_ideas
-      transition :providing_ideas => :giving_ideas_feedback
-      transition :providing_solutions => :giving_solutions_feedback
+      transition :asking_questions => :giving_answers
+      transition :giving_answers => :providing_ideas
+      transition :providing_ideas => :voting_ideas
+      transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :voting_solutions
+      transition :voting_solutions => :giving_solutions_feedback
     end
 
     event :step_back_to_asking_questions do
@@ -142,7 +157,7 @@ class Supervision < ActiveRecord::Base
 
   attr_accessible :state_event
 
-  after_create :create_chat_room
+  after_create :create_chat_room, :publish_notification_to_redis
 
   def self.finished
     with_state(:finished)
@@ -156,8 +171,12 @@ class Supervision < ActiveRecord::Base
     without_state(:finished, :cancelled)
   end
 
-  def finished?
-    state == "finished"
+  def in_progress?
+    !finished? and !cancelled?
+  end
+
+  def first_member_joins?
+    members.count == 2
   end
 
   def posted_topic?(user)
@@ -190,13 +209,22 @@ class Supervision < ActiveRecord::Base
     previous_steps.exclude?(state)
   end
 
+  def publish_notification_to_redis
+    json_string = {:message => { 
+      :content => "New supervision started",
+      :id => self.id,
+      :created_at => self.created_at
+    } }.to_json
+    REDIS.publish("group:#{self.group.id}", json_string )
+  end
+
   protected
 
   def cancel_supervision?
     if topic
       !members.exists?(topic_user) || members.size < 2
     else
-      members.empty?
+      members.size < 2
     end
   end
 
@@ -216,20 +244,12 @@ class Supervision < ActiveRecord::Base
     members.all? { |m| topic_votes.exists?(:user_id => m.id) }
   end
 
+  def skip_topic_voting?
+    all_topics? && topics.votable.count == 1
+  end
+
   def all_next_step_votes?
     members.all? { |m| problem_owner?(m) || next_step_votes.exists?(:user_id => m.id) }
-  end
-
-  def can_move_to_idea_state?
-    all_next_step_votes? && all_answers?
-  end
-
-  def can_move_to_idea_feedback_state?
-    all_next_step_votes? && all_idea_ratings?
-  end
-
-  def can_move_to_solution_feedback_state?
-    all_next_step_votes? && all_solution_ratings?
   end
 
   def can_move_to_finished_state?
@@ -257,7 +277,7 @@ class Supervision < ActiveRecord::Base
   end
 
   def choose_topic
-    self.topic = topics.sort { |a,b| a.votes.count <=> b.votes.count}.last
+    self.topic = topics.votable.sort { |a,b| a.votes.count <=> b.votes.count}.last
   end
 
   def supervision_publish_attributes

@@ -1,6 +1,17 @@
-%article
-  = render @groups
-
-  .new= link_to image_tag("group-new.png",:title=>"Create Group",:height=>"40",:width=>"40"),new_group_path
-  - if @groups.empty?
-    %p= t(".no_groups", :default => "There are no groups here.")
+%article.group_notification{:data => {:groups => current_user.generate_group_subscription_tokens} }
+  %h1 Groups
+  %section#available_groups
+    %h2 Available groups
+    = t(".groups_hint", :default => "Open groups you can join right away, closed groups you request membership and you have to wait for the group founder to approve your request.")
+    =form_tag groups_path, :method => :get, :remote => true do
+      =label_tag :filter
+      =select_tag :filter, options_for_select(@filters.map{|k| [t("groups.filters.#{k}"), k ] }, params[:filter] )
+      =submit_tag "Filter"
+      Direction:
+      =link_to t(".directions.desc", :default => "Descending"), {:direction => "asc", :change_direction => true}, {:remote => true, :id => "direction"}
+    .groups_list= render @groups
+    = will_paginate @groups
+  %section#user_groups
+    %h2 Go to Your groups
+    = render @user_groups
+    .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path

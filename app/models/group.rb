@@ -9,50 +9,45 @@ class Group < ActiveRecord::Base
   has_many :active_members, :source => :user, :through => :active_memberships
   has_many :invited_members, :source => :user, :through => :invited_memberships
   has_many :requested_members, :source => :user, :through => :requested_memberships
-  has_many :rules, :order => "position", :dependent => :destroy
-  has_many :supervisions, :dependent => :destroy
+  has_many :supervisions, :dependent => :destroy, :extend => GroupSupervisionsExtension
   has_many :chat_rooms, :dependent => :destroy
   has_one :chat_room, :conditions => {:supervision_id => nil}
   belongs_to :founder, :class_name => "User"
 
   validates :name, :presence => true, :uniqueness => true, :length => {:maximum => 255}
-  validates :description, :presence => true, :length => {:maximum => 255}
+  validates :description, :length => {:maximum => 255}
   validates :founder, :presence => true
 
   has_friendly_id :name, :use_slug => true
 
   scope :newest, :order => 'created_at desc', :limit => 6
-  scope :invitable, where(:invitable => true)
-  scope :open, where(:invitable => false)
+  scope :closed, where(:closed => true)
+  scope :open, where(:closed => false)
 
-  after_create :add_founder_to_members, :create_chat_room, :create_default_rules
+  after_create :add_founder_to_members, :create_chat_room
   after_update :accept_pending_requests, :if => :group_opened?
 
-  attr_accessible :name, :description, :invitable
+  attr_accessible :name, :description, :closed
 
   def to_s
     name
   end
 
   def public?
-    not invitable?
+    not closed?
   end
 
   def add_member!(member)
     memberships.create!(:email => member.email).verify!
   end
 
-  def create_default_rules
-    path = File.join(Rails.root, "db", "default_rules_#{I18n.locale}.csv")
-    reader = CSV.open(path, "r")
-    reader.each do |position, name, description, time_limit|
-      rules.create!(:position => position, :name => name,
-                    :description => description, :time_limit => time_limit)
-    end
+  def founded_by?(user)
+    founder == user
   end
 
-  def current_supervision
-    supervisions.in_progress.first
+  def set_redis_access_for_user(user, token = SecureRandom.hex)
+    REDIS.setex("group:#{id}:token:#{token}", 60, user.id)
+    token
   end
 
   private
@@ -62,7 +57,7 @@ class Group < ActiveRecord::Base
   end
 
   def group_opened?
-    invitable_changed? and public?
+    closed_changed? and public?
   end
 
   def accept_pending_requests

@@ -1,4 +1,4 @@
 = form_for([supervision, SupervisionFeedback.new]) do |f|
   = f.text_area :content
   %p.inline-hints= t("supervision_feedbacks.form.content_hint")
-  = submit_tag t("supervision_feedbacks.form.submit")
+  = submit_tag t("supervision_feedbacks.form.submit"), :class => "inputRequired"

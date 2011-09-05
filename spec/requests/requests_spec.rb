@@ -3,13 +3,13 @@ require "spec_helper"
 feature "Group membership requests" do
   background do
     @founder = FactoryGirl.create(:user)
-    @group = FactoryGirl.create(:group, :invitable => true, :founder => @founder)
+    @group = FactoryGirl.create(:group, :closed => true, :founder => @founder)
   end
 
   scenario "Requesting membership" do
     user = FactoryGirl.create(:user)
     sign_in_interactive(user)
-    visit all_groups_path
+    visit groups_path
     within ".group_brief" do
       click_button "request membership"
     end
@@ -22,7 +22,10 @@ feature "Group membership requests" do
 
     sign_in_interactive(@founder)
     visit group_path(@group)
-    click_button "accept"
+    within ".info_box" do
+      click_link "Manage"
+    end
+    click_button "Accept"
     @group.active_members.exists?(user).should be_true
   end
 
@@ -32,7 +35,10 @@ feature "Group membership requests" do
 
     sign_in_interactive(@founder)
     visit group_path(@group)
-    click_button "reject"
+    within ".info_box" do
+      click_link "Manage"
+    end
+    click_button "Reject"
     @group.members.should_not include(user)
   end
 end

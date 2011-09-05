@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @title = @user.name
-
+    @user == current_user ? @action = "private" : @action = "public"
     respond_to do |format|
-      format.html
+      format.html { render :action => @action }
       format.json { render :json => @user.to_json(:only => [:id, :name], :methods => [:avatar_url]) }
     end
   end
@@ -36,11 +36,6 @@ class UsersController < ApplicationController
 
   def edit
     @title = "Edit user"
-  end
-
-  def index
-    @title = "All Users"
-    @users = User.paginate(:page => params[:page])
   end
 
   def update

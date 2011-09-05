@@ -6,17 +6,13 @@
       - ["en", "de"].each do |locale|
         = link_to locale, switch_locale_url(locale)
   %nav
-    = t(".title.welcome", :default => "Welcome ") if signed_in?
-    = t(".title.user_name", :default => "%{user_name}", :user_name => current_user.name) if signed_in?
-    %ul
-      %li= link_to t(".links.home", :default => "Home"), root_path
+    %ul#general_menu
       - if signed_in?
-        %li= link_to t(".links.users", :default => "Users"), users_path
-        %li= link_to t(".links.profile", :default => "Profile"), current_user
-        %li= link_to t(".links.my_groups", :default => "My Groups"), groups_path
-        %li= link_to t(".links.all_groups", :default => "All Groups"), all_groups_path
+        %li= link_to t(".links.groups", :default => "Groups"), groups_path
       %li= link_to t(".links.help", :default => "Help"), help_path
+    %ul#personal_menu
       - if signed_in?
+        %li= link_to current_user.name, current_user
         %li= link_to t(".links.signout", :default => "Sign out"), signout_path, :method => :delete
       - else
         %li= link_to t(".links.signin", :default => "Sign in"), signin_path

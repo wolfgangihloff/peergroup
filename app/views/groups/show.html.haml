@@ -1,36 +1,45 @@
-%article
-
-  %h3 Founder
-  = gravatar_for(@group.founder, :size => 30)
-  = link_to(@group.founder.name, @group.founder)
-  %h3 Members
-  %ul.users
-    - @group.active_members.without(@group.founder).each do |user|
-      %li
-        = gravatar_for(user, :size => 30)
-        = link_to(user, @group.founder)
-        - if @group.founder == current_user
-          .inline= button_to("remove from group", founder_group_membership_path(@group, user), :method => :delete)
-
-  - if @group.founder == current_user
-
-    - if @group.requested_memberships.any?
-      %h3 Requested memberships
+%article.group_notification#group{:data => {:groups => current_user.generate_group_subscription_tokens} }
+  %header
+    %h1
+      = @group.name
+      - if @group.founded_by?(current_user)
+        %span.small= link_to t(".edit", :default => "edit"), edit_founder_group_path(@group)
+    %p.description= @group.description
+  - if @group.supervisions.current
+    .info_box.round
+      = t(".active_supervision_html", :url => link_to_group_supervision(t(".join"), @group))
+  %section#group_content
+    .group_members#chat_notification{:data => {:chat_id => @group.chat_room.id, :token => @token}}
       %ul
-        - @group.requested_memberships.each do |membership|
+        %li
+          = gravatar_for(@group.founder, :size => 30)
+          = chat_status(@group.founder, @group.chat_room)
+          = link_to(@group.founder.name, @group.founder)
+          (Founder)
+          - if @group.founder.online?
+            (Online)
+        - @group.active_members.without(@group.founder).each do |user|
           %li
-            .inline= "#{membership.user.name} <#{membership.email}>"
-            .inline= button_to t(".links.accept", :default => "accept"), founder_group_request_path(@group, membership), :method => :put
-            .inline= button_to t(".links.reject", :default => "reject"), founder_group_request_path(@group, membership), :method => :delete
+            = gravatar_for(user, :size => 30)
+            = chat_status(user, @group.chat_room)
+            = link_to(user.name, user)
+            - if user.online?
+              (Online)
+      - if @group.founded_by?(current_user) and @group.requested_memberships.any?
+        .info_box.round
+          = t(".requested_memberships_info_html", :count => @group.requested_memberships.count, :url => link_to(t(".manage"), edit_founder_group_path(@group)))
 
-    - if @group.invited_memberships.any?
-      %h3 Sent invitations
+    - if @group.supervisions.finished.present?
+      %h3= t(".history")
       %ul
-        - @group.invited_memberships.each do |membership|
-          %li= membership.email
+        - @group.supervisions.finished.each do |supervision|
+          %li= "Supervision - #{l(supervision.created_at, :format => :short)}"
 
-    - if @group.invitable?
-      %h3 Invite person
-      = render "founder/invitations/form"
+    - if @group.active_members.include?(current_user)
+      - unless @group.supervisions.current
+        = link_to t(".new_supervision"), new_group_supervision_path(@group), :remote => true
+      - unless @group.founded_by?(current_user)
+        = button_to t(".leave_group"), group_membership_path(@group), :method => :delete
 
-  = render "navigation", :group => @group
+  %section#chat_room
+    = render "chat_rooms/list"

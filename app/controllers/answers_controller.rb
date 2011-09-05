@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
 
   before_filter :authenticate
   before_filter :require_supervision_membership
-  require_supervision_state :asking_questions, :only => :create
+  require_supervision_state :asking_questions, :giving_answers, :only => :create
 
   respond_to :html, :json
 

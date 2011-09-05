@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Group do
   before { @group = FactoryGirl.create(:group) }
 
-  [:name, :description, :founder].each do |attribute|
+  [:name, :founder].each do |attribute|
     it { should validate_presence_of(attribute) }
   end
   it { should_not allow_mass_assignment_of(:founder_id) }
@@ -12,17 +12,17 @@ describe Group do
   it { should_not allow_value("a" * 256).for(:name) }
   it { should_not allow_value("a" * 256).for(:description) }
 
-  describe "#current_supervision" do
+  describe "current supervision" do
     it "should return first unfinished supervision" do
       supervision = @group.supervisions.create!
-      @group.current_supervision.should == supervision
+      @group.supervisions.current.should == supervision
     end
 
     it "should return nil when no unfinished supervisions" do
       @group.supervisions.create! do |supervision|
         supervision.state = "finished"
       end
-      @group.current_supervision.should be_nil
+      @group.supervisions.current.should be_nil
     end
   end
 
@@ -60,10 +60,15 @@ describe Group do
   end
 
   it "should accept membership requests after opening group" do
-    @group.update_attributes!(:invitable => true)
+    @group.update_attributes!(:closed => true)
     membership = FactoryGirl.create(:membership, :group => @group, :user => FactoryGirl.create(:user))
     membership.request!
-    @group.update_attributes(:invitable => false)
+    @group.update_attributes(:closed => false)
     @group.active_memberships.should include(membership)
+  end
+
+  it "should check if given user is founder" do
+    @group.founded_by?(@group.founder).should be_true
+    @group.founded_by?(Factory.build(:user)).should be_false
   end
 end
