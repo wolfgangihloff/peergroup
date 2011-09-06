@@ -12,7 +12,7 @@ class Idea < ActiveRecord::Base
 
   attr_accessible :content, :rating
 
-  scope :not_rated, where("\"ideas\".rating IS NULL")
+  scope :not_rated, where("`ideas`.rating IS NULL")
 
   after_create do
     publish_to_redis
@@ -26,4 +26,5 @@ class Idea < ActiveRecord::Base
   def supervision_publish_attributes
     {:only => [:id, :content, :rating, :user_id]}
   end
+
 end

@@ -18,7 +18,7 @@ gem "routing-filter"
 gem "SystemTimer", :require => nil, :platform => :ruby_18
 
 group :production do
-  gem "pg"
+  gem "mysql"
 end
 
 group :test, :development do

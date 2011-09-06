@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   def last_proposed_topic(group)
     @supervision = self.supervision_memberships.select{|s| s.supervision.try(:group_id) == group.id && s.supervision.finished? == true }.last.try(:supervision)
     return Topic.new if @supervision.nil?
-    Topic.where(:user_id => self.id, :supervision_id => @supervision.id).where("\"topics\".id != ?", @supervision.topic_id).first || Topic.new
+    Topic.where(:user_id => self.id, :supervision_id => @supervision.id).where("`topics`.id != ?", @supervision.topic_id).first || Topic.new
   end
 
   def avatar_url(options = {})

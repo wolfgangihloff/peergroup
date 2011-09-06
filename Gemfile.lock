@@ -101,8 +101,8 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    mysql (2.8.1)
     nokogiri (1.5.0)
-    pg (0.11.0)
     polyglot (0.3.2)
     rack (1.2.3)
     rack-mount (0.6.14)
@@ -199,7 +199,7 @@ DEPENDENCIES
   haml
   hiredis
   launchy
-  pg
+  mysql
   rack-sprockets
   rails (~> 3.0.9)
   rdiscount
