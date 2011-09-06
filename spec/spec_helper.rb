@@ -10,7 +10,7 @@ require 'capybara/rspec'
 require 'capybara/rails'
 
 
-Capybara.default_wait_time = 30
+Capybara.default_wait_time = 10
 Capybara.server_port = 3666
 Capybara.javascript_driver = :webkit
 
