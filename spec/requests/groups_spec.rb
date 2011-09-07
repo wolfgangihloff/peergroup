@@ -52,7 +52,6 @@ feature "Groups" do
   end
 
   scenario "Display notification to user if supervision session got stared" do
-    Capybara.current_driver = :selenium
     @alice = FactoryGirl.create(:user, :name => "Alice", :email => "alice@example.com")
     @bob = FactoryGirl.create(:user, :name => "Bob", :email => "bob@example.com")
 

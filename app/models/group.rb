@@ -9,7 +9,6 @@ class Group < ActiveRecord::Base
   has_many :active_members, :source => :user, :through => :active_memberships
   has_many :invited_members, :source => :user, :through => :invited_memberships
   has_many :requested_members, :source => :user, :through => :requested_memberships
-  has_many :rules, :order => "position", :dependent => :destroy
   has_many :supervisions, :dependent => :destroy, :extend => GroupSupervisionsExtension
   has_many :chat_rooms, :dependent => :destroy
   has_one :chat_room, :conditions => {:supervision_id => nil}
@@ -25,7 +24,7 @@ class Group < ActiveRecord::Base
   scope :closed, where(:closed => true)
   scope :open, where(:closed => false)
 
-  after_create :add_founder_to_members, :create_chat_room, :create_default_rules
+  after_create :add_founder_to_members, :create_chat_room
   after_update :accept_pending_requests, :if => :group_opened?
 
   attr_accessible :name, :description, :closed
@@ -40,15 +39,6 @@ class Group < ActiveRecord::Base
 
   def add_member!(member)
     memberships.create!(:email => member.email).verify!
-  end
-
-  def create_default_rules
-    path = File.join(Rails.root, "db", "default_rules_#{I18n.locale}.csv")
-    reader = CSV.open(path, "r")
-    reader.each do |position, name, description, time_limit|
-      rules.create!(:position => position, :name => name,
-                    :description => description, :time_limit => time_limit)
-    end
   end
 
   def founded_by?(user)

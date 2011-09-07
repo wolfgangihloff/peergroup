@@ -224,7 +224,7 @@ class Supervision < ActiveRecord::Base
     if topic
       !members.exists?(topic_user) || members.size < 2
     else
-      members.empty?
+      members.size < 2
     end
   end
 

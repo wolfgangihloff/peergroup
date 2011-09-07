@@ -6,22 +6,25 @@ feature "Supervision membership" do
     @user = FactoryGirl.create(:user, :name => "John")
 
     @group.add_member!(@user)
-
-    sign_in_interactive(@user)
   end
 
   scenario "Creating new session", :js => true do
+    sign_in_interactive(@user)
     visit group_path(@group)
 
     click_link "New supervision"
     page.should have_content("Do you want to create new Supervision Session?")
     click_button "Create Supervision"
+    sleep(5)
     @group.supervisions.should_not be_empty
   end
 
   scenario "Joining existing session", :js => true do
+    sleep(2)
+    sign_in_interactive(@user)
     @group.supervisions.create!
     visit group_path(@group)
+    sleep(2)
     click_link "join"
     page.should have_content("Supervision Session")
   end

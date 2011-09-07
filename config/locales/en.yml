@@ -49,8 +49,6 @@ en:
           taken:
         question:
           blank:
-        relationship:
-          blank:
         solution:
           blank:
           inclusion:
@@ -318,11 +316,6 @@ en:
     home_member:
       latest_groups: Latest groups
       your_groups: Your groups
-  relationships:
-    create:
-      title:
-    destroy:
-      title:
   sessions:
     create:
       title: Sign in

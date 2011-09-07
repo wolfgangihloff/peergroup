@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110810073756) do
+ActiveRecord::Schema.define(:version => 20110829142105) do
 
   create_table "answers", :force => true do |t|
     t.text     "content"
@@ -40,11 +41,9 @@ ActiveRecord::Schema.define(:version => 20110810073756) do
     t.datetime "updated_at"
     t.integer  "leader_id"
     t.integer  "problem_owner_id"
-    t.integer  "current_rule_id"
     t.integer  "supervision_id"
   end
 
-  add_index "chat_rooms", ["current_rule_id"], :name => "index_chat_rooms_on_current_rule_id"
   add_index "chat_rooms", ["group_id"], :name => "index_chat_rooms_on_group_id"
   add_index "chat_rooms", ["leader_id"], :name => "index_chat_rooms_on_leader_id"
   add_index "chat_rooms", ["problem_owner_id"], :name => "index_chat_rooms_on_problem_owner_id"
@@ -108,28 +107,6 @@ ActiveRecord::Schema.define(:version => 20110810073756) do
 
   add_index "questions", ["supervision_id"], :name => "index_questions_on_supervision_id"
   add_index "questions", ["user_id"], :name => "index_questions_on_user_id"
-
-  create_table "relationships", :force => true do |t|
-    t.integer  "follower_id"
-    t.integer  "followed_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
-  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
-
-  create_table "rules", :force => true do |t|
-    t.integer  "group_id"
-    t.string   "name"
-    t.integer  "position"
-    t.text     "description"
-    t.integer  "time_limit"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "rules", ["group_id"], :name => "index_rules_on_group_id"
 
   create_table "slugs", :force => true do |t|
     t.string   "name"

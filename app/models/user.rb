@@ -5,11 +5,6 @@ class User < ActiveRecord::Base
 
   include User::Authentication
 
-  has_many :relationships, :foreign_key => "follower_id", :dependent => :destroy
-  has_many :following, :through => :relationships, :source => :followed
-  has_many :reverse_relationships, :foreign_key => "followed_id",
-    :class_name => "Relationship", :dependent => :destroy
-  has_many :followers, :through => :reverse_relationships, :source => :follower
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
   has_many :requested_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "requested"}}
@@ -42,18 +37,6 @@ class User < ActiveRecord::Base
     show_email == true
   end
 
-  def following?(followed)
-    relationships.find_by_followed_id(followed)
-  end
-
-  def follow!(followed)
-    relationships.create!(:followed_id => followed.id)
-  end
-
-  def unfollow!(followed)
-    relationships.find_by_followed_id(followed).destroy
-  end
-
   def active_member_of?(group)
     active_groups.exists?(group)
   end
@@ -79,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def last_proposed_topic(group)
-    @supervision = self.supervision_memberships.select{|s| s.supervision.group_id == group.id && s.supervision.finished? == true }.last.try(:supervision)
+    @supervision = self.supervision_memberships.select{|s| s.supervision.try(:group_id) == group.id && s.supervision.finished? == true }.last.try(:supervision)
     return Topic.new if @supervision.nil?
     Topic.where(:user_id => self.id, :supervision_id => @supervision.id).where("\"topics\".id != ?", @supervision.topic_id).first || Topic.new
   end

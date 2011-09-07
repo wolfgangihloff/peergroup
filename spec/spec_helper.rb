@@ -1,3 +1,5 @@
+# require 'simplecov'
+# SimpleCov.start 'rails'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -7,8 +9,10 @@ require 'database_cleaner'
 require 'capybara/rspec'
 require 'capybara/rails'
 
-Capybara.default_wait_time = 5
+
+Capybara.default_wait_time = 10
 Capybara.server_port = 3666
+Capybara.javascript_driver = :webkit
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -32,7 +36,8 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.include HttpBasicSpecHelper, :type => :controller
-
+  # config.filter_run_excluding :slow => true  
+  # config.run_all_when_everything_filtered = true
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.

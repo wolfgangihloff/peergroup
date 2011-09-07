@@ -30,14 +30,16 @@ group :test, :development do
   gem "ruby-debug", :platform => :ruby_18
   gem "ruby-debug19", :require => "ruby-debug", :platform => :ruby_19
   gem "sqlite3"
+  gem "simplecov"
 end
 
 group :test do
   gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
-  gem "selenium-webdriver"
-  gem "factory_girl_rails", "~> 1.1"
+  #gem "selenium-webdriver"
+  gem "capybara-webkit", :git => "git://github.com/thoughtbot/capybara-webkit.git"
+  gem "factory_girl_rails", "~> 1.1.rc1"
   gem "database_cleaner"
-  gem "capybara", "~> 1.0.0"
+  # gem "capybara", "1.1.0"
   gem "launchy"
 end
 

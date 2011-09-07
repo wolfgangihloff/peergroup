@@ -1,8 +1,6 @@
 Peergroupsupervision::Application.routes.draw do
   filter :locale
 
-  resources :rules
-
   resources :users, :except => [:index] do
     member do
       get :following
@@ -10,7 +8,6 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
   resources :sessions, :only => [:new, :create, :destroy]
-  resource :relationships, :only => [:create, :destroy]
 
   resources :topics, :only => [] do
     resources :votes, :only => :create, :controller => :topic_votes
@@ -39,7 +36,6 @@ Peergroupsupervision::Application.routes.draw do
 
   resources :groups, :only => [:index, :show] do
     resources :supervisions, :only => [:new, :create]
-    resources :rules
     resource :membership
     resource :chat_room, :only => :show
     resource :invitation, :only => [:update, :destroy]
