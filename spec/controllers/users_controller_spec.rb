@@ -11,7 +11,8 @@ describe UsersController do
   describe "GET 'show'" do
 
     before(:each) do
-      @user = sign_in
+      @user = FactoryGirl.create(:user)
+      sign_in(@user)
     end
 
     it "should be successful" do
@@ -86,7 +87,8 @@ describe UsersController do
   describe "GET 'edit'" do
 
     before(:each) do
-      @user = sign_in
+      @user = FactoryGirl.create(:user)
+      sign_in(@user)
     end
 
     it "should be successful" do
@@ -104,7 +106,8 @@ describe UsersController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @user = sign_in
+      @user = FactoryGirl.create(:user)
+      sign_in(@user)
       User.should_receive(:find).with(@user).and_return(@user)
     end
 
@@ -192,6 +195,7 @@ describe UsersController do
 
     describe "as a non-admin user" do
       it "should protect the page" do
+        @user = FactoryGirl.create(:user)
         sign_in(@user)
         delete :destroy, :id => @user
         response.should redirect_to(root_path)
