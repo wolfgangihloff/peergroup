@@ -13,6 +13,8 @@ gem "routing-filter"
 # for redis
 gem "SystemTimer", :require => nil, :platform => :ruby_18
 gem "jquery-rails"
+gem "devise"
+
 group :assets do
   gem "sass-rails", "~> 3.1.0"
   gem "uglifier"

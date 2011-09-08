@@ -1,4 +1,9 @@
 class User < ActiveRecord::Base
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
 
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
@@ -13,7 +18,7 @@ class User < ActiveRecord::Base
   has_many :supervision_memberships
   has_many :supervisions, :through => :supervision_memberships
 
-  validates_presence_of :name, :email
+  validates_presence_of :name
   validates_length_of   :name, :maximum => 50
   validates_uniqueness_of :email, :case_sensitive => false
 

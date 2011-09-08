@@ -17,61 +17,9 @@ describe User do
 
   it { should validate_presence_of(:password) }
   it { should_not allow_value("1234").for(:password) }
-  it { should_not allow_value("a" * 41).for(:password) }
 
   it { should_not allow_mass_assignment_of(:admin) }
 
-  describe "password encryption" do
-    it "should have an encrypted password attribute" do
-      @user.should respond_to(:encrypted_password)
-    end
-
-    it "should set the encrypted password" do
-      @user.encrypted_password.should_not be_blank
-    end
-
-    describe "has_password? method" do
-      it "should be true if the passwords match" do
-        @user.has_password?(@user.password).should be_true
-      end
-
-      it "should be false if the passwords don't match" do
-        @user.has_password?("invalid").should be_false
-      end
-    end
-
-    describe "authenticate method" do
-      it "should return nil on email/password mismatch" do
-        wrong_password_user = User.authenticate(@user.email, "wrongpass")
-        wrong_password_user.should be_nil
-      end
-
-      it "should return nil for an email address with no user" do
-        nonexistent_user = User.authenticate("bar@foo.com", @user.password)
-        nonexistent_user.should be_nil
-      end
-
-      it "should return the user on email/password match" do
-        matching_user = User.authenticate(@user.email, @user.password)
-        matching_user.should == @user
-      end
-    end
-  end
-
-  describe "remember me" do
-    it "should have a remember token" do
-      @user.should respond_to(:remember_token)
-    end
-
-    it "should have a remember_me! method" do
-      @user.should respond_to(:remember_me!)
-    end
-
-    it "should set the remember token" do
-      @user.remember_me!
-      @user.remember_token.should_not be_nil
-    end
-  end
 
   describe "admin attribute" do
     it "should respond to admin" do
