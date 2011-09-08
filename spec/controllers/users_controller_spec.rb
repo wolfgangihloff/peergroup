@@ -4,50 +4,6 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
-  describe "GET 'index'" do
-
-    describe "for non-signed-in users" do
-      it "should deny access" do
-        get :index
-        response.should redirect_to(signin_path)
-        flash[:notice].should =~ /sign in/i
-      end
-    end
-
-    describe "for signed-in users" do
-
-      before do
-        @user = sign_in
-        second = FactoryGirl.create(:user, :email => "another@example.com")
-        third  = FactoryGirl.create(:user, :email => "another@example.net")
-
-        @users = [@user, second, third]
-        30.times do
-          @users << FactoryGirl.create(:user)
-        end
-        User.should_receive(:paginate).and_return(@users.paginate)
-      end
-
-      it "should be successful" do
-        get :index
-        response.should be_success
-      end
-
-      # it "should have the right title" do
-        # get :index
-        # response.should have_selector("h1", :content => "All users")
-      # end
-#
-      # it "should have an element for each of first 30 users" do
-        # get :index
-        # @users.first(30).each do |user|
-          # response.should have_content(user.name)
-        # end
-      # end
-    end
-  end
-
-
   it "should use UsersController" do
     controller.should be_an_instance_of(UsersController)
   end
