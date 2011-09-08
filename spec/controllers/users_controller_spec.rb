@@ -194,12 +194,12 @@ describe UsersController do
 
       it "should deny access to 'edit'" do
         get :edit, :id => @user
-        response.should redirect_to(signin_path)
+        response.should redirect_to(new_user_session_path)
       end
 
       it "should deny access to 'update'" do
         put :update, :id => @user, :user => {}
-        response.should redirect_to(signin_path)
+        response.should redirect_to(new_user_session_path)
       end
     end
 
@@ -230,7 +230,7 @@ describe UsersController do
     describe "as a non-signed-in user" do
       it "should deny access" do
         delete :destroy, :id => @user
-        response.should redirect_to(signin_path)
+        response.should redirect_to(new_user_session_path)
       end
     end
 

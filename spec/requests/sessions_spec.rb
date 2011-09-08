@@ -2,7 +2,7 @@ require "spec_helper"
 
 feature "Session" do
   scenario "Sign up" do
-    visit "/signup"
+    visit new_user_registration_path
     fill_in "Name", :with => "John"
     fill_in "Email", :with => "john@doe.com"
     fill_in "Password", :with => "secret"
