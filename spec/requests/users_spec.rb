@@ -34,7 +34,6 @@ feature "Users" do
     visit edit_user_path(@user)
     fill_in :name, :with => ""
     click_button "Update"
-    save_and_open_page
     page.should have_content "Edit user"
   end
 
@@ -43,7 +42,6 @@ feature "Users" do
     fill_in :name, :with => "Michael"
     click_button "Update"
     visit user_path(@user)
-    save_and_open_page
     page.should have_content "Michael"
     
   end
