@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   include FlashMessages
-  include SessionsHelper
 
   protect_from_forgery
 
