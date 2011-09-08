@@ -1,7 +1,7 @@
 class SupervisionsController < ApplicationController
   respond_to :html
 
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :redirect_to_current_supervision_if_exists, :only => [:new, :create]
   before_filter :require_supervision_membership, :only => [:show, :update, :statusbar]
 

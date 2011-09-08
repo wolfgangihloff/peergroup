@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :fetch_chat, :only => [:show]
   before_filter :filters, :only => [:index]
 

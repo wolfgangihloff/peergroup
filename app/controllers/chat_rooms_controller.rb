@@ -1,5 +1,5 @@
 class ChatRoomsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :fetch_group
   before_filter :fetch_chat_room
 
