@@ -13,6 +13,6 @@
     %ul#personal_menu
       - if signed_in?
         %li= link_to current_user.name, current_user
-        %li= link_to t(".links.signout", :default => "Sign out"), signout_path, :method => :delete
+        %li= link_to t(".links.signout", :default => "Sign out"), destroy_user_session_path, :method => :delete
       - else
-        %li= link_to t(".links.signin", :default => "Sign in"), signin_path
+        %li= link_to t(".links.signin", :default => "Sign in"), new_user_session_path
