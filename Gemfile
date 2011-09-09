@@ -18,7 +18,7 @@ gem "devise"
 group :assets do
   gem "sass-rails", "~> 3.1.0"
   gem "uglifier"
-  gem "compass", :git => "git://github.com/chriseppstein/compass.git", :branch => "rails31"
+  gem "compass", "0.12.0.alpha.0.22e2458", :git => "git://github.com/chriseppstein/compass.git", :branch => "rails31"
 end
 
 group :production do
