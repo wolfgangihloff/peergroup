@@ -506,7 +506,7 @@
 
                     // redirect removed member
                 if (status === "away" && document.pgs.currentUser === userId) {
-                    document.location = PGS.newSupervisionMembershipPath(supervisionId);
+                    document.location = PGS.cancelSupervisionPath(supervisionId);
                 }
 
                 if (status === "idle") {

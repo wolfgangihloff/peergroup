@@ -88,9 +88,9 @@
             return this.path(["supervisions", supervisionId, "membership", "new"], options);
         },
 
-				cancelSupervisionPath: function (supervisionId, options) {
-					return this.path(["supervisions", supervisionId, "cancel"], options);
-				},
+		cancelSupervisionPath: function (supervisionId, options) {
+		    return this.path(["supervisions", supervisionId, "cancel"], options);
+		},
 
         supervisionTopicsPath: function (supervisionId, options) {
             return this.path(["supervisions", supervisionId, "topics"], options);
