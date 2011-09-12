@@ -1,5 +1,5 @@
 class SupervisionMembershipsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :fetch_supervision
   before_filter :require_supervision_group_membership
   before_filter :require_supervision_in_progress_state, :only => :create

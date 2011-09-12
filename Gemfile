@@ -1,21 +1,25 @@
 source :rubygems
 
-gem "rails", "~> 3.0.9"
+gem "rails", "~> 3.1.0"
 gem "will_paginate", "~> 3.0.pre2"
 gem "haml"
-gem "sass"
-gem "compass"
 gem "formtastic", "~> 2.0.0.rc1"
 gem "friendly_id"
 gem "rdiscount"
 gem "state_machine"
-gem "rack-sprockets", :require => "rack/sprockets"
 gem "redis"
 gem "hiredis" # for better Redis support
 gem "routing-filter"
-
 # for redis
 gem "SystemTimer", :require => nil, :platform => :ruby_18
+gem "jquery-rails"
+gem "devise"
+
+group :assets do
+  gem "sass-rails", "~> 3.1.0"
+  gem "uglifier"
+  gem "compass", :git => "git://github.com/chriseppstein/compass.git", :branch => "rails31"
+end
 
 group :production do
   gem "mysql"
@@ -31,14 +35,12 @@ end
 
 group :test do
   gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
-  #gem "selenium-webdriver"
   gem "capybara-webkit", :git => "git://github.com/thoughtbot/capybara-webkit.git"
   gem "factory_girl_rails", "~> 1.1.rc1"
   gem "database_cleaner"
-  # gem "capybara", "1.1.0"
   gem "launchy"
 end
 
-group :development do
-  gem "tolk", :git => "git://github.com/cover/tolk.git"
-end
+# group :development do
+#   gem "tolk", :git => "git://github.com/cover/tolk.git"
+# end

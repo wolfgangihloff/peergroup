@@ -36,6 +36,7 @@ RSpec.configure do |config|
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.include HttpBasicSpecHelper, :type => :controller
+  config.include Devise::TestHelpers, :type => :controller
   # config.filter_run_excluding :slow => true  
   # config.run_all_when_everything_filtered = true
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -57,11 +58,6 @@ RSpec.configure do |config|
 
   # Helper methods:
   # ===============
-
-  # Sign in user for test purposes
-  def sign_in(user = FactoryGirl.create(:user))
-    controller.current_user = user
-  end
 
   def sign_in_interactive(user = FactoryGirl.create(:user))
     visit "/"

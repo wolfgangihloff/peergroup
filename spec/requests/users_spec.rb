@@ -21,4 +21,28 @@ feature "Users" do
     page.should have_content "Hi John"
     page.should have_content "Change Your gravatar image"
   end
+
+  scenario "User should be able to edit only his own profile" do
+    @billy = FactoryGirl.create(:user, :name => "Billy", :show_email => true, :email => "billy@example.com")
+    visit edit_user_path(@billy)
+    page.should_not have_content "Edit user"
+    visit edit_user_path(@user)
+    page.should have_content "Edit user"
+  end
+
+  scenario "user should not be able to edit with invalid attributes" do
+    visit edit_user_path(@user)
+    fill_in :name, :with => ""
+    click_button "Update"
+    page.should have_content "Edit user"
+  end
+
+  scenario "user should be able to edit with valid attributes" do
+    visit edit_user_path(@user)
+    fill_in :name, :with => "Michael"
+    click_button "Update"
+    visit user_path(@user)
+    page.should have_content "Michael"
+    
+  end
 end

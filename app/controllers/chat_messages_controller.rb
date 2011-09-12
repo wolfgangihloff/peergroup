@@ -1,5 +1,5 @@
 class ChatMessagesController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :fetch_chat_room
 
   def create

@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   self.responder = SupervisionPartResponder
 
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :fetch_question, :only => :show
   before_filter :fetch_supervision, :only => :create
   before_filter :require_supervision_membership

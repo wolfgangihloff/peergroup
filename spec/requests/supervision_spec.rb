@@ -70,10 +70,20 @@ feature "Supervision Session", :js => true do
     end
 
     scenario "should allow to post topic" do
-      sign_in_interactive(@bob)
-      visit_supervision(@supervision)
-      fill_in "topic_content", :with => "Can rails scale?"
-      click_button "Post your topic"
+      Capybara.using_session :bob do 
+        sign_in_interactive(@bob)
+        visit_supervision(@supervision)
+        fill_in "topic_content", :with => "Can rails scale?"
+      end
+
+      Capybara.using_session :alice do
+        sign_in_interactive(@alice)
+        visit_supervision(@supervision)
+      end
+
+      Capybara.using_session :bob do 
+        click_button "Post your topic"
+      end
       sleep(3)
       Topic.exists?(:content => "Can rails scale?").should be_true
     end
@@ -441,11 +451,8 @@ feature "Supervision Session", :js => true do
       # Giving ideas feedback
 
       Capybara.using_session :bob do
-        active_state.should eq "Ideas feedback"
         fill_in "ideas_feedback_content", :with => "Sample feedback"
         click_button "Post feedback"
-        sleep(2)
-        page.should have_flash("Your feedback was successfully added")
       end
 
       Capybara.using_session :cindy do

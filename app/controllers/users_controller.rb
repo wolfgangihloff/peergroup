@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:show, :new, :create]
+  before_filter :authenticate_user!, :except => [:show, :new, :create]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
 
@@ -39,6 +39,11 @@ class UsersController < ApplicationController
   end
 
   def update
+    if params[:user][:password].empty?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
     if @user.update_attributes(params[:user])
       flash[:success] = "Profile updated."
       redirect_to @user

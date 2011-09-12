@@ -1,9 +1,8 @@
-require "digest/md5"
-
 class User < ActiveRecord::Base
-  EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
-  include User::Authentication
+  attr_accessor :passcode
 
   has_many :memberships, :dependent => :destroy
   has_many :invited_memberships, :class_name => "Membership", :conditions => {:memberships => {:state => "invited"}}
@@ -18,12 +17,11 @@ class User < ActiveRecord::Base
   has_many :supervision_memberships
   has_many :supervisions, :through => :supervision_memberships
 
-  validates_presence_of :name, :email
+  validates_presence_of :name
   validates_length_of   :name, :maximum => 50
-  validates_format_of   :email, :with => EMAIL_REGEX
   validates_uniqueness_of :email, :case_sensitive => false
 
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   after_create :associate_group_memberships
 

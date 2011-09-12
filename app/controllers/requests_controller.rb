@@ -1,5 +1,5 @@
 class RequestsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate_user!
 
   def create
     @membership = group.memberships.build(:email => current_user.email)

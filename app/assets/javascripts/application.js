@@ -1,22 +1,14 @@
-//= require "lib/jquery"
-// BIG WARNING:
-// this is jquery-ui 1.9m3 version, it's not yet stable, so be prapared
-// to update it when needed
-//= require "lib/jquery-ui"
-//= require "lib/jquery_ujs"
-//= require "lib/underscore"
-
-//= require "lib/jquery.form"
-//= require "lib/jquery.rating"
-
+//= require jquery
+//= require ./lib/jquery-ui
+//= require jquery_ujs
+//= require lib/underscore
+//= require_tree ./lib
 //= require "pgs"
 //= require "s"
 //= require "util"
 
-//= require "components/chat_room"
-//= require "components/supervision_room"
-//= require "components/flash_notifications"
-//= require "components/countdown_timer"
+//= require_tree .
+//= require_self
 jQuery(function($) {
     // Add socket.io external javascript, use:
     //     PGS.load("socket.io", function() {

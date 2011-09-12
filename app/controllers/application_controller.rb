@@ -1,11 +1,14 @@
 class ApplicationController < ActionController::Base
   include FlashMessages
-  include SessionsHelper
 
   protect_from_forgery
 
   before_filter :set_locale, :set_location, :set_title, :ping
   protected
+
+  def current_user?(user)
+    current_user == user
+  end
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

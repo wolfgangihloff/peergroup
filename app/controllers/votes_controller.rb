@@ -1,7 +1,7 @@
 class VotesController < ApplicationController
   self.responder = SupervisionPartResponder
 
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :require_supervision_membership
   require_supervision_state :asking_questions, :providing_ideas, :providing_solutions, :only => :create
 

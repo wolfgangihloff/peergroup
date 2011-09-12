@@ -1,4 +1,6 @@
 Peergroupsupervision::Application.routes.draw do
+  devise_for :users
+
   filter :locale
 
   resources :users, :except => [:index] do
@@ -60,12 +62,9 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
 
-  get '/signin' => 'sessions#new', :as => 'signin'
-  delete '/signout' =>'sessions#destroy', :as => 'signout'
   get '/contact' => 'pages#contact', :as => 'contact'
   get '/about' => 'pages#about', :as => 'about'
   get '/help' => 'pages#help', :as => 'help'
-  get '/signup' =>'users#new', :as => 'signup'
 
   root :to => 'pages#home'
 end

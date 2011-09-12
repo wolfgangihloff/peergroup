@@ -1,7 +1,7 @@
 class TopicsController < ApplicationController
   self.responder = SupervisionPartResponder
 
-  before_filter :authenticate
+  before_filter :authenticate_user!
   before_filter :require_supervision_membership, :only => [:index, :create]
   require_supervision_state :gathering_topics, :only => :create
   require_supervision_state :gathering_topics, :voting_on_topics, :only => :index
