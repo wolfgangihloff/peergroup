@@ -24,7 +24,7 @@ class SupervisionsController < ApplicationController
     @chat_messages = @chat_room.chat_messages.recent
     @token = @chat_room.set_redis_access_token_for_user(current_user)
     @topic = current_user.last_proposed_topic(@supervision.group).clone
-    REDIS.setex("supervision:#{supervision.id}:users:#{current_user.id}:token:#{@token}", 60, "1")
+    REDIS.setex("supervision:#{supervision.id}:users:#{current_user.id}:token:#{@token}", 120, "1")
     @supervision_data = {
       :"supervision-state" => supervision.state,
       :token => @token,

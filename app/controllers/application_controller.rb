@@ -4,11 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :set_locale, :set_location, :set_title, :ping
-  protected
 
-  def current_user?(user)
-    current_user == user
-  end
+  protected
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

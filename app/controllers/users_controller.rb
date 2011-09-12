@@ -14,12 +14,12 @@ class UsersController < ApplicationController
   end
 
   def new
-    redirect_to(root_path) unless current_user?(@user)
+    redirect_to(root_path) unless @user === current_usser
     @user = User.new
   end
 
   def create
-    redirect_to(root_path) unless current_user?(@user)
+    redirect_to(root_path) unless @user === current_usser
     @user = User.new(params[:user])
 
     if params[:user][:passcode] == "Pat0ng0" && @user.save
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    redirect_to(root_path) unless current_user?(@user)
+    redirect_to(root_path) unless @user === current_usser
   end
 
   def admin_user
