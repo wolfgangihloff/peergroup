@@ -216,7 +216,7 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer
   capybara-webkit!
-  compass!
+  compass (= 0.12.0.alpha.0.22e2458)!
   database_cleaner
   devise
   factory_girl_rails (~> 1.1.rc1)
