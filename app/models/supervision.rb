@@ -51,6 +51,7 @@ class Supervision < ActiveRecord::Base
       transition :gathering_topics => :voting_on_topics
       transition :voting_on_topics => :asking_questions
       transition :giving_supervision_feedbacks => :finished
+      transition :asking_questions => :providing_ideas, :if => :skip_giving_answers_state?
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
       transition :providing_ideas => :voting_ideas
@@ -82,6 +83,7 @@ class Supervision < ActiveRecord::Base
     end
 
     event :post_vote_for_next_step do
+      transition :asking_questions => :providing_ideas, :if => :skip_topic_voting?
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
       transition :providing_ideas => :voting_ideas
@@ -258,6 +260,10 @@ class Supervision < ActiveRecord::Base
 
   def all_answers?
     questions.unanswered.empty?
+  end
+
+  def skip_giving_answers_state?
+    all_next_step_votes? && all_answers?
   end
 
   def all_idea_ratings?
