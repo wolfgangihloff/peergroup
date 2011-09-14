@@ -54,6 +54,7 @@ class Supervision < ActiveRecord::Base
       transition :asking_questions => :providing_ideas, :if => :skip_giving_answers_state?
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
+      transition :providing_ideas => :giving_ideas_feedback, :if => :skip_voting_ideas?
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
       transition :providing_solutions => :voting_solutions
@@ -86,6 +87,7 @@ class Supervision < ActiveRecord::Base
       transition :asking_questions => :providing_ideas, :if => :skip_topic_voting?
       transition :asking_questions => :giving_answers
       transition :giving_answers => :providing_ideas
+      transition :providing_ideas => :giving_ideas_feedback?, :if => :skip_voting_ideas?
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
       transition :providing_solutions => :voting_solutions
@@ -268,6 +270,10 @@ class Supervision < ActiveRecord::Base
 
   def all_idea_ratings?
     ideas.not_rated.empty?
+  end
+
+  def skip_voting_ideas?
+    all_next_step_votes? && all_idea_ratings?
   end
 
   def all_solution_ratings?
