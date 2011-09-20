@@ -48,6 +48,7 @@ class Supervision < ActiveRecord::Base
 
     event :remove_member do
       transition all - [:finished, :cancelled] => :cancelled, :if => :cancel_supervision?
+      transition :gathering_topics => :asking_questions, :if => :skip_topic_voting?
       transition :gathering_topics => :voting_on_topics
       transition :voting_on_topics => :asking_questions
       transition :giving_supervision_feedbacks => :finished
@@ -57,6 +58,7 @@ class Supervision < ActiveRecord::Base
       transition :providing_ideas => :giving_ideas_feedback, :if => :skip_voting_ideas?
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :giving_solutions_feedback, :if => :skip_voting_solutions?
       transition :providing_solutions => :voting_solutions
       transition :voting_solutions => :giving_solutions_feedback
       transition all => all
@@ -90,6 +92,7 @@ class Supervision < ActiveRecord::Base
       transition :providing_ideas => :giving_ideas_feedback?, :if => :skip_voting_ideas?
       transition :providing_ideas => :voting_ideas
       transition :voting_ideas => :giving_ideas_feedback
+      transition :providing_solutions => :giving_solutions_feedback, :if => :skip_voting_solutions?
       transition :providing_solutions => :voting_solutions
       transition :voting_solutions => :giving_solutions_feedback
     end
@@ -278,6 +281,10 @@ class Supervision < ActiveRecord::Base
 
   def all_solution_ratings?
     solutions.not_rated.empty?
+  end
+
+  def skip_voting_solutions?
+    all_next_step_votes? && all_solution_ratings?
   end
 
   def all_supervision_feedbacks?
