@@ -13,9 +13,9 @@ feature "Supervision Session", :js => true do
 
   def prepare_supervision(state)
     supervision = FactoryGirl.create(:supervision, :group => @group, :state => state, :topic => FactoryGirl.create(:topic, :user => @alice))
-    @alice.join_supervision(supervision)
-    @bob.join_supervision(supervision)
-    @cindy.join_supervision(supervision)
+    # @alice.visit_supervision(supervision)
+    # @bob.visit_supervision(supervision)
+    # @cindy.visit_supervision(supervision)
     supervision
   end
 
@@ -61,6 +61,7 @@ feature "Supervision Session", :js => true do
 
     end
   end
+  
   context "in gathering_topics state" do
     background do
       @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
@@ -301,6 +302,7 @@ feature "Supervision Session", :js => true do
       end
     end
   end
+  
   context "in all states" do
     background do
       @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
@@ -564,6 +566,378 @@ feature "Supervision Session", :js => true do
         page.should have_flash("Supervision was cancelled")
         page.should have_content "Group overview"
       end
+    end
+  end
+
+  context "leaving supervision" do
+
+    scenario "in gathering_topics state" do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
+
+      Capybara.using_session(:alice) do
+        sign_in_interactive @alice
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:bob) do
+        sign_in_interactive @bob
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:cindy) do
+        sign_in_interactive @cindy
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:alice) do
+        fill_in "topic_content", :with => "Can rails scale?"
+        click_button "Post your topic"
+        sleep(2)
+      end
+
+      Capybara.using_session(:bob) do
+        click_button "Post your topic"
+        sleep(2)
+      end
+
+      Capybara.using_session(:cindy) do
+        click_button "Leave session"
+        sleep(2)
+      end
+
+      Capybara.using_session(:alice) do
+        page.should have_content "Enter your question here"
+      end
+    end
+
+    scenario "in voting_on_topics state" do
+      @supervision = FactoryGirl.create(:supervision, :group => @group, :state => "gathering_topics")
+
+      Capybara.using_session(:alice) do
+        sign_in_interactive @alice
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:bob) do
+        sign_in_interactive @bob
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:cindy) do
+        sign_in_interactive @cindy
+        visit supervision_path @supervision
+        fill_in "topic_content", :with => "Other"      
+        click_button "Post your topic"
+      end
+
+      Capybara.using_session(:alice) do
+        fill_in "topic_content", :with => "Can rails scale?"
+        click_button "Post your topic"
+      end
+
+      Capybara.using_session(:bob) do
+        fill_in "topic_content", :with => "My topic"
+        click_button "Post your topic"
+      end
+
+      Capybara.using_session(:alice) do
+        @topic = Topic.first
+        Topic.all.count.should eq 3
+        within "#topic_#{@topic.id}" do
+          click_button "Vote on this topic"
+        end
+      end
+
+      Capybara.using_session(:bob) do
+        @topic = Topic.first
+        within "#topic_#{@topic.id}" do
+          click_button "Vote on this topic"
+        end
+      end
+
+      Capybara.using_session(:cindy) do
+        click_button "Leave session"
+      end
+
+      Capybara.using_session(:alice) do
+        page.should have_content "Enter your question here"        
+      end
+    end
+
+    scenario "in asking_questions state" do
+      @supervision = prepare_supervision("asking_questions")
+      Capybara.using_session(:cindy) do
+        sign_in_interactive @cindy
+        visit supervision_path(@supervision)
+        fill_in "question_content", :with => "my question"
+        click_button "Post question"
+        fill_in "question_content", :with => "second question"
+        click_button "Post question"
+        click_link "No more questions"
+      end
+
+      Capybara.using_session(:bob) do
+        sign_in_interactive @bob
+        visit supervision_path(@supervision)
+        fill_in "question_content", :with => "bob's question"
+        click_button "Post question"
+        sleep(2)
+      end
+
+      Capybara.using_session(:alice) do
+        sign_in_interactive @alice
+        visit supervision_path(@supervision)
+      end
+
+      Capybara.using_session(:bob) do
+        click_button "Leave session"
+      end
+
+      Capybara.using_session(:alice) do
+        active_state.should eq "Giving Answers"
+      end
+    end
+
+    scenario "in providing_ideas state" do
+      @supervision = prepare_supervision("providing_ideas")
+
+      Capybara.using_session(:alice) do
+        sign_in_interactive @alice
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:cindy) do
+        sign_in_interactive @cindy
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:bob) do
+        sign_in_interactive @bob
+        visit supervision_path @supervision
+        fill_in "idea_content", :with => "Sample idea"
+        click_button "Post idea"
+        sleep(2)
+        fill_in "idea_content", :with => "Other idea"
+        click_button "Post idea"
+        click_link "No more ideas"
+      end
+
+      Capybara.using_session(:cindy) do
+        fill_in "idea_content", :with => "Cindy's idea"
+        click_button "Post idea"
+        sleep(2)
+        click_button "Leave session"
+      end
+
+      Capybara.using_session(:alice) do
+        sleep(2)
+        active_state.should eq "Voting Ideas"
+      end
+
+    end
+
+    scenario "in providing_ideas state when all ideas are rated" do
+      @supervision = prepare_supervision("providing_ideas")
+
+      Capybara.using_session(:alice) do
+        sign_in_interactive @alice
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:cindy) do
+        sign_in_interactive @cindy
+        visit supervision_path @supervision
+      end
+
+      Capybara.using_session(:bob) do
+        sign_in_interactive @bob
+        visit supervision_path @supervision
+        fill_in "idea_content", :with => "Sample idea"
+        click_button "Post idea"
+        sleep(2)
+        fill_in "idea_content", :with => "Other idea"
+        click_button "Post idea"
+        click_link "No more ideas"
+      end
+
+      Capybara.using_session(:cindy) do
+        fill_in "idea_content", :with => "Cindys idea"
+        click_button "Post idea"
+        sleep(2)
+      end
+
+      Capybara.using_session(:alice) do
+        sleep(2)
+        Idea.all.each do |idea|     
+          rate idea.content, :with => 3, :scope => "idea"
+          sleep(1)
+        end
+      end
+
+      Capybara.using_session(:cindy) do
+        click_button "Leave session"
+      end
+
+      Capybara.using_session(:alice) do
+        sleep(5)
+        active_state.should eq "Ideas feedback"
+      end
+    end
+
+    scenario "in providing_solutions state" do
+      @supervision = prepare_supervision("providing_solutions")
+      Capybara.using_session(:alice) do
+         sign_in_interactive @alice
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:cindy) do
+         sign_in_interactive @cindy
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:bob) do
+         sign_in_interactive @bob
+         visit supervision_path @supervision
+         fill_in "solution_content", :with => "Sample solution"
+         click_button "Post solution"
+         sleep(2)
+         fill_in "solution_content", :with => "Other solution"
+         click_button "Post solution"
+         click_link "No more solutions"
+       end
+
+       Capybara.using_session(:cindy) do
+         fill_in "solution_content", :with => "Cindys solution"
+         click_button "Post solution"
+         sleep(2)
+         click_button "Leave session"
+       end
+
+       Capybara.using_session(:alice) do
+         sleep(2)
+         active_state.should eq "Voting Solutions"
+       end
+
+    end
+
+    scenario "in providing_solutions state when all solutions are rated" do
+      @supervision = prepare_supervision("providing_solutions")
+      Capybara.using_session(:alice) do
+         sign_in_interactive @alice
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:cindy) do
+         sign_in_interactive @cindy
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:bob) do
+         sign_in_interactive @bob
+         visit supervision_path @supervision
+         fill_in "solution_content", :with => "Sample solution"
+         click_button "Post solution"
+         sleep(2)
+         fill_in "solution_content", :with => "Other solution"
+         click_button "Post solution"
+         click_link "No more solutions"
+       end
+
+       Capybara.using_session(:cindy) do
+         fill_in "solution_content", :with => "Cindys solution"
+         click_button "Post solution"
+         sleep(2)
+       end
+
+       Capybara.using_session(:alice) do
+         sleep(2)
+         Solution.all.each do |solution|
+           rate solution.content, :with => 5, :scope => "solution"
+           sleep(1)
+         end
+       end
+
+       Capybara.using_session(:cindy) do
+         click_button "Leave session"
+       end
+
+       Capybara.using_session(:alice) do
+         sleep(5)
+         active_state.should eq "Solutions feedback"
+       end
+    end
+
+    scenario "in giving_solutions_feedback state" do
+      @supervision = prepare_supervision("giving_solutions_feedback")
+      Capybara.using_session(:alice) do
+         sign_in_interactive @alice
+         visit supervision_path @supervision
+         fill_in "solutions_feedback_content", :with => "Sample feedback"
+         sleep(2)
+         click_button "Post feedback"
+         sleep(5)
+       end
+
+       Capybara.using_session(:cindy) do
+         sign_in_interactive @cindy
+         visit supervision_path @supervision
+         fill_in "solutions_feedback_content", :with => "My feedback"
+         click_button "Post feedback"
+         sleep(5)
+       end
+
+       Capybara.using_session(:bob) do
+         sign_in_interactive @bob
+         visit supervision_path @supervision
+         click_button "Leave session"
+         sleep(5)
+       end
+
+       Capybara.using_session(:alice) do
+         sleep(5)
+         active_state.should eq "Supervision feedbacks"
+       end
+    end
+
+    scenario "in giving_supervision_feedbacks state" do
+      @supervision = prepare_supervision("giving_supervision_feedbacks")
+      Capybara.using_session(:alice) do
+         sign_in_interactive @alice
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:cindy) do
+         sign_in_interactive @cindy
+         visit supervision_path @supervision
+         fill_in "supervision_feedback_content", :with => "My feedback"
+         click_button "Post feedback"
+         sleep(5)
+       end
+
+       Capybara.using_session(:bob) do
+         sign_in_interactive @bob
+         visit supervision_path @supervision
+       end       
+
+
+       Capybara.using_session(:alice) do
+         fill_in "supervision_feedback_content", :with => "My feedback"
+         click_button "Post feedback"
+         sleep(5)
+         active_state.should eq "Supervision feedbacks"
+       end
+
+       Capybara.using_session(:bob) do
+         sleep(2)         
+         click_button "Leave session"
+         sleep(2)
+       end
+
+       Capybara.using_session(:alice) do
+         sleep(5)
+         page.should have_content "This supervision is finished"
+       end
     end
   end
 end
