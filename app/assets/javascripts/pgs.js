@@ -92,6 +92,10 @@
 		    return this.path(["supervisions", supervisionId, "cancel"], options);
 		},
 
+        removeUserFromSupervisionPath: function (supervisionId, options) {
+		    return this.path(["supervisions", supervisionId, "remove"], options);
+		},
+
         supervisionTopicsPath: function (supervisionId, options) {
             return this.path(["supervisions", supervisionId, "topics"], options);
         },

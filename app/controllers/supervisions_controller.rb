@@ -56,6 +56,11 @@ class SupervisionsController < ApplicationController
     redirect_to group_path(supervision.group)
   end
 
+  def remove
+    flash[:notice] = t("supervision.removed", :default => "You were removed from supervision due to inactivity")
+    redirect_to group_path(supervision.group)
+  end
+
   protected
 
   def redirect_to_current_supervision_if_exists

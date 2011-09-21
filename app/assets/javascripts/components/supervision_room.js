@@ -492,8 +492,9 @@
                     user = membersList.find("#user_" + message.userId);
 
                     // redirect removed member
+                console.log("User: " + userId + " Status: " + status);
                 if (status === "away" && document.pgs.currentUser === userId) {
-                    document.location = PGS.cancelSupervisionPath(supervisionId);
+                    document.location = PGS.removeUserFromSupervisionPath(supervisionId);
                 }
 
                 if (status === "idle") {
