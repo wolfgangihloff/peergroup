@@ -6,4 +6,4 @@
 
   - unless @supervision.in_progress?
     = t(".not_in_progress", :state => @supervision.state)
-    %p= link_to(t(".new_supervision"), new_group_supervision_path(@supervision.group))
+    %p= link_to(t(".new_supervision"), group_supervisions_path(@supervision.group)), :method => :post

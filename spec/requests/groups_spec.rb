@@ -73,7 +73,6 @@ feature "Groups" do
 
     Capybara.using_session :bob do
       click_link "New supervision"
-      click_button "Create Supervision"
     end
 
     Capybara.using_session :alice do

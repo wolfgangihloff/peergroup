@@ -2,4 +2,4 @@
 %p
   = link_to t("supervisions.show.back_to_group", :default => "Back to group page"), group_path(supervision.group)
 %p
-  = link_to t("supervisions.new.heading"), new_group_supervision_path(supervision.group)
+  = link_to t("supervisions.new.heading"), group_supervisions_path(supervision.group), :method => :post

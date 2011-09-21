@@ -13,8 +13,7 @@ feature "Supervision membership" do
     visit group_path(@group)
 
     click_link "New supervision"
-    page.should have_content("Do you want to create new Supervision Session?")
-    click_button "Create Supervision"
+    page.should have_content("Supervision Session")
     sleep(5)
     @group.supervisions.should_not be_empty
   end

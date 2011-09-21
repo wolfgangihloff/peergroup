@@ -12,7 +12,7 @@ module GroupsHelper
         link_to text, supervision_membership_path(current_supervision), :method => :post
       end
     else
-      link_to text, new_group_supervision_path(group)
+      link_to text, group_supervisions_path(group), :method => :post
     end
   end
 end

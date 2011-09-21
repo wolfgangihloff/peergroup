@@ -41,7 +41,7 @@ class SupervisionMembershipsController < ApplicationController
 
   def require_supervision_in_progress_state
     unless @supervision.in_progress?
-      redirect_to new_group_supervision_path(@supervision.group), :notice => t(".not_in_progress_state", :state => @supervision.state)
+      redirect_to group_path(@supervision.group), :notice => t(".not_in_progress_state", :state => @supervision.state)
     end
   end
 end
