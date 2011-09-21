@@ -416,8 +416,8 @@
          */
         context.setupMemberIdleStatus = function () {
             var status = "active",
-                idleTimeout,
-                awayTimeout;
+                idleTimeout, 
+                timer;
 
             var sendStatus = function (state) {
                 PGS.withSocket("supervision", function (s) {
@@ -426,23 +426,24 @@
             };
 
             var setActiveStatus = function () {
+                status = "active";
                 resetIdleTimeout();
-                if (status !== "active") {
-                    status = "active";
-                    sendStatus("active");
-                }
             };
 
             var awayInformation = function () {
               $("#away-dialog-message").dialog({
                   modal: true,
                   open: function (event, ui) {
-                      $(".countdown_timer").countdownTimer({ 
+                      timer = $(".countdown_timer").countdownTimer({ 
                           onStop: function(){
                               status = "away";
                               sendStatus("away");
                           }
                       });
+                  },
+                  close: function (event, ui) {
+                      timer.trigger("closeTimer");
+                      setActiveStatus();
                   }
               });
             };
@@ -453,14 +454,12 @@
             // 1 minute
             var resetIdleTimeout = function () {
                 clearTimeout(idleTimeout);
-                clearTimeout(awayTimeout);
                 idleTimeout = setTimeout(function () {
                   if (inputRequired() ) {
                       if (status === "active") {
                           status = "idle";
                           sendStatus("idle");
                           awayInformation();
-                          resetAwayTimeout();
                       }
                   }
                   else{
@@ -469,21 +468,9 @@
                 }, 60000);
             };
 
-            // 1 minute
-            var resetAwayTimeout = function () {
-                clearTimeout(awayTimeout);
-                awayTimeout = setTimeout(function () {
-                  if (inputRequired() ) {
-                      if (status === "idle") {
-                          status = "away";
-                          sendStatus("away");
-                      }
-                  }
-                  else{
-                    setActiveStatus();
-                  }
-                }, 60000);
-            };
+            setInterval(function (){
+                sendStatus(status);
+            }, 50000);
 
             $(document).bind("mousemove keydown mousedown", function () {
               $("#away-dialog-message").dialog("close");
@@ -557,7 +544,7 @@
                         newState = message.state,
                         currentUserId = $this.data("current-user-id"),
                         topicUserId = $this.data("supervision-topic-user-id");
-                    console.log("current_user: " + currentUserId + " topic_owner:" + topicUserId);
+                    console.log("Old state:" + supervisionState + " new state:" + newState);
 					if (newState == "cancelled") {
 						document.location = PGS.cancelSupervisionPath(supervisionId);
 					}

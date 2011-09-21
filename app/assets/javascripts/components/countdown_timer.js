@@ -20,6 +20,10 @@
 
             seconds = options.displaySeconds;
             start();
+            $(this).bind("closeTimer", function(){
+                clearInterval(interval);
+            });
+
             function tick() {
                 var verticalPosition, horizontalPosition, position;
 
