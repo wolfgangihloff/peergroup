@@ -26,6 +26,7 @@ class Supervision < ActiveRecord::Base
   ]
 
   state_machine :state, :initial => :waiting_for_members do
+    before_transition all => all - [:cancelled], :do => :sufficent_users?
     before_transition [:gathering_topics, :voting_on_topics] => :asking_questions, :do => :choose_topic
     after_transition all => all, :do => [:destroy_next_step_votes, :publish_to_redis]
 
@@ -227,11 +228,15 @@ class Supervision < ActiveRecord::Base
 
   protected
 
+  def sufficent_users?
+    members.size > 1
+  end
+
   def cancel_supervision?
     if topic
-      !members.exists?(topic_user) || members.size < 2
+      !members.exists?(topic_user)
     else
-      members.size < 2
+      members.empty?
     end
   end
 

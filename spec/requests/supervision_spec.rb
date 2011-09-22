@@ -873,23 +873,32 @@ feature "Supervision Session", :js => true do
       Capybara.using_session(:alice) do
          sign_in_interactive @alice
          visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:cindy) do
+         sign_in_interactive @cindy
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:bob) do
+         sign_in_interactive @bob
+         visit supervision_path @supervision
+       end
+
+       Capybara.using_session(:alice) do
          fill_in "solutions_feedback_content", :with => "Sample feedback"
          sleep(2)
          click_button "Post feedback"
          sleep(5)
        end
 
-       Capybara.using_session(:cindy) do
-         sign_in_interactive @cindy
-         visit supervision_path @supervision
+       Capybara.using_session(:cindy) do         
          fill_in "solutions_feedback_content", :with => "My feedback"
          click_button "Post feedback"
          sleep(5)
        end
 
        Capybara.using_session(:bob) do
-         sign_in_interactive @bob
-         visit supervision_path @supervision
          click_button "Leave session"
          sleep(5)
        end

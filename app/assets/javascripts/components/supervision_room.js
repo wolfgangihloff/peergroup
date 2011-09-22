@@ -94,7 +94,7 @@
                 "ajax:failure": showForm
             });
     };
-
+    var users = $(".members-part .members-list").find("li").length;
     var makeSupervisionContext = function ($parent, supervisionId) {
         var context = {};
 
@@ -455,15 +455,15 @@
             var resetIdleTimeout = function () {
                 clearTimeout(idleTimeout);
                 idleTimeout = setTimeout(function () {
-                  if (inputRequired() ) {
-                      if (status === "active") {
-                          status = "idle";
-                          sendStatus("idle");
-                          awayInformation();
-                      }
+                  users = $(".members-part .members-list").find("li").length;
+                  if (inputRequired() || users === 1) {
+                      console.log("idle");
+                      status = "idle";
+                      sendStatus("idle");
+                      awayInformation();
                   }
                   else{
-                    setActiveStatus();
+                      setActiveStatus();
                   }
                 }, 60000);
             };
@@ -494,7 +494,12 @@
                     // redirect removed member
                 console.log("User: " + userId + " Status: " + status);
                 if (status === "away" && document.pgs.currentUser === userId) {
-                    document.location = PGS.removeUserFromSupervisionPath(supervisionId);
+                    if (users === 1) {
+                        document.location = PGS.cancelSupervisionPath(supervisionId);
+                    }
+                    else {
+                        document.location = PGS.removeUserFromSupervisionPath(supervisionId);   
+                    }
                 }
 
                 if (status === "idle") {
