@@ -37,7 +37,7 @@
 
       - unless @supervision.finished?
         %div{:"data-show-in-state" => "asking_questions"}
-          %p.waiting= t("supervisions.show.questions_waiting")
+          %p.waiting.for_problem_owner= t("supervisions.show.questions_waiting")
           .for_not_problem_owner
             .form.question
               .user
