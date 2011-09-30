@@ -17,6 +17,7 @@
             document.createElement(e[i]);
         }
     = javascript_include_tag "application"
+    = yield(:head)
   %body{:id => id_for_body}
     %section#page
       = render "layouts/header", :title => @title

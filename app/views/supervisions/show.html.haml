@@ -1,3 +1,8 @@
+- content_for :head do
+  :javascript
+    $(window).bind("beforeunload",function(event) {
+        return "The current supervision will end if you leave this page, please consider opening a second browser window instead";
+    });
 %article[@supervision]{:data => @supervision_data}
   %header
     %h1= t("supervisions.show.heading")
