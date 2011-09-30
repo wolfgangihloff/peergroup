@@ -12,6 +12,6 @@
     .groups_list= render @groups
     = will_paginate @groups
   %section#user_groups
-    %h2 Go to Your groups
+    %h2 Go to your groups
     = render @user_groups
     .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path

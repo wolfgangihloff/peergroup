@@ -14,6 +14,6 @@
       = f.buttons do
         = f.commit_button t(".buttons.update", :default => "Update")
   %section#user_groups
-    %h2= t(".group_list_title", :user_name => @user.name, :default => "Go to Your groups")
+    %h2= t(".group_list_title", :user_name => @user.name, :default => "Go to your groups")
     = render @user.groups
     .new= link_to t(".new_group", :default => "Create new Group"), new_founder_group_path
