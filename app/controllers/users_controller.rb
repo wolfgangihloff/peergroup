@@ -45,6 +45,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update_attributes(params[:user])
+      sign_in(@user, :bypass => true)
       flash[:success] = "Profile updated."
       redirect_to @user
     else

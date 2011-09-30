@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   validates_length_of   :name, :maximum => 50
   validates_uniqueness_of :email, :case_sensitive => false
 
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :show_email
 
   after_create :associate_group_memberships
 
