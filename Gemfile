@@ -14,7 +14,7 @@ gem "routing-filter"
 gem "SystemTimer", :require => nil, :platform => :ruby_18
 gem "jquery-rails"
 gem "devise"
-
+gem "foreman"
 group :assets do
   gem "sass-rails", "~> 3.1.0"
   gem "uglifier"
