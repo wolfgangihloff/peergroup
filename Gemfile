@@ -34,6 +34,7 @@ group :test, :development do
 end
 
 group :test do
+  gem "spork", "> 0.9.0.rc"
   gem "shoulda-matchers", :git => "git://github.com/thoughtbot/shoulda-matchers.git"
   gem "capybara-webkit", :git => "git://github.com/thoughtbot/capybara-webkit.git"
   gem "factory_girl_rails", "~> 1.1.rc1"
