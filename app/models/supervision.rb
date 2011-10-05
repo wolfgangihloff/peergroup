@@ -101,9 +101,12 @@ class Supervision < ActiveRecord::Base
     event :step_back_to_asking_questions do
       transition [
         :asking_questions,
+        :giving_answers,
         :providing_ideas,
+        :voting_ideas,
         :giving_ideas_feedback,
         :providing_solutions,
+        :voting_solutions,
         :giving_solutions_feedback,
         :giving_supervision_feedbacks
       ] => :asking_questions
@@ -111,8 +114,10 @@ class Supervision < ActiveRecord::Base
 
     event :step_back_to_providing_ideas do
       transition [
+        :voting_ideas,
         :giving_ideas_feedback,
         :providing_solutions,
+        :voting_solutions,
         :giving_solutions_feedback,
         :giving_supervision_feedbacks
       ] => :providing_ideas
@@ -121,6 +126,7 @@ class Supervision < ActiveRecord::Base
     event :step_back_to_giving_ideas_feedback do
       transition [
         :providing_solutions,
+        :voting_solutions,
         :giving_solutions_feedback,
         :giving_supervision_feedbacks
       ] => :giving_ideas_feedback
@@ -229,7 +235,7 @@ class Supervision < ActiveRecord::Base
   protected
 
   def sufficent_users?
-    members.size > 1
+    members.count > 1
   end
 
   def cancel_supervision?

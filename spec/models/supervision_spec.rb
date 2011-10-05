@@ -533,7 +533,8 @@ describe Supervision do
     describe "step back to asking_questions" do
       it "should be allowed from providing_ideas" do
         @supervision = FactoryGirl.build(:supervision, :state => "providing_ideas")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_asking_questions!
 
@@ -542,7 +543,8 @@ describe Supervision do
 
       it "should be allowed from giving_ideas_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_ideas_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_asking_questions!
 
@@ -551,7 +553,8 @@ describe Supervision do
 
       it "should be allowed from providing_solutions" do
         @supervision = FactoryGirl.build(:supervision, :state => "providing_solutions")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_asking_questions!
 
@@ -560,7 +563,8 @@ describe Supervision do
 
       it "should be allowed from giving_solutions_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_solutions_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_asking_questions!
 
@@ -569,7 +573,8 @@ describe Supervision do
 
       it "should be allowed from giving_supervision_feedbacks" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_asking_questions!
 
@@ -580,7 +585,8 @@ describe Supervision do
     describe "step back to providing_ideas" do
       it "should be allowed from giving_ideas_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_ideas_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_ideas!
 
@@ -589,7 +595,8 @@ describe Supervision do
 
       it "should be allowed from providing_solutions" do
         @supervision = FactoryGirl.build(:supervision, :state => "providing_solutions")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_ideas!
 
@@ -598,7 +605,8 @@ describe Supervision do
 
       it "should be allowed from giving_solutions_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_solutions_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_ideas!
 
@@ -607,7 +615,8 @@ describe Supervision do
 
       it "should be allowed from giving_supervision_feedbacks" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_ideas!
 
@@ -618,7 +627,8 @@ describe Supervision do
     describe "step back to giving_ideas_feedback" do
       it "should be allowed from providing_solutions" do
         @supervision = FactoryGirl.build(:supervision, :state => "providing_solutions")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_giving_ideas_feedback!
 
@@ -627,7 +637,8 @@ describe Supervision do
 
       it "should be allowed from giving_solutions_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_solutions_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_giving_ideas_feedback!
 
@@ -636,7 +647,8 @@ describe Supervision do
 
       it "should be allowed from giving_supervision_feedbacks" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_giving_ideas_feedback!
 
@@ -647,7 +659,8 @@ describe Supervision do
     describe "step back to providing_solutions" do
       it "should be allowed from giving_solutions_feedback" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_solutions_feedback")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_solutions!
 
@@ -656,7 +669,8 @@ describe Supervision do
 
       it "should be allowed from giving_supervision_feedbacks" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_providing_solutions!
 
@@ -667,22 +681,12 @@ describe Supervision do
     describe "step back to giving_solutions_feedback" do
       it "should be allowed from giving_supervision_feedbacks" do
         @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
+        @bob.join_supervision(@supervision)
+        @alice.join_supervision(@supervision)
         @supervision.should_receive(:publish_to_redis)
         @supervision.step_back_to_giving_solutions_feedback!
 
         @supervision.giving_solutions_feedback?.should be_true
-      end
-    end
-
-    describe "#join_member" do
-      it "should not change state" do
-        @supervision = FactoryGirl.build(:supervision, :state => "giving_supervision_feedbacks")
-
-        @supervision.should_receive(:publish_to_redis)
-        @supervision.join_member!
-
-        @supervision.giving_supervision_feedbacks?.should be_true
       end
     end
 
@@ -756,8 +760,15 @@ describe Supervision do
   end
 
   describe "state_event attribute" do
+   before do
+      @alice = FactoryGirl.create(:user)
+      @bob = FactoryGirl.create(:user)
+    end
+
     it "should be accessible to mass assignment" do
       @supervision = FactoryGirl.create(:supervision, :state => "providing_ideas")
+      @bob.join_supervision(@supervision)
+      @alice.join_supervision(@supervision)
       @supervision.update_attributes({:state_event => "step_back_to_asking_questions"})
       @supervision.state.should == "asking_questions"
       @supervision.asking_questions?.should be_true
