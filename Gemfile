@@ -1,7 +1,7 @@
 source :rubygems
 
 gem "rails", "~> 3.1.0"
-gem "will_paginate", "~> 3.0.pre2"
+gem "will_paginate", "= 3.0.pre"
 gem "haml"
 gem "formtastic", "~> 2.0.0.rc1"
 gem "friendly_id"
@@ -42,6 +42,7 @@ group :test do
   gem "launchy"
 end
 
-# group :development do
-#   gem "tolk", :git => "git://github.com/cover/tolk.git"
-# end
+group :development do
+  gem "kaminari"
+  gem "tolk", :git => "git://github.com/drogus/tolk.git", :branch => "rails31"
+end

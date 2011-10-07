@@ -63,6 +63,8 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
 
+  mount Tolk::Engine => "/tolk"
+
   get '/contact' => 'pages#contact', :as => 'contact'
   get '/about' => 'pages#about', :as => 'about'
   get '/help' => 'pages#help', :as => 'help'
