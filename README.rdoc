@@ -136,3 +136,10 @@ It's also possible to run application on Your own server.
     # Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
     node server.js
 8. Open Your page
+
+== Known bugs, issues
+
+Sometimes in production environment, there is an error with sass-cache:
+  Errno::EDQUOT: Disk quota exceeded - app_path/tmp/sass-cache/(...)
+You can fix it by running:
+  bundle exec compass compile -e production --force
