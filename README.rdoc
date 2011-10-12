@@ -13,15 +13,15 @@ This is the first version, heavy alpha.
 2. Setup configuration files
     cp config/redis.yml.example config/redis.yml
     cp config/database.yml.example config/database.yml
-3. Setup Redis
-    Run redis (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
+3. Install Redis
+    (download from http://redis.io/download) - tested on 2.0 and 2.2 stable releases
 4. Setup database
     bundle exec rake db:setup
-5. Run node server
+5. Start application:
+    foreman start
+6. Run node server
     # Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
     node server.js
-6. Run the application
-    bundle exec rails server
 7. Open http://localhost:3000
 
 == Running tests
@@ -136,3 +136,10 @@ It's also possible to run application on Your own server.
     # Instructions for installing node can be found at https://github.com/wolfgangihloff/peergroup-node
     node server.js
 8. Open Your page
+
+== Known bugs, issues
+
+Sometimes in production environment, there is an error with sass-cache:
+  Errno::EDQUOT: Disk quota exceeded - app_path/tmp/sass-cache/(...)
+You can fix it by running:
+  bundle exec compass compile -e production --force
