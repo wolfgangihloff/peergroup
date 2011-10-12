@@ -31,6 +31,8 @@ group :test, :development do
   gem "ruby-debug19", :require => "ruby-debug", :platform => :ruby_19
   gem "sqlite3"
   gem "simplecov"
+  gem "kaminari"
+  gem "tolk", :git => "git://github.com/drogus/tolk.git", :branch => "rails31"
 end
 
 group :test do
@@ -40,9 +42,4 @@ group :test do
   gem "factory_girl_rails", "~> 1.1.rc1"
   gem "database_cleaner"
   gem "launchy"
-end
-
-group :development do
-  gem "kaminari"
-  gem "tolk", :git => "git://github.com/drogus/tolk.git", :branch => "rails31"
 end
