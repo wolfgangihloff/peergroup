@@ -14,3 +14,5 @@ db/*.rdb
 
 config/redis.yml
 config/database.yml
+
+/.sass-cache/
