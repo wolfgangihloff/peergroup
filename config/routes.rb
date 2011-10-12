@@ -63,7 +63,9 @@ Peergroupsupervision::Application.routes.draw do
     end
   end
 
-  mount Tolk::Engine => "/tolk"
+  unless Rails.env.production?
+    mount Tolk::Engine => "/tolk"
+  end
 
   get '/contact' => 'pages#contact', :as => 'contact'
   get '/about' => 'pages#about', :as => 'about'
