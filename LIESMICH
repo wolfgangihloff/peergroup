@@ -45,3 +45,6 @@ Schauen Sie nach
    * app/views/pages/_about.<locale>.html.haml
    * app/views/pages/_help.<locale>.html.haml
    * README / LIESMICH
+
+== License
+MIT License. Copyright © 2011 Wolfgang Ihloff 

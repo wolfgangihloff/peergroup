@@ -143,3 +143,6 @@ Sometimes in production environment, there is an error with sass-cache:
   Errno::EDQUOT: Disk quota exceeded - app_path/tmp/sass-cache/(...)
 You can fix it by running:
   bundle exec compass compile -e production --force
+
+== License
+MIT License. Copyright © 2011 Wolfgang Ihloff
